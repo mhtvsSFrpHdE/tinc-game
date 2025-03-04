@@ -1,4 +1,4 @@
-#include "MainFrame.h"
+﻿#include "MainFrame.h"
 #include <wx/spinctrl.h>
 #include "UHMTUFrame.h"
 
@@ -29,8 +29,9 @@ void MainFrame::CreateControls()
 	panel = new wxPanel(this);
 
 	panel->SetFont(mainFont);
+	std::wstring wideString = L"优化MTU";
 
-	UHMTUButton = CreateButton(panel, "UH MTU", wxSize(300, 100));           
+	UHMTUButton = CreateButton(panel, wideString, wxSize(300, 100));
 }
 
 //window layout
