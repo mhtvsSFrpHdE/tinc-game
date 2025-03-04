@@ -145,10 +145,12 @@
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="MainFrame.h" />
+    <ClInclude Include="UHMTUFrame.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="MainFrame.cpp" />
+    <ClCompile Include="UHMTUFrame.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
