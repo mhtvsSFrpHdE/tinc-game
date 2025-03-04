@@ -32,3 +32,4 @@
 *.app
 /tinc-game/.vs
 /tinc-game/Debug
+/tinc-game/x64
