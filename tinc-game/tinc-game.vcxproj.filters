@@ -35,5 +35,13 @@
     <ClCompile Include="UHMTUFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="UHMTUFrame_SRV.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ping437.bat">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

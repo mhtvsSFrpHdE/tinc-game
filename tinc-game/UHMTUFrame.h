@@ -23,4 +23,9 @@ private:
 	void UI_CreateControls();
 
 	wxPanel* panel = new wxPanel(this);
+
+	wxButton* SRV_TestButton = nullptr;
+	wxTextCtrl* SRV_LiveLog;
+	wxTextCtrl* SRV_LiveMtu;
+	void SRV_TestCheckAddressFormat(wxCommandEvent& evt);
 };
