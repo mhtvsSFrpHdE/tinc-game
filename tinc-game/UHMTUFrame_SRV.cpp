@@ -212,44 +212,6 @@ void UHMTUFrame::API_StartMeasureMTU(std::wstring ipAddress)
 	}
 }
 
-int num = 0;
-void UHMTUFrame::SRV_TestCheckAddressFormat(wxCommandEvent& evt)
-{
-	if (num == 0) {
-		std::thread backgroundTask(&UHMTUFrame::API_StartMeasureMTU, this, L"1.1.1.1");
-		backgroundTask.detach();
-	}
-	else if (num == 1) {
-		std::thread backgroundTask(&UHMTUFrame::API_StartMeasureMTU, this, L"10.80.128.1");
-		backgroundTask.detach();
-	}
-
-	num++;
-	if (num == 2) {
-		num = 1;
-	}
-}
-
-void UHMTUFrame::API_ReportStatus(std::wstring status)
-{
-	SRV_LiveLog->AppendText(status);
-}
-
-void UHMTUFrame::API_ReportMTU_IPv4(int mtu)
-{
-	SRV_LiveMtu->AppendText("IPv4: " + std::to_wstring(mtu) + "\r");
-}
-
-void UHMTUFrame::API_ReportMTU_IPv6(int mtu)
-{
-	SRV_LiveMtu->AppendText("IPv6: " + std::to_wstring(mtu) + "\r");
-}
-
-void UHMTUFrame::API_EndMeasureMTU(bool success, std::wstring reason)
-{
-	SRV_LiveLog->AppendText(reason);
-}
-
 void TestCheckAddressFormat(wxWindow* parent) {
 	auto testFailedMsg = std::wstring(L"Test failed: ");
 

@@ -29,8 +29,8 @@ void MainFrame::CreateControls()
 	panel = new wxPanel(this);
 
 	panel->SetFont(mainFont);
-	std::wstring wideString = L"优化MTU";
 
+	std::wstring wideString = L"优化MTU";
 	UHMTUButton = CreateButton(panel, wideString, wxSize(300, 100));
 }
 
@@ -40,6 +40,7 @@ void MainFrame::SetUpSizers()
 	wxGridSizer* gridSizer = new wxGridSizer(1, 1, wxSize(0, 0));
 	panel->SetSizer(gridSizer);
 	gridSizer->Add(UHMTUButton);
+
 }
 
 //UHM button
@@ -68,9 +69,12 @@ void MainFrame::OpenNewWindow()
 bool MainFrame::UHMTU()
 {
 	UHMTUFrame* UHMTUframe = new UHMTUFrame(UHMTUButton);
-	UHMTUframe->SetClientSize(800, 600);
+	UHMTUframe->SetClientSize(600, 450);
 	UHMTUframe->Center();
 	UHMTUframe->Show();
+	long style = UHMTUframe->GetWindowStyle();
+	style &= ~wxRESIZE_BORDER;
+	UHMTUframe->SetWindowStyle(style);
 	return true;
 	
 
