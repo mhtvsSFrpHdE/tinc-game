@@ -33,6 +33,8 @@ void UHMTUFrame::API_ReportMTU_IPv6(int mtu)
 void UHMTUFrame::API_EndMeasureMTU(bool success, std::wstring reason)
 {
 	//SRV_LiveLog->AppendText(reason);
+	m_comboBox->Enable(true);
+	beginButton->Enable(true);
 }
 
 void UHMTUFrame::UI_OnClose(wxCloseEvent& event)
@@ -53,7 +55,6 @@ void UHMTUFrame::UI_OnStartButtonClick(wxCommandEvent& event)
 	beginButton->Enable(false);
 	m_comboBox->Enable(false);
 	API_StartMeasureMTU(L"1.2.4.8");
-	//SRV_TestCheckAddressFormat();
 }
 
 void UHMTUFrame::UI_CreateControls()

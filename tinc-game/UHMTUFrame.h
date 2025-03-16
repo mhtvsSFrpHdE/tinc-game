@@ -12,7 +12,6 @@ class UHMTUFrame : public wxFrame
 public:
 	UHMTUFrame(wxButton* parentButton);
 
-
 	// UI to SRV
 	static bool API_CheckAddressFormat(std::wstring ipAddress);
 	void API_StartMeasureMTU(std::wstring ipAddress);
@@ -23,7 +22,6 @@ public:
 	void API_ReportMTU_IPv6(int mtu);
 	void API_EndMeasureMTU(bool success, std::wstring reason);
 	wxPanel* panel = new wxPanel(this);
-
 
 private:
 	static const std::wstring frameTitle;
@@ -55,4 +53,10 @@ private:
 	void UI_CloseButton();
 
 	void UI_BindEventHandlers();
+
+};
+
+class UHMTUFrameTest {
+public:
+	static void TestCheckAddressFormat(wxWindow* parent);
 };

@@ -156,6 +156,7 @@
     <ClCompile Include="MainFrame.cpp" />
     <ClCompile Include="UHMTUFrame.cpp" />
     <ClCompile Include="UHMTUFrame_SRV.cpp" />
+    <ClCompile Include="UHMTUFrame_Test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ping437.bat">
