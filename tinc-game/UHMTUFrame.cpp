@@ -4,6 +4,7 @@
 #include <wx/wx.h>
 #include <wx/combobox.h>
 #include <thread>
+#include <codecvt>
 
 UHMTUFrame::UHMTUFrame(wxButton* parentButton) : wxFrame(nullptr, wxID_ANY, frameTitle) {
 	_parentButton = parentButton;
@@ -18,21 +19,42 @@ UHMTUFrame::UHMTUFrame(wxButton* parentButton) : wxFrame(nullptr, wxID_ANY, fram
 void UHMTUFrame::API_ReportStatus(std::wstring status)
 {
 	//SRV_LiveLog->AppendText(status);
+	textCtrl->AppendText(status);
 }
 
 void UHMTUFrame::API_ReportMTU_IPv4(int mtu)
 {
+	IP4NowState->SetLabelText(std::to_string(mtu));
 	//SRV_LiveMtu->AppendText("IPv4: " + std::to_wstring(mtu) + "\r");
+	Ipv4AttemptNumber += 1;
 }
 
 void UHMTUFrame::API_ReportMTU_IPv6(int mtu)
 {
 	//SRV_LiveMtu->AppendText("IPv6: " + std::to_wstring(mtu) + "\r");
+	IP6NowState->SetLabelText(std::to_string(mtu));
+	Ipv6AttemptNumber += 1;
 }
 
 void UHMTUFrame::API_EndMeasureMTU(bool success, std::wstring reason)
 {
 	//SRV_LiveLog->AppendText(reason);
+	if (Ipv4AttemptNumber != 0 && Ipv6AttemptNumber != 0) {
+		pass = true;
+		wxMessageDialog(this, L"MTU测量成功").ShowModal();
+		pass = false;
+	}
+	else {
+		wxMessageDialog(this, L"MTU测量失败").ShowModal();
+	}
+
+	std::wstring failureCause = L"失败原因";
+
+	if (pass == false) {
+		//wxMessageDialog(this, failureCause).ShowModal();
+		//textCtrl->AppendText(failureCause);
+	}
+
 	m_comboBox->Enable(true);
 	beginButton->Enable(true);
 }
@@ -54,7 +76,23 @@ void UHMTUFrame::UI_OnStartButtonClick(wxCommandEvent& event)
 {
 	beginButton->Enable(false);
 	m_comboBox->Enable(false);
-	API_StartMeasureMTU(L"1.2.4.8");
+	wxString inputText = m_comboBox->GetValue();
+	std::wstring inputText1 = inputText.ToStdWstring();
+	if (API_CheckAddressFormat(inputText1)) {
+		Ipv4AttemptNumber = 0;
+		Ipv6AttemptNumber = 0;
+		IP4NowState->SetLabelText(DefaultState);
+		IP6NowState->SetLabelText(DefaultState);
+		std::thread t1(&UHMTUFrame::API_StartMeasureMTU, this, inputText1);
+		t1.detach();
+	}
+	else {
+		wxMessageDialog(this, "The IP entered is not a valid IP").ShowModal();
+		beginButton->Enable(true);
+		m_comboBox->Enable(true);
+	}
+
+	//TestCheckAddressFormat();
 }
 
 void UHMTUFrame::UI_CreateControls()
@@ -88,7 +126,7 @@ void UHMTUFrame::UI_HintButton()
 
 void UHMTUFrame::UI_UserTextCtrl()
 {
-	choices.Add("10.80.128.1");
+	choices.Add("10.255.60.1");
 	m_comboBox = new wxComboBox(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, choices, wxCB_DROPDOWN);
 	m_comboBox->SetSelection(0);
 	m_comboBox->SetPosition(wxPoint(20, 50));
@@ -105,15 +143,15 @@ void UHMTUFrame::UI_BeginButton()
 
 void UHMTUFrame::UI_SystemPointText()
 {
-	wxTextCtrl* textCtrl = new wxTextCtrl(panel, wxID_ANY);
+	textCtrl = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
 	textCtrl->SetPosition(wxPoint(20, 100));
 	textCtrl->SetSize(wxSize(500, 250));
 }
 
 void UHMTUFrame::UI_StaticTextIP()
 {
-	wxString staticText4 = "IP4:";
-	wxString staticText6 = "IP6:";
+	wxString staticText4 = "IPv4:";
+	wxString staticText6 = "IPv6:";
 
 
 	wxStaticText* staticTextIP4 = new wxStaticText(panel, wxID_ANY, staticText4);
@@ -132,11 +170,11 @@ void UHMTUFrame::UI_StaticTextIP()
 
 void UHMTUFrame::UI_IPState()
 {
-	wxString DefaultState = L"等待中...";
+	DefaultState = L"等待中...";
 
 	if (!Judgment) {
-		wxStaticText* IP4NowState = new wxStaticText(panel, wxID_ANY, DefaultState);
-		wxStaticText* IP6NowState = new wxStaticText(panel, wxID_ANY, DefaultState);
+		IP4NowState = new wxStaticText(panel, wxID_ANY, DefaultState);
+		IP6NowState = new wxStaticText(panel, wxID_ANY, DefaultState);
 
 		IP4NowState->SetPosition(wxPoint(80, 360));
 		IP6NowState->SetPosition(wxPoint(80, 380));

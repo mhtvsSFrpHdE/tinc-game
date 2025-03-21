@@ -204,10 +204,10 @@ void UHMTUFrame::API_StartMeasureMTU(std::wstring ipAddress)
 
 	if (mtuResult != 0) {
 		const int IPV6_OVERHEAD = 20;
-		API_ReportMTU_IPv6(mtuResult - IPV6_OVERHEAD);
-		API_EndMeasureMTU(true, L"");
+		CallAfter(&UHMTUFrame::API_ReportMTU_IPv6, mtuResult - IPV6_OVERHEAD);
+		CallAfter(&UHMTUFrame::API_EndMeasureMTU, true, L"");
 	}
 	else {
-		API_EndMeasureMTU(false, L"Check your connection or use another IP address\r");
+		CallAfter(&UHMTUFrame::API_EndMeasureMTU, false, L"Check your connection or use another IP address\r");
 	}
 }

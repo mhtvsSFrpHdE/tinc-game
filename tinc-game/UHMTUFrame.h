@@ -23,6 +23,11 @@ public:
 	void API_EndMeasureMTU(bool success, std::wstring reason);
 	wxPanel* panel = new wxPanel(this);
 
+	//Measure
+	int Ipv4AttemptNumber = 0;
+	int Ipv6AttemptNumber = 0;
+	bool pass = false;
+
 private:
 	static const std::wstring frameTitle;
 	wxButton* _parentButton = nullptr;
@@ -30,6 +35,10 @@ private:
 	wxComboBox* m_comboBox;
 	wxButton* beginButton;
 	wxArrayString choices;
+	wxStaticText* IP4NowState = nullptr;
+	wxStaticText* IP6NowState = nullptr;
+	wxTextCtrl* textCtrl;
+	wxString DefaultState;
 
 	bool Judgment = false;
 
