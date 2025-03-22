@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="MainFrame.h" />
+    <ClInclude Include="ReturnValue.h" />
     <ClInclude Include="UHMTUFrame.h" />
   </ItemGroup>
   <ItemGroup>

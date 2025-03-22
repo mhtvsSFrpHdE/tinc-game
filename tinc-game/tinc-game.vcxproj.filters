@@ -24,6 +24,9 @@
     <ClInclude Include="UHMTUFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ReturnValue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp">
