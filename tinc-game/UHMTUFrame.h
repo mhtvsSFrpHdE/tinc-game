@@ -24,8 +24,8 @@ public:
 	wxPanel* panel = new wxPanel(this);
 
 	//Measure
-	int Ipv4AttemptNumber = 0;
-	int Ipv6AttemptNumber = 0;
+	int attemptNumber_IPv4 = 0;
+	int attemptNumber_IPv6 = 0;
 	bool pass = false;
 
 private:
@@ -35,8 +35,8 @@ private:
 	wxComboBox* m_comboBox;
 	wxButton* beginButton;
 	wxArrayString choices;
-	wxStaticText* IP4NowState = nullptr;
-	wxStaticText* IP6NowState = nullptr;
+	wxStaticText* nowState_IPv4 = nullptr;
+	wxStaticText* nowState_IPv6 = nullptr;
 	wxTextCtrl* textCtrl;
 	wxString DefaultState;
 

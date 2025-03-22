@@ -18,28 +18,24 @@ UHMTUFrame::UHMTUFrame(wxButton* parentButton) : wxFrame(nullptr, wxID_ANY, fram
 
 void UHMTUFrame::API_ReportStatus(std::wstring status)
 {
-	//SRV_LiveLog->AppendText(status);
 	textCtrl->AppendText(status);
 }
 
 void UHMTUFrame::API_ReportMTU_IPv4(int mtu)
 {
-	IP4NowState->SetLabelText(std::to_string(mtu));
-	//SRV_LiveMtu->AppendText("IPv4: " + std::to_wstring(mtu) + "\r");
-	Ipv4AttemptNumber += 1;
+	nowState_IPv4->SetLabelText(std::to_string(mtu));
+	attemptNumber_IPv4 += 1;
 }
 
 void UHMTUFrame::API_ReportMTU_IPv6(int mtu)
 {
-	//SRV_LiveMtu->AppendText("IPv6: " + std::to_wstring(mtu) + "\r");
-	IP6NowState->SetLabelText(std::to_string(mtu));
-	Ipv6AttemptNumber += 1;
+	nowState_IPv6->SetLabelText(std::to_string(mtu));
+	attemptNumber_IPv6 += 1;
 }
 
 void UHMTUFrame::API_EndMeasureMTU(bool success, std::wstring reason)
 {
-	//SRV_LiveLog->AppendText(reason);
-	if (Ipv4AttemptNumber != 0 && Ipv6AttemptNumber != 0) {
+	if (attemptNumber_IPv4 != 0 && attemptNumber_IPv6 != 0) {
 		pass = true;
 		wxMessageDialog(this, L"MTU测量成功").ShowModal();
 		pass = false;
@@ -79,10 +75,10 @@ void UHMTUFrame::UI_OnStartButtonClick(wxCommandEvent& event)
 	wxString inputText = m_comboBox->GetValue();
 	std::wstring inputText1 = inputText.ToStdWstring();
 	if (API_CheckAddressFormat(inputText1)) {
-		Ipv4AttemptNumber = 0;
-		Ipv6AttemptNumber = 0;
-		IP4NowState->SetLabelText(DefaultState);
-		IP6NowState->SetLabelText(DefaultState);
+		attemptNumber_IPv4 = 0;
+		attemptNumber_IPv6 = 0;
+		nowState_IPv4->SetLabelText(DefaultState);
+		nowState_IPv6->SetLabelText(DefaultState);
 		std::thread t1(&UHMTUFrame::API_StartMeasureMTU, this, inputText1);
 		t1.detach();
 	}
@@ -91,8 +87,6 @@ void UHMTUFrame::UI_OnStartButtonClick(wxCommandEvent& event)
 		beginButton->Enable(true);
 		m_comboBox->Enable(true);
 	}
-
-	//TestCheckAddressFormat();
 }
 
 void UHMTUFrame::UI_CreateControls()
@@ -173,23 +167,22 @@ void UHMTUFrame::UI_IPState()
 	DefaultState = L"等待中...";
 
 	if (!Judgment) {
-		IP4NowState = new wxStaticText(panel, wxID_ANY, DefaultState);
-		IP6NowState = new wxStaticText(panel, wxID_ANY, DefaultState);
+		nowState_IPv4 = new wxStaticText(panel, wxID_ANY, DefaultState);
+		nowState_IPv6 = new wxStaticText(panel, wxID_ANY, DefaultState);
 
-		IP4NowState->SetPosition(wxPoint(80, 360));
-		IP6NowState->SetPosition(wxPoint(80, 380));
+		nowState_IPv4->SetPosition(wxPoint(80, 360));
+		nowState_IPv6->SetPosition(wxPoint(80, 380));
 
-		IP4NowState->SetSize(wxSize(50, 40));
-		IP6NowState->SetSize(wxSize(50, 40));
+		nowState_IPv4->SetSize(wxSize(50, 40));
+		nowState_IPv6->SetSize(wxSize(50, 40));
 
 		wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-		IP4NowState->SetFont(font);
-		IP6NowState->SetFont(font);
+		nowState_IPv4->SetFont(font);
+		nowState_IPv6->SetFont(font);
 	}
 	else {
 
 	}
-
 }
 
 void UHMTUFrame::UI_CloseButton()
