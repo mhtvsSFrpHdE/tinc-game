@@ -2,9 +2,19 @@
 #include <wx/wx.h>
 #include <thread>
 
+#include "ReturnValue.h"
+
 struct OptionWithID {
 	int id;
 	wxString label;
+};
+
+struct CheckAddressFormatResult {
+	enum Enum {
+		CheckAddressFormat_Other,
+		CheckAddressFormat_NotIPv4,
+		CheckAddressFormat_NotDomain
+	};
 };
 
 class UHMTUFrame : public wxFrame
@@ -13,7 +23,7 @@ public:
 	UHMTUFrame(wxButton* parentButton);
 
 	// UI to SRV
-	static bool API_SRV_CheckAddressFormat(std::wstring ipAddress);
+	static ReturnValue<CheckAddressFormatResult::Enum> API_SRV_CheckAddressFormat(std::wstring ipAddress);
 	void API_SRV_StartMeasureMTU(std::wstring ipAddress);
 
 	// SRV to UI

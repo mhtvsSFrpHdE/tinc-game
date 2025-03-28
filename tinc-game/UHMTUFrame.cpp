@@ -74,7 +74,7 @@ void UHMTUFrame::UI_OnStartButtonClick(wxCommandEvent& event)
 	m_comboBox->Enable(false);
 	wxString inputText = m_comboBox->GetValue();
 	std::wstring inputText1 = inputText.ToStdWstring();
-	if (API_SRV_CheckAddressFormat(inputText1)) {
+	if (API_SRV_CheckAddressFormat(inputText1).success) {
 		attemptNumber_IPv4 = 0;
 		attemptNumber_IPv6 = 0;
 		nowState_IPv4->SetLabelText(DefaultState);

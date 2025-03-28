@@ -12,8 +12,13 @@ struct MeasureMtuResult {
 	};
 };
 
-bool UHMTUFrame::API_SRV_CheckAddressFormat(std::wstring ipAddress)
+ReturnValue<CheckAddressFormatResult::Enum> UHMTUFrame::API_SRV_CheckAddressFormat(std::wstring ipAddress)
 {
+	ReturnValue<CheckAddressFormatResult::Enum> result(
+		false,
+		CheckAddressFormatResult::CheckAddressFormat_Other
+	);
+
 	{
 		const int POSIX_INET6_ADDRSTRLEN = 46;
 		if (ipAddress.length() > POSIX_INET6_ADDRSTRLEN) {
@@ -67,7 +72,10 @@ bool UHMTUFrame::API_SRV_CheckAddressFormat(std::wstring ipAddress)
 			}
 		}
 
-		return validIpv4;
+		if (validIpv4) {
+			result.success = true;
+			return result;
+		}
 	}
 }
 
@@ -141,7 +149,7 @@ int MtuHalfSearch(std::wstring ipAddress, UHMTUFrame* frame, int min = 576, int 
 				}
 #endif
 				break;
-			}
+	}
 			stopNextLoop = true;
 		}
 
