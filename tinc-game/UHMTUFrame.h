@@ -13,14 +13,14 @@ public:
 	UHMTUFrame(wxButton* parentButton);
 
 	// UI to SRV
-	static bool API_CheckAddressFormat(std::wstring ipAddress);
-	void API_StartMeasureMTU(std::wstring ipAddress);
+	static bool API_SRV_CheckAddressFormat(std::wstring ipAddress);
+	void API_SRV_StartMeasureMTU(std::wstring ipAddress);
 
 	// SRV to UI
-	void API_ReportStatus(std::wstring status);
-	void API_ReportMTU_IPv4(int mtu);
-	void API_ReportMTU_IPv6(int mtu);
-	void API_EndMeasureMTU(bool success, std::wstring reason);
+	void API_UI_ReportStatus(std::wstring status);
+	void API_UI_ReportMTU_IPv4(int mtu);
+	void API_UI_ReportMTU_IPv6(int mtu);
+	void API_UI_EndMeasureMTU(bool success, std::wstring reason);
 	wxPanel* panel = new wxPanel(this);
 
 	//Measure

@@ -16,24 +16,24 @@ UHMTUFrame::UHMTUFrame(wxButton* parentButton) : wxFrame(nullptr, wxID_ANY, fram
 
 }
 
-void UHMTUFrame::API_ReportStatus(std::wstring status)
+void UHMTUFrame::API_UI_ReportStatus(std::wstring status)
 {
 	textCtrl->AppendText(status);
 }
 
-void UHMTUFrame::API_ReportMTU_IPv4(int mtu)
+void UHMTUFrame::API_UI_ReportMTU_IPv4(int mtu)
 {
 	nowState_IPv4->SetLabelText(std::to_string(mtu));
 	attemptNumber_IPv4 += 1;
 }
 
-void UHMTUFrame::API_ReportMTU_IPv6(int mtu)
+void UHMTUFrame::API_UI_ReportMTU_IPv6(int mtu)
 {
 	nowState_IPv6->SetLabelText(std::to_string(mtu));
 	attemptNumber_IPv6 += 1;
 }
 
-void UHMTUFrame::API_EndMeasureMTU(bool success, std::wstring reason)
+void UHMTUFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
 {
 	if (attemptNumber_IPv4 != 0 && attemptNumber_IPv6 != 0) {
 		pass = true;
@@ -74,12 +74,12 @@ void UHMTUFrame::UI_OnStartButtonClick(wxCommandEvent& event)
 	m_comboBox->Enable(false);
 	wxString inputText = m_comboBox->GetValue();
 	std::wstring inputText1 = inputText.ToStdWstring();
-	if (API_CheckAddressFormat(inputText1)) {
+	if (API_SRV_CheckAddressFormat(inputText1)) {
 		attemptNumber_IPv4 = 0;
 		attemptNumber_IPv6 = 0;
 		nowState_IPv4->SetLabelText(DefaultState);
 		nowState_IPv6->SetLabelText(DefaultState);
-		std::thread t1(&UHMTUFrame::API_StartMeasureMTU, this, inputText1);
+		std::thread t1(&UHMTUFrame::API_SRV_StartMeasureMTU, this, inputText1);
 		t1.detach();
 	}
 	else {

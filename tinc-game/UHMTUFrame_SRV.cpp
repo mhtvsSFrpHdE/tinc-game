@@ -12,7 +12,7 @@ struct MeasureMtuResult {
 	};
 };
 
-bool UHMTUFrame::API_CheckAddressFormat(std::wstring ipAddress)
+bool UHMTUFrame::API_SRV_CheckAddressFormat(std::wstring ipAddress)
 {
 	{
 		const int POSIX_INET6_ADDRSTRLEN = 46;
@@ -91,20 +91,20 @@ MeasureMtuResult::Enum MeasureMTU(std::wstring ipAddress, int mtu, UHMTUFrame* f
 		// "Reply from <ip address>: bytes=..."
 		if (line.find(std::string(": b")) != std::string::npos) {
 			auto wline = ParseLocalStringToWstring(line);
-			frame->CallAfter(&UHMTUFrame::API_ReportStatus, wline);
+			frame->CallAfter(&UHMTUFrame::API_UI_ReportStatus, wline);
 			result = MeasureMtuResult::MeasureMTU_Pass;
 			continue;
 		}
 		// "Request timed out." || "Reply from <ip address>: Destination host unreachable."
 		if (line.length() == 19 || line.find(std::string(": D")) != std::string::npos) {
 			auto wline = ParseLocalStringToWstring(line);
-			frame->CallAfter(&UHMTUFrame::API_ReportStatus, wline);
+			frame->CallAfter(&UHMTUFrame::API_UI_ReportStatus, wline);
 			continue;
 		}
 		// "Packet needs to be fragmented but DF set."
 		if (line.length() == 42 && line[34] == 'D' && line[35] == 'F') {
 			auto wline = ParseLocalStringToWstring(line);
-			frame->CallAfter(&UHMTUFrame::API_ReportStatus, wline);
+			frame->CallAfter(&UHMTUFrame::API_UI_ReportStatus, wline);
 			result = MeasureMtuResult::MeasureMTU_DF;
 			continue;
 		}
@@ -163,7 +163,7 @@ int MtuHalfSearch(std::wstring ipAddress, UHMTUFrame* frame, int min = 576, int 
 
 		if (testMidResult == MeasureMtuResult::MeasureMTU_Pass) {
 			recentSuccessValue = mid;
-			frame->API_ReportMTU_IPv4(recentSuccessValue);
+			frame->API_UI_ReportMTU_IPv4(recentSuccessValue);
 #if VERBOSE == 1
 			if (verbose) {
 				std::cout << " TestMid: true" << std::endl;
@@ -198,16 +198,16 @@ int MtuHalfSearch(std::wstring ipAddress, UHMTUFrame* frame, int min = 576, int 
 	return recentSuccessValue;
 }
 
-void UHMTUFrame::API_StartMeasureMTU(std::wstring ipAddress)
+void UHMTUFrame::API_SRV_StartMeasureMTU(std::wstring ipAddress)
 {
 	auto mtuResult = MtuHalfSearch(ipAddress, this);
 
 	if (mtuResult != 0) {
 		const int IPV6_OVERHEAD = 20;
-		CallAfter(&UHMTUFrame::API_ReportMTU_IPv6, mtuResult - IPV6_OVERHEAD);
-		CallAfter(&UHMTUFrame::API_EndMeasureMTU, true, L"");
+		CallAfter(&UHMTUFrame::API_UI_ReportMTU_IPv6, mtuResult - IPV6_OVERHEAD);
+		CallAfter(&UHMTUFrame::API_UI_EndMeasureMTU, true, L"");
 	}
 	else {
-		CallAfter(&UHMTUFrame::API_EndMeasureMTU, false, L"Check your connection or use another IP address\r");
+		CallAfter(&UHMTUFrame::API_UI_EndMeasureMTU, false, L"Check your connection or use another IP address\r");
 	}
 }
