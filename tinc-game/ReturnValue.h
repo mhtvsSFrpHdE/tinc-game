@@ -5,18 +5,18 @@ struct ReturnNone {};
 template <typename T = ReturnNone>
 struct ReturnValue {
 	bool success = false;
-	T body;
+	T returnBody;
 
 	ReturnValue() {};
 
-	ReturnValue(bool _success, T _message) {
+	ReturnValue(bool _success, T _returnBody) {
 		success = _success;
-		body = _message;
+		returnBody = _returnBody;
 	}
 
 	ReturnValue(bool _success) {
 		success = _success;
-		body = T();
+		returnBody = T();
 	}
 };
 
