@@ -6,7 +6,7 @@
 #include <thread>
 #include <codecvt>
 
-UHMTUFrame::UHMTUFrame(wxButton* parentButton) : wxFrame(nullptr, wxID_ANY, frameTitle) {
+UHMTUFrame::UHMTUFrame(wxButton* parentButton, wxString frameTitle) : wxFrame(nullptr, wxID_ANY, frameTitle) {
 	_parentButton = parentButton;
 
 	Bind(wxEVT_CLOSE_WINDOW, &UHMTUFrame::UI_OnClose, this);
@@ -37,11 +37,11 @@ void UHMTUFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
 {
 	if (attemptNumber_IPv4 != 0 && attemptNumber_IPv6 != 0) {
 		pass = true;
-		wxMessageDialog(this, L"MTU测量成功").ShowModal();
+		wxMessageDialog(this, _("MTU measure success")).ShowModal();
 		pass = false;
 	}
 	else {
-		wxMessageDialog(this, L"MTU测量失败").ShowModal();
+		wxMessageDialog(this, _("MTU measure fail")).ShowModal();
 	}
 
 	std::wstring failureCause = L"失败原因";
@@ -83,7 +83,7 @@ void UHMTUFrame::UI_OnStartButtonClick(wxCommandEvent& event)
 		t1.detach();
 	}
 	else {
-		wxMessageDialog(this, "The IP entered is not a valid IP").ShowModal();
+		wxMessageDialog(this, _("Invalid IP address or domain")).ShowModal();
 		beginButton->Enable(true);
 		m_comboBox->Enable(true);
 	}
@@ -103,7 +103,7 @@ void UHMTUFrame::UI_CreateControls()
 
 void UHMTUFrame::UI_staticText()
 {
-	wxString firstStaticText = L"选择目标地址";
+	wxString firstStaticText = _("Choose target address");
 	wxStaticText* staticText = new wxStaticText(panel, wxID_ANY, firstStaticText);
 	staticText->SetPosition(wxPoint(20, 20));
 	staticText->SetSize(wxSize(50, 40));
@@ -129,7 +129,7 @@ void UHMTUFrame::UI_UserTextCtrl()
 
 void UHMTUFrame::UI_BeginButton()
 {
-	wxString beginButtonText = L"开始";
+	wxString beginButtonText = _("Start");
 	beginButton = new wxButton(panel, wxID_ANY, beginButtonText);
 	beginButton->SetPosition(wxPoint(350, 48));
 	beginButton->SetSize(wxSize(50, 25));
@@ -164,7 +164,7 @@ void UHMTUFrame::UI_StaticTextIP()
 
 void UHMTUFrame::UI_IPState()
 {
-	DefaultState = L"等待中...";
+	DefaultState = _("Waiting for value...");
 
 	if (!Judgment) {
 		nowState_IPv4 = new wxStaticText(panel, wxID_ANY, DefaultState);
@@ -187,7 +187,7 @@ void UHMTUFrame::UI_IPState()
 
 void UHMTUFrame::UI_CloseButton()
 {
-	wxString closeButtonText = L"关闭";
+	wxString closeButtonText = _("Close");
 	wxButton* closeButton = new wxButton(panel, wxID_ANY, closeButtonText);
 	closeButton->SetPosition(wxPoint(480, 400));
 	closeButton->SetSize(wxSize(100, 25));
@@ -200,5 +200,3 @@ void UHMTUFrame::UI_BindEventHandlers()
 {
 	beginButton->Bind(wxEVT_BUTTON, &UHMTUFrame::UI_OnStartButtonClick, this);
 }
-
-const std::wstring UHMTUFrame::UHMTUFrame::frameTitle = L"优化MTU";

@@ -30,7 +30,8 @@ void MainFrame::CreateControls()
 
 	panel->SetFont(mainFont);
 
-	std::wstring wideString = L"优化MTU";
+	auto whatisthistype = _("Optimize MTU");
+	wxString wideString = _("Optimize MTU");
 	UHMTUButton = CreateButton(panel, wideString, wxSize(300, 100));
 }
 
@@ -54,7 +55,7 @@ void MainFrame::OnUHMTUButton(wxCommandEvent& evt)
 
 void MainFrame::ButtonNoEven(wxCommandEvent& evt)
 {
-	UHMTUButton->SetToolTip("Please do not click repeatedly!");
+	UHMTUButton->SetToolTip(_("Please do not click repeatedly!"));
 }
 
 // open new window event
@@ -68,7 +69,7 @@ void MainFrame::OpenNewWindow()
 
 bool MainFrame::UHMTU()
 {
-	UHMTUFrame* UHMTUframe = new UHMTUFrame(UHMTUButton);
+	UHMTUFrame* UHMTUframe = new UHMTUFrame(UHMTUButton, _("Optimize MTU"));
 	UHMTUframe->SetClientSize(600, 450);
 	UHMTUframe->Center();
 	UHMTUframe->Show();
@@ -76,7 +77,6 @@ bool MainFrame::UHMTU()
 	style &= ~wxRESIZE_BORDER;
 	UHMTUframe->SetWindowStyle(style);
 	return true;
-	
 
 }
 

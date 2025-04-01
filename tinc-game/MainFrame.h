@@ -20,5 +20,6 @@ public:
 
 	wxButton* CreateButton(wxPanel* parent, wxString buttonText, wxSize buttonSize );
 	wxButton* UHMTUButton; 
+	wxButton* languageButton;
 	wxPanel* panel;
 };

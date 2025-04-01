@@ -20,7 +20,7 @@ struct CheckAddressFormatResult {
 class UHMTUFrame : public wxFrame
 {
 public:
-	UHMTUFrame(wxButton* parentButton);
+	UHMTUFrame(wxButton* parentButton, wxString frameTitle);
 
 	// UI to SRV
 	static ReturnValue<CheckAddressFormatResult::Enum> API_SRV_CheckAddressFormat(std::wstring ipAddress);
@@ -39,7 +39,6 @@ public:
 	bool pass = false;
 
 private:
-	static const std::wstring frameTitle;
 	wxButton* _parentButton = nullptr;
 
 	wxComboBox* m_comboBox;
