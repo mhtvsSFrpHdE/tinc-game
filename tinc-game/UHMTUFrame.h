@@ -1,8 +1,8 @@
 ﻿#pragma once
 #include <wx/wx.h>
 #include <thread>
-
 #include "ReturnValue.h"
+#include "MainFrame.h"
 
 struct OptionWithID {
 	int id;
@@ -20,7 +20,7 @@ struct CheckAddressFormatResult {
 class UHMTUFrame : public wxFrame
 {
 public:
-	UHMTUFrame(wxButton* parentButton, wxString frameTitle);
+	UHMTUFrame(MainFrame* parentFrame, wxString frameTitle);
 
 	// UI to SRV
 	static ReturnValue<CheckAddressFormatResult::Enum> API_SRV_CheckAddressFormat(std::wstring ipAddress);
@@ -40,6 +40,7 @@ public:
 
 private:
 	wxButton* _parentButton = nullptr;
+	MainFrame* _parentFrame = nullptr;
 
 	wxComboBox* m_comboBox;
 	wxButton* beginButton;

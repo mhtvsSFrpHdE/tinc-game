@@ -27,6 +27,12 @@
     <ClInclude Include="ReturnValue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SettingsFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings_SRV.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp">
@@ -44,9 +50,18 @@
     <ClCompile Include="UHMTUFrame_Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SettingsFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings_SRV.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ping437.bat">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="GenerateTranslatePot.bat">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

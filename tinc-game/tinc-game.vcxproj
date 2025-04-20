@@ -150,11 +150,15 @@
     <ClInclude Include="App.h" />
     <ClInclude Include="MainFrame.h" />
     <ClInclude Include="ReturnValue.h" />
+    <ClInclude Include="SettingsFrame.h" />
+    <ClInclude Include="Settings_SRV.h" />
     <ClInclude Include="UHMTUFrame.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="MainFrame.cpp" />
+    <ClCompile Include="SettingsFrame.cpp" />
+    <ClCompile Include="Settings_SRV.cpp" />
     <ClCompile Include="UHMTUFrame.cpp" />
     <ClCompile Include="UHMTUFrame_SRV.cpp" />
     <ClCompile Include="UHMTUFrame_Test.cpp" />
@@ -163,6 +167,7 @@
     <None Include="ping437.bat">
       <DeploymentContent>false</DeploymentContent>
     </None>
+    <None Include="GenerateTranslatePot.bat" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

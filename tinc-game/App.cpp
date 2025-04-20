@@ -1,14 +1,18 @@
 #include "App.h"
 #include "MainFrame.h"
-// #include <wx/wx.h>
+#include <wx/stdpaths.h>
+#include <wx/filename.h>
+#include <wx/fileconf.h>
+#include <wx/config.h>
+#include "Settings_SRV.h"
 
 wxIMPLEMENT_APP(App);
 
 bool App::OnInit() {
-	// Language
-	language = wxLANGUAGE_CHINESE_SIMPLIFIED;
-	//language = wxLANGUAGE_ENGLISH;
-
+	//create ini
+	Settings_SRV::createIni();
+	// Config file
+	language = Settings_SRV::ReadLanguage();
 	locale = new wxLocale(language, wxLOCALE_LOAD_DEFAULT);
 
 #ifdef __WXGTK__
@@ -20,9 +24,14 @@ bool App::OnInit() {
 	locale->AddCatalogLookupPathPrefix(prefix);
 #endif
 
-	locale->AddCatalog(wxT("tinc-game"));
+	bool localeAllOk = true;
+	localeAllOk = localeAllOk && locale->AddCatalog(wxT("tinc-game-App"));
+	localeAllOk = localeAllOk && locale->AddCatalog(wxT("tinc-game-MainFrame"));
+	localeAllOk = localeAllOk && locale->AddCatalog(wxT("tinc-game-UHMTUFrame"));
+	localeAllOk = localeAllOk && locale->AddCatalog(wxT("tinc-game-SettingsFrame"));
 
-	if (locale->IsOk() == false)
+	localeAllOk = localeAllOk && locale->IsOk();
+	if (localeAllOk == false)
 	{
 		std::cerr << "selected language is wrong" << std::endl;
 		delete locale;

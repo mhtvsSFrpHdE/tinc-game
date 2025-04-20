@@ -6,8 +6,10 @@
 #include <thread>
 #include <codecvt>
 
-UHMTUFrame::UHMTUFrame(wxButton* parentButton, wxString frameTitle) : wxFrame(nullptr, wxID_ANY, frameTitle) {
-	_parentButton = parentButton;
+UHMTUFrame::UHMTUFrame(MainFrame* parentFrame, wxString frameTitle) : wxFrame(nullptr, wxID_ANY, frameTitle) {
+	_parentButton = parentFrame->UHMTUButton;
+	_parentFrame = parentFrame;
+	_parentFrame->publicInt++;
 
 	Bind(wxEVT_CLOSE_WINDOW, &UHMTUFrame::UI_OnClose, this);
 
@@ -60,6 +62,7 @@ void UHMTUFrame::UI_OnClose(wxCloseEvent& event)
 	if (_parentButton != nullptr) {
 		_parentButton->Enable(true);
 	}
+	_parentFrame->publicInt--;
 	event.Skip();
 }
 
@@ -191,7 +194,6 @@ void UHMTUFrame::UI_CloseButton()
 	wxButton* closeButton = new wxButton(panel, wxID_ANY, closeButtonText);
 	closeButton->SetPosition(wxPoint(480, 400));
 	closeButton->SetSize(wxSize(100, 25));
-
 	//closeButton->Bind(wxEVT_BUTTON, &UHMTUFrame::UI_OnClose, this);
 
 }

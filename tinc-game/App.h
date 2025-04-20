@@ -5,7 +5,9 @@ class App : public wxApp
 {
 public:
 	bool OnInit();
+	wxLanguage GetLanguage() const;
+	void SetLanguage(wxLanguage newLanguage);
 private:
 	wxLocale* locale;
-	long language;
+	wxLanguage language;
 };
