@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-01 20:32+0800\n"
-"PO-Revision-Date: 2025-04-01 20:56+0800\n"
+"POT-Creation-Date: 2025-04-12 21:39+0800\n"
+"PO-Revision-Date: 2025-04-19 17:46+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -18,42 +18,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.5\n"
 
-#: UHMTUFrame.cpp:106
+#: UHMTUFrame.cpp:109
 msgid "Choose target address"
 msgstr "选择目标地址"
 
-#: UHMTUFrame.cpp:190
+#: UHMTUFrame.cpp:193
 msgid "Close"
 msgstr "关闭"
 
-#: UHMTUFrame.cpp:86
+#: UHMTUFrame.cpp:89
 msgid "Invalid IP address or domain"
-msgstr "无效的IP地址或域名"
+msgstr "无效的 IP 地址或域名"
 
-#: UHMTUFrame.cpp:44
+#: UHMTUFrame.cpp:46
 msgid "MTU measure fail"
 msgstr "MTU测量失败"
 
-#: UHMTUFrame.cpp:40
+#: UHMTUFrame.cpp:42
 msgid "MTU measure success"
 msgstr "MTU测量成功"
 
-#: MainFrame.cpp:33 MainFrame.cpp:34 MainFrame.cpp:72
-msgid "Optimize MTU"
-msgstr "优化MTU"
-
-#: MainFrame.cpp:58
-msgid "Please do not click repeatedly!"
-msgstr "请不要重复点击!"
-
-#: UHMTUFrame.cpp:132
+#: UHMTUFrame.cpp:135
 msgid "Start"
 msgstr "开始"
 
-#: App.cpp:33
-msgid "Tinc Game Mode"
-msgstr "Tinc游戏模式"
-
-#: UHMTUFrame.cpp:167
+#: UHMTUFrame.cpp:170
 msgid "Waiting for value..."
 msgstr "等待中..."

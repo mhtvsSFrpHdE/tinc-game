@@ -34,3 +34,4 @@
 /tinc-game/Debug
 /tinc-game/x64
 *.mo
+*.pot
