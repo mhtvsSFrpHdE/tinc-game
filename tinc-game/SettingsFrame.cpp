@@ -38,7 +38,7 @@ void SettingsFrame::UI_staticText1()
 
 void SettingsFrame::UI_FinishButton()
 {
-	wxString ButtonText = _("finish");
+	wxString ButtonText = _("Confirm");
 	FinishButton = new wxButton(panel, wxID_ANY, ButtonText);
 	FinishButton->SetPosition(wxPoint(250, 400));
 	FinishButton->SetSize(wxSize(100, 40));
@@ -90,15 +90,10 @@ void SettingsFrame::UI_OnClose(wxCloseEvent& event)
 	event.Skip();
 }
 
-void SettingsFrame::UI_OnLanguageChange()
-{
-	int selectedIndex = languageChoice->GetSelection();
-
-	Settings_SRV::WriteLanguage(selectedIndex);
-}
-
 void SettingsFrame::UI_OnFinshButtonClick(wxCommandEvent& event)
 {
-	UI_OnLanguageChange();
+	int selectedIndex = languageChoice->GetSelection();
+	Settings_SRV::WriteLanguage(selectedIndex);
+
 	Destroy();
 }

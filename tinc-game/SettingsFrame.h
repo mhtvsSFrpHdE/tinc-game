@@ -22,7 +22,6 @@ private:
 
 	void UI_OnClose(wxCloseEvent& event);
 
-	void UI_OnLanguageChange();
 	void UI_OnFinshButtonClick(wxCommandEvent& event);
 };
 

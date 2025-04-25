@@ -20,13 +20,13 @@ void Settings_SRV::WriteLanguage(int selectedIndex)
 	wxString ini_filename = Settings_SRV::GetIniFilePath();
 	wxFileConfig* config = new wxFileConfig(wxEmptyString, wxEmptyString, ini_filename);
 	if (selectedIndex == 0) {
-		config->Write(SettingKeys::language, wxLANGUAGE_UNKNOWN);
+		config->Write(SettingKeys::language, static_cast<int>(wxLANGUAGE_UNKNOWN));
 	}
 	else if (selectedIndex == 1) {
-		config->Write(SettingKeys::language, wxLANGUAGE_ENGLISH_US);
+		config->Write(SettingKeys::language, static_cast<int>(wxLANGUAGE_ENGLISH_US));
 	}
 	else if (selectedIndex == 2) {
-		config->Write(SettingKeys::language, wxLANGUAGE_CHINESE_SIMPLIFIED);
+		config->Write(SettingKeys::language, static_cast<int>(wxLANGUAGE_CHINESE_SIMPLIFIED));
 	}
 	delete config;
 }
