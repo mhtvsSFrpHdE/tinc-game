@@ -9,10 +9,20 @@
 wxIMPLEMENT_APP(App);
 
 bool App::OnInit() {
-	//create ini
-	Settings_SRV::createIni();
+	// Create ini
+	if (!Settings_SRV::CheckIniExists()) {
+		Settings_SRV::CreateDefaultIni();
+	}
+
 	// Config file
 	language = Settings_SRV::ReadLanguage();
+
+	/*
+	if (language == wxLANGUAGE_ENGLISH_US) {
+		language = wxLANGUAGE_ENGLISH_US;
+	}
+	*/
+
 	locale = new wxLocale(language, wxLOCALE_LOAD_DEFAULT);
 
 #ifdef __WXGTK__
@@ -35,8 +45,8 @@ bool App::OnInit() {
 	{
 		std::cerr << "selected language is wrong" << std::endl;
 		delete locale;
-		locale = new wxLocale(wxLANGUAGE_ENGLISH);
-		language = wxLANGUAGE_ENGLISH;
+		locale = new wxLocale(wxLANGUAGE_ENGLISH_US);
+		language = wxLANGUAGE_ENGLISH_US;
 	}
 
 	MainFrame* mainFrame = new MainFrame(_("Tinc Game Mode"));
@@ -45,6 +55,3 @@ bool App::OnInit() {
 	mainFrame->Show();
 	return true;
 }
-
-
-

@@ -70,9 +70,7 @@ private:
 	void UI_StaticTextIP();
 	void UI_IPState();
 	void UI_CloseButton();
-
 	void UI_BindEventHandlers();
-
 };
 
 class UHMTUFrameTest {

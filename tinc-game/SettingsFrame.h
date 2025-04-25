@@ -12,15 +12,18 @@ private:
 	wxButton* _parentButton = nullptr;
 	MainFrame* _parentFrame = nullptr;
 	wxComboBox* languageChoice;
+	wxButton* FinishButton;
 
 	void UI_CreateControls();
-	void UI_staticText1();
+	void UI_staticText1(); 
+	void UI_FinishButton();
 	void UI_languageChoice();
 	void UI_BindEventHandlers();
 
 	void UI_OnClose(wxCloseEvent& event);
 
-	void UI_OnLanguageChenge(wxCommandEvent& event);
+	void UI_OnLanguageChange();
+	void UI_OnFinshButtonClick(wxCommandEvent& event);
 };
 
 

@@ -5,10 +5,10 @@ class Settings_SRV
 {
 public:
 	static wxString GetIniFilePath();
-	static int ChangeLanguage(int selectedIndex);
+	static void WriteLanguage(int selectedIndex);
 	static wxLanguage ReadLanguage();
-	static bool checkIni();
-	static void createIni();
+	static bool CheckIniExists();
+	static void CreateDefaultIni();
 };
 
 struct SettingKeys {

@@ -33,8 +33,6 @@ void MainFrame::BindEventHandlers()
 {
 	UHMTUButton->Bind(wxEVT_BUTTON, &MainFrame::OnUHMTUButton, this);
 	SettingsButton->Bind(wxEVT_BUTTON, &MainFrame::OnSettingsButton, this);
-	//SettingsButton->Bind(wxEVT_BUTTON, &MainFrame::ShowMessage1, this);
-
 }
 
 //create control
@@ -42,10 +40,8 @@ void MainFrame::CreateControls()
 {
 	wxFont mainFont(wxFontInfo(wxSize(0, 24)));
 	panel = new wxPanel(this);
-
 	panel->SetFont(mainFont);
 
-	auto whatisthistype = _("Optimize MTU");
 	wxString wideString = _("Optimize MTU");
 	wxString setting = _("Settings");
 	UHMTUButton = CreateButton(panel, wideString, wxSize(300, 100));
@@ -143,12 +139,3 @@ bool MainFrame::Settings()
 
 	return true;
 }
-
-/*
-void MainFrame::ShowMessage1(wxCommandEvent& event)
-{
-	wxMessageDialog* dial = new wxMessageDialog(NULL,
-		wxT("Download completed"), wxT("Info"), wxOK);
-	dial->ShowModal();
-}
-*/
