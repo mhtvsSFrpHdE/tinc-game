@@ -15,27 +15,27 @@ wxString Settings_SRV::GetIniFilePath()
 	return ini_filename;
 }
 
+const wxString ini_filename = Settings_SRV::GetIniFilePath();
+
 void Settings_SRV::WriteLanguage(int selectedIndex)
 {
-	wxString ini_filename = Settings_SRV::GetIniFilePath();
-	wxFileConfig* config = new wxFileConfig(wxEmptyString, wxEmptyString, ini_filename);
 	if (selectedIndex == 0) {
-		config->Write(SettingKeys::language, static_cast<int>(wxLANGUAGE_UNKNOWN));
+		Settings_SRV::config->Write(SettingKeys::language, static_cast<int>(wxLANGUAGE_UNKNOWN));
+		config->Flush();
 	}
 	else if (selectedIndex == 1) {
 		config->Write(SettingKeys::language, static_cast<int>(wxLANGUAGE_ENGLISH_US));
+		config->Flush();
 	}
 	else if (selectedIndex == 2) {
 		config->Write(SettingKeys::language, static_cast<int>(wxLANGUAGE_CHINESE_SIMPLIFIED));
+		config->Flush();
 	}
-	delete config;
 }
 
 wxLanguage Settings_SRV::ReadLanguage()
 {
 	wxLanguage language = wxLANGUAGE_ENGLISH_US;
-	wxString ini_filename = Settings_SRV::GetIniFilePath();
-	wxFileConfig* config = new wxFileConfig(wxEmptyString, wxEmptyString, ini_filename);
 	int value;
 	config->Read(SettingKeys::language, &value);
 	if (value == wxLANGUAGE_UNKNOWN) {
@@ -50,7 +50,6 @@ wxLanguage Settings_SRV::ReadLanguage()
 	else {
 		language = static_cast<wxLanguage>(value);
 	}
-	delete config;
 	return language;
 }
 
@@ -69,14 +68,15 @@ void Settings_SRV::CreateDefaultIni()
 {
 	bool checkIni = Settings_SRV::CheckIniExists();
 	if (!checkIni) {
-		wxString ini_filename = Settings_SRV::GetIniFilePath();
-		wxFileConfig* config = new wxFileConfig(wxEmptyString, wxEmptyString, ini_filename);
 		int noLanguage = wxLANGUAGE_UNKNOWN;
 		config->Write(SettingKeys::language, noLanguage);
+		config->Flush();
 		config->Write(SettingKeys::configVersion, 0);
-		delete config;
+		config->Flush();
 	}
 }
+
+wxFileConfig* Settings_SRV::config = nullptr;
 
 const wxString SettingKeys::settings = wxT("Settings/");
 const wxString SettingKeys::language = settings + wxT("Language");

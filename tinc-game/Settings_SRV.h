@@ -1,5 +1,9 @@
 #pragma once
 #include <wx/wx.h>
+#include <wx/config.h>
+#include <wx/stdpaths.h>
+#include <wx/filename.h>
+#include <wx/fileconf.h>
 
 class Settings_SRV
 {
@@ -9,6 +13,9 @@ public:
 	static wxLanguage ReadLanguage();
 	static bool CheckIniExists();
 	static void CreateDefaultIni();
+
+	static const wxString ini_filename;
+	static wxFileConfig* config;
 };
 
 struct SettingKeys {
