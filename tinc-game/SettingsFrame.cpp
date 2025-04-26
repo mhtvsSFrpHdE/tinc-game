@@ -50,10 +50,8 @@ void SettingsFrame::UI_FinishButton()
 
 void SettingsFrame::UI_languageChoice()
 {
-	wxString ini_filename = Settings_SRV::GetIniFilePath();
-	wxFileConfig* config = new wxFileConfig(wxEmptyString, wxEmptyString, ini_filename);
 	int value;
-	config->Read(SettingKeys::language, &value);
+	Settings_SRV::config->Read(SettingKeys::language, &value);
 
 	wxArrayString choices;
 	choices.Add(_("Auto (System Default)"));
@@ -72,8 +70,6 @@ void SettingsFrame::UI_languageChoice()
 	else if (value == wxLANGUAGE_CHINESE_SIMPLIFIED) {
 		languageChoice->SetSelection(2);
 	}
-
-	delete config;
 }
 
 void SettingsFrame::UI_BindEventHandlers()

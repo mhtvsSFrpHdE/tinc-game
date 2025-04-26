@@ -15,8 +15,6 @@ wxString Settings_SRV::GetIniFilePath()
 	return ini_filename;
 }
 
-const wxString ini_filename = Settings_SRV::GetIniFilePath();
-
 void Settings_SRV::WriteLanguage(int selectedIndex)
 {
 	if (selectedIndex == 0) {

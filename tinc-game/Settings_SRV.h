@@ -14,7 +14,6 @@ public:
 	static bool CheckIniExists();
 	static void CreateDefaultIni();
 
-	static const wxString ini_filename;
 	static wxFileConfig* config;
 };
 
