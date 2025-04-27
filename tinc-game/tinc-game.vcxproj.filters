@@ -33,6 +33,9 @@
     <ClInclude Include="Settings_SRV.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ApplyMtuFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp">
@@ -54,6 +57,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Settings_SRV.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplyMtuFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplyMtuFrame_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

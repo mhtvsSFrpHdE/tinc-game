@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="ApplyMtuFrame.h" />
     <ClInclude Include="MainFrame.h" />
     <ClInclude Include="ReturnValue.h" />
     <ClInclude Include="SettingsFrame.h" />
@@ -156,6 +157,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="ApplyMtuFrame.cpp" />
+    <ClCompile Include="ApplyMtuFrame_SRV.cpp" />
     <ClCompile Include="MainFrame.cpp" />
     <ClCompile Include="SettingsFrame.cpp" />
     <ClCompile Include="Settings_SRV.cpp" />
