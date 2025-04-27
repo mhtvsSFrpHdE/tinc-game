@@ -4,12 +4,12 @@ ApplyMtuFrame::ApplyMtuFrame()
 {
 }
 
-ReturnValue<std::vector<wxString>> ApplyMtuFrame::API_SRV_GetNetworkAdapterList()
+ReturnValue<std::vector<std::wstring>> ApplyMtuFrame::API_SRV_GetNetworkAdapterList()
 {
     // TODO
     // Return false if network adapter list has 0 available network adapter
     // Return true if any available network adapter founded
-    return ReturnValue<std::vector<wxString>>();
+    return ReturnValue<std::vector<std::wstring>>();
 }
 
 ReturnValue<ApplyMtuResult> ApplyMtuFrame::API_SRV_ApplyMtu(int mtu_IPv4, int mtu_IPv6, std::wstring adapterName)
