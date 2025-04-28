@@ -26,14 +26,15 @@ public:
 	void API_UI_ReportMTU_IPv4(int mtu);
 	void API_UI_ReportMTU_IPv6(int mtu);
 	void API_UI_EndMeasureMTU(bool success, std::wstring reason);
-	wxPanel* panel = new wxPanel(this);
 
+private:
 	//Measure
 	int attemptNumber_IPv4 = 0;
 	int attemptNumber_IPv6 = 0;
 	bool pass = false;
+	wxString DefaultState = _("Waiting for value...");
 
-private:
+	wxPanel* panel = new wxPanel(this);
 	wxButton* _parentButton = nullptr;
 	MainFrame* _parentFrame = nullptr;
 
@@ -43,7 +44,6 @@ private:
 	wxStaticText* mtuValue_IPv4 = nullptr;
 	wxStaticText* mtuValue_IPv6 = nullptr;
 	wxTextCtrl* liveLog;
-	wxString DefaultState = _("Waiting for value...");
 
 	bool Judgment = false;
 
