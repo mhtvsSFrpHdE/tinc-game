@@ -17,7 +17,7 @@ void MainFrame::Init_CreateControls()
 	panel->SetFont(mainFont);
 
 	wxString wideString = _("Optimize MTU");
-	wxButton* optimizeMtuButton = new wxButton(panel, wxID_ANY, wideString, wxDefaultPosition, wxSize(300, 100));
+	optimizeMtuButton = new wxButton(panel, wxID_ANY, wideString, wxDefaultPosition, wxSize(300, 100));
 
 	wxString setting = _("Settings");
 	settingsButton = new wxButton(panel, wxID_ANY, setting, wxDefaultPosition, wxSize(100, 50));
