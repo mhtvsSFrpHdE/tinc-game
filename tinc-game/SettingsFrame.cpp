@@ -9,7 +9,6 @@
 
 SettingsFrame::SettingsFrame(MainFrame* parentFrame, wxString frameTitle) : wxFrame(nullptr, wxID_ANY, frameTitle)
 {
-	_parentButton = parentFrame->settingsButton;
 	_parentFrame = parentFrame;
 
 	UI_CreateControls();
@@ -80,9 +79,8 @@ void SettingsFrame::UI_BindEventHandlers()
 
 void SettingsFrame::UI_OnClose(wxCloseEvent& event)
 {
-	if (_parentButton != nullptr) {
-		_parentButton->Enable(true);
-	}
+	_parentFrame->settingsButton->Enable(true);
+
 	event.Skip();
 }
 

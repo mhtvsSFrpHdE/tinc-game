@@ -7,17 +7,17 @@ class SettingsFrame : public wxFrame
 public:
 	SettingsFrame(MainFrame* parentFrame, wxString frameTitl);
 private:
+	MainFrame* _parentFrame = nullptr;
+
 	wxWindowDisabler makeModal;
 
 	wxPanel* panel = new wxPanel(this);
 
-	wxButton* _parentButton = nullptr;
-	MainFrame* _parentFrame = nullptr;
 	wxComboBox* languageChoice;
 	wxButton* FinishButton;
 
 	void UI_CreateControls();
-	void UI_staticText1(); 
+	void UI_staticText1();
 	void UI_FinishButton();
 	void UI_languageChoice();
 	void UI_BindEventHandlers();
