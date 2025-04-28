@@ -73,7 +73,7 @@ void MainFrame::OnOptimizeMtuButton_OpenOptimizeMtuFrame()
 
 void MainFrame::OnSettingsButton(wxCommandEvent& evt)
 {
-	if (publicInt == 0)
+	if (openedFrameCount == 0)
 	{
 		OnSettingsButton_OpenSettingsFrame();
 	}

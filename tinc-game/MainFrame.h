@@ -17,7 +17,7 @@ public:
 	void OnSettingsButton_OpenSettingsFrame();
 	void OnSettingsButton_OtherWindowExists();
 
-	int publicInt = 0;
+	int openedFrameCount = 0;
 
 	wxButton* optimizeMtuButton;
 	wxButton* settingsButton;

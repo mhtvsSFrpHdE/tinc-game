@@ -9,7 +9,7 @@
 OptimizeMtuFrame::OptimizeMtuFrame(MainFrame* parentFrame, wxString frameTitle) : wxFrame(nullptr, wxID_ANY, frameTitle) {
 	_parentButton = parentFrame->optimizeMtuButton;
 	_parentFrame = parentFrame;
-	_parentFrame->publicInt++;
+	_parentFrame->openedFrameCount++;
 
 	Bind(wxEVT_CLOSE_WINDOW, &OptimizeMtuFrame::UI_OnClose, this);
 
@@ -62,7 +62,7 @@ void OptimizeMtuFrame::UI_OnClose(wxCloseEvent& event)
 	if (_parentButton != nullptr) {
 		_parentButton->Enable(true);
 	}
-	_parentFrame->publicInt--;
+	_parentFrame->openedFrameCount--;
 	event.Skip();
 }
 
