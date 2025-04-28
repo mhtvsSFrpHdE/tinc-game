@@ -16,7 +16,6 @@ public:
 
 	void ButtonNoEven(wxCommandEvent& evt);
 
-
 	void OpenNewWindow();
 	void OpenSettingsWindow();
 
@@ -26,9 +25,3 @@ public:
 	wxButton* settingsButton;
 	wxPanel* panel;
 };
-
-const int ID_INFO = 1;
-const int ID_ERROR = 2;
-const int ID_QUESTION = 3;
-const int ID_ALERT = 4;
-
