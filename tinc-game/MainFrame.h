@@ -22,7 +22,6 @@ public:
 
 	int publicInt = 0;
 
-	bool UHMTU();
 	bool Settings();
 
 	wxButton* CreateButton(wxPanel* parent, wxString buttonText, wxSize buttonSize);
