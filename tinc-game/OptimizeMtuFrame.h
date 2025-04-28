@@ -37,6 +37,7 @@ private:
 	wxButton* closeButton;
 	wxStaticText* mtuValue_IPv4 = nullptr;
 	wxStaticText* mtuValue_IPv6 = nullptr;
+	const wxString mtuValue_DefaultText = _("Waiting for value...");
 	wxTextCtrl* liveLog;
 
 	void Init_CreateControls();
@@ -46,10 +47,8 @@ private:
 	void OnStartButtonClick(wxCommandEvent& event);
 	void OnCloseButtonClick(wxCommandEvent& event);
 
-	//Measure
 	int reportMtuCount_IPv4 = 0;
 	int reportMtuCount_IPv6 = 0;
-	wxString DefaultState = _("Waiting for value...");
 };
 
 class OptimizeMtuFrameTest {
