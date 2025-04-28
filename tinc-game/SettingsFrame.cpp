@@ -9,7 +9,7 @@
 
 SettingsFrame::SettingsFrame(MainFrame* parentFrame, wxString frameTitle) : wxFrame(nullptr, wxID_ANY, frameTitle)
 {
-	_parentButton = parentFrame->SettingsButton;
+	_parentButton = parentFrame->settingsButton;
 	_parentFrame = parentFrame;
 
 	UI_CreateControls();

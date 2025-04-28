@@ -29,13 +29,13 @@ void MainFrame::Init_CreateControls()
 	wxButton * optimizeMtuButton = new wxButton(panel, wxID_ANY, wideString, wxDefaultPosition, wxSize(300, 100));
 
 	wxString setting = _("Settings");
-	SettingsButton = new wxButton(panel, wxID_ANY, setting, wxDefaultPosition, wxSize(100, 50));
+	settingsButton = new wxButton(panel, wxID_ANY, setting, wxDefaultPosition, wxSize(100, 50));
 }
 
 void MainFrame::Init_BindEventHandlers()
 {
 	optimizeMtuButton->Bind(wxEVT_BUTTON, &MainFrame::OnUHMTUButton, this);
-	SettingsButton->Bind(wxEVT_BUTTON, &MainFrame::OnSettingsButton, this);
+	settingsButton->Bind(wxEVT_BUTTON, &MainFrame::OnSettingsButton, this);
 }
 
 void MainFrame::Init_Layout()
@@ -45,7 +45,7 @@ void MainFrame::Init_Layout()
 	wxSizerFlags flags = wxSizerFlags().Align(wxALIGN_CENTER);
 	wxSizerFlags flags2 = wxSizerFlags().Align(wxALIGN_TOP | wxALIGN_LEFT);
 
-	gridSizer->Add(SettingsButton, flags2);
+	gridSizer->Add(settingsButton, flags2);
 
 	for (int i = 0; i < 2; ++i) {
 		wxStaticText* placeholder = new wxStaticText(panel, wxID_ANY, "");
