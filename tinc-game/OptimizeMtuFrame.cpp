@@ -115,9 +115,11 @@ void OptimizeMtuFrame::UI_CreateControls()
 	}
 
 	{
-		choices.Add("10.255.60.1");
-		m_comboBox = new wxComboBox(panel, wxID_ANY, wxEmptyString, wxPoint(20, 50), wxSize(300, 20), choices, wxCB_DROPDOWN);
-		m_comboBox->SetSelection(0);
+		chooseTargetAddress_ComboBox = new wxComboBox(panel, wxID_ANY);
+		chooseTargetAddress_ComboBox->SetPosition(wxPoint(20, 50));
+		chooseTargetAddress_ComboBox->SetSize(wxSize(300, 20));
+		chooseTargetAddress_ComboBox->Append(wxT("10.255.60.1"));
+		chooseTargetAddress_ComboBox->SetSelection(0);
 	}
 
 	{

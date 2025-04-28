@@ -45,7 +45,6 @@ private:
 	wxComboBox* chooseTargetAddress_ComboBox;
 	wxButton* startButton;
 	wxButton* closeButton;
-	wxArrayString choices;
 	wxStaticText* mtuValue_IPv4 = nullptr;
 	wxStaticText* mtuValue_IPv6 = nullptr;
 	wxTextCtrl* liveLog;
