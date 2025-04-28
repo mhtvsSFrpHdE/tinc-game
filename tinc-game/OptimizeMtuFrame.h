@@ -48,7 +48,7 @@ private:
 	wxStaticText* nowState_IPv4 = nullptr;
 	wxStaticText* nowState_IPv6 = nullptr;
 	wxTextCtrl* textCtrl;
-	wxString DefaultState;
+	wxString DefaultState = _("Waiting for value...");
 
 	bool Judgment = false;
 

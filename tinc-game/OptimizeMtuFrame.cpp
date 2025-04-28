@@ -95,8 +95,7 @@ void OptimizeMtuFrame::UI_OnStartButtonClick(wxCommandEvent& event)
 void OptimizeMtuFrame::UI_CreateControls()
 {
 	{
-		wxString firstStaticText = _("Choose target address");
-		wxStaticText* staticText = new wxStaticText(panel, wxID_ANY, firstStaticText);
+		wxStaticText* staticText = new wxStaticText(panel, wxID_ANY, _("Choose target address"));
 		staticText->SetPosition(wxPoint(20, 20));
 		staticText->SetSize(wxSize(50, 40));
 		wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
@@ -104,76 +103,60 @@ void OptimizeMtuFrame::UI_CreateControls()
 	}
 
 	{
-		wxButton* hintButton = new wxButton(panel, wxID_ANY, "?");
-		hintButton->SetPosition(wxPoint(200, 22));
+		wxButton* hintButton = new wxButton(panel, wxID_ANY, wxT("?"));
+		hintButton->SetPosition(wxPoint(300, 22));
 		hintButton->SetSize(wxSize(20, 20));
 	}
 
 	{
 		choices.Add("10.255.60.1");
-		m_comboBox = new wxComboBox(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, choices, wxCB_DROPDOWN);
+		m_comboBox = new wxComboBox(panel, wxID_ANY, wxEmptyString, wxPoint(20, 50), wxSize(300, 20), choices, wxCB_DROPDOWN);
 		m_comboBox->SetSelection(0);
-		m_comboBox->SetPosition(wxPoint(20, 50));
-		m_comboBox->SetSize(wxSize(300, 20));
 	}
 
 	{
-		wxString beginButtonText = _("Start");
-		beginButton = new wxButton(panel, wxID_ANY, beginButtonText);
+		beginButton = new wxButton(panel, wxID_ANY, _("Start"));
 		beginButton->SetPosition(wxPoint(350, 48));
 		beginButton->SetSize(wxSize(50, 25));
 	}
 
 	{
-		textCtrl = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
-		textCtrl->SetPosition(wxPoint(20, 100));
-		textCtrl->SetSize(wxSize(500, 250));
+		textCtrl = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxPoint(20, 100), wxSize(500, 250), wxTE_READONLY | wxTE_MULTILINE);
 	}
 
 	{
-		wxString staticText4 = "IPv4:";
-		wxString staticText6 = "IPv6:";
-
-
-		wxStaticText* staticTextIP4 = new wxStaticText(panel, wxID_ANY, staticText4);
-		wxStaticText* staticTextIP6 = new wxStaticText(panel, wxID_ANY, staticText6);
-
-		staticTextIP4->SetPosition(wxPoint(20, 360));
-		staticTextIP6->SetPosition(wxPoint(20, 380));
-
-		staticTextIP4->SetSize(wxSize(50, 40));
-		staticTextIP6->SetSize(wxSize(50, 40));
-
 		wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+
+		wxStaticText* staticTextIP4 = new wxStaticText(panel, wxID_ANY, wxT("IPv4:"));
+		staticTextIP4->SetPosition(wxPoint(20, 360));
+		staticTextIP4->SetSize(wxSize(50, 40));
 		staticTextIP4->SetFont(font);
+
+		wxStaticText* staticTextIP6 = new wxStaticText(panel, wxID_ANY, wxT("IPv6:"));
+		staticTextIP6->SetPosition(wxPoint(20, 380));
+		staticTextIP6->SetSize(wxSize(50, 40));
 		staticTextIP6->SetFont(font);
 	}
 
 	{
-		DefaultState = _("Waiting for value...");
-
 		if (!Judgment) {
-			nowState_IPv4 = new wxStaticText(panel, wxID_ANY, DefaultState);
-			nowState_IPv6 = new wxStaticText(panel, wxID_ANY, DefaultState);
-
-			nowState_IPv4->SetPosition(wxPoint(80, 360));
-			nowState_IPv6->SetPosition(wxPoint(80, 380));
-
-			nowState_IPv4->SetSize(wxSize(50, 40));
-			nowState_IPv6->SetSize(wxSize(50, 40));
-
 			wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-			nowState_IPv4->SetFont(font);
-			nowState_IPv6->SetFont(font);
-		}
-		else {
 
+			nowState_IPv4 = new wxStaticText(panel, wxID_ANY, DefaultState);
+			nowState_IPv4->SetPosition(wxPoint(80, 360));
+			nowState_IPv4->SetSize(wxSize(50, 40));
+			nowState_IPv4->SetFont(font);
+
+			nowState_IPv6 = new wxStaticText(panel, wxID_ANY, DefaultState);
+			nowState_IPv6->SetPosition(wxPoint(80, 380));
+			nowState_IPv6->SetSize(wxSize(50, 40));
+			nowState_IPv6->SetFont(font);
 		}
 	}
 
 	{
 		wxString closeButtonText = _("Close");
-		wxButton* closeButton = new wxButton(panel, wxID_ANY, closeButtonText);
+		closeButton = new wxButton(panel, wxID_ANY, closeButtonText);
 		closeButton->SetPosition(wxPoint(480, 400));
 		closeButton->SetSize(wxSize(100, 25));
 		//closeButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::UI_OnClose, this);
