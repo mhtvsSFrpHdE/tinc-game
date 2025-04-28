@@ -62,13 +62,12 @@ bool Settings_SRV::CheckIniExists()
 	}
 }
 
-void Settings_SRV::CreateDefaultIni()
+void Settings_SRV::LoadConfigFile()
 {
 	bool checkIni = Settings_SRV::CheckIniExists();
+	config = new wxFileConfig(wxEmptyString, wxEmptyString, Settings_SRV::GetIniFilePath());
 	if (!checkIni) {
-		int noLanguage = wxLANGUAGE_UNKNOWN;
-		config->Write(SettingKeys::language, noLanguage);
-		config->Flush();
+		config->Write(SettingKeys::language, static_cast<int>(wxLANGUAGE_UNKNOWN));
 		config->Write(SettingKeys::configVersion, 0);
 		config->Flush();
 	}

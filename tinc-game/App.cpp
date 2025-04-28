@@ -10,10 +10,7 @@ wxIMPLEMENT_APP(App);
 
 bool App::OnInit() {
 	// Config file
-	if (!Settings_SRV::CheckIniExists()) {
-		Settings_SRV::CreateDefaultIni();
-	}
-	Settings_SRV::config = new wxFileConfig(wxEmptyString, wxEmptyString, Settings_SRV::GetIniFilePath());
+	Settings_SRV::LoadConfigFile();
 
 	// Language
 	language = Settings_SRV::ReadLanguage();

@@ -12,7 +12,7 @@ public:
 	static void WriteLanguage(int selectedIndex);
 	static wxLanguage ReadLanguage();
 	static bool CheckIniExists();
-	static void CreateDefaultIni();
+	static void LoadConfigFile();
 
 	static wxFileConfig* config;
 };
