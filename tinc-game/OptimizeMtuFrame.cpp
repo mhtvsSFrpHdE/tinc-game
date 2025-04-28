@@ -22,18 +22,18 @@ void OptimizeMtuFrame::API_UI_ReportStatus(std::wstring status)
 void OptimizeMtuFrame::API_UI_ReportMTU_IPv4(int mtu)
 {
 	mtuValue_IPv4->SetLabelText(std::to_string(mtu));
-	attemptNumber_IPv4 += 1;
+	reportMtuCount_IPv4 += 1;
 }
 
 void OptimizeMtuFrame::API_UI_ReportMTU_IPv6(int mtu)
 {
 	mtuValue_IPv6->SetLabelText(std::to_string(mtu));
-	attemptNumber_IPv6 += 1;
+	reportMtuCount_IPv6 += 1;
 }
 
 void OptimizeMtuFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
 {
-	if (attemptNumber_IPv4 != 0 && attemptNumber_IPv6 != 0) {
+	if (reportMtuCount_IPv4 != 0 && reportMtuCount_IPv6 != 0) {
 		pass = true;
 		wxMessageDialog(this, _("MTU measure success")).ShowModal();
 		pass = false;
@@ -149,8 +149,8 @@ void OptimizeMtuFrame::OnStartButtonClick(wxCommandEvent& event)
 	wxString inputText = chooseTargetAddress_ComboBox->GetValue();
 	std::wstring inputText1 = inputText.ToStdWstring();
 	if (API_SRV_CheckAddressFormat(inputText1).success) {
-		attemptNumber_IPv4 = 0;
-		attemptNumber_IPv6 = 0;
+		reportMtuCount_IPv4 = 0;
+		reportMtuCount_IPv6 = 0;
 		mtuValue_IPv4->SetLabelText(DefaultState);
 		mtuValue_IPv6->SetLabelText(DefaultState);
 		std::thread t1(&OptimizeMtuFrame::API_SRV_StartMeasureMTU, this, inputText1);
