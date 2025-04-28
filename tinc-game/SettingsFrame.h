@@ -16,10 +16,9 @@ private:
 	wxComboBox* chooseLanguage_ComboBox;
 	wxButton* confirmButton;
 
-	void UI_CreateControls();
-	void UI_BindEventHandlers();
+	void Init_CreateControls();
+	void Init_BindEventHandlers();
 
-	void UI_OnClose(wxCloseEvent& event);
-
-	void UI_OnFinshButtonClick(wxCommandEvent& event);
+	void OnClose(wxCloseEvent& event);
+	void OnConfirmButtonClick(wxCommandEvent& event);
 };

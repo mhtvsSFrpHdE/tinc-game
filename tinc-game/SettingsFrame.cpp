@@ -11,11 +11,11 @@ SettingsFrame::SettingsFrame(MainFrame* parentFrame, wxString frameTitle) : wxFr
 {
 	_parentFrame = parentFrame;
 
-	UI_CreateControls();
-	UI_BindEventHandlers();
+	Init_CreateControls();
+	Init_BindEventHandlers();
 }
 
-void SettingsFrame::UI_CreateControls()
+void SettingsFrame::Init_CreateControls()
 {
 	{
 		wxString staticText1 = _("language");
@@ -64,20 +64,20 @@ void SettingsFrame::UI_CreateControls()
 	}
 }
 
-void SettingsFrame::UI_BindEventHandlers()
+void SettingsFrame::Init_BindEventHandlers()
 {
-	confirmButton->Bind(wxEVT_BUTTON, &SettingsFrame::UI_OnFinshButtonClick, this);
-	Bind(wxEVT_CLOSE_WINDOW, &SettingsFrame::UI_OnClose, this);
+	confirmButton->Bind(wxEVT_BUTTON, &SettingsFrame::OnConfirmButtonClick, this);
+	Bind(wxEVT_CLOSE_WINDOW, &SettingsFrame::OnClose, this);
 }
 
-void SettingsFrame::UI_OnClose(wxCloseEvent& event)
+void SettingsFrame::OnClose(wxCloseEvent& event)
 {
 	_parentFrame->settingsButton->Enable(true);
 
 	event.Skip();
 }
 
-void SettingsFrame::UI_OnFinshButtonClick(wxCommandEvent& event)
+void SettingsFrame::OnConfirmButtonClick(wxCommandEvent& event)
 {
 	int selectedIndex = chooseLanguage_ComboBox->GetSelection();
 	Settings_SRV::WriteLanguage(selectedIndex);
