@@ -53,8 +53,6 @@ private:
 	wxString DefaultState = _("Waiting for value...");
 
 	bool Judgment = false;
-
-	int isOptionChanged = 2;
 };
 
 class OptimizeMtuFrameTest {
