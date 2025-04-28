@@ -92,6 +92,11 @@ void OptimizeMtuFrame::UI_OnStartButtonClick(wxCommandEvent& event)
 	}
 }
 
+void OptimizeMtuFrame::UI_OnCloseButtonClick(wxCommandEvent& event)
+{
+	Close();
+}
+
 void OptimizeMtuFrame::UI_CreateControls()
 {
 	{
@@ -159,11 +164,11 @@ void OptimizeMtuFrame::UI_CreateControls()
 		closeButton = new wxButton(panel, wxID_ANY, closeButtonText);
 		closeButton->SetPosition(wxPoint(480, 400));
 		closeButton->SetSize(wxSize(100, 25));
-		//closeButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::UI_OnClose, this);
 	}
 }
 
 void OptimizeMtuFrame::UI_BindEventHandlers()
 {
 	beginButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::UI_OnStartButtonClick, this);
+	closeButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::UI_OnCloseButtonClick, this);
 }

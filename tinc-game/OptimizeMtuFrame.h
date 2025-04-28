@@ -44,6 +44,7 @@ private:
 
 	wxComboBox* m_comboBox;
 	wxButton* beginButton;
+	wxButton* closeButton;
 	wxArrayString choices;
 	wxStaticText* nowState_IPv4 = nullptr;
 	wxStaticText* nowState_IPv6 = nullptr;
@@ -59,6 +60,7 @@ private:
 	void UI_OnClose(wxCloseEvent& event);
 	void UI_OnComboBoxSelect(wxCommandEvent& event);
 	void UI_OnStartButtonClick(wxCommandEvent& event);
+	void UI_OnCloseButtonClick(wxCommandEvent& event);
 
 	//UIControls
 	void UI_CreateControls();
