@@ -62,14 +62,6 @@ private:
 
 	//UIControls
 	void UI_CreateControls();
-	void UI_staticText();
-	void UI_HintButton();
-	void UI_UserTextCtrl();
-	void UI_BeginButton();
-	void UI_SystemPointText();
-	void UI_StaticTextIP();
-	void UI_IPState();
-	void UI_CloseButton();
 	void UI_BindEventHandlers();
 };
 
