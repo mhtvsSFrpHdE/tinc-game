@@ -101,14 +101,6 @@ void MainFrame::ButtonNoEven(wxCommandEvent& evt)
 
 // open new window event
 void MainFrame::OpenNewWindow()
-
-void MainFrame::OpenSettingsWindow()
-{
-	Settings();
-}
-
-
-
 {
 	UHMTUFrame* UHMTUframe = new UHMTUFrame(this, _("Optimize MTU"));
 	UHMTUframe->SetClientSize(600, 450);
@@ -119,7 +111,7 @@ void MainFrame::OpenSettingsWindow()
 	UHMTUframe->SetWindowStyle(style);
 }
 
-bool MainFrame::Settings()
+void MainFrame::OpenSettingsWindow()
 {
 	SettingsFrame* Settingsframe = new SettingsFrame(this, _("Settings"));
 	Settingsframe->SetClientSize(600, 450);
@@ -128,6 +120,4 @@ bool MainFrame::Settings()
 	long style = Settingsframe->GetWindowStyle();
 	style &= ~wxRESIZE_BORDER;
 	Settingsframe->SetWindowStyle(style);
-
-	return true;
 }
