@@ -19,13 +19,6 @@ MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) 
 	SetUpSizers();
 }
 
-wxButton* MainFrame::CreateButton(wxPanel* parent, wxString buttonText, wxSize buttonSize)
-{
-	wxButton* button = new wxButton(parent, wxID_ANY, buttonText, wxDefaultPosition, buttonSize);
-	return button;
-}
-
-
 void MainFrame::BindEventHandlers()
 {
 	UHMTUButton->Bind(wxEVT_BUTTON, &MainFrame::OnUHMTUButton, this);
@@ -39,9 +32,10 @@ void MainFrame::CreateControls()
 	panel->SetFont(mainFont);
 
 	wxString wideString = _("Optimize MTU");
+	wxButton * UHMTUButton = new wxButton(panel, wxID_ANY, wideString, wxDefaultPosition, wxSize(300, 100));
+
 	wxString setting = _("Settings");
-	UHMTUButton = CreateButton(panel, wideString, wxSize(300, 100));
-	SettingsButton = CreateButton(panel, setting, wxSize(100, 50));
+	SettingsButton = new wxButton(panel, wxID_ANY, setting, wxDefaultPosition, wxSize(100, 50));
 }
 
 //window layout

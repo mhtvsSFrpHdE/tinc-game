@@ -22,7 +22,6 @@ public:
 
 	int publicInt = 0;
 
-	wxButton* CreateButton(wxPanel* parent, wxString buttonText, wxSize buttonSize);
 	wxButton* UHMTUButton;
 	wxButton* SettingsButton;
 	wxButton* languageButton;
