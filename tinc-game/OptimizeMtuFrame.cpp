@@ -33,6 +33,7 @@ void OptimizeMtuFrame::API_UI_ReportMTU_IPv6(int mtu)
 
 void OptimizeMtuFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
 {
+	bool pass = false;
 	if (reportMtuCount_IPv4 != 0 && reportMtuCount_IPv6 != 0) {
 		pass = true;
 		wxMessageDialog(this, _("MTU measure success")).ShowModal();

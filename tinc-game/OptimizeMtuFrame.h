@@ -49,7 +49,6 @@ private:
 	//Measure
 	int reportMtuCount_IPv4 = 0;
 	int reportMtuCount_IPv6 = 0;
-	bool pass = false;
 	wxString DefaultState = _("Waiting for value...");
 
 	bool Judgment = false;
