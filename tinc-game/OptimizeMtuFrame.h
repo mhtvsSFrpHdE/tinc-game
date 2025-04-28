@@ -42,13 +42,13 @@ private:
 	wxButton* _parentButton = nullptr;
 	MainFrame* _parentFrame = nullptr;
 
-	wxComboBox* m_comboBox;
-	wxButton* beginButton;
+	wxComboBox* chooseTargetAddress_ComboBox;
+	wxButton* startButton;
 	wxButton* closeButton;
 	wxArrayString choices;
-	wxStaticText* nowState_IPv4 = nullptr;
-	wxStaticText* nowState_IPv6 = nullptr;
-	wxTextCtrl* textCtrl;
+	wxStaticText* mtuValue_IPv4 = nullptr;
+	wxStaticText* mtuValue_IPv6 = nullptr;
+	wxTextCtrl* liveLog;
 	wxString DefaultState = _("Waiting for value...");
 
 	bool Judgment = false;

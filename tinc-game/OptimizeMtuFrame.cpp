@@ -20,18 +20,18 @@ OptimizeMtuFrame::OptimizeMtuFrame(MainFrame* parentFrame, wxString frameTitle) 
 
 void OptimizeMtuFrame::API_UI_ReportStatus(std::wstring status)
 {
-	textCtrl->AppendText(status);
+	liveLog->AppendText(status);
 }
 
 void OptimizeMtuFrame::API_UI_ReportMTU_IPv4(int mtu)
 {
-	nowState_IPv4->SetLabelText(std::to_string(mtu));
+	mtuValue_IPv4->SetLabelText(std::to_string(mtu));
 	attemptNumber_IPv4 += 1;
 }
 
 void OptimizeMtuFrame::API_UI_ReportMTU_IPv6(int mtu)
 {
-	nowState_IPv6->SetLabelText(std::to_string(mtu));
+	mtuValue_IPv6->SetLabelText(std::to_string(mtu));
 	attemptNumber_IPv6 += 1;
 }
 
@@ -50,11 +50,11 @@ void OptimizeMtuFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
 
 	if (pass == false) {
 		//wxMessageDialog(this, failureCause).ShowModal();
-		//textCtrl->AppendText(failureCause);
+		//liveLog->AppendText(failureCause);
 	}
 
-	m_comboBox->Enable(true);
-	beginButton->Enable(true);
+	chooseTargetAddress_ComboBox->Enable(true);
+	startButton->Enable(true);
 }
 
 void OptimizeMtuFrame::UI_OnClose(wxCloseEvent& event)
@@ -73,22 +73,22 @@ void OptimizeMtuFrame::UI_OnComboBoxSelect(wxCommandEvent& event)
 
 void OptimizeMtuFrame::UI_OnStartButtonClick(wxCommandEvent& event)
 {
-	beginButton->Enable(false);
-	m_comboBox->Enable(false);
-	wxString inputText = m_comboBox->GetValue();
+	startButton->Enable(false);
+	chooseTargetAddress_ComboBox->Enable(false);
+	wxString inputText = chooseTargetAddress_ComboBox->GetValue();
 	std::wstring inputText1 = inputText.ToStdWstring();
 	if (API_SRV_CheckAddressFormat(inputText1).success) {
 		attemptNumber_IPv4 = 0;
 		attemptNumber_IPv6 = 0;
-		nowState_IPv4->SetLabelText(DefaultState);
-		nowState_IPv6->SetLabelText(DefaultState);
+		mtuValue_IPv4->SetLabelText(DefaultState);
+		mtuValue_IPv6->SetLabelText(DefaultState);
 		std::thread t1(&OptimizeMtuFrame::API_SRV_StartMeasureMTU, this, inputText1);
 		t1.detach();
 	}
 	else {
 		wxMessageDialog(this, _("Invalid IP address or domain")).ShowModal();
-		beginButton->Enable(true);
-		m_comboBox->Enable(true);
+		startButton->Enable(true);
+		chooseTargetAddress_ComboBox->Enable(true);
 	}
 }
 
@@ -100,17 +100,18 @@ void OptimizeMtuFrame::UI_OnCloseButtonClick(wxCommandEvent& event)
 void OptimizeMtuFrame::UI_CreateControls()
 {
 	{
-		wxStaticText* staticText = new wxStaticText(panel, wxID_ANY, _("Choose target address"));
-		staticText->SetPosition(wxPoint(20, 20));
-		staticText->SetSize(wxSize(50, 40));
+		wxStaticText* chooseTargetAddress_StaticText = new wxStaticText(panel, wxID_ANY, _("Choose target address"));
+		chooseTargetAddress_StaticText->SetPosition(wxPoint(20, 20));
+		chooseTargetAddress_StaticText->SetSize(wxSize(50, 40));
 		wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-		staticText->SetFont(font);
+		chooseTargetAddress_StaticText->SetFont(font);
 	}
 
 	{
-		wxButton* hintButton = new wxButton(panel, wxID_ANY, wxT("?"));
-		hintButton->SetPosition(wxPoint(300, 22));
-		hintButton->SetSize(wxSize(20, 20));
+		wxButton* helpButton = new wxButton(panel, wxID_ANY);
+		helpButton->SetLabel(wxT("?"));
+		helpButton->SetPosition(wxPoint(300, 22));
+		helpButton->SetSize(wxSize(20, 20));
 	}
 
 	{
@@ -120,48 +121,50 @@ void OptimizeMtuFrame::UI_CreateControls()
 	}
 
 	{
-		beginButton = new wxButton(panel, wxID_ANY, _("Start"));
-		beginButton->SetPosition(wxPoint(350, 48));
-		beginButton->SetSize(wxSize(50, 25));
+		startButton = new wxButton(panel, wxID_ANY);
+		startButton->SetLabel(_("Start"));
+		startButton->SetPosition(wxPoint(350, 48));
+		startButton->SetSize(wxSize(50, 25));
 	}
 
 	{
-		textCtrl = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxPoint(20, 100), wxSize(500, 250), wxTE_READONLY | wxTE_MULTILINE);
+		liveLog = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxPoint(20, 100), wxSize(500, 250), wxTE_READONLY | wxTE_MULTILINE);
 	}
 
 	{
 		wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 
-		wxStaticText* staticTextIP4 = new wxStaticText(panel, wxID_ANY, wxT("IPv4:"));
-		staticTextIP4->SetPosition(wxPoint(20, 360));
-		staticTextIP4->SetSize(wxSize(50, 40));
-		staticTextIP4->SetFont(font);
+		wxStaticText* mtu_IPv4 = new wxStaticText(panel, wxID_ANY, wxT("IPv4:"));
+		mtu_IPv4->SetPosition(wxPoint(20, 360));
+		mtu_IPv4->SetSize(wxSize(50, 40));
+		mtu_IPv4->SetFont(font);
 
-		wxStaticText* staticTextIP6 = new wxStaticText(panel, wxID_ANY, wxT("IPv6:"));
-		staticTextIP6->SetPosition(wxPoint(20, 380));
-		staticTextIP6->SetSize(wxSize(50, 40));
-		staticTextIP6->SetFont(font);
+		wxStaticText* mtu_IPv6 = new wxStaticText(panel, wxID_ANY, wxT("IPv6:"));
+		mtu_IPv6->SetPosition(wxPoint(20, 380));
+		mtu_IPv6->SetSize(wxSize(50, 40));
+		mtu_IPv6->SetFont(font);
 	}
 
 	{
 		if (!Judgment) {
 			wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 
-			nowState_IPv4 = new wxStaticText(panel, wxID_ANY, DefaultState);
-			nowState_IPv4->SetPosition(wxPoint(80, 360));
-			nowState_IPv4->SetSize(wxSize(50, 40));
-			nowState_IPv4->SetFont(font);
+			mtuValue_IPv4 = new wxStaticText(panel, wxID_ANY, DefaultState);
+			mtuValue_IPv4->SetPosition(wxPoint(80, 360));
+			mtuValue_IPv4->SetSize(wxSize(50, 40));
+			mtuValue_IPv4->SetFont(font);
 
-			nowState_IPv6 = new wxStaticText(panel, wxID_ANY, DefaultState);
-			nowState_IPv6->SetPosition(wxPoint(80, 380));
-			nowState_IPv6->SetSize(wxSize(50, 40));
-			nowState_IPv6->SetFont(font);
+			mtuValue_IPv6 = new wxStaticText(panel, wxID_ANY, DefaultState);
+			mtuValue_IPv6->SetPosition(wxPoint(80, 380));
+			mtuValue_IPv6->SetSize(wxSize(50, 40));
+			mtuValue_IPv6->SetFont(font);
 		}
 	}
 
 	{
 		wxString closeButtonText = _("Close");
-		closeButton = new wxButton(panel, wxID_ANY, closeButtonText);
+		closeButton = new wxButton(panel, wxID_ANY);
+		closeButton->SetLabel(closeButtonText);
 		closeButton->SetPosition(wxPoint(480, 400));
 		closeButton->SetSize(wxSize(100, 25));
 	}
@@ -169,6 +172,6 @@ void OptimizeMtuFrame::UI_CreateControls()
 
 void OptimizeMtuFrame::UI_BindEventHandlers()
 {
-	beginButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::UI_OnStartButtonClick, this);
+	startButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::UI_OnStartButtonClick, this);
 	closeButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::UI_OnCloseButtonClick, this);
 }
