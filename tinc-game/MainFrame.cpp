@@ -13,14 +13,12 @@ void MainFrame::buttonHint()
 	dial->ShowModal();
 }
 
-//mainframe.main
 MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) {
 	CreateControls();
 	BindEventHandlers();
 	SetUpSizers();
 }
 
-//create button 
 wxButton* MainFrame::CreateButton(wxPanel* parent, wxString buttonText, wxSize buttonSize)
 {
 	wxButton* button = new wxButton(parent, wxID_ANY, buttonText, wxDefaultPosition, buttonSize);
@@ -28,14 +26,12 @@ wxButton* MainFrame::CreateButton(wxPanel* parent, wxString buttonText, wxSize b
 }
 
 
-//bind event
 void MainFrame::BindEventHandlers()
 {
 	UHMTUButton->Bind(wxEVT_BUTTON, &MainFrame::OnUHMTUButton, this);
 	SettingsButton->Bind(wxEVT_BUTTON, &MainFrame::OnSettingsButton, this);
 }
 
-//create control
 void MainFrame::CreateControls()
 {
 	wxFont mainFont(wxFontInfo(wxSize(0, 24)));
@@ -72,7 +68,6 @@ void MainFrame::SetUpSizers()
 	panel->SetSizer(gridSizer);
 }
 
-//UHM button
 void MainFrame::OnUHMTUButton(wxCommandEvent& evt)
 {
 	auto button = (wxButton*)evt.GetEventObject();
@@ -98,7 +93,6 @@ void MainFrame::ButtonNoEven(wxCommandEvent& evt)
 	UHMTUButton->SetToolTip(_("Please do not click repeatedly!"));
 }
 
-// open new window event
 void MainFrame::OpenNewWindow()
 {
 	UHMTUFrame* UHMTUframe = new UHMTUFrame(this, _("Optimize MTU"));
