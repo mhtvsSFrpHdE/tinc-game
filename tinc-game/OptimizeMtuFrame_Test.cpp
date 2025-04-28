@@ -1,6 +1,6 @@
 #include "OptimizeMtuFrame.h"
 
-void UHMTUFrameTest::TestCheckAddressFormat(wxWindow* parent) {
+void OptimizeMtuFrameTest::TestCheckAddressFormat(wxWindow* parent) {
 	auto testFailedMsg = std::wstring(L"Test failed: ");
 
 	auto testSample = std::wstring(L"1.1.1.1");

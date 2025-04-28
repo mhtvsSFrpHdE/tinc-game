@@ -73,7 +73,7 @@ private:
 	void UI_BindEventHandlers();
 };
 
-class UHMTUFrameTest {
+class OptimizeMtuFrameTest {
 public:
 	static void TestCheckAddressFormat(wxWindow* parent);
 };

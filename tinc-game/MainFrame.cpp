@@ -34,7 +34,7 @@ void MainFrame::Init_CreateControls()
 
 void MainFrame::Init_BindEventHandlers()
 {
-	optimizeMtuButton->Bind(wxEVT_BUTTON, &MainFrame::OnUHMTUButton, this);
+	optimizeMtuButton->Bind(wxEVT_BUTTON, &MainFrame::OnOptimizeMtuButton, this);
 	settingsButton->Bind(wxEVT_BUTTON, &MainFrame::OnSettingsButton, this);
 }
 
@@ -61,7 +61,7 @@ void MainFrame::Init_Layout()
 	panel->SetSizer(gridSizer);
 }
 
-void MainFrame::OnUHMTUButton(wxCommandEvent& evt)
+void MainFrame::OnOptimizeMtuButton(wxCommandEvent& evt)
 {
 	auto button = (wxButton*)evt.GetEventObject();
 	button->Enable(false);
@@ -88,13 +88,13 @@ void MainFrame::ButtonNoEven(wxCommandEvent& evt)
 
 void MainFrame::OpenNewWindow()
 {
-	OptimizeMtuFrame* UHMTUframe = new OptimizeMtuFrame(this, _("Optimize MTU"));
-	UHMTUframe->SetClientSize(600, 450);
-	UHMTUframe->Center();
-	UHMTUframe->Show();
-	long style = UHMTUframe->GetWindowStyle();
+	OptimizeMtuFrame* OptimizeMtuframe = new OptimizeMtuFrame(this, _("Optimize MTU"));
+	OptimizeMtuframe->SetClientSize(600, 450);
+	OptimizeMtuframe->Center();
+	OptimizeMtuframe->Show();
+	long style = OptimizeMtuframe->GetWindowStyle();
 	style &= ~wxRESIZE_BORDER;
-	UHMTUframe->SetWindowStyle(style);
+	OptimizeMtuframe->SetWindowStyle(style);
 }
 
 void MainFrame::OpenSettingsWindow()

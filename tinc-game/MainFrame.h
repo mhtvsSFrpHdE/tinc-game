@@ -11,7 +11,7 @@ public:
 	void Init_BindEventHandlers();
 	void Init_Layout();
 
-	void OnUHMTUButton(wxCommandEvent& evt);
+	void OnOptimizeMtuButton(wxCommandEvent& evt);
 	void OnSettingsButton(wxCommandEvent& evt);
 
 	void ButtonNoEven(wxCommandEvent& evt);
