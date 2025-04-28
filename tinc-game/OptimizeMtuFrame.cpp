@@ -33,11 +33,11 @@ void OptimizeMtuFrame::API_UI_ReportMTU_IPv6(int mtu)
 
 void OptimizeMtuFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
 {
-	bool pass = false;
+	bool mtuMeasureSuccess = false;
 	if (reportMtuCount_IPv4 != 0 && reportMtuCount_IPv6 != 0) {
-		pass = true;
+		mtuMeasureSuccess = true;
 		wxMessageDialog(this, _("MTU measure success")).ShowModal();
-		pass = false;
+		mtuMeasureSuccess = false;
 	}
 	else {
 		wxMessageDialog(this, _("MTU measure fail")).ShowModal();
@@ -45,7 +45,7 @@ void OptimizeMtuFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
 
 	std::wstring failureCause = L"失败原因";
 
-	if (pass == false) {
+	if (mtuMeasureSuccess == false) {
 		//wxMessageDialog(this, failureCause).ShowModal();
 		//liveLog->AppendText(failureCause);
 	}
