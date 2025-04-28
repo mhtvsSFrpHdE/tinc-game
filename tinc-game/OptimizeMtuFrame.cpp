@@ -142,11 +142,6 @@ void OptimizeMtuFrame::OnClose(wxCloseEvent& event)
 	event.Skip();
 }
 
-void OptimizeMtuFrame::OnComboBoxSelect(wxCommandEvent& event)
-{
-
-}
-
 void OptimizeMtuFrame::OnStartButtonClick(wxCommandEvent& event)
 {
 	startButton->Enable(false);

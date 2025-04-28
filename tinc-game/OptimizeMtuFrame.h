@@ -43,7 +43,6 @@ private:
 	void Init_BindEventHandlers();
 
 	void OnClose(wxCloseEvent& event);
-	void OnComboBoxSelect(wxCommandEvent& event);
 	void OnStartButtonClick(wxCommandEvent& event);
 	void OnCloseButtonClick(wxCommandEvent& event);
 
