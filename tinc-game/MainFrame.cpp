@@ -4,7 +4,7 @@
 #include "SettingsFrame.h"
 #include <wx/dialog.h>
 
-void MainFrame::buttonHint(wxCommandEvent& event)
+void MainFrame::buttonHint()
 {
 	wxString buttonHint = _("Close all windows before enter setting interface.");
 	wxString title = _("hint");
@@ -88,8 +88,7 @@ void MainFrame::OnSettingsButton(wxCommandEvent& evt)
 		OpenSettingsWindow();
 	}
 	else {
-		wxCommandEvent dummyEvent;
-		buttonHint(dummyEvent);
+		buttonHint();
 	}
 
 }

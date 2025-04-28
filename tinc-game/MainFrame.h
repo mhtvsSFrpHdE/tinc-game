@@ -4,7 +4,7 @@
 class MainFrame : public wxFrame
 {
 public:
-	void buttonHint(wxCommandEvent& event);
+	void buttonHint();
 	MainFrame(const wxString& title);
 
 	void BindEventHandlers();
