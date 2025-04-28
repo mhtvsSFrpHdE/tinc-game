@@ -95,19 +95,17 @@ void OptimizeMtuFrame::Init_CreateControls()
 	}
 
 	{
-		if (!Judgment) {
-			wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+		wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 
-			mtuValue_IPv4 = new wxStaticText(panel, wxID_ANY, DefaultState);
-			mtuValue_IPv4->SetPosition(wxPoint(80, 360));
-			mtuValue_IPv4->SetSize(wxSize(50, 40));
-			mtuValue_IPv4->SetFont(font);
+		mtuValue_IPv4 = new wxStaticText(panel, wxID_ANY, DefaultState);
+		mtuValue_IPv4->SetPosition(wxPoint(80, 360));
+		mtuValue_IPv4->SetSize(wxSize(50, 40));
+		mtuValue_IPv4->SetFont(font);
 
-			mtuValue_IPv6 = new wxStaticText(panel, wxID_ANY, DefaultState);
-			mtuValue_IPv6->SetPosition(wxPoint(80, 380));
-			mtuValue_IPv6->SetSize(wxSize(50, 40));
-			mtuValue_IPv6->SetFont(font);
-		}
+		mtuValue_IPv6 = new wxStaticText(panel, wxID_ANY, DefaultState);
+		mtuValue_IPv6->SetPosition(wxPoint(80, 380));
+		mtuValue_IPv6->SetSize(wxSize(50, 40));
+		mtuValue_IPv6->SetFont(font);
 	}
 
 	{
