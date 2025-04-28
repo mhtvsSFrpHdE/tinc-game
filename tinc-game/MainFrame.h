@@ -11,6 +11,7 @@ public:
 	void Init_Layout();
 
 	void OnOptimizeMtuButton(wxCommandEvent& evt);
+	void OnOptimizeMtuButton_OpenOptimizeMtuFrame();
 
 	void OnSettingsButton(wxCommandEvent& evt);
 	void OnSettingsButton_OpenSettingsFrame();
@@ -18,7 +19,6 @@ public:
 
 	void ButtonNoEven(wxCommandEvent& evt);
 
-	void OpenNewWindow();
 
 	int publicInt = 0;
 

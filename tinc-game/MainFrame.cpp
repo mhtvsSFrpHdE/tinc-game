@@ -57,7 +57,18 @@ void MainFrame::OnOptimizeMtuButton(wxCommandEvent& evt)
 	auto button = (wxButton*)evt.GetEventObject();
 	button->Enable(false);
 
-	OpenNewWindow();
+	OnOptimizeMtuButton_OpenOptimizeMtuFrame();
+}
+
+void MainFrame::OnOptimizeMtuButton_OpenOptimizeMtuFrame()
+{
+	OptimizeMtuFrame* OptimizeMtuframe = new OptimizeMtuFrame(this, _("Optimize MTU"));
+	OptimizeMtuframe->SetClientSize(600, 450);
+	OptimizeMtuframe->Center();
+	OptimizeMtuframe->Show();
+	long style = OptimizeMtuframe->GetWindowStyle();
+	style &= ~wxRESIZE_BORDER;
+	OptimizeMtuframe->SetWindowStyle(style);
 }
 
 void MainFrame::OnSettingsButton(wxCommandEvent& evt)
@@ -69,7 +80,6 @@ void MainFrame::OnSettingsButton(wxCommandEvent& evt)
 	else {
 		OnSettingsButton_OtherWindowExists();
 	}
-
 }
 
 void MainFrame::OnSettingsButton_OpenSettingsFrame()
@@ -95,15 +105,4 @@ void MainFrame::OnSettingsButton_OtherWindowExists()
 void MainFrame::ButtonNoEven(wxCommandEvent& evt)
 {
 	optimizeMtuButton->SetToolTip(_("Please do not click repeatedly!"));
-}
-
-void MainFrame::OpenNewWindow()
-{
-	OptimizeMtuFrame* OptimizeMtuframe = new OptimizeMtuFrame(this, _("Optimize MTU"));
-	OptimizeMtuframe->SetClientSize(600, 450);
-	OptimizeMtuframe->Center();
-	OptimizeMtuframe->Show();
-	long style = OptimizeMtuframe->GetWindowStyle();
-	style &= ~wxRESIZE_BORDER;
-	OptimizeMtuframe->SetWindowStyle(style);
 }
