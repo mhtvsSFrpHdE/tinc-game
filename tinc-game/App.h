@@ -9,5 +9,4 @@ public:
 	void SetLanguage(wxLanguage newLanguage);
 private:
 	wxLocale* locale;
-	wxLanguage language;
 };

@@ -13,7 +13,7 @@ bool App::OnInit() {
 	Settings_SRV::LoadConfigFile();
 
 	// Language
-	language = Settings_SRV::ReadLanguage();
+	wxLanguage language = Settings_SRV::ReadLanguage();
 	locale = new wxLocale(language, wxLOCALE_LOAD_DEFAULT);
 
 #ifdef __WXGTK__
