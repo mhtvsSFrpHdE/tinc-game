@@ -18,56 +18,48 @@ SettingsFrame::SettingsFrame(MainFrame* parentFrame, wxString frameTitle) : wxFr
 void SettingsFrame::Init_CreateControls()
 {
 	{
-		wxString staticText1 = _("language");
-		wxStaticText* chooseLanguage_StaticText = new wxStaticText(panel, wxID_ANY, staticText1);
+		wxStaticText* chooseLanguage_StaticText = new wxStaticText(panel, wxID_ANY, _("language"));
 		chooseLanguage_StaticText->SetPosition(wxPoint(20, 20));
-
 		chooseLanguage_StaticText->SetSize(wxSize(50, 40));
-
 		wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-
 		chooseLanguage_StaticText->SetFont(font);
 	}
 
 	{
+		chooseLanguage_ComboBox = new wxComboBox(panel, wxID_ANY);
+		chooseLanguage_ComboBox->SetPosition(wxPoint(100, 20));
+		chooseLanguage_ComboBox->Append(_("Auto (System Default)"));
+		chooseLanguage_ComboBox->Append(wxT("English"));
+		chooseLanguage_ComboBox->Append(wxT("简体中文"));
+
 		int value;
 		Settings_SRV::config->Read(SettingKeys::language, &value);
-
-		wxArrayString choices;
-		choices.Add(_("Auto (System Default)"));
-		choices.Add("English");
-		choices.Add(wxT("简体中文"));
-
-		chooseLanguage_ComboBox = new wxComboBox(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, choices, wxCB_DROPDOWN);
-		chooseLanguage_ComboBox->SetPosition(wxPoint(100, 20));
-		chooseLanguage_ComboBox->SetSelection(0);
-		if (value == wxLANGUAGE_UNKNOWN) {
-			chooseLanguage_ComboBox->SetSelection(0);
-		}
-		else if (value == wxLANGUAGE_ENGLISH_US) {
+		if (value == wxLANGUAGE_ENGLISH_US) {
 			chooseLanguage_ComboBox->SetSelection(1);
 		}
 		else if (value == wxLANGUAGE_CHINESE_SIMPLIFIED) {
 			chooseLanguage_ComboBox->SetSelection(2);
 		}
+		else {
+			chooseLanguage_ComboBox->SetSelection(0);
+		}
 	}
 
 	{
-		wxString ButtonText = _("Confirm");
-		confirmButton = new wxButton(panel, wxID_ANY, ButtonText);
+		confirmButton = new wxButton(panel, wxID_ANY, _("Confirm"));
 		confirmButton->SetPosition(wxPoint(250, 400));
 		confirmButton->SetSize(wxSize(100, 40));
 
-		wxFont buttonFont = confirmButton->GetFont();
-		buttonFont.SetPointSize(15);
-		confirmButton->SetFont(buttonFont);
+		wxFont font = confirmButton->GetFont();
+		font.SetPointSize(15);
+		confirmButton->SetFont(font);
 	}
 }
 
 void SettingsFrame::Init_BindEventHandlers()
 {
-	confirmButton->Bind(wxEVT_BUTTON, &SettingsFrame::OnConfirmButtonClick, this);
 	Bind(wxEVT_CLOSE_WINDOW, &SettingsFrame::OnClose, this);
+	confirmButton->Bind(wxEVT_BUTTON, &SettingsFrame::OnConfirmButtonClick, this);
 }
 
 void SettingsFrame::OnClose(wxCloseEvent& event)
