@@ -17,7 +17,7 @@ void MainFrame::Init_CreateControls()
 	panel->SetFont(mainFont);
 
 	wxString wideString = _("Optimize MTU");
-	wxButton * optimizeMtuButton = new wxButton(panel, wxID_ANY, wideString, wxDefaultPosition, wxSize(300, 100));
+	wxButton* optimizeMtuButton = new wxButton(panel, wxID_ANY, wideString, wxDefaultPosition, wxSize(300, 100));
 
 	wxString setting = _("Settings");
 	settingsButton = new wxButton(panel, wxID_ANY, setting, wxDefaultPosition, wxSize(100, 50));
@@ -64,12 +64,23 @@ void MainFrame::OnSettingsButton(wxCommandEvent& evt)
 {
 	if (publicInt == 0)
 	{
-		OpenSettingsWindow();
+		OnSettingsButton_OpenSettingsFrame();
 	}
 	else {
 		OnSettingsButton_OtherWindowExists();
 	}
 
+}
+
+void MainFrame::OnSettingsButton_OpenSettingsFrame()
+{
+	SettingsFrame* Settingsframe = new SettingsFrame(this, _("Settings"));
+	Settingsframe->SetClientSize(600, 450);
+	Settingsframe->Center();
+	Settingsframe->Show();
+	long style = Settingsframe->GetWindowStyle();
+	style &= ~wxRESIZE_BORDER;
+	Settingsframe->SetWindowStyle(style);
 }
 
 void MainFrame::OnSettingsButton_OtherWindowExists()
@@ -95,15 +106,4 @@ void MainFrame::OpenNewWindow()
 	long style = OptimizeMtuframe->GetWindowStyle();
 	style &= ~wxRESIZE_BORDER;
 	OptimizeMtuframe->SetWindowStyle(style);
-}
-
-void MainFrame::OpenSettingsWindow()
-{
-	SettingsFrame* Settingsframe = new SettingsFrame(this, _("Settings"));
-	Settingsframe->SetClientSize(600, 450);
-	Settingsframe->Center();
-	Settingsframe->Show();
-	long style = Settingsframe->GetWindowStyle();
-	style &= ~wxRESIZE_BORDER;
-	Settingsframe->SetWindowStyle(style);
 }

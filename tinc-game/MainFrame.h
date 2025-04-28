@@ -11,13 +11,14 @@ public:
 	void Init_Layout();
 
 	void OnOptimizeMtuButton(wxCommandEvent& evt);
+
 	void OnSettingsButton(wxCommandEvent& evt);
+	void OnSettingsButton_OpenSettingsFrame();
 	void OnSettingsButton_OtherWindowExists();
 
 	void ButtonNoEven(wxCommandEvent& evt);
 
 	void OpenNewWindow();
-	void OpenSettingsWindow();
 
 	int publicInt = 0;
 
