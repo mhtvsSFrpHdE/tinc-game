@@ -54,7 +54,6 @@ private:
 
 	bool Judgment = false;
 
-	wxStaticText* staticText2;
 	int isOptionChanged = 2;
 };
 
