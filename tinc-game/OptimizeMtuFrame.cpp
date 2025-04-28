@@ -1,4 +1,4 @@
-﻿#include "UHMTUFrame.h"
+﻿#include "OptimizeMtuFrame.h"
 #include <wx/spinctrl.h>
 #include <wx/stattext.h>
 #include <wx/wx.h>
@@ -6,36 +6,36 @@
 #include <thread>
 #include <codecvt>
 
-UHMTUFrame::UHMTUFrame(MainFrame* parentFrame, wxString frameTitle) : wxFrame(nullptr, wxID_ANY, frameTitle) {
+OptimizeMtuFrame::OptimizeMtuFrame(MainFrame* parentFrame, wxString frameTitle) : wxFrame(nullptr, wxID_ANY, frameTitle) {
 	_parentButton = parentFrame->UHMTUButton;
 	_parentFrame = parentFrame;
 	_parentFrame->publicInt++;
 
-	Bind(wxEVT_CLOSE_WINDOW, &UHMTUFrame::UI_OnClose, this);
+	Bind(wxEVT_CLOSE_WINDOW, &OptimizeMtuFrame::UI_OnClose, this);
 
 	UI_CreateControls();
 	UI_BindEventHandlers();
 
 }
 
-void UHMTUFrame::API_UI_ReportStatus(std::wstring status)
+void OptimizeMtuFrame::API_UI_ReportStatus(std::wstring status)
 {
 	textCtrl->AppendText(status);
 }
 
-void UHMTUFrame::API_UI_ReportMTU_IPv4(int mtu)
+void OptimizeMtuFrame::API_UI_ReportMTU_IPv4(int mtu)
 {
 	nowState_IPv4->SetLabelText(std::to_string(mtu));
 	attemptNumber_IPv4 += 1;
 }
 
-void UHMTUFrame::API_UI_ReportMTU_IPv6(int mtu)
+void OptimizeMtuFrame::API_UI_ReportMTU_IPv6(int mtu)
 {
 	nowState_IPv6->SetLabelText(std::to_string(mtu));
 	attemptNumber_IPv6 += 1;
 }
 
-void UHMTUFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
+void OptimizeMtuFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
 {
 	if (attemptNumber_IPv4 != 0 && attemptNumber_IPv6 != 0) {
 		pass = true;
@@ -57,7 +57,7 @@ void UHMTUFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
 	beginButton->Enable(true);
 }
 
-void UHMTUFrame::UI_OnClose(wxCloseEvent& event)
+void OptimizeMtuFrame::UI_OnClose(wxCloseEvent& event)
 {
 	if (_parentButton != nullptr) {
 		_parentButton->Enable(true);
@@ -66,12 +66,12 @@ void UHMTUFrame::UI_OnClose(wxCloseEvent& event)
 	event.Skip();
 }
 
-void UHMTUFrame::UI_OnComboBoxSelect(wxCommandEvent& event)
+void OptimizeMtuFrame::UI_OnComboBoxSelect(wxCommandEvent& event)
 {
 
 }
 
-void UHMTUFrame::UI_OnStartButtonClick(wxCommandEvent& event)
+void OptimizeMtuFrame::UI_OnStartButtonClick(wxCommandEvent& event)
 {
 	beginButton->Enable(false);
 	m_comboBox->Enable(false);
@@ -82,7 +82,7 @@ void UHMTUFrame::UI_OnStartButtonClick(wxCommandEvent& event)
 		attemptNumber_IPv6 = 0;
 		nowState_IPv4->SetLabelText(DefaultState);
 		nowState_IPv6->SetLabelText(DefaultState);
-		std::thread t1(&UHMTUFrame::API_SRV_StartMeasureMTU, this, inputText1);
+		std::thread t1(&OptimizeMtuFrame::API_SRV_StartMeasureMTU, this, inputText1);
 		t1.detach();
 	}
 	else {
@@ -92,7 +92,7 @@ void UHMTUFrame::UI_OnStartButtonClick(wxCommandEvent& event)
 	}
 }
 
-void UHMTUFrame::UI_CreateControls()
+void OptimizeMtuFrame::UI_CreateControls()
 {
 	UI_staticText();
 	UI_HintButton();
@@ -104,7 +104,7 @@ void UHMTUFrame::UI_CreateControls()
 	UI_CloseButton();
 }
 
-void UHMTUFrame::UI_staticText()
+void OptimizeMtuFrame::UI_staticText()
 {
 	wxString firstStaticText = _("Choose target address");
 	wxStaticText* staticText = new wxStaticText(panel, wxID_ANY, firstStaticText);
@@ -114,14 +114,14 @@ void UHMTUFrame::UI_staticText()
 	staticText->SetFont(font);
 }
 
-void UHMTUFrame::UI_HintButton()
+void OptimizeMtuFrame::UI_HintButton()
 {
 	wxButton* hintButton = new wxButton(panel, wxID_ANY, "?");
 	hintButton->SetPosition(wxPoint(200, 22));
 	hintButton->SetSize(wxSize(20, 20));
 }
 
-void UHMTUFrame::UI_UserTextCtrl()
+void OptimizeMtuFrame::UI_UserTextCtrl()
 {
 	choices.Add("10.255.60.1");
 	m_comboBox = new wxComboBox(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, choices, wxCB_DROPDOWN);
@@ -130,7 +130,7 @@ void UHMTUFrame::UI_UserTextCtrl()
 	m_comboBox->SetSize(wxSize(300, 20));
 }
 
-void UHMTUFrame::UI_BeginButton()
+void OptimizeMtuFrame::UI_BeginButton()
 {
 	wxString beginButtonText = _("Start");
 	beginButton = new wxButton(panel, wxID_ANY, beginButtonText);
@@ -138,14 +138,14 @@ void UHMTUFrame::UI_BeginButton()
 	beginButton->SetSize(wxSize(50, 25));
 }
 
-void UHMTUFrame::UI_SystemPointText()
+void OptimizeMtuFrame::UI_SystemPointText()
 {
 	textCtrl = new wxTextCtrl(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
 	textCtrl->SetPosition(wxPoint(20, 100));
 	textCtrl->SetSize(wxSize(500, 250));
 }
 
-void UHMTUFrame::UI_StaticTextIP()
+void OptimizeMtuFrame::UI_StaticTextIP()
 {
 	wxString staticText4 = "IPv4:";
 	wxString staticText6 = "IPv6:";
@@ -165,7 +165,7 @@ void UHMTUFrame::UI_StaticTextIP()
 	staticTextIP6->SetFont(font);
 }
 
-void UHMTUFrame::UI_IPState()
+void OptimizeMtuFrame::UI_IPState()
 {
 	DefaultState = _("Waiting for value...");
 
@@ -188,17 +188,17 @@ void UHMTUFrame::UI_IPState()
 	}
 }
 
-void UHMTUFrame::UI_CloseButton()
+void OptimizeMtuFrame::UI_CloseButton()
 {
 	wxString closeButtonText = _("Close");
 	wxButton* closeButton = new wxButton(panel, wxID_ANY, closeButtonText);
 	closeButton->SetPosition(wxPoint(480, 400));
 	closeButton->SetSize(wxSize(100, 25));
-	//closeButton->Bind(wxEVT_BUTTON, &UHMTUFrame::UI_OnClose, this);
+	//closeButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::UI_OnClose, this);
 
 }
 
-void UHMTUFrame::UI_BindEventHandlers()
+void OptimizeMtuFrame::UI_BindEventHandlers()
 {
-	beginButton->Bind(wxEVT_BUTTON, &UHMTUFrame::UI_OnStartButtonClick, this);
+	beginButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::UI_OnStartButtonClick, this);
 }

@@ -31,7 +31,7 @@ bool App::OnInit() {
 	bool localeAllOk = true;
 	localeAllOk = localeAllOk && locale->AddCatalog(wxT("tinc-game-App"));
 	localeAllOk = localeAllOk && locale->AddCatalog(wxT("tinc-game-MainFrame"));
-	localeAllOk = localeAllOk && locale->AddCatalog(wxT("tinc-game-UHMTUFrame"));
+	localeAllOk = localeAllOk && locale->AddCatalog(wxT("tinc-game-OptimizeMtuFrame"));
 	localeAllOk = localeAllOk && locale->AddCatalog(wxT("tinc-game-SettingsFrame"));
 
 	localeAllOk = localeAllOk && locale->IsOk();

@@ -21,7 +21,7 @@
     <ClInclude Include="MainFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UHMTUFrame.h">
+    <ClInclude Include="OptimizeMtuFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ReturnValue.h">
@@ -44,13 +44,13 @@
     <ClCompile Include="MainFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UHMTUFrame.cpp">
+    <ClCompile Include="OptimizeMtuFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UHMTUFrame_SRV.cpp">
+    <ClCompile Include="OptimizeMtuFrame_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UHMTUFrame_Test.cpp">
+    <ClCompile Include="OptimizeMtuFrame_Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SettingsFrame.cpp">

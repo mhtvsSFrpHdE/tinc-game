@@ -1,6 +1,6 @@
 #include "boost/process.hpp"
 #include <boost/process/windows.hpp>
-#include "UHMTUFrame.h"
+#include "OptimizeMtuFrame.h"
 #include <sstream>
 #include <thread>
 
@@ -12,7 +12,7 @@ struct MeasureMtuResult {
 	};
 };
 
-ReturnValue<CheckAddressFormatResult::Enum> UHMTUFrame::API_SRV_CheckAddressFormat(std::wstring ipAddress)
+ReturnValue<CheckAddressFormatResult::Enum> OptimizeMtuFrame::API_SRV_CheckAddressFormat(std::wstring ipAddress)
 {
 	ReturnValue<CheckAddressFormatResult::Enum> result(
 		false,
@@ -83,7 +83,7 @@ std::wstring ParseLocalStringToWstring(std::string input) {
 	return std::wstring(input.begin(), input.end());
 }
 
-MeasureMtuResult::Enum MeasureMTU(std::wstring ipAddress, int mtu, UHMTUFrame* frame) {
+MeasureMtuResult::Enum MeasureMTU(std::wstring ipAddress, int mtu, OptimizeMtuFrame* frame) {
 	const int PING_OVERHEAD = 28;
 	auto pingMtu = mtu - PING_OVERHEAD;
 	auto result = MeasureMtuResult::MeasureMTU_NoResult;
@@ -99,20 +99,20 @@ MeasureMtuResult::Enum MeasureMTU(std::wstring ipAddress, int mtu, UHMTUFrame* f
 		// "Reply from <ip address>: bytes=..."
 		if (line.find(std::string(": b")) != std::string::npos) {
 			auto wline = ParseLocalStringToWstring(line);
-			frame->CallAfter(&UHMTUFrame::API_UI_ReportStatus, wline);
+			frame->CallAfter(&OptimizeMtuFrame::API_UI_ReportStatus, wline);
 			result = MeasureMtuResult::MeasureMTU_Pass;
 			continue;
 		}
 		// "Request timed out." || "Reply from <ip address>: Destination host unreachable."
 		if (line.length() == 19 || line.find(std::string(": D")) != std::string::npos) {
 			auto wline = ParseLocalStringToWstring(line);
-			frame->CallAfter(&UHMTUFrame::API_UI_ReportStatus, wline);
+			frame->CallAfter(&OptimizeMtuFrame::API_UI_ReportStatus, wline);
 			continue;
 		}
 		// "Packet needs to be fragmented but DF set."
 		if (line.length() == 42 && line[34] == 'D' && line[35] == 'F') {
 			auto wline = ParseLocalStringToWstring(line);
-			frame->CallAfter(&UHMTUFrame::API_UI_ReportStatus, wline);
+			frame->CallAfter(&OptimizeMtuFrame::API_UI_ReportStatus, wline);
 			result = MeasureMtuResult::MeasureMTU_DF;
 			continue;
 		}
@@ -128,7 +128,7 @@ MeasureMtuResult::Enum MeasureMTU(std::wstring ipAddress, int mtu, UHMTUFrame* f
 /// <param name="min"></param>
 /// <param name="max"></param>
 /// <returns></returns>
-int MtuHalfSearch(std::wstring ipAddress, UHMTUFrame* frame, int min = 576, int max = 1500) {
+int MtuHalfSearch(std::wstring ipAddress, OptimizeMtuFrame* frame, int min = 576, int max = 1500) {
 	// This algorithm can't properly handle mid == max
 	// Set a delicated upper boundary to let max fall into range between min and upper boundary
 	int upperBoundary = max + 1;
@@ -206,16 +206,16 @@ int MtuHalfSearch(std::wstring ipAddress, UHMTUFrame* frame, int min = 576, int 
 	return recentSuccessValue;
 }
 
-void UHMTUFrame::API_SRV_StartMeasureMTU(std::wstring ipAddress)
+void OptimizeMtuFrame::API_SRV_StartMeasureMTU(std::wstring ipAddress)
 {
 	auto mtuResult = MtuHalfSearch(ipAddress, this);
 
 	if (mtuResult != 0) {
 		const int IPV6_OVERHEAD = 20;
-		CallAfter(&UHMTUFrame::API_UI_ReportMTU_IPv6, mtuResult - IPV6_OVERHEAD);
-		CallAfter(&UHMTUFrame::API_UI_EndMeasureMTU, true, L"");
+		CallAfter(&OptimizeMtuFrame::API_UI_ReportMTU_IPv6, mtuResult - IPV6_OVERHEAD);
+		CallAfter(&OptimizeMtuFrame::API_UI_EndMeasureMTU, true, L"");
 	}
 	else {
-		CallAfter(&UHMTUFrame::API_UI_EndMeasureMTU, false, L"Check your connection or use another IP address\r");
+		CallAfter(&OptimizeMtuFrame::API_UI_EndMeasureMTU, false, L"Check your connection or use another IP address\r");
 	}
 }

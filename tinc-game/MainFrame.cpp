@@ -1,6 +1,6 @@
 ﻿#include "MainFrame.h"
 #include <wx/spinctrl.h>
-#include "UHMTUFrame.h"
+#include "OptimizeMtuFrame.h"
 #include "SettingsFrame.h"
 #include <wx/dialog.h>
 
@@ -88,7 +88,7 @@ void MainFrame::ButtonNoEven(wxCommandEvent& evt)
 
 void MainFrame::OpenNewWindow()
 {
-	UHMTUFrame* UHMTUframe = new UHMTUFrame(this, _("Optimize MTU"));
+	OptimizeMtuFrame* UHMTUframe = new OptimizeMtuFrame(this, _("Optimize MTU"));
 	UHMTUframe->SetClientSize(600, 450);
 	UHMTUframe->Center();
 	UHMTUframe->Show();

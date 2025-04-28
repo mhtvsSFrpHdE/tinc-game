@@ -17,10 +17,10 @@ struct CheckAddressFormatResult {
 	};
 };
 
-class UHMTUFrame : public wxFrame
+class OptimizeMtuFrame : public wxFrame
 {
 public:
-	UHMTUFrame(MainFrame* parentFrame, wxString frameTitle);
+	OptimizeMtuFrame(MainFrame* parentFrame, wxString frameTitle);
 
 	// UI to SRV
 	static ReturnValue<CheckAddressFormatResult::Enum> API_SRV_CheckAddressFormat(std::wstring ipAddress);
