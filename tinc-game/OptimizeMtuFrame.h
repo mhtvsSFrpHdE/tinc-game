@@ -32,16 +32,6 @@ private:
 
 	wxPanel* panel = new wxPanel(this);
 
-	//UIControls
-	void UI_CreateControls();
-	void UI_BindEventHandlers();
-	//Measure
-	int attemptNumber_IPv4 = 0;
-	int attemptNumber_IPv6 = 0;
-	bool pass = false;
-	wxString DefaultState = _("Waiting for value...");
-
-
 	wxComboBox* chooseTargetAddress_ComboBox;
 	wxButton* startButton;
 	wxButton* closeButton;
@@ -49,16 +39,24 @@ private:
 	wxStaticText* mtuValue_IPv6 = nullptr;
 	wxTextCtrl* liveLog;
 
+	void Init_CreateControls();
+	void Init_BindEventHandlers();
+
+	void OnClose(wxCloseEvent& event);
+	void OnComboBoxSelect(wxCommandEvent& event);
+	void OnStartButtonClick(wxCommandEvent& event);
+	void OnCloseButtonClick(wxCommandEvent& event);
+
+	//Measure
+	int attemptNumber_IPv4 = 0;
+	int attemptNumber_IPv6 = 0;
+	bool pass = false;
+	wxString DefaultState = _("Waiting for value...");
+
 	bool Judgment = false;
 
 	wxStaticText* staticText2;
 	int isOptionChanged = 2;
-
-	//UI_Event
-	void UI_OnClose(wxCloseEvent& event);
-	void UI_OnComboBoxSelect(wxCommandEvent& event);
-	void UI_OnStartButtonClick(wxCommandEvent& event);
-	void UI_OnCloseButtonClick(wxCommandEvent& event);
 };
 
 class OptimizeMtuFrameTest {

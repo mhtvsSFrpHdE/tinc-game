@@ -10,11 +10,8 @@ OptimizeMtuFrame::OptimizeMtuFrame(MainFrame* parentFrame, wxString frameTitle) 
 	_parentFrame = parentFrame;
 	_parentFrame->openedFrameCount++;
 
-	Bind(wxEVT_CLOSE_WINDOW, &OptimizeMtuFrame::UI_OnClose, this);
-
-	UI_CreateControls();
-	UI_BindEventHandlers();
-
+	Init_CreateControls();
+	Init_BindEventHandlers();
 }
 
 void OptimizeMtuFrame::API_UI_ReportStatus(std::wstring status)
@@ -56,45 +53,7 @@ void OptimizeMtuFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
 	startButton->Enable(true);
 }
 
-void OptimizeMtuFrame::UI_OnClose(wxCloseEvent& event)
-{
-	_parentFrame->optimizeMtuButton->Enable(true);
-	_parentFrame->openedFrameCount--;
-	event.Skip();
-}
-
-void OptimizeMtuFrame::UI_OnComboBoxSelect(wxCommandEvent& event)
-{
-
-}
-
-void OptimizeMtuFrame::UI_OnStartButtonClick(wxCommandEvent& event)
-{
-	startButton->Enable(false);
-	chooseTargetAddress_ComboBox->Enable(false);
-	wxString inputText = chooseTargetAddress_ComboBox->GetValue();
-	std::wstring inputText1 = inputText.ToStdWstring();
-	if (API_SRV_CheckAddressFormat(inputText1).success) {
-		attemptNumber_IPv4 = 0;
-		attemptNumber_IPv6 = 0;
-		mtuValue_IPv4->SetLabelText(DefaultState);
-		mtuValue_IPv6->SetLabelText(DefaultState);
-		std::thread t1(&OptimizeMtuFrame::API_SRV_StartMeasureMTU, this, inputText1);
-		t1.detach();
-	}
-	else {
-		wxMessageDialog(this, _("Invalid IP address or domain")).ShowModal();
-		startButton->Enable(true);
-		chooseTargetAddress_ComboBox->Enable(true);
-	}
-}
-
-void OptimizeMtuFrame::UI_OnCloseButtonClick(wxCommandEvent& event)
-{
-	Close();
-}
-
-void OptimizeMtuFrame::UI_CreateControls()
+void OptimizeMtuFrame::Init_CreateControls()
 {
 	{
 		wxStaticText* chooseTargetAddress_StaticText = new wxStaticText(panel, wxID_ANY, _("Choose target address"));
@@ -169,8 +128,47 @@ void OptimizeMtuFrame::UI_CreateControls()
 	}
 }
 
-void OptimizeMtuFrame::UI_BindEventHandlers()
+void OptimizeMtuFrame::Init_BindEventHandlers()
 {
-	startButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::UI_OnStartButtonClick, this);
-	closeButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::UI_OnCloseButtonClick, this);
+	Bind(wxEVT_CLOSE_WINDOW, &OptimizeMtuFrame::OnClose, this);
+	startButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::OnStartButtonClick, this);
+	closeButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::OnCloseButtonClick, this);
+}
+
+void OptimizeMtuFrame::OnClose(wxCloseEvent& event)
+{
+	_parentFrame->optimizeMtuButton->Enable(true);
+	_parentFrame->openedFrameCount--;
+	event.Skip();
+}
+
+void OptimizeMtuFrame::OnComboBoxSelect(wxCommandEvent& event)
+{
+
+}
+
+void OptimizeMtuFrame::OnStartButtonClick(wxCommandEvent& event)
+{
+	startButton->Enable(false);
+	chooseTargetAddress_ComboBox->Enable(false);
+	wxString inputText = chooseTargetAddress_ComboBox->GetValue();
+	std::wstring inputText1 = inputText.ToStdWstring();
+	if (API_SRV_CheckAddressFormat(inputText1).success) {
+		attemptNumber_IPv4 = 0;
+		attemptNumber_IPv6 = 0;
+		mtuValue_IPv4->SetLabelText(DefaultState);
+		mtuValue_IPv6->SetLabelText(DefaultState);
+		std::thread t1(&OptimizeMtuFrame::API_SRV_StartMeasureMTU, this, inputText1);
+		t1.detach();
+	}
+	else {
+		wxMessageDialog(this, _("Invalid IP address or domain")).ShowModal();
+		startButton->Enable(true);
+		chooseTargetAddress_ComboBox->Enable(true);
+	}
+}
+
+void OptimizeMtuFrame::OnCloseButtonClick(wxCommandEvent& event)
+{
+	Close();
 }
