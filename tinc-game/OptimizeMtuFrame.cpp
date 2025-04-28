@@ -7,7 +7,7 @@
 #include <codecvt>
 
 OptimizeMtuFrame::OptimizeMtuFrame(MainFrame* parentFrame, wxString frameTitle) : wxFrame(nullptr, wxID_ANY, frameTitle) {
-	_parentButton = parentFrame->UHMTUButton;
+	_parentButton = parentFrame->optimizeMtuButton;
 	_parentFrame = parentFrame;
 	_parentFrame->publicInt++;
 

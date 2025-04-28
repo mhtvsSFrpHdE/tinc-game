@@ -26,7 +26,7 @@ void MainFrame::Init_CreateControls()
 	panel->SetFont(mainFont);
 
 	wxString wideString = _("Optimize MTU");
-	wxButton * UHMTUButton = new wxButton(panel, wxID_ANY, wideString, wxDefaultPosition, wxSize(300, 100));
+	wxButton * optimizeMtuButton = new wxButton(panel, wxID_ANY, wideString, wxDefaultPosition, wxSize(300, 100));
 
 	wxString setting = _("Settings");
 	SettingsButton = new wxButton(panel, wxID_ANY, setting, wxDefaultPosition, wxSize(100, 50));
@@ -34,7 +34,7 @@ void MainFrame::Init_CreateControls()
 
 void MainFrame::Init_BindEventHandlers()
 {
-	UHMTUButton->Bind(wxEVT_BUTTON, &MainFrame::OnUHMTUButton, this);
+	optimizeMtuButton->Bind(wxEVT_BUTTON, &MainFrame::OnUHMTUButton, this);
 	SettingsButton->Bind(wxEVT_BUTTON, &MainFrame::OnSettingsButton, this);
 }
 
@@ -56,7 +56,7 @@ void MainFrame::Init_Layout()
 	gridSizer->Add(placeholder, 0, wxEXPAND);
 
 
-	gridSizer->Add(UHMTUButton, flags);
+	gridSizer->Add(optimizeMtuButton, flags);
 
 	panel->SetSizer(gridSizer);
 }
@@ -83,7 +83,7 @@ void MainFrame::OnSettingsButton(wxCommandEvent& evt)
 
 void MainFrame::ButtonNoEven(wxCommandEvent& evt)
 {
-	UHMTUButton->SetToolTip(_("Please do not click repeatedly!"));
+	optimizeMtuButton->SetToolTip(_("Please do not click repeatedly!"));
 }
 
 void MainFrame::OpenNewWindow()

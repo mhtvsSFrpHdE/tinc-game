@@ -22,7 +22,7 @@ public:
 
 	int publicInt = 0;
 
-	wxButton* UHMTUButton;
+	wxButton* optimizeMtuButton;
 	wxButton* SettingsButton;
 	wxButton* languageButton;
 	wxPanel* panel;
