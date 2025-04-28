@@ -24,7 +24,6 @@ public:
 
 	wxButton* optimizeMtuButton;
 	wxButton* settingsButton;
-	wxButton* languageButton;
 	wxPanel* panel;
 };
 
