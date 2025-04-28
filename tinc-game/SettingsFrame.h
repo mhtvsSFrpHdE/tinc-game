@@ -5,10 +5,12 @@
 class SettingsFrame : public wxFrame
 {
 public:
-	wxPanel* panel = new wxPanel(this);
 	SettingsFrame(MainFrame* parentFrame, wxString frameTitl);
 private:
 	wxWindowDisabler makeModal;
+
+	wxPanel* panel = new wxPanel(this);
+
 	wxButton* _parentButton = nullptr;
 	MainFrame* _parentFrame = nullptr;
 	wxComboBox* languageChoice;
