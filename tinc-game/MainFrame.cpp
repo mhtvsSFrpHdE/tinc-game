@@ -4,15 +4,6 @@
 #include "SettingsFrame.h"
 #include <wx/dialog.h>
 
-void MainFrame::buttonHint()
-{
-	wxString buttonHint = _("Close all windows before enter setting interface.");
-	wxString title = _("hint");
-	wxMessageDialog* dial = new wxMessageDialog(NULL,
-		buttonHint, title, wxOK);
-	dial->ShowModal();
-}
-
 MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) {
 	Init_CreateControls();
 	Init_BindEventHandlers();
@@ -76,9 +67,18 @@ void MainFrame::OnSettingsButton(wxCommandEvent& evt)
 		OpenSettingsWindow();
 	}
 	else {
-		buttonHint();
+		OnSettingsButton_OtherWindowExists();
 	}
 
+}
+
+void MainFrame::OnSettingsButton_OtherWindowExists()
+{
+	wxString buttonHint = _("Close all windows before enter setting interface.");
+	wxString title = _("hint");
+	wxMessageDialog* dial = new wxMessageDialog(NULL,
+		buttonHint, title, wxOK);
+	dial->ShowModal();
 }
 
 void MainFrame::ButtonNoEven(wxCommandEvent& evt)

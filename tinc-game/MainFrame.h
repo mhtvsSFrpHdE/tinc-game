@@ -4,7 +4,6 @@
 class MainFrame : public wxFrame
 {
 public:
-	void buttonHint();
 	MainFrame(const wxString& title);
 
 	void Init_CreateControls();
@@ -13,6 +12,7 @@ public:
 
 	void OnOptimizeMtuButton(wxCommandEvent& evt);
 	void OnSettingsButton(wxCommandEvent& evt);
+	void OnSettingsButton_OtherWindowExists();
 
 	void ButtonNoEven(wxCommandEvent& evt);
 
