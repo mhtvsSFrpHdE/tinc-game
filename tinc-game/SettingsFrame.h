@@ -13,8 +13,8 @@ private:
 
 	wxPanel* panel = new wxPanel(this);
 
-	wxComboBox* languageChoice;
-	wxButton* FinishButton;
+	wxComboBox* chooseLanguage_ComboBox;
+	wxButton* confirmButton;
 
 	void UI_CreateControls();
 	void UI_BindEventHandlers();
