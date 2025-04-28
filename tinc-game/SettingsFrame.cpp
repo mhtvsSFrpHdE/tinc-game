@@ -17,57 +17,50 @@ SettingsFrame::SettingsFrame(MainFrame* parentFrame, wxString frameTitle) : wxFr
 
 void SettingsFrame::UI_CreateControls()
 {
-	UI_staticText1();
-	UI_languageChoice();
-	UI_FinishButton();
-}
+	{
+		wxString staticText1 = _("language");
+		wxStaticText* languageChoice = new wxStaticText(panel, wxID_ANY, staticText1);
+		languageChoice->SetPosition(wxPoint(20, 20));
 
-void SettingsFrame::UI_staticText1()
-{
-	wxString staticText1 = _("language");
-	wxStaticText* languageChoice = new wxStaticText(panel, wxID_ANY, staticText1);
-	languageChoice->SetPosition(wxPoint(20, 20));
+		languageChoice->SetSize(wxSize(50, 40));
 
-	languageChoice->SetSize(wxSize(50, 40));
+		wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 
-	wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+		languageChoice->SetFont(font);
+	}
 
-	languageChoice->SetFont(font);
-}
+	{
+		int value;
+		Settings_SRV::config->Read(SettingKeys::language, &value);
 
-void SettingsFrame::UI_FinishButton()
-{
-	wxString ButtonText = _("Confirm");
-	FinishButton = new wxButton(panel, wxID_ANY, ButtonText);
-	FinishButton->SetPosition(wxPoint(250, 400));
-	FinishButton->SetSize(wxSize(100, 40));
+		wxArrayString choices;
+		choices.Add(_("Auto (System Default)"));
+		choices.Add("English");
+		choices.Add(wxT("简体中文"));
 
-	wxFont buttonFont = FinishButton->GetFont();
-	buttonFont.SetPointSize(15);
-	FinishButton->SetFont(buttonFont);
-}
-
-void SettingsFrame::UI_languageChoice()
-{
-	int value;
-	Settings_SRV::config->Read(SettingKeys::language, &value);
-
-	wxArrayString choices;
-	choices.Add(_("Auto (System Default)"));
-	choices.Add("English");
-	choices.Add(wxT("简体中文"));
-
-	languageChoice = new wxComboBox(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, choices, wxCB_DROPDOWN);
-	languageChoice->SetPosition(wxPoint(100, 20));
-	languageChoice->SetSelection(0);
-	if (value == wxLANGUAGE_UNKNOWN) {
+		languageChoice = new wxComboBox(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, choices, wxCB_DROPDOWN);
+		languageChoice->SetPosition(wxPoint(100, 20));
 		languageChoice->SetSelection(0);
+		if (value == wxLANGUAGE_UNKNOWN) {
+			languageChoice->SetSelection(0);
+		}
+		else if (value == wxLANGUAGE_ENGLISH_US) {
+			languageChoice->SetSelection(1);
+		}
+		else if (value == wxLANGUAGE_CHINESE_SIMPLIFIED) {
+			languageChoice->SetSelection(2);
+		}
 	}
-	else if (value == wxLANGUAGE_ENGLISH_US) {
-		languageChoice->SetSelection(1);
-	}
-	else if (value == wxLANGUAGE_CHINESE_SIMPLIFIED) {
-		languageChoice->SetSelection(2);
+
+	{
+		wxString ButtonText = _("Confirm");
+		FinishButton = new wxButton(panel, wxID_ANY, ButtonText);
+		FinishButton->SetPosition(wxPoint(250, 400));
+		FinishButton->SetSize(wxSize(100, 40));
+
+		wxFont buttonFont = FinishButton->GetFont();
+		buttonFont.SetPointSize(15);
+		FinishButton->SetFont(buttonFont);
 	}
 }
 

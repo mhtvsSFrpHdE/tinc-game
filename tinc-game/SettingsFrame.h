@@ -17,14 +17,9 @@ private:
 	wxButton* FinishButton;
 
 	void UI_CreateControls();
-	void UI_staticText1();
-	void UI_FinishButton();
-	void UI_languageChoice();
 	void UI_BindEventHandlers();
 
 	void UI_OnClose(wxCloseEvent& event);
 
 	void UI_OnFinshButtonClick(wxCommandEvent& event);
 };
-
-
