@@ -74,5 +74,5 @@ void SettingsFrame::OnConfirmButtonClick(wxCommandEvent& event)
 	int selectedIndex = chooseLanguage_ComboBox->GetSelection();
 	Settings_SRV::WriteLanguage(selectedIndex);
 
-	Destroy();
+	Close();
 }
