@@ -101,8 +101,3 @@ void MainFrame::OnSettingsButton_OtherWindowExists()
 		buttonHint, title, wxOK);
 	dial->ShowModal();
 }
-
-void MainFrame::ButtonNoEven(wxCommandEvent& evt)
-{
-	optimizeMtuButton->SetToolTip(_("Please do not click repeatedly!"));
-}
