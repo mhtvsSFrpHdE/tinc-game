@@ -7,9 +7,9 @@ public:
 	void buttonHint();
 	MainFrame(const wxString& title);
 
-	void BindEventHandlers();
-	void CreateControls();
-	void SetUpSizers();
+	void Init_CreateControls();
+	void Init_BindEventHandlers();
+	void Init_Layout();
 
 	void OnUHMTUButton(wxCommandEvent& evt);
 	void OnSettingsButton(wxCommandEvent& evt);

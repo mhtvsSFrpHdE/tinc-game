@@ -14,18 +14,12 @@ void MainFrame::buttonHint()
 }
 
 MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) {
-	CreateControls();
-	BindEventHandlers();
-	SetUpSizers();
+	Init_CreateControls();
+	Init_BindEventHandlers();
+	Init_Layout();
 }
 
-void MainFrame::BindEventHandlers()
-{
-	UHMTUButton->Bind(wxEVT_BUTTON, &MainFrame::OnUHMTUButton, this);
-	SettingsButton->Bind(wxEVT_BUTTON, &MainFrame::OnSettingsButton, this);
-}
-
-void MainFrame::CreateControls()
+void MainFrame::Init_CreateControls()
 {
 	wxFont mainFont(wxFontInfo(wxSize(0, 24)));
 	panel = new wxPanel(this);
@@ -38,8 +32,13 @@ void MainFrame::CreateControls()
 	SettingsButton = new wxButton(panel, wxID_ANY, setting, wxDefaultPosition, wxSize(100, 50));
 }
 
-//window layout
-void MainFrame::SetUpSizers()
+void MainFrame::Init_BindEventHandlers()
+{
+	UHMTUButton->Bind(wxEVT_BUTTON, &MainFrame::OnUHMTUButton, this);
+	SettingsButton->Bind(wxEVT_BUTTON, &MainFrame::OnSettingsButton, this);
+}
+
+void MainFrame::Init_Layout()
 {
 	wxGridSizer* gridSizer = new wxGridSizer(3, 3, wxSize(0, 0));
 
