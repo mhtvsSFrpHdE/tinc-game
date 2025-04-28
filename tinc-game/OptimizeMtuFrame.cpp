@@ -7,7 +7,6 @@
 #include <codecvt>
 
 OptimizeMtuFrame::OptimizeMtuFrame(MainFrame* parentFrame, wxString frameTitle) : wxFrame(nullptr, wxID_ANY, frameTitle) {
-	_parentButton = parentFrame->optimizeMtuButton;
 	_parentFrame = parentFrame;
 	_parentFrame->openedFrameCount++;
 
@@ -59,9 +58,7 @@ void OptimizeMtuFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
 
 void OptimizeMtuFrame::UI_OnClose(wxCloseEvent& event)
 {
-	if (_parentButton != nullptr) {
-		_parentButton->Enable(true);
-	}
+	_parentFrame->optimizeMtuButton->Enable(true);
 	_parentFrame->openedFrameCount--;
 	event.Skip();
 }

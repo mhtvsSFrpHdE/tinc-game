@@ -28,15 +28,19 @@ public:
 	void API_UI_EndMeasureMTU(bool success, std::wstring reason);
 
 private:
+	MainFrame* _parentFrame = nullptr;
+
+	wxPanel* panel = new wxPanel(this);
+
+	//UIControls
+	void UI_CreateControls();
+	void UI_BindEventHandlers();
 	//Measure
 	int attemptNumber_IPv4 = 0;
 	int attemptNumber_IPv6 = 0;
 	bool pass = false;
 	wxString DefaultState = _("Waiting for value...");
 
-	wxPanel* panel = new wxPanel(this);
-	wxButton* _parentButton = nullptr;
-	MainFrame* _parentFrame = nullptr;
 
 	wxComboBox* chooseTargetAddress_ComboBox;
 	wxButton* startButton;
@@ -55,10 +59,6 @@ private:
 	void UI_OnComboBoxSelect(wxCommandEvent& event);
 	void UI_OnStartButtonClick(wxCommandEvent& event);
 	void UI_OnCloseButtonClick(wxCommandEvent& event);
-
-	//UIControls
-	void UI_CreateControls();
-	void UI_BindEventHandlers();
 };
 
 class OptimizeMtuFrameTest {
