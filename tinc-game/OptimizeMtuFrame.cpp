@@ -33,21 +33,11 @@ void OptimizeMtuFrame::API_UI_ReportMTU_IPv6(int mtu)
 
 void OptimizeMtuFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
 {
-	bool mtuMeasureSuccess = false;
 	if (reportMtuCount_IPv4 != 0 && reportMtuCount_IPv6 != 0) {
-		mtuMeasureSuccess = true;
 		wxMessageDialog(this, _("MTU measure success")).ShowModal();
-		mtuMeasureSuccess = false;
 	}
 	else {
 		wxMessageDialog(this, _("MTU measure fail")).ShowModal();
-	}
-
-	std::wstring failureCause = L"失败原因";
-
-	if (mtuMeasureSuccess == false) {
-		//wxMessageDialog(this, failureCause).ShowModal();
-		//liveLog->AppendText(failureCause);
 	}
 
 	chooseTargetAddress_ComboBox->Enable(true);
