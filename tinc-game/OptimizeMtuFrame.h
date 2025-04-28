@@ -4,11 +4,6 @@
 #include "ReturnValue.h"
 #include "MainFrame.h"
 
-struct OptionWithID {
-	int id;
-	wxString label;
-};
-
 struct CheckAddressFormatResult {
 	enum Enum {
 		CheckAddressFormat_Other,
