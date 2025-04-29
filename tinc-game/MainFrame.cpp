@@ -84,7 +84,7 @@ void MainFrame::OnSettingsButton(wxCommandEvent& evt)
 
 void MainFrame::OnSettingsButton_OpenSettingsFrame()
 {
-	SettingsFrame* Settingsframe = new SettingsFrame(this, _("Settings"));
+	SettingsFrame* Settingsframe = new SettingsFrame(this);
 	Settingsframe->SetClientSize(600, 450);
 	Settingsframe->Center();
 	Settingsframe->Show();

@@ -5,7 +5,7 @@
 class SettingsFrame : public wxFrame
 {
 public:
-	SettingsFrame(MainFrame* parentFrame, wxString frameTitl);
+	SettingsFrame(MainFrame* parentFrame);
 private:
 	MainFrame* _parentFrame = nullptr;
 
