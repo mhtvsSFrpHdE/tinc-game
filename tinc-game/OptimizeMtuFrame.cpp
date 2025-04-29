@@ -5,6 +5,7 @@
 #include <wx/combobox.h>
 #include <thread>
 #include <codecvt>
+#include "ApplyMtuFrame.h"
 
 OptimizeMtuFrame::OptimizeMtuFrame(MainFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Optimize MTU")) {
 	_parentFrame = parentFrame;
@@ -34,7 +35,10 @@ void OptimizeMtuFrame::API_UI_ReportMTU_IPv6(int mtu)
 void OptimizeMtuFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
 {
 	if (reportMtuCount_IPv4 != 0 && reportMtuCount_IPv6 != 0) {
-		wxMessageDialog(this, _("MTU measure success")).ShowModal();
+		ApplyMtuFrame* applyMtuFrame = new ApplyMtuFrame(this);
+		applyMtuFrame->SetClientSize(320, 240);
+		applyMtuFrame->Center();
+		applyMtuFrame->Show();
 	}
 	else {
 		wxMessageDialog(this, _("MTU measure fail")).ShowModal();

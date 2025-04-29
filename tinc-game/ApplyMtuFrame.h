@@ -3,6 +3,7 @@
 #include "ReturnValue.h"
 #include <vector>
 #include <string>
+#include "OptimizeMtuFrame.h"
 
 struct ApplyMtuResult {
 	enum Enum {
@@ -19,10 +20,15 @@ struct ApplyMtuResult {
 class ApplyMtuFrame : public wxFrame
 {
 public:
-	ApplyMtuFrame();
+	ApplyMtuFrame(OptimizeMtuFrame* parentFrame);
 
 	// UI to SRV
 	static ReturnValue<std::vector<std::wstring>> API_SRV_GetNetworkAdapterList();
 	static ReturnValue<ApplyMtuResult> API_SRV_ApplyMtu(int mtu_IPv4, int mtu_IPv6, std::wstring adapterName);
 	static bool API_SRV_OpenNetworkControlPanel();
+
+private:
+	wxWindowDisabler makeModal;
+
+	wxPanel* panel = new wxPanel(this);
 };

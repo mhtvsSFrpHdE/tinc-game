@@ -1,9 +1,5 @@
 #include "ApplyMtuFrame.h"
 
-ApplyMtuFrame::ApplyMtuFrame()
-{
-}
-
 ReturnValue<std::vector<std::wstring>> ApplyMtuFrame::API_SRV_GetNetworkAdapterList()
 {
     // TODO
