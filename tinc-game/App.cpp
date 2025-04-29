@@ -40,7 +40,7 @@ bool App::OnInit() {
 		language = wxLANGUAGE_ENGLISH_US;
 	}
 
-	MainFrame* mainFrame = new MainFrame(_("Tinc Game Mode"));
+	MainFrame* mainFrame = new MainFrame();
 	mainFrame->SetClientSize(800, 600);
 	mainFrame->Center();
 	mainFrame->Show();

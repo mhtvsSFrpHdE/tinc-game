@@ -4,7 +4,7 @@
 #include "SettingsFrame.h"
 #include <wx/dialog.h>
 
-MainFrame::MainFrame(const wxString& title) : wxFrame(nullptr, wxID_ANY, title) {
+MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
 	Init_CreateControls();
 	Init_BindEventHandlers();
 	Init_Layout();
