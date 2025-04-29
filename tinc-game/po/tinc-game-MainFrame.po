@@ -8,32 +8,35 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-04-18 21:26+0800\n"
-"PO-Revision-Date: 2025-04-19 17:43+0800\n"
+"POT-Creation-Date: 2025-04-29 21:09+0800\n"
+"PO-Revision-Date: 2025-04-29 21:20+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.6\n"
 
-#: MainFrame.cpp:9
+#: MainFrame.cpp:98
 msgid "Close all windows before enter setting interface."
 msgstr "进入设置界面前请关闭所有窗口。"
 
-#: MainFrame.cpp:48 MainFrame.cpp:49 MainFrame.cpp:122
+#: MainFrame.cpp:19
 msgid "Optimize MTU"
 msgstr "优化MTU"
 
-#: MainFrame.cpp:103
-msgid "Please do not click repeatedly!"
-msgstr "请勿重复点击！"
-
-#: MainFrame.cpp:50 MainFrame.cpp:136
+#: MainFrame.cpp:22
 msgid "Settings"
 msgstr "设置"
 
-#: MainFrame.cpp:10
+#: MainFrame.cpp:7
+msgid "Tinc Game Mode"
+msgstr "Tinc游戏加速器"
+
+#: MainFrame.cpp:99
 msgid "hint"
 msgstr "提示"
+
+#~ msgid "Please do not click repeatedly!"
+#~ msgstr "请勿重复点击！"

@@ -47,7 +47,7 @@ void OptimizeMtuFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
 void OptimizeMtuFrame::Init_CreateControls()
 {
 	{
-		wxStaticText* chooseTargetAddress_StaticText = new wxStaticText(panel, wxID_ANY, _("Choose target address"));
+		wxStaticText* chooseTargetAddress_StaticText = new wxStaticText(panel, wxID_ANY, _("Target address"));
 		chooseTargetAddress_StaticText->SetPosition(wxPoint(20, 20));
 		chooseTargetAddress_StaticText->SetSize(wxSize(50, 40));
 		wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
