@@ -9,8 +9,6 @@
 
 SettingsFrame::SettingsFrame(MainFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Settings"))
 {
-	_parentFrame = parentFrame;
-
 	Init_CreateControls();
 	Init_BindEventHandlers();
 }
@@ -58,15 +56,7 @@ void SettingsFrame::Init_CreateControls()
 
 void SettingsFrame::Init_BindEventHandlers()
 {
-	Bind(wxEVT_CLOSE_WINDOW, &SettingsFrame::OnClose, this);
 	confirmButton->Bind(wxEVT_BUTTON, &SettingsFrame::OnConfirmButtonClick, this);
-}
-
-void SettingsFrame::OnClose(wxCloseEvent& event)
-{
-	_parentFrame->settingsButton->Enable(true);
-
-	event.Skip();
 }
 
 void SettingsFrame::OnConfirmButtonClick(wxCommandEvent& event)
