@@ -6,7 +6,7 @@
 #include <thread>
 #include <codecvt>
 
-OptimizeMtuFrame::OptimizeMtuFrame(MainFrame* parentFrame) : wxFrame(nullptr, wxID_ANY, _("Optimize MTU")) {
+OptimizeMtuFrame::OptimizeMtuFrame(MainFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Optimize MTU")) {
 	_parentFrame = parentFrame;
 	_parentFrame->openedFrameCount++;
 

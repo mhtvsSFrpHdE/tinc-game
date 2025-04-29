@@ -7,7 +7,7 @@
 #include <wx/config.h>
 #include "Settings_SRV.h"
 
-SettingsFrame::SettingsFrame(MainFrame* parentFrame) : wxFrame(nullptr, wxID_ANY, _("Settings"))
+SettingsFrame::SettingsFrame(MainFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Settings"))
 {
 	_parentFrame = parentFrame;
 
