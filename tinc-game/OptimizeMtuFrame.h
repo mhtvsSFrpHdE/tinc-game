@@ -35,8 +35,8 @@ private:
 	wxComboBox* chooseTargetAddress_ComboBox;
 	wxButton* startButton;
 	wxButton* closeButton;
-	wxStaticText* mtuValue_IPv4 = nullptr;
-	wxStaticText* mtuValue_IPv6 = nullptr;
+	wxStaticText* mtuValue_IPv4_StaticText = nullptr;
+	wxStaticText* mtuValue_IPv6_StaticText = nullptr;
 	const wxString mtuValue_DefaultText = _("Waiting for value...");
 	wxTextCtrl* liveLog;
 
@@ -47,7 +47,9 @@ private:
 	void OnStartButtonClick(wxCommandEvent& event);
 	void OnCloseButtonClick(wxCommandEvent& event);
 
+	int mtuValue_IPv4 = 0;
 	int reportMtuCount_IPv4 = 0;
+	int mtuValue_IPv6 = 0;
 	int reportMtuCount_IPv6 = 0;
 };
 

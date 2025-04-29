@@ -22,20 +22,22 @@ void OptimizeMtuFrame::API_UI_ReportStatus(std::wstring status)
 
 void OptimizeMtuFrame::API_UI_ReportMTU_IPv4(int mtu)
 {
-	mtuValue_IPv4->SetLabelText(std::to_string(mtu));
+	mtuValue_IPv4 = mtu;
+	mtuValue_IPv4_StaticText->SetLabel(std::to_string(mtu));
 	reportMtuCount_IPv4 += 1;
 }
 
 void OptimizeMtuFrame::API_UI_ReportMTU_IPv6(int mtu)
 {
-	mtuValue_IPv6->SetLabelText(std::to_string(mtu));
+	mtuValue_IPv6 = mtu;
+	mtuValue_IPv6_StaticText->SetLabel(std::to_string(mtu));
 	reportMtuCount_IPv6 += 1;
 }
 
 void OptimizeMtuFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
 {
 	if (reportMtuCount_IPv4 != 0 && reportMtuCount_IPv6 != 0) {
-		ApplyMtuFrame* applyMtuFrame = new ApplyMtuFrame(this);
+		ApplyMtuFrame* applyMtuFrame = new ApplyMtuFrame(this, mtuValue_IPv4, mtuValue_IPv6);
 		applyMtuFrame->SetClientSize(320, 240);
 		applyMtuFrame->Center();
 		applyMtuFrame->Show();
@@ -101,15 +103,15 @@ void OptimizeMtuFrame::Init_CreateControls()
 	{
 		wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 
-		mtuValue_IPv4 = new wxStaticText(panel, wxID_ANY, mtuValue_DefaultText);
-		mtuValue_IPv4->SetPosition(wxPoint(80, 360));
-		mtuValue_IPv4->SetSize(wxSize(50, 40));
-		mtuValue_IPv4->SetFont(font);
+		mtuValue_IPv4_StaticText = new wxStaticText(panel, wxID_ANY, mtuValue_DefaultText);
+		mtuValue_IPv4_StaticText->SetPosition(wxPoint(80, 360));
+		mtuValue_IPv4_StaticText->SetSize(wxSize(50, 40));
+		mtuValue_IPv4_StaticText->SetFont(font);
 
-		mtuValue_IPv6 = new wxStaticText(panel, wxID_ANY, mtuValue_DefaultText);
-		mtuValue_IPv6->SetPosition(wxPoint(80, 380));
-		mtuValue_IPv6->SetSize(wxSize(50, 40));
-		mtuValue_IPv6->SetFont(font);
+		mtuValue_IPv6_StaticText = new wxStaticText(panel, wxID_ANY, mtuValue_DefaultText);
+		mtuValue_IPv6_StaticText->SetPosition(wxPoint(80, 380));
+		mtuValue_IPv6_StaticText->SetSize(wxSize(50, 40));
+		mtuValue_IPv6_StaticText->SetFont(font);
 	}
 
 	{
@@ -144,8 +146,8 @@ void OptimizeMtuFrame::OnStartButtonClick(wxCommandEvent& event)
 	if (API_SRV_CheckAddressFormat(inputText1).success) {
 		reportMtuCount_IPv4 = 0;
 		reportMtuCount_IPv6 = 0;
-		mtuValue_IPv4->SetLabelText(mtuValue_DefaultText);
-		mtuValue_IPv6->SetLabelText(mtuValue_DefaultText);
+		mtuValue_IPv4_StaticText->SetLabelText(mtuValue_DefaultText);
+		mtuValue_IPv6_StaticText->SetLabelText(mtuValue_DefaultText);
 		std::thread t1(&OptimizeMtuFrame::API_SRV_StartMeasureMTU, this, inputText1);
 		t1.detach();
 	}
