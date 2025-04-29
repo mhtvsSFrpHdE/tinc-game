@@ -12,15 +12,23 @@ MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
 
 void MainFrame::Init_CreateControls()
 {
-	wxFont mainFont(wxFontInfo(wxSize(0, 24)));
-	panel = new wxPanel(this);
-	panel->SetFont(mainFont);
+	{
+		wxFont mainFont(wxFontInfo(wxSize(0, 24)));
+		panel = new wxPanel(this);
+		panel->SetFont(mainFont);
+	}
 
-	wxString wideString = _("Optimize MTU");
-	optimizeMtuButton = new wxButton(panel, wxID_ANY, wideString, wxDefaultPosition, wxSize(300, 100));
+	{
+		optimizeMtuButton = new wxButton(panel, wxID_ANY, _("Optimize MTU"));
+		optimizeMtuButton->SetPosition(wxDefaultPosition);
+		optimizeMtuButton->SetSize(wxSize(300, 100));
+	}
 
-	wxString setting = _("Settings");
-	settingsButton = new wxButton(panel, wxID_ANY, setting, wxDefaultPosition, wxSize(100, 50));
+	{
+		settingsButton = new wxButton(panel, wxID_ANY, _("Settings"));
+		settingsButton->SetPosition(wxDefaultPosition);
+		settingsButton->SetSize(wxSize(100, 50));
+	}
 }
 
 void MainFrame::Init_BindEventHandlers()
