@@ -15,7 +15,7 @@ struct CheckAddressFormatResult {
 class OptimizeMtuFrame : public wxFrame
 {
 public:
-	OptimizeMtuFrame(MainFrame* parentFrame, wxString frameTitle);
+	OptimizeMtuFrame(MainFrame* parentFrame);
 
 	// UI to SRV
 	static ReturnValue<CheckAddressFormatResult::Enum> API_SRV_CheckAddressFormat(std::wstring ipAddress);

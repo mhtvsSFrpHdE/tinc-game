@@ -62,7 +62,7 @@ void MainFrame::OnOptimizeMtuButton(wxCommandEvent& evt)
 
 void MainFrame::OnOptimizeMtuButton_OpenOptimizeMtuFrame()
 {
-	OptimizeMtuFrame* OptimizeMtuframe = new OptimizeMtuFrame(this, _("Optimize MTU"));
+	OptimizeMtuFrame* OptimizeMtuframe = new OptimizeMtuFrame(this);
 	OptimizeMtuframe->SetClientSize(600, 450);
 	OptimizeMtuframe->Center();
 	OptimizeMtuframe->Show();
