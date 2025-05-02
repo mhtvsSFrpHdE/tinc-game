@@ -1,3 +1,4 @@
+#include <boost/process.hpp>
 #include "ApplyMtuFrame.h"
 
 ReturnValue<std::vector<std::wstring>> ApplyMtuFrame::API_SRV_GetNetworkAdapterList()
@@ -22,5 +23,13 @@ ReturnValue<ApplyMtuResult> ApplyMtuFrame::API_SRV_ApplyMtu(int mtu_IPv4, int mt
 
 bool ApplyMtuFrame::API_SRV_OpenNetworkControlPanel()
 {
-    return false;
+    using namespace boost::process;
+    try {
+        child c("control.exe ncpa.cpl");
+        c.wait();
+        return true;
+    }
+    catch (...) {
+        return false;
+    }
 }
