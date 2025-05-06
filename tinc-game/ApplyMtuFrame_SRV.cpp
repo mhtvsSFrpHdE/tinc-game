@@ -1,5 +1,9 @@
 #include <boost/process.hpp>
 #include "ApplyMtuFrame.h"
+#include "String_SRV.h"
+#include <codecvt>
+#include "clip.h"
+#pragma comment(lib, "clip.lib")
 
 ReturnValue<std::vector<std::wstring>> ApplyMtuFrame::API_SRV_GetNetworkAdapterList()
 {
@@ -32,4 +36,43 @@ bool ApplyMtuFrame::API_SRV_OpenNetworkControlPanel()
     catch (...) {
         return false;
     }
+}
+
+void ApplyMtuFrame::API_SRV_OpenCommandPrompt()
+{
+    namespace bp = boost::process;
+    try {
+        bp::child process("cmd.exe");
+        process.detach();
+    }
+    catch (...) {
+        return;
+    }
+}
+
+std::wstring ApplyMtuFrame::API_SRV_GetNetshCommand(std::wstring adapterName, int mtu_IPv4, int mtu_IPv6)
+{
+    const std::wstring doubleQuotes = L"\"";
+
+    std::wostringstream netshCommandStringBuilder;
+    netshCommandStringBuilder
+        << L"netsh.exe interface ipv4 set subinterface "
+        << doubleQuotes << adapterName << doubleQuotes
+        << L" mtu=" << std::to_wstring(mtu_IPv4)
+        << L" store=persistent"
+        << L" & "
+        << L"netsh.exe interface ipv6 set subinterface "
+        << doubleQuotes << adapterName << doubleQuotes
+        << L" mtu=" << std::to_wstring(mtu_IPv6)
+        << L" store=persistent";
+    
+    auto netshCommand = netshCommandStringBuilder.str();
+    return netshCommand;
+}
+
+void ApplyMtuFrame::API_SRV_CopyNetshCommand(std::wstring command)
+{
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+    auto commandBytes = conv.to_bytes(command);
+    clip::set_text(commandBytes);
 }

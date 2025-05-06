@@ -26,6 +26,9 @@ public:
 	static ReturnValue<std::vector<std::wstring>> API_SRV_GetNetworkAdapterList();
 	static ReturnValue<ApplyMtuResult> API_SRV_ApplyMtu(int mtu_IPv4, int mtu_IPv6, std::wstring adapterName);
 	static bool API_SRV_OpenNetworkControlPanel();
+	static void API_SRV_OpenCommandPrompt();
+	static std::wstring API_SRV_GetNetshCommand(std::wstring adapterName, int mtu_IPv4, int mtu_IPv6);
+	static void API_SRV_CopyNetshCommand(std::wstring command);
 
 private:
 	int _mtuValue_IPv4 = 0;
@@ -37,6 +40,8 @@ private:
 
 	wxComboBox* chooseTargetInterface = nullptr;
 	wxButton* helpMeDecideButton = nullptr;
+	wxTextCtrl* yourCommand_TextCtrl = nullptr;
+	wxButton* copyButton = nullptr;
 	wxButton* confirmButton = nullptr;
 	wxButton* cancelButton = nullptr;
 
@@ -44,6 +49,8 @@ private:
 	void Init_BindEventHandlers();
 
 	void OnHelpMeDecideButton(wxCommandEvent& evt);
+	void OnChooseTargetInterfaceChange(wxCommandEvent& evt);
+	void OnCopyButton(wxCommandEvent& evt);
 	void OnConfirmButton(wxCommandEvent& evt);
 	void OnCancelButton(wxCommandEvent& evt);
 };
