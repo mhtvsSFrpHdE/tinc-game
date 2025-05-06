@@ -3,6 +3,7 @@
 #include "OptimizeMtuFrame.h"
 #include <sstream>
 #include <thread>
+#include "String_SRV.h"
 
 struct MeasureMtuResult {
 	enum Enum {
@@ -79,10 +80,6 @@ ReturnValue<CheckAddressFormatResult::Enum> OptimizeMtuFrame::API_SRV_CheckAddre
 	}
 }
 
-std::wstring ParseLocalStringToWstring(std::string input) {
-	return std::wstring(input.begin(), input.end());
-}
-
 MeasureMtuResult::Enum MeasureMTU(std::wstring ipAddress, int mtu, OptimizeMtuFrame* frame) {
 	const int PING_OVERHEAD = 28;
 	auto pingMtu = mtu - PING_OVERHEAD;
@@ -98,20 +95,20 @@ MeasureMtuResult::Enum MeasureMTU(std::wstring ipAddress, int mtu, OptimizeMtuFr
 	while (std::getline(is, line)) {
 		// "Reply from <ip address>: bytes=..."
 		if (line.find(std::string(": b")) != std::string::npos) {
-			auto wline = ParseLocalStringToWstring(line);
+			auto wline = String_SRV::ForceToWstring(line);
 			frame->CallAfter(&OptimizeMtuFrame::API_UI_ReportStatus, wline);
 			result = MeasureMtuResult::MeasureMTU_Pass;
 			continue;
 		}
 		// "Request timed out." || "Reply from <ip address>: Destination host unreachable."
 		if (line.length() == 19 || line.find(std::string(": D")) != std::string::npos) {
-			auto wline = ParseLocalStringToWstring(line);
+			auto wline = String_SRV::ForceToWstring(line);
 			frame->CallAfter(&OptimizeMtuFrame::API_UI_ReportStatus, wline);
 			continue;
 		}
 		// "Packet needs to be fragmented but DF set."
 		if (line.length() == 42 && line[34] == 'D' && line[35] == 'F') {
-			auto wline = ParseLocalStringToWstring(line);
+			auto wline = String_SRV::ForceToWstring(line);
 			frame->CallAfter(&OptimizeMtuFrame::API_UI_ReportStatus, wline);
 			result = MeasureMtuResult::MeasureMTU_DF;
 			continue;
