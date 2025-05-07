@@ -17,7 +17,7 @@ void ApplyMtuFrame::Init_CreateControls()
 	chooseAdapter_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Set MTU to network interface"));
 
 	{
-		chooseAdapter_ComboBox = new wxComboBox(rootPanel, wxID_ANY);
+		chooseAdapter_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
 
 		auto getNetworkAdapterList = API_SRV_GetNetworkAdapterList();
 		if (getNetworkAdapterList.success) {
@@ -32,9 +32,10 @@ void ApplyMtuFrame::Init_CreateControls()
 	displayMtu_IPv4 = new wxStaticText(rootPanel, wxID_ANY, wxT("IPv4: ") + std::to_wstring(_mtuValue_IPv4));
 	displayMtu_IPv6 = new wxStaticText(rootPanel, wxID_ANY, wxT("IPv6: ") + std::to_wstring(_mtuValue_IPv6));
 	yourCommand_StaticText = new wxStaticText(rootPanel, wxID_ANY, wxT("Your command"));
-	yourCommand_TextCtrl = new wxTextCtrl(rootPanel, wxID_ANY);
+	yourCommand_TextCtrl = new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
 	yourCommand_CopyButton = new wxButton(rootPanel, wxID_ANY, _("Copy"));
 	navigate_ConfirmButton = new wxButton(rootPanel, wxID_ANY, _("Confirm"));
+	yourCommand_CopyButton->Enable(false);
 	navigate_CancelButton = new wxButton(rootPanel, wxID_ANY, _("Cancel"));
 }
 
@@ -102,6 +103,7 @@ void ApplyMtuFrame::OnChooseTargetInterfaceChange(wxCommandEvent& evt)
 	auto selectedInterfaceName = chooseAdapter_ComboBox->GetStringSelection();
 	auto netshCommand = API_SRV_GetNetshCommand(selectedInterfaceName.ToStdWstring(), _mtuValue_IPv4, _mtuValue_IPv6);
 	yourCommand_TextCtrl->SetLabel(netshCommand);
+	yourCommand_CopyButton->Enable(true);
 }
 
 void ApplyMtuFrame::OnCopyButton(wxCommandEvent& evt)
