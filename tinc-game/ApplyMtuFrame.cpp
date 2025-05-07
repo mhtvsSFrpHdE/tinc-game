@@ -8,78 +8,85 @@ ApplyMtuFrame::ApplyMtuFrame(OptimizeMtuFrame* parentFrame, int mtuValue_IPv4, i
 
 	Init_CreateControls();
 	Init_BindEventHandlers();
+	Init_Layout();
 }
 
 void ApplyMtuFrame::Init_CreateControls()
 {
-	{
-		wxStaticText* setMtuToInterface = new wxStaticText(panel, wxID_ANY, _("Set MTU to network interface"));
-		setMtuToInterface->SetPosition(wxPoint(20, 20));
-	}
+	rootPanel = new wxPanel(this);
+	chooseAdapter_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Set MTU to network interface"));
 
 	{
-		chooseTargetInterface = new wxComboBox(panel, wxID_ANY);
-		chooseTargetInterface->SetPosition(wxPoint(20, 50));
-		chooseTargetInterface->SetSize(wxSize(150, 20));
+		chooseAdapter_ComboBox = new wxComboBox(rootPanel, wxID_ANY);
 
 		auto getNetworkAdapterList = API_SRV_GetNetworkAdapterList();
 		if (getNetworkAdapterList.success) {
 			for (auto& adapterName : getNetworkAdapterList.returnBody)
 			{
-				chooseTargetInterface->Append(adapterName);
+				chooseAdapter_ComboBox->Append(adapterName);
 			}
 		}
 	}
 
-	{
-		helpMeDecideButton = new wxButton(panel, wxID_ANY, _("Help me decide"));
-		helpMeDecideButton->SetPosition(wxPoint(180, 50));
-	}
-
-	{
-		wxStaticText* setMtuToInterface = new wxStaticText(panel, wxID_ANY, wxT("IPv4: ") + std::to_wstring(_mtuValue_IPv4));
-		setMtuToInterface->SetPosition(wxPoint(20, 80));
-	}
-
-	{
-		wxStaticText* setMtuToInterface = new wxStaticText(panel, wxID_ANY, wxT("IPv6: ") + std::to_wstring(_mtuValue_IPv6));
-		setMtuToInterface->SetPosition(wxPoint(20, 110));
-	}
-
-	{
-		wxStaticText* yourCommand = new wxStaticText(panel, wxID_ANY, wxT("Your command"));
-		yourCommand->SetPosition(wxPoint(20, 140));
-	}
-
-	{
-		yourCommand_TextCtrl = new wxTextCtrl(panel, wxID_ANY);
-		yourCommand_TextCtrl->SetPosition(wxPoint(20, 170));
-		yourCommand_TextCtrl->SetSize(wxSize(150, -1));
-	}
-
-	{
-		copyButton = new wxButton(panel, wxID_ANY, _("Copy"));
-		copyButton->SetPosition(wxPoint(180, 170));
-	}
-
-	{
-		confirmButton = new wxButton(panel, wxID_ANY, _("Confirm"));
-		confirmButton->SetPosition(wxPoint(140, 210));
-	}
-
-	{
-		cancelButton = new wxButton(panel, wxID_ANY, _("Cancel"));
-		cancelButton->SetPosition(wxPoint(230, 210));
-	}
+	chooseAdapter_HelpMeDecideButton = new wxButton(rootPanel, wxID_ANY, _("Help me decide"));
+	displayMtu_IPv4 = new wxStaticText(rootPanel, wxID_ANY, wxT("IPv4: ") + std::to_wstring(_mtuValue_IPv4));
+	displayMtu_IPv6 = new wxStaticText(rootPanel, wxID_ANY, wxT("IPv6: ") + std::to_wstring(_mtuValue_IPv6));
+	yourCommand_StaticText = new wxStaticText(rootPanel, wxID_ANY, wxT("Your command"));
+	yourCommand_TextCtrl = new wxTextCtrl(rootPanel, wxID_ANY);
+	yourCommand_CopyButton = new wxButton(rootPanel, wxID_ANY, _("Copy"));
+	navigate_ConfirmButton = new wxButton(rootPanel, wxID_ANY, _("Confirm"));
+	navigate_CancelButton = new wxButton(rootPanel, wxID_ANY, _("Cancel"));
 }
 
 void ApplyMtuFrame::Init_BindEventHandlers()
 {
-	helpMeDecideButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnHelpMeDecideButton, this);
-	chooseTargetInterface->Bind(wxEVT_COMBOBOX, &ApplyMtuFrame::OnChooseTargetInterfaceChange, this);
-	copyButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnCopyButton, this);
-	confirmButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnConfirmButton, this);
-	cancelButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnCancelButton, this);
+	chooseAdapter_HelpMeDecideButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnHelpMeDecideButton, this);
+	chooseAdapter_ComboBox->Bind(wxEVT_COMBOBOX, &ApplyMtuFrame::OnChooseTargetInterfaceChange, this);
+	yourCommand_CopyButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnCopyButton, this);
+	navigate_ConfirmButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnConfirmButton, this);
+	navigate_CancelButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnCancelButton, this);
+}
+
+void ApplyMtuFrame::Init_Layout()
+{
+	this->SetSizeHints(320, 270);
+
+	const int SpaceToFrameBorder = 20;
+	const int SpaceBetweenControl = 10;
+	const int TakeAllSpaceStretchProportion = 100;
+
+	wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
+	rootPanel->SetSizer(rootSizer);
+	rootSizer->Add(0, 0, 0, wxTOP, SpaceToFrameBorder);
+	rootSizer->Add(chooseAdapter_StaticText, 0, wxLEFT, SpaceToFrameBorder);
+	rootSizer->Add(0, 0, 0, wxTOP, SpaceBetweenControl);
+
+	wxBoxSizer* chooseAdapterSizer = new wxBoxSizer(wxHORIZONTAL);
+	rootSizer->Add(chooseAdapterSizer);
+	chooseAdapterSizer->Add(0, 0, 0, wxLEFT, SpaceToFrameBorder);
+	chooseAdapterSizer->Add(chooseAdapter_ComboBox, TakeAllSpaceStretchProportion, wxRIGHT, SpaceBetweenControl);
+	chooseAdapterSizer->Add(chooseAdapter_HelpMeDecideButton, 1, wxRIGHT, SpaceToFrameBorder);
+	rootSizer->Add(0, 0, 0, wxTOP, SpaceBetweenControl);
+
+	rootSizer->Add(displayMtu_IPv4, 0, wxLEFT, SpaceToFrameBorder);
+	rootSizer->Add(0, 0, 0, wxTOP, SpaceBetweenControl);
+	rootSizer->Add(displayMtu_IPv6, 0, wxLEFT, SpaceToFrameBorder);
+	rootSizer->Add(0, 0, 0, wxTOP, SpaceBetweenControl);
+	rootSizer->Add(yourCommand_StaticText, 0, wxLEFT, SpaceToFrameBorder);
+	rootSizer->Add(0, 0, 0, wxTOP, SpaceBetweenControl);
+
+	wxBoxSizer* yourCommandSizer = new wxBoxSizer(wxHORIZONTAL);
+	rootSizer->Add(yourCommandSizer);
+	yourCommandSizer->Add(0, 0, 0, wxLEFT, SpaceToFrameBorder);
+	yourCommandSizer->Add(yourCommand_TextCtrl, TakeAllSpaceStretchProportion, wxRIGHT, SpaceBetweenControl);
+	yourCommandSizer->Add(yourCommand_CopyButton, 1, wxRIGHT, SpaceToFrameBorder);
+	rootSizer->Add(0, 0, 0, wxTOP, SpaceBetweenControl);
+
+	wxBoxSizer* navigateSizer = new wxBoxSizer(wxHORIZONTAL);
+	rootSizer->Add(navigateSizer);
+	navigateSizer->AddStretchSpacer(TakeAllSpaceStretchProportion);
+	navigateSizer->Add(navigate_ConfirmButton, 1, wxRIGHT, SpaceBetweenControl);
+	navigateSizer->Add(navigate_CancelButton, 1, wxRIGHT, SpaceToFrameBorder);
 }
 
 void ApplyMtuFrame::OnHelpMeDecideButton(wxCommandEvent& evt)
@@ -92,7 +99,7 @@ void ApplyMtuFrame::OnHelpMeDecideButton(wxCommandEvent& evt)
 
 void ApplyMtuFrame::OnChooseTargetInterfaceChange(wxCommandEvent& evt)
 {
-	auto selectedInterfaceName = chooseTargetInterface->GetStringSelection();
+	auto selectedInterfaceName = chooseAdapter_ComboBox->GetStringSelection();
 	auto netshCommand = API_SRV_GetNetshCommand(selectedInterfaceName.ToStdWstring(), _mtuValue_IPv4, _mtuValue_IPv6);
 	yourCommand_TextCtrl->SetLabel(netshCommand);
 }
@@ -107,13 +114,13 @@ void ApplyMtuFrame::OnCopyButton(wxCommandEvent& evt)
 void ApplyMtuFrame::OnConfirmButton(wxCommandEvent& evt)
 {
 	const int NO_SELECTION = -1;
-	auto selection = chooseTargetInterface->GetSelection();
+	auto selection = chooseAdapter_ComboBox->GetSelection();
 	if (selection == NO_SELECTION) {
 		wxMessageDialog(this, _("Select network interface before apply MTU values.")).ShowModal();
 		return;
 	}
 
-	auto stringSelection = chooseTargetInterface->GetStringSelection();
+	auto stringSelection = chooseAdapter_ComboBox->GetStringSelection();
 	auto applyMtu = API_SRV_ApplyMtu(_mtuValue_IPv4, _mtuValue_IPv6, stringSelection.ToStdWstring());
 
 	namespace ss = String_SRV;

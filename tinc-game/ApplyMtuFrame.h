@@ -35,17 +35,22 @@ private:
 
 	wxWindowDisabler makeModal;
 
-	wxPanel* panel = new wxPanel(this);
+	wxPanel* rootPanel = nullptr;
 
-	wxComboBox* chooseTargetInterface = nullptr;
-	wxButton* helpMeDecideButton = nullptr;
+	wxStaticText* chooseAdapter_StaticText = nullptr;
+	wxComboBox* chooseAdapter_ComboBox = nullptr;
+	wxButton* chooseAdapter_HelpMeDecideButton = nullptr;
+	wxStaticText* displayMtu_IPv4 = nullptr;
+	wxStaticText* displayMtu_IPv6 = nullptr;
+	wxStaticText* yourCommand_StaticText = nullptr;
 	wxTextCtrl* yourCommand_TextCtrl = nullptr;
-	wxButton* copyButton = nullptr;
-	wxButton* confirmButton = nullptr;
-	wxButton* cancelButton = nullptr;
+	wxButton* yourCommand_CopyButton = nullptr;
+	wxButton* navigate_ConfirmButton = nullptr;
+	wxButton* navigate_CancelButton = nullptr;
 
 	void Init_CreateControls();
 	void Init_BindEventHandlers();
+	void Init_Layout();
 
 	void OnHelpMeDecideButton(wxCommandEvent& evt);
 	void OnChooseTargetInterfaceChange(wxCommandEvent& evt);

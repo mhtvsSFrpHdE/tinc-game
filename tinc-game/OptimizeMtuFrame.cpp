@@ -38,7 +38,6 @@ void OptimizeMtuFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
 {
 	if (reportMtuCount_IPv4 != 0 && reportMtuCount_IPv6 != 0) {
 		ApplyMtuFrame* applyMtuFrame = new ApplyMtuFrame(this, mtuValue_IPv4, mtuValue_IPv6);
-		applyMtuFrame->SetClientSize(320, 240);
 		applyMtuFrame->Center();
 		applyMtuFrame->Show();
 	}
