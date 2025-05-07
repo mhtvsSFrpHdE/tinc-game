@@ -1,5 +1,6 @@
 #include "ApplyMtuFrame.h"
 #include "String_SRV.h"
+#include "Layout_SRV.h"
 
 ApplyMtuFrame::ApplyMtuFrame(OptimizeMtuFrame* parentFrame, int mtuValue_IPv4, int mtuValue_IPv6) : wxFrame(parentFrame, wxID_ANY, _("Apply MTU"))
 {
@@ -50,44 +51,42 @@ void ApplyMtuFrame::Init_BindEventHandlers()
 
 void ApplyMtuFrame::Init_Layout()
 {
-	this->SetSizeHints(320, 270);
+	namespace ls = Layout_SRV;
 
-	const int SpaceToFrameBorder = 20;
-	const int SpaceBetweenControl = 10;
-	const int TakeAllSpaceStretchProportion = 100;
+	this->SetSizeHints(320, 270);
 
 	wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
 	rootPanel->SetSizer(rootSizer);
-	rootSizer->Add(0, 0, 0, wxTOP, SpaceToFrameBorder);
-	rootSizer->Add(chooseAdapter_StaticText, 0, wxLEFT, SpaceToFrameBorder);
-	rootSizer->Add(0, 0, 0, wxTOP, SpaceBetweenControl);
+	ls::AddTopSpacer(rootSizer, ls::SpaceToFrameBorder);
+	rootSizer->Add(chooseAdapter_StaticText, 0, wxLEFT, ls::SpaceToFrameBorder);
+	ls::AddTopSpacer(rootSizer, ls::SpaceBetweenControl);
 
 	wxBoxSizer* chooseAdapterSizer = new wxBoxSizer(wxHORIZONTAL);
 	rootSizer->Add(chooseAdapterSizer);
-	chooseAdapterSizer->Add(0, 0, 0, wxLEFT, SpaceToFrameBorder);
-	chooseAdapterSizer->Add(chooseAdapter_ComboBox, TakeAllSpaceStretchProportion, wxRIGHT, SpaceBetweenControl);
-	chooseAdapterSizer->Add(chooseAdapter_HelpMeDecideButton, 1, wxRIGHT, SpaceToFrameBorder);
-	rootSizer->Add(0, 0, 0, wxTOP, SpaceBetweenControl);
+	ls::AddLeftSpacer(chooseAdapterSizer, ls::SpaceToFrameBorder);
+	chooseAdapterSizer->Add(chooseAdapter_ComboBox, ls::TakeAllSpace, wxRIGHT, ls::SpaceBetweenControl);
+	chooseAdapterSizer->Add(chooseAdapter_HelpMeDecideButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
+	ls::AddTopSpacer(rootSizer, ls::SpaceBetweenControl);
 
-	rootSizer->Add(displayMtu_IPv4, 0, wxLEFT, SpaceToFrameBorder);
-	rootSizer->Add(0, 0, 0, wxTOP, SpaceBetweenControl);
-	rootSizer->Add(displayMtu_IPv6, 0, wxLEFT, SpaceToFrameBorder);
-	rootSizer->Add(0, 0, 0, wxTOP, SpaceBetweenControl);
-	rootSizer->Add(yourCommand_StaticText, 0, wxLEFT, SpaceToFrameBorder);
-	rootSizer->Add(0, 0, 0, wxTOP, SpaceBetweenControl);
+	rootSizer->Add(displayMtu_IPv4, 0, wxLEFT, ls::SpaceToFrameBorder);
+	ls::AddTopSpacer(rootSizer, ls::SpaceBetweenControl);
+	rootSizer->Add(displayMtu_IPv6, 0, wxLEFT, ls::SpaceToFrameBorder);
+	ls::AddTopSpacer(rootSizer, ls::SpaceBetweenControl);
+	rootSizer->Add(yourCommand_StaticText, 0, wxLEFT, ls::SpaceToFrameBorder);
+	ls::AddTopSpacer(rootSizer, ls::SpaceBetweenControl);
 
 	wxBoxSizer* yourCommandSizer = new wxBoxSizer(wxHORIZONTAL);
 	rootSizer->Add(yourCommandSizer);
-	yourCommandSizer->Add(0, 0, 0, wxLEFT, SpaceToFrameBorder);
-	yourCommandSizer->Add(yourCommand_TextCtrl, TakeAllSpaceStretchProportion, wxRIGHT, SpaceBetweenControl);
-	yourCommandSizer->Add(yourCommand_CopyButton, 1, wxRIGHT, SpaceToFrameBorder);
-	rootSizer->Add(0, 0, 0, wxTOP, SpaceBetweenControl);
+	ls::AddLeftSpacer(yourCommandSizer, ls::SpaceToFrameBorder);
+	yourCommandSizer->Add(yourCommand_TextCtrl, ls::TakeAllSpace, wxRIGHT, ls::SpaceBetweenControl);
+	yourCommandSizer->Add(yourCommand_CopyButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
+	ls::AddTopSpacer(rootSizer, ls::SpaceBetweenControl);
 
 	wxBoxSizer* navigateSizer = new wxBoxSizer(wxHORIZONTAL);
 	rootSizer->Add(navigateSizer);
-	navigateSizer->AddStretchSpacer(TakeAllSpaceStretchProportion);
-	navigateSizer->Add(navigate_ApplyButton, 1, wxRIGHT, SpaceBetweenControl);
-	navigateSizer->Add(navigate_CancelButton, 1, wxRIGHT, SpaceToFrameBorder);
+	navigateSizer->AddStretchSpacer(ls::TakeAllSpace);
+	navigateSizer->Add(navigate_ApplyButton, 1, wxRIGHT, ls::SpaceBetweenControl);
+	navigateSizer->Add(navigate_CancelButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
 }
 
 void ApplyMtuFrame::OnHelpMeDecideButton(wxCommandEvent& evt)
