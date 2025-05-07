@@ -34,8 +34,8 @@ void ApplyMtuFrame::Init_CreateControls()
 	yourCommand_StaticText = new wxStaticText(rootPanel, wxID_ANY, wxT("Your command"));
 	yourCommand_TextCtrl = new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
 	yourCommand_CopyButton = new wxButton(rootPanel, wxID_ANY, _("Copy"));
-	navigate_ConfirmButton = new wxButton(rootPanel, wxID_ANY, _("Confirm"));
 	yourCommand_CopyButton->Enable(false);
+	navigate_ApplyButton = new wxButton(rootPanel, wxID_ANY, _("Apply"));
 	navigate_CancelButton = new wxButton(rootPanel, wxID_ANY, _("Cancel"));
 }
 
@@ -44,7 +44,7 @@ void ApplyMtuFrame::Init_BindEventHandlers()
 	chooseAdapter_HelpMeDecideButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnHelpMeDecideButton, this);
 	chooseAdapter_ComboBox->Bind(wxEVT_COMBOBOX, &ApplyMtuFrame::OnChooseTargetInterfaceChange, this);
 	yourCommand_CopyButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnCopyButton, this);
-	navigate_ConfirmButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnConfirmButton, this);
+	navigate_ApplyButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnConfirmButton, this);
 	navigate_CancelButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnCancelButton, this);
 }
 
@@ -86,7 +86,7 @@ void ApplyMtuFrame::Init_Layout()
 	wxBoxSizer* navigateSizer = new wxBoxSizer(wxHORIZONTAL);
 	rootSizer->Add(navigateSizer);
 	navigateSizer->AddStretchSpacer(TakeAllSpaceStretchProportion);
-	navigateSizer->Add(navigate_ConfirmButton, 1, wxRIGHT, SpaceBetweenControl);
+	navigateSizer->Add(navigate_ApplyButton, 1, wxRIGHT, SpaceBetweenControl);
 	navigateSizer->Add(navigate_CancelButton, 1, wxRIGHT, SpaceToFrameBorder);
 }
 

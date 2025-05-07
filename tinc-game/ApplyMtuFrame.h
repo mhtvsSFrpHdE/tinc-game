@@ -45,7 +45,7 @@ private:
 	wxStaticText* yourCommand_StaticText = nullptr;
 	wxTextCtrl* yourCommand_TextCtrl = nullptr;
 	wxButton* yourCommand_CopyButton = nullptr;
-	wxButton* navigate_ConfirmButton = nullptr;
+	wxButton* navigate_ApplyButton = nullptr;
 	wxButton* navigate_CancelButton = nullptr;
 
 	void Init_CreateControls();
