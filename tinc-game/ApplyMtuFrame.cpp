@@ -137,7 +137,6 @@ void ApplyMtuFrame::OnConfirmButton(wxCommandEvent& evt)
 			break;
 		case ApplyMtuResult::ApplyMtu_Other:
 		case ApplyMtuResult::ApplyMtu_Failed_IPv4:
-		case ApplyMtuResult::ApplyMtu_Failed_All:
 			failedText = failedText + _("Unknown error: ") + applyMtu.returnBody.messageString;
 			wxMessageDialog(this, failedText).ShowModal();
 			break;

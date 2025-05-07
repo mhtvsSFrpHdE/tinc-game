@@ -10,8 +10,7 @@ struct ApplyMtuResult {
 		ApplyMtu_Other,
 		ApplyMtu_InvalidAdapterName,
 		ApplyMtu_Failed_IPv4,
-		ApplyMtu_Failed_IPv6,
-		ApplyMtu_Failed_All
+		ApplyMtu_Failed_IPv6
 	};
 	Enum messageEnum;
 	std::wstring messageString;
