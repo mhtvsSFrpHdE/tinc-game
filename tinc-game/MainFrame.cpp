@@ -71,12 +71,8 @@ void MainFrame::OnOptimizeMtuButton(wxCommandEvent& evt)
 void MainFrame::OnOptimizeMtuButton_OpenOptimizeMtuFrame()
 {
 	OptimizeMtuFrame* OptimizeMtuframe = new OptimizeMtuFrame(this);
-	OptimizeMtuframe->SetClientSize(600, 450);
 	OptimizeMtuframe->Center();
 	OptimizeMtuframe->Show();
-	long style = OptimizeMtuframe->GetWindowStyle();
-	style &= ~wxRESIZE_BORDER;
-	OptimizeMtuframe->SetWindowStyle(style);
 }
 
 void MainFrame::OnSettingsButton(wxCommandEvent& evt)

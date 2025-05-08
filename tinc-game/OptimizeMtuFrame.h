@@ -30,18 +30,23 @@ public:
 private:
 	MainFrame* _parentFrame = nullptr;
 
-	wxPanel* panel = new wxPanel(this);
+	wxPanel* rootPanel = nullptr;
 
-	wxComboBox* chooseTargetAddress_ComboBox;
-	wxButton* startButton;
-	wxButton* closeButton;
+	wxStaticText* chooseAddress_StaticText = nullptr;
+	wxButton* helpButton = nullptr;
+	wxComboBox* chooseAddress_ComboBox = nullptr;
+	wxButton* startButton = nullptr;
+	wxButton* closeButton = nullptr;
+	wxStaticText* mtu_IPv4_StaticText = nullptr;
 	wxStaticText* mtuValue_IPv4_StaticText = nullptr;
+	wxStaticText* mtu_IPv6_StaticText = nullptr;
 	wxStaticText* mtuValue_IPv6_StaticText = nullptr;
 	const wxString mtuValue_DefaultText = _("Waiting for value...");
 	wxTextCtrl* liveLog;
 
 	void Init_CreateControls();
 	void Init_BindEventHandlers();
+	void Init_Layout();
 
 	void OnClose(wxCloseEvent& event);
 	void OnStartButtonClick(wxCommandEvent& event);

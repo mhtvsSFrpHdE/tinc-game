@@ -57,30 +57,30 @@ void ApplyMtuFrame::Init_Layout()
 
 	wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
 	rootPanel->SetSizer(rootSizer);
-	ls::AddTopSpacer(rootSizer, ls::SpaceToFrameBorder);
+	ls::AddSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 	rootSizer->Add(chooseAdapter_StaticText, 0, wxLEFT, ls::SpaceToFrameBorder);
-	ls::AddTopSpacer(rootSizer, ls::SpaceBetweenControl);
+	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
 	wxBoxSizer* chooseAdapterSizer = new wxBoxSizer(wxHORIZONTAL);
 	rootSizer->Add(chooseAdapterSizer);
-	ls::AddLeftSpacer(chooseAdapterSizer, ls::SpaceToFrameBorder);
+	ls::AddSpacer(wxLEFT, ls::SpaceToFrameBorder, chooseAdapterSizer);
 	chooseAdapterSizer->Add(chooseAdapter_ComboBox, ls::TakeAllSpace, wxRIGHT, ls::SpaceBetweenControl);
 	chooseAdapterSizer->Add(chooseAdapter_HelpMeDecideButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
-	ls::AddTopSpacer(rootSizer, ls::SpaceBetweenControl);
+	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
 	rootSizer->Add(displayMtu_IPv4, 0, wxLEFT, ls::SpaceToFrameBorder);
-	ls::AddTopSpacer(rootSizer, ls::SpaceBetweenControl);
+	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 	rootSizer->Add(displayMtu_IPv6, 0, wxLEFT, ls::SpaceToFrameBorder);
-	ls::AddTopSpacer(rootSizer, ls::SpaceBetweenControl);
+	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 	rootSizer->Add(yourCommand_StaticText, 0, wxLEFT, ls::SpaceToFrameBorder);
-	ls::AddTopSpacer(rootSizer, ls::SpaceBetweenControl);
+	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
 	wxBoxSizer* yourCommandSizer = new wxBoxSizer(wxHORIZONTAL);
 	rootSizer->Add(yourCommandSizer);
-	ls::AddLeftSpacer(yourCommandSizer, ls::SpaceToFrameBorder);
+	ls::AddSpacer(wxLEFT, ls::SpaceToFrameBorder, yourCommandSizer);
 	yourCommandSizer->Add(yourCommand_TextCtrl, ls::TakeAllSpace, wxRIGHT, ls::SpaceBetweenControl);
 	yourCommandSizer->Add(yourCommand_CopyButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
-	ls::AddTopSpacer(rootSizer, ls::SpaceBetweenControl);
+	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
 	wxBoxSizer* navigateSizer = new wxBoxSizer(wxHORIZONTAL);
 	rootSizer->Add(navigateSizer);
