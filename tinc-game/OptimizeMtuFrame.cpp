@@ -36,16 +36,22 @@ void OptimizeMtuFrame::API_UI_ReportMTU_IPv6(int mtu)
 	reportMtuCount_IPv6 += 1;
 }
 
-void OptimizeMtuFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
-{
+void OptimizeMtuFrame::OpenApplyMtuFrame() {
 	if (reportMtuCount_IPv4 != 0 && reportMtuCount_IPv6 != 0) {
 		ApplyMtuFrame* applyMtuFrame = new ApplyMtuFrame(this, mtuValue_IPv4, mtuValue_IPv6);
 		applyMtuFrame->Center();
 		applyMtuFrame->Show();
+
+		applyButton->Enable(true);
 	}
 	else {
 		wxMessageDialog(this, _("MTU measure fail")).ShowModal();
 	}
+}
+
+void OptimizeMtuFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
+{
+	OpenApplyMtuFrame();
 
 	chooseAddress_ComboBox->Enable(true);
 	startButton->Enable(true);
@@ -64,6 +70,8 @@ void OptimizeMtuFrame::Init_CreateControls()
 	}
 
 	startButton = new wxButton(rootPanel, wxID_ANY, _("Start"));
+	applyButton = new wxButton(rootPanel, wxID_ANY, _("Apply"));
+	applyButton->Enable(false);
 	liveLog = new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
 	mtu_IPv4_StaticText = new wxStaticText(rootPanel, wxID_ANY, wxT("IPv4:"));
 	mtuValue_IPv4_StaticText = new wxStaticText(rootPanel, wxID_ANY, mtuValue_DefaultText);
@@ -76,6 +84,7 @@ void OptimizeMtuFrame::Init_BindEventHandlers()
 {
 	Bind(wxEVT_CLOSE_WINDOW, &OptimizeMtuFrame::OnClose, this);
 	startButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::OnStartButtonClick, this);
+	applyButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::OnApplyButtonClick, this);
 	closeButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::OnCloseButtonClick, this);
 }
 
@@ -99,7 +108,8 @@ void OptimizeMtuFrame::Init_Layout()
 	wxBoxSizer* chooseAddressComboBoxSizer = new wxBoxSizer(wxHORIZONTAL);
 	rootSizer->Add(chooseAddressComboBoxSizer);
 	chooseAddressComboBoxSizer->Add(chooseAddress_ComboBox, 3, wxLEFT, ls::SpaceToFrameBorder);
-	chooseAddressComboBoxSizer->Add(startButton, 1, wxLEFT, ls::SpaceToFrameBorder);
+	chooseAddressComboBoxSizer->Add(startButton, 1, wxLEFT, ls::SpaceBetweenControl);
+	chooseAddressComboBoxSizer->Add(applyButton, 1, wxLEFT, ls::SpaceBetweenControl);
 	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
 	wxBoxSizer* liveLogSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -139,6 +149,7 @@ void OptimizeMtuFrame::OnClose(wxCloseEvent& event)
 void OptimizeMtuFrame::OnStartButtonClick(wxCommandEvent& event)
 {
 	startButton->Enable(false);
+	applyButton->Enable(false);
 	chooseAddress_ComboBox->Enable(false);
 	wxString inputText = chooseAddress_ComboBox->GetValue();
 	std::wstring inputText1 = inputText.ToStdWstring();
@@ -153,8 +164,14 @@ void OptimizeMtuFrame::OnStartButtonClick(wxCommandEvent& event)
 	else {
 		wxMessageDialog(this, _("Invalid IP address or domain")).ShowModal();
 		startButton->Enable(true);
+		applyButton->Enable(true);
 		chooseAddress_ComboBox->Enable(true);
 	}
+}
+
+void OptimizeMtuFrame::OnApplyButtonClick(wxCommandEvent& event)
+{
+	OpenApplyMtuFrame();
 }
 
 void OptimizeMtuFrame::OnCloseButtonClick(wxCommandEvent& event)

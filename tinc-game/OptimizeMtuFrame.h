@@ -36,6 +36,7 @@ private:
 	wxButton* helpButton = nullptr;
 	wxComboBox* chooseAddress_ComboBox = nullptr;
 	wxButton* startButton = nullptr;
+	wxButton* applyButton = nullptr;
 	wxButton* closeButton = nullptr;
 	wxStaticText* mtu_IPv4_StaticText = nullptr;
 	wxStaticText* mtuValue_IPv4_StaticText = nullptr;
@@ -50,7 +51,10 @@ private:
 
 	void OnClose(wxCloseEvent& event);
 	void OnStartButtonClick(wxCommandEvent& event);
+	void OnApplyButtonClick(wxCommandEvent& event);
 	void OnCloseButtonClick(wxCommandEvent& event);
+
+	void OpenApplyMtuFrame();
 
 	int mtuValue_IPv4 = 0;
 	int reportMtuCount_IPv4 = 0;
