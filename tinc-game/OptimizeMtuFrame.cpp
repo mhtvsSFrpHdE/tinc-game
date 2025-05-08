@@ -125,7 +125,8 @@ void OptimizeMtuFrame::Init_Layout()
 	rootSizer->Add(navigateSizer);
 	navigateSizer->AddStretchSpacer(ls::TakeAllSpace);
 	navigateSizer->Add(closeButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
-	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+
+	ls::AddSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 }
 
 void OptimizeMtuFrame::OnClose(wxCloseEvent& event)

@@ -87,6 +87,8 @@ void ApplyMtuFrame::Init_Layout()
 	navigateSizer->AddStretchSpacer(ls::TakeAllSpace);
 	navigateSizer->Add(navigate_ApplyButton, 1, wxRIGHT, ls::SpaceBetweenControl);
 	navigateSizer->Add(navigate_CancelButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
+
+	ls::AddSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 }
 
 void ApplyMtuFrame::OnHelpMeDecideButton(wxCommandEvent& evt)
