@@ -7,6 +7,9 @@
 #include <codecvt>
 #include "ApplyMtuFrame.h"
 #include "Layout_SRV.h"
+#include "HelpFrame.h"
+#include <sstream>
+#include "String_SRV.h"
 
 OptimizeMtuFrame::OptimizeMtuFrame(MainFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Optimize MTU")) {
 	_parentFrame = parentFrame;
@@ -83,6 +86,7 @@ void OptimizeMtuFrame::Init_CreateControls()
 void OptimizeMtuFrame::Init_BindEventHandlers()
 {
 	Bind(wxEVT_CLOSE_WINDOW, &OptimizeMtuFrame::OnClose, this);
+	helpButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::OnHelpButtonClick, this);
 	startButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::OnStartButtonClick, this);
 	applyButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::OnApplyButtonClick, this);
 	closeButton->Bind(wxEVT_BUTTON, &OptimizeMtuFrame::OnCloseButtonClick, this);
@@ -144,6 +148,28 @@ void OptimizeMtuFrame::OnClose(wxCloseEvent& event)
 	_parentFrame->optimizeMtuButton->Enable(true);
 	_parentFrame->openedFrameCount--;
 	event.Skip();
+}
+
+void OptimizeMtuFrame::OnHelpButtonClick(wxCommandEvent& event)
+{
+	namespace ss = String_SRV;
+
+	std::ostringstream helpTextStream;
+	helpTextStream
+		<< _("Optimize MTU function only meaningful if there is \"Path MTU Blackhole\" or tinc can't perform IPv4 Path MTU Discovery automatically on your system")
+		<< ss::newLine << ss::newLine
+		<< _("On Windows, your IPv4 MTU value is measured by using IPv4 DF flag, IPv6 MTU is minus 20 from this value. There is no easy way to measure IPv6 MTU directly on Windows platform")
+		<< ss::newLine << ss::newLine
+		<< _("All modern network program will determe TCP and UDP MTU size for themselfs even if there is \"Path MTU Blackhole\", so it's ok to have default MTU value 1500 on Ethernet adapter")
+		<< ss::newLine << ss::newLine
+		<< _("In theory, path mtu discovey is not an optional feature of IPv6 protocol compare to IPv4 DF flag, either applications and internet service provider must support Path MTU Discovery in IPv6 (RFC 8201). However, poor web server maintainer may decide to block all ICMP protocols to improve their server's security, so called \"Path MTU Blackhole\". It's a pretty questionable choice because this may cause some IPv6 applications to use 1280 (RFC 2460) as their MTU when path MTU discovery can't be performed, which reduces network performance");
+
+	HelpFrame* optimizeMtuFrame_HelpFrame = new HelpFrame(this);
+	optimizeMtuFrame_HelpFrame->SetHelpText(helpTextStream.str());
+	optimizeMtuFrame_HelpFrame->Center();
+	optimizeMtuFrame_HelpFrame->Show();
+
+	helpButton->Enable(false);
 }
 
 void OptimizeMtuFrame::OnStartButtonClick(wxCommandEvent& event)

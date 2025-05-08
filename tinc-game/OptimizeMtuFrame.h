@@ -27,13 +27,13 @@ public:
 	void API_UI_ReportMTU_IPv6(int mtu);
 	void API_UI_EndMeasureMTU(bool success, std::wstring reason);
 
+	wxButton* helpButton = nullptr;
 private:
 	MainFrame* _parentFrame = nullptr;
 
 	wxPanel* rootPanel = nullptr;
 
 	wxStaticText* chooseAddress_StaticText = nullptr;
-	wxButton* helpButton = nullptr;
 	wxComboBox* chooseAddress_ComboBox = nullptr;
 	wxButton* startButton = nullptr;
 	wxButton* applyButton = nullptr;
@@ -43,13 +43,14 @@ private:
 	wxStaticText* mtu_IPv6_StaticText = nullptr;
 	wxStaticText* mtuValue_IPv6_StaticText = nullptr;
 	const wxString mtuValue_DefaultText = _("Waiting for value...");
-	wxTextCtrl* liveLog;
+	wxTextCtrl* liveLog = nullptr;
 
 	void Init_CreateControls();
 	void Init_BindEventHandlers();
 	void Init_Layout();
 
 	void OnClose(wxCloseEvent& event);
+	void OnHelpButtonClick(wxCommandEvent& event);
 	void OnStartButtonClick(wxCommandEvent& event);
 	void OnApplyButtonClick(wxCommandEvent& event);
 	void OnCloseButtonClick(wxCommandEvent& event);

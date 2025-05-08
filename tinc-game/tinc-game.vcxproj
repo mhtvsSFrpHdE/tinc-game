@@ -155,6 +155,7 @@
     <ClInclude Include="ApplyMtuFrame.h" />
     <ClInclude Include="Layout_SRV.h" />
     <ClInclude Include="MainFrame.h" />
+    <ClInclude Include="HelpFrame.h" />
     <ClInclude Include="ReturnValue.h" />
     <ClInclude Include="SettingsFrame.h" />
     <ClInclude Include="Settings_SRV.h" />
@@ -167,6 +168,7 @@
     <ClCompile Include="ApplyMtuFrame_SRV.cpp" />
     <ClCompile Include="Layout_SRV.cpp" />
     <ClCompile Include="MainFrame.cpp" />
+    <ClCompile Include="HelpFrame.cpp" />
     <ClCompile Include="SettingsFrame.cpp" />
     <ClCompile Include="Settings_SRV.cpp" />
     <ClCompile Include="OptimizeMtuFrame.cpp" />
