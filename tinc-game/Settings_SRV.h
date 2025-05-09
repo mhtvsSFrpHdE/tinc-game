@@ -5,6 +5,7 @@
 #include <wx/filename.h>
 #include <wx/fileconf.h>
 #include "ReturnValue.h"
+#include "Language_SRV.h"
 
 class Settings_SRV
 {

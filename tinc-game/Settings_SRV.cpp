@@ -18,17 +18,18 @@ wxString Settings_SRV::GetIniFilePath()
 void Settings_SRV::WriteLanguage(int selectedIndex)
 {
 	namespace sk = SettingKeys;
+	namespace ls = Language_SRV;
 
 	if (selectedIndex == 0) {
-		Settings_SRV::config->Write(sk::language, static_cast<int>(wxLANGUAGE_UNKNOWN));
+		Settings_SRV::config->Write(sk::language, static_cast<int>(ls::Language_Unknown));
 		config->Flush();
 	}
 	else if (selectedIndex == 1) {
-		config->Write(sk::language, static_cast<int>(wxLANGUAGE_ENGLISH_US));
+		config->Write(sk::language, static_cast<int>(ls::Language_EnglishUnitedStates));
 		config->Flush();
 	}
 	else if (selectedIndex == 2) {
-		config->Write(sk::language, static_cast<int>(wxLANGUAGE_CHINESE_SIMPLIFIED));
+		config->Write(sk::language, static_cast<int>(ls::Language_ChineseSimplified));
 		config->Flush();
 	}
 }
@@ -36,11 +37,12 @@ void Settings_SRV::WriteLanguage(int selectedIndex)
 wxLanguage Settings_SRV::ReadLanguage()
 {
 	namespace sk = SettingKeys;
+	namespace ls = Language_SRV;
 
 	wxLanguage language = wxLANGUAGE_ENGLISH_US;
 	int value;
 	config->Read(sk::language, &value);
-	if (value == wxLANGUAGE_UNKNOWN) {
+	if (value == ls::Language_Unknown) {
 		auto systemLanguage = wxLocale::GetSystemLanguage();
 		if (systemLanguage == wxLANGUAGE_ENGLISH_US) {
 			language = wxLANGUAGE_ENGLISH_US;
@@ -50,7 +52,7 @@ wxLanguage Settings_SRV::ReadLanguage()
 		}
 	}
 	else {
-		language = static_cast<wxLanguage>(value);
+		language = ls::languageMap[static_cast<ls::KnownLanguage>(value)];
 	}
 	return language;
 }
@@ -73,7 +75,7 @@ void Settings_SRV::LoadConfigFile()
 	bool checkIni = Settings_SRV::CheckIniExists();
 	config = new wxFileConfig(wxEmptyString, wxEmptyString, Settings_SRV::GetIniFilePath());
 	if (!checkIni) {
-		config->Write(sk::language, static_cast<int>(wxLANGUAGE_UNKNOWN));
+		config->Write(sk::language, static_cast<int>(Language_SRV::Language_Unknown));
 		config->Write(sk::mtuTestIp, wxT("1.1.1.1, 8.8.8.8, 10.255.60.1"));
 		config->Write(sk::configVersion, 0);
 		config->Flush();
