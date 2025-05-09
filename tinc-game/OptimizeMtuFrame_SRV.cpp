@@ -88,7 +88,7 @@ MeasureMtuResult::Enum MeasureMTU(std::wstring ipAddress, int mtu, OptimizeMtuFr
 	namespace bp = boost::process;
 	bp::ipstream is;
 
-	bp::child c(L"ping437.bat", ipAddress, std::to_string(pingMtu), bp::std_out > is, bp::windows::hide);
+	bp::child c(std::wstring(L"ping437.bat ") + ipAddress + String_SRV::space + std::to_wstring(pingMtu), bp::std_out > is, bp::windows::hide);
 
 	std::string line;
 
@@ -146,9 +146,9 @@ int MtuHalfSearch(std::wstring ipAddress, OptimizeMtuFrame* frame, int min = 576
 				}
 #endif
 				break;
-	}
+				}
 			stopNextLoop = true;
-		}
+			}
 
 		int halfDiff = diff / 2;
 
@@ -175,7 +175,7 @@ int MtuHalfSearch(std::wstring ipAddress, OptimizeMtuFrame* frame, int min = 576
 			}
 #endif
 			min = min + halfDiff;
-		}
+			}
 		else if (testMidResult == MeasureMtuResult::MeasureMTU_DF) {
 #if VERBOSE == 1
 			if (verbose) {
@@ -183,7 +183,7 @@ int MtuHalfSearch(std::wstring ipAddress, OptimizeMtuFrame* frame, int min = 576
 			}
 #endif
 			upperBoundary = upperBoundary - halfDiff;
-		}
+			}
 		else if (testMidResult == MeasureMtuResult::MeasureMTU_NoResult) {
 			failedCount++;
 			if (failedCount > 2) {
@@ -193,7 +193,7 @@ int MtuHalfSearch(std::wstring ipAddress, OptimizeMtuFrame* frame, int min = 576
 
 		const auto PING_DELAY_PREVENT_ABUSE = std::chrono::milliseconds(500);
 		std::this_thread::sleep_for(PING_DELAY_PREVENT_ABUSE);
-	}
+		}
 #if VERBOSE == 1
 	if (verbose) {
 		std::cout << "Result: " << recentSuccessValue << std::endl;
@@ -201,7 +201,7 @@ int MtuHalfSearch(std::wstring ipAddress, OptimizeMtuFrame* frame, int min = 576
 #endif
 
 	return recentSuccessValue;
-}
+	}
 
 void OptimizeMtuFrame::API_SRV_StartMeasureMTU(std::wstring ipAddress)
 {
