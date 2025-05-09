@@ -55,10 +55,13 @@ void OptimizeMtuFrame::OpenApplyMtuFrame() {
 
 void OptimizeMtuFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
 {
+	allowCloseFrame = true;
+
 	OpenApplyMtuFrame();
 
 	chooseAddress_ComboBox->Enable(true);
 	startButton->Enable(true);
+	closeButton->Enable(true);
 }
 
 void OptimizeMtuFrame::Init_CreateControls()
@@ -149,6 +152,10 @@ void OptimizeMtuFrame::Init_Layout()
 
 void OptimizeMtuFrame::OnClose(wxCloseEvent& event)
 {
+	if (allowCloseFrame == false) {
+		return;
+	}
+
 	_parentFrame->optimizeMtuButton->Enable(true);
 	_parentFrame->openedFrameCount--;
 	event.Skip();
@@ -178,12 +185,16 @@ void OptimizeMtuFrame::OnHelpButtonClick(wxCommandEvent& event)
 
 void OptimizeMtuFrame::OnStartButtonClick(wxCommandEvent& event)
 {
+	allowCloseFrame = false;
 	startButton->Enable(false);
 	applyButton->Enable(false);
+	closeButton->Enable(false);
 	chooseAddress_ComboBox->Enable(false);
+
 	wxString inputText = chooseAddress_ComboBox->GetValue();
 	std::wstring inputText1 = inputText.ToStdWstring();
-	if (API_SRV_CheckAddressFormat(inputText1).success) {
+	auto checkAddressFormat = API_SRV_CheckAddressFormat(inputText1);
+	if (checkAddressFormat.success) {
 		reportMtuCount_IPv4 = 0;
 		reportMtuCount_IPv6 = 0;
 		mtuValue_IPv4_StaticText->SetLabelText(mtuValue_DefaultText);
@@ -193,8 +204,10 @@ void OptimizeMtuFrame::OnStartButtonClick(wxCommandEvent& event)
 	}
 	else {
 		wxMessageDialog(this, _("Invalid IP address or domain")).ShowModal();
+		allowCloseFrame = true;
 		startButton->Enable(true);
 		applyButton->Enable(true);
+		closeButton->Enable(true);
 		chooseAddress_ComboBox->Enable(true);
 	}
 }
