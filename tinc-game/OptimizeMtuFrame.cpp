@@ -10,6 +10,7 @@
 #include "HelpFrame.h"
 #include <sstream>
 #include "String_SRV.h"
+#include "Settings_SRV.h"
 
 OptimizeMtuFrame::OptimizeMtuFrame(MainFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Optimize MTU")) {
 	_parentFrame = parentFrame;
@@ -63,13 +64,16 @@ void OptimizeMtuFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
 void OptimizeMtuFrame::Init_CreateControls()
 {
 	rootPanel = new wxPanel(this);
-	chooseAddress_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Target address"));
+	chooseAddress_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Type in target address"));
 	helpButton = new wxButton(rootPanel, wxID_ANY, _("Help"));
 
+	chooseAddress_ComboBox = new wxComboBox(rootPanel, wxID_ANY);
 	{
-		chooseAddress_ComboBox = new wxComboBox(rootPanel, wxID_ANY);
-		chooseAddress_ComboBox->Append(wxT("10.255.60.1"));
-		chooseAddress_ComboBox->SetSelection(0);
+		auto getComboBoxItems = Settings_SRV::ReadArray(SettingKeys::mtuTestIp);
+		if (getComboBoxItems.success) {
+			chooseAddress_ComboBox->Set(getComboBoxItems.returnBody);
+			chooseAddress_ComboBox->SetSelection(0);
+		}
 	}
 
 	startButton = new wxButton(rootPanel, wxID_ANY, _("Start"));
