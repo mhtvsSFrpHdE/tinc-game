@@ -71,15 +71,18 @@ bool Settings_SRV::CheckIniExists()
 void Settings_SRV::LoadConfigFile()
 {
 	namespace sk = SettingKeys;
+	namespace ls = Language_SRV;
 
 	bool checkIni = Settings_SRV::CheckIniExists();
 	config = new wxFileConfig(wxEmptyString, wxEmptyString, Settings_SRV::GetIniFilePath());
 	if (!checkIni) {
-		config->Write(sk::language, static_cast<int>(Language_SRV::Language_Unknown));
+		config->Write(sk::language, static_cast<int>(ls::Language_Unknown));
 		config->Write(sk::mtuTestIp, wxT("1.1.1.1, 8.8.8.8, 10.255.60.1"));
 		config->Write(sk::configVersion, 0);
 		config->Flush();
 	}
+
+	ls::Init();
 }
 
 ReturnValue<wxArrayString> Settings_SRV::ReadArray(wxString delimiter, wxString settingKey)

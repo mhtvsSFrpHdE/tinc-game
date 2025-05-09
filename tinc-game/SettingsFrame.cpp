@@ -19,24 +19,19 @@ void SettingsFrame::Init_CreateControls()
 {
 	chooseLanguage_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Language"));
 
+	chooseLanguage_ComboBox = new wxComboBox(rootPanel, wxID_ANY);
 	{
 		namespace ls = Language_SRV;
 
-		chooseLanguage_ComboBox = new wxComboBox(rootPanel, wxID_ANY);
-		chooseLanguage_ComboBox->Append(_("Auto (System Default)"));
-		chooseLanguage_ComboBox->Append(wxT("English"));
-		chooseLanguage_ComboBox->Append(wxT("简体中文"));
+		for (auto& language : ls::languageList)
+		{
+			chooseLanguage_ComboBox->Append(ls::languageNameMap[language]);
+		}
 
-		int value;
-		Settings_SRV::config->Read(SettingKeys::language, &value);
-		if (value == ls::Language_EnglishUnitedStates) {
-			chooseLanguage_ComboBox->SetSelection(1);
-		}
-		else if (value == ls::Language_ChineseSimplified) {
-			chooseLanguage_ComboBox->SetSelection(2);
-		}
-		else {
-			chooseLanguage_ComboBox->SetSelection(0);
+		int readLanguage;
+		bool readSuccess = Settings_SRV::config->Read(SettingKeys::language, &readLanguage);
+		if (readSuccess) {
+			chooseLanguage_ComboBox->SetSelection(readLanguage);
 		}
 	}
 
