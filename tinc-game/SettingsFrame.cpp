@@ -6,26 +6,21 @@
 #include <wx/fileconf.h>
 #include <wx/config.h>
 #include "Settings_SRV.h"
+#include "Layout_SRV.h"
 
 SettingsFrame::SettingsFrame(MainFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Settings"))
 {
 	Init_CreateControls();
 	Init_BindEventHandlers();
+	Init_Layout();
 }
 
 void SettingsFrame::Init_CreateControls()
 {
-	{
-		wxStaticText* chooseLanguage_StaticText = new wxStaticText(panel, wxID_ANY, _("language"));
-		chooseLanguage_StaticText->SetPosition(wxPoint(20, 20));
-		chooseLanguage_StaticText->SetSize(wxSize(50, 40));
-		wxFont font(15, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-		chooseLanguage_StaticText->SetFont(font);
-	}
+	chooseLanguage_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Language"));
 
 	{
-		chooseLanguage_ComboBox = new wxComboBox(panel, wxID_ANY);
-		chooseLanguage_ComboBox->SetPosition(wxPoint(100, 20));
+		chooseLanguage_ComboBox = new wxComboBox(rootPanel, wxID_ANY);
 		chooseLanguage_ComboBox->Append(_("Auto (System Default)"));
 		chooseLanguage_ComboBox->Append(wxT("English"));
 		chooseLanguage_ComboBox->Append(wxT("简体中文"));
@@ -43,20 +38,37 @@ void SettingsFrame::Init_CreateControls()
 		}
 	}
 
-	{
-		confirmButton = new wxButton(panel, wxID_ANY, _("Confirm"));
-		confirmButton->SetPosition(wxPoint(250, 400));
-		confirmButton->SetSize(wxSize(100, 40));
-
-		wxFont font = confirmButton->GetFont();
-		font.SetPointSize(15);
-		confirmButton->SetFont(font);
-	}
+	confirmButton = new wxButton(rootPanel, wxID_ANY, _("Confirm"));
 }
 
 void SettingsFrame::Init_BindEventHandlers()
 {
 	confirmButton->Bind(wxEVT_BUTTON, &SettingsFrame::OnConfirmButtonClick, this);
+}
+
+void SettingsFrame::Init_Layout()
+{
+	namespace ls = Layout_SRV;
+
+	this->SetSizeHints(320, 160);
+
+	wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
+	rootPanel->SetSizer(rootSizer);
+	ls::AddSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
+
+	rootSizer->Add(chooseLanguage_StaticText, 0, wxLEFT, ls::SpaceToFrameBorder);
+	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+
+	rootSizer->Add(chooseLanguage_ComboBox, 0, wxLEFT, ls::SpaceToFrameBorder);
+	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+
+	rootSizer->Add(0, 0, ls::TakeAllSpace, wxEXPAND);
+	wxBoxSizer* navigateSizer = new wxBoxSizer(wxHORIZONTAL);
+	rootSizer->Add(navigateSizer);
+	navigateSizer->AddStretchSpacer(ls::TakeAllSpace);
+	navigateSizer->Add(confirmButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
+
+	ls::AddSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 }
 
 void SettingsFrame::OnConfirmButtonClick(wxCommandEvent& event)

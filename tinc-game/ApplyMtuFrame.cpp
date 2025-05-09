@@ -58,6 +58,7 @@ void ApplyMtuFrame::Init_Layout()
 	wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
 	rootPanel->SetSizer(rootSizer);
 	ls::AddSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
+
 	rootSizer->Add(chooseAdapter_StaticText, 0, wxLEFT, ls::SpaceToFrameBorder);
 	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 

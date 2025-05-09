@@ -82,12 +82,8 @@ void MainFrame::OnSettingsButton(wxCommandEvent& evt)
 void MainFrame::OnSettingsButton_OpenSettingsFrame()
 {
 	SettingsFrame* Settingsframe = new SettingsFrame(this);
-	Settingsframe->SetClientSize(600, 450);
 	Settingsframe->Center();
 	Settingsframe->Show();
-	long style = Settingsframe->GetWindowStyle();
-	style &= ~wxRESIZE_BORDER;
-	Settingsframe->SetWindowStyle(style);
 }
 
 void MainFrame::OnSettingsButton_OtherWindowExists()

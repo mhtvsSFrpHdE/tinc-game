@@ -9,13 +9,15 @@ public:
 private:
 	wxWindowDisabler makeModal;
 
-	wxPanel* panel = new wxPanel(this);
+	wxPanel* rootPanel = new wxPanel(this);
 
-	wxComboBox* chooseLanguage_ComboBox;
-	wxButton* confirmButton;
+	wxStaticText* chooseLanguage_StaticText = nullptr;
+	wxComboBox* chooseLanguage_ComboBox = nullptr;
+	wxButton* confirmButton = nullptr;
 
 	void Init_CreateControls();
 	void Init_BindEventHandlers();
+	void Init_Layout();
 
 	void OnConfirmButtonClick(wxCommandEvent& event);
 };
