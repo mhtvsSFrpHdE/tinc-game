@@ -3,6 +3,7 @@
 #include "OptimizeMtuFrame.h"
 #include "SettingsFrame.h"
 #include <wx/dialog.h>
+#include "Layout_SRV.h"
 
 MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
 	Init_CreateControls();
@@ -12,23 +13,9 @@ MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
 
 void MainFrame::Init_CreateControls()
 {
-	{
-		wxFont mainFont(wxFontInfo(wxSize(0, 24)));
-		panel = new wxPanel(this);
-		panel->SetFont(mainFont);
-	}
-
-	{
-		optimizeMtuButton = new wxButton(panel, wxID_ANY, _("Optimize MTU"));
-		optimizeMtuButton->SetPosition(wxDefaultPosition);
-		optimizeMtuButton->SetSize(wxSize(300, 100));
-	}
-
-	{
-		settingsButton = new wxButton(panel, wxID_ANY, _("Settings"));
-		settingsButton->SetPosition(wxDefaultPosition);
-		settingsButton->SetSize(wxSize(100, 50));
-	}
+	rootPanel = new wxPanel(this);
+	optimizeMtuButton = new wxButton(rootPanel, wxID_ANY, _("Optimize MTU"));
+	settingsButton = new wxButton(rootPanel, wxID_ANY, _("Settings"));
 }
 
 void MainFrame::Init_BindEventHandlers()
@@ -39,25 +26,28 @@ void MainFrame::Init_BindEventHandlers()
 
 void MainFrame::Init_Layout()
 {
-	wxGridSizer* gridSizer = new wxGridSizer(3, 3, wxSize(0, 0));
-
-	wxSizerFlags flags = wxSizerFlags().Align(wxALIGN_CENTER);
-	wxSizerFlags flags2 = wxSizerFlags().Align(wxALIGN_TOP | wxALIGN_LEFT);
-
-	gridSizer->Add(settingsButton, flags2);
-
-	for (int i = 0; i < 2; ++i) {
-		wxStaticText* placeholder = new wxStaticText(panel, wxID_ANY, "");
-		gridSizer->Add(placeholder, 0, wxEXPAND);
-	}
-
-	wxStaticText* placeholder = new wxStaticText(panel, wxID_ANY, "");
-	gridSizer->Add(placeholder, 0, wxEXPAND);
+	namespace ls = Layout_SRV;
 
 
-	gridSizer->Add(optimizeMtuButton, flags);
+	wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
+	rootPanel->SetSizer(rootSizer);
+	ls::AddSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
-	panel->SetSizer(gridSizer);
+	wxBoxSizer* optimizeMtuSizer = new wxBoxSizer(wxHORIZONTAL);
+	rootSizer->Add(optimizeMtuSizer, 1, wxEXPAND);
+	optimizeMtuSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
+	optimizeMtuSizer->Add(optimizeMtuButton, 1);
+	optimizeMtuSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
+	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+
+	wxBoxSizer* settingsSizer = new wxBoxSizer(wxHORIZONTAL);
+	rootSizer->Add(settingsSizer, 1, wxEXPAND);
+	settingsSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
+	settingsSizer->Add(settingsButton, 1);
+	settingsSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
+
+	ls::AddSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
+
 }
 
 void MainFrame::OnOptimizeMtuButton(wxCommandEvent& evt)

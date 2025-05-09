@@ -8,10 +8,11 @@ public:
 
 	wxButton* optimizeMtuButton;
 	wxButton* settingsButton;
+
 	int openedFrameCount = 0;
 
 private:
-	wxPanel* panel;
+	wxPanel* rootPanel;
 
 	void Init_CreateControls();
 	void Init_BindEventHandlers();
