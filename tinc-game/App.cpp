@@ -40,7 +40,6 @@ bool App::OnInit() {
 	}
 
 	MainFrame* mainFrame = new MainFrame();
-	mainFrame->SetClientSize(800, 600);
 	mainFrame->Center();
 	mainFrame->Show();
 	return true;

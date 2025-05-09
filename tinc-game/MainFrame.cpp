@@ -28,6 +28,8 @@ void MainFrame::Init_Layout()
 {
 	namespace ls = Layout_SRV;
 
+	wxSize minSize(280, 140);
+	this->SetSizeHints(minSize);
 
 	wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
 	rootPanel->SetSizer(rootSizer);
@@ -48,6 +50,7 @@ void MainFrame::Init_Layout()
 
 	ls::AddSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
+	this->SetSize(minSize);
 }
 
 void MainFrame::OnOptimizeMtuButton(wxCommandEvent& evt)
