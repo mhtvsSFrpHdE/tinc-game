@@ -97,5 +97,8 @@
     <None Include="GenerateTranslatePot.bat">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="netsh437.bat">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
