@@ -10,12 +10,83 @@
 #include <vector>
 #include <string> 
 
+#include <winsock2.h>
+#include <iphlpapi.h>
+// Link with Iphlpapi.lib
+#pragma comment(lib, "IPHLPAPI.lib")
+
+std::vector<std::wstring> API_Windows_GetAdaptersAddresses() {
+#define WORKING_BUFFER_SIZE 15000
+#define MAX_TRIES 3
+
+#define MALLOC(x) HeapAlloc(GetProcessHeap(), 0, (x))
+#define FREE(x) HeapFree(GetProcessHeap(), 0, (x))
+    /* Note: could also use malloc() and free() */
+
+    /* Declare and initialize variables */
+
+    DWORD dwRetVal = 0;
+
+    // Set the flags to pass to GetAdaptersAddresses
+    ULONG flags = GAA_FLAG_INCLUDE_PREFIX;
+
+    // default to unspecified address family (both)
+    ULONG family = AF_UNSPEC;
+
+    PIP_ADAPTER_ADDRESSES pAddresses = NULL;
+    ULONG outBufLen = 0;
+    ULONG Iterations = 0;
+
+    PIP_ADAPTER_ADDRESSES pCurrAddresses = NULL;
+
+    family = AF_INET;
+    outBufLen = WORKING_BUFFER_SIZE;
+
+    do {
+        pAddresses = (IP_ADAPTER_ADDRESSES*)MALLOC(outBufLen);
+
+        dwRetVal =
+            GetAdaptersAddresses(family, flags, NULL, pAddresses, &outBufLen);
+
+        if (dwRetVal == ERROR_BUFFER_OVERFLOW) {
+            FREE(pAddresses);
+            pAddresses = NULL;
+        }
+        else {
+            break;
+        }
+
+        Iterations++;
+
+    } while ((dwRetVal == ERROR_BUFFER_OVERFLOW) && (Iterations < MAX_TRIES));
+
+    pCurrAddresses = pAddresses;
+    std::vector<std::wstring> adapterNames;
+    int num = 0;
+    while (pCurrAddresses) {
+        adapterNames.push_back(pCurrAddresses->FriendlyName);
+        num++;
+        pCurrAddresses = pCurrAddresses->Next;
+    }
+    FREE(pAddresses);
+
+    return adapterNames;
+}
+
 ReturnValue<std::vector<std::wstring>> ApplyMtuFrame::API_SRV_GetNetworkAdapterList()
 {
-    // TODO
-    // Return false if network adapter list has 0 available network adapter
-    // Return true if any available network adapter founded
-    return ReturnValue<std::vector<std::wstring>>();
+    auto result = ReturnValue<std::vector<std::wstring>>();
+
+    auto adapters = API_Windows_GetAdaptersAddresses();
+    for (const auto& name : adapters) {
+        result.returnBody.push_back(name);
+    }
+
+    if (result.returnBody.size() > 0) {
+        result.success = true;
+    }
+
+    return result;
 }
 
 ReturnValue<ApplyMtuResult> ApplyMtuFrame::API_SRV_ApplyMtu(int mtu_IPv4, int mtu_IPv6, std::wstring adapterName)
