@@ -5,6 +5,7 @@
 #include <string>
 #include "OptimizeMtuFrame.h"
 #include <unordered_map>
+#include "WindowsAPI_SRV.h"
 
 struct ApplyMtuResult {
     enum Enum {
@@ -17,12 +18,7 @@ struct ApplyMtuResult {
     std::wstring messageString;
 };
 
-struct GetNetworkAdapterListResult {
-    std::wstring friendlyName;
-    std::wstring modelName;
-    std::string windows_LUID;
-    bool isLoopback = false;
-};
+
 
 class ApplyMtuFrame : public wxFrame
 {
@@ -30,7 +26,7 @@ public:
     ApplyMtuFrame(OptimizeMtuFrame* parentFrame, int mtuValue_IPv4, int mtuValue_IPv6);
 
     // UI to SRV
-    static ReturnValue<std::vector<GetNetworkAdapterListResult>> API_SRV_GetNetworkAdapterList();
+    static ReturnValue<std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult>> API_SRV_GetNetworkAdapterList();
     static ReturnValue<ApplyMtuResult> API_SRV_ApplyMtu(int mtu_IPv4, int mtu_IPv6, std::wstring adapterName);
     static bool API_SRV_OpenNetworkControlPanel();
     static void API_SRV_OpenCommandPrompt();
@@ -47,7 +43,7 @@ private:
 
     wxStaticText* chooseAdapter_StaticText = nullptr;
     wxComboBox* chooseAdapter_ComboBox = nullptr;
-    std::unordered_map<int, GetNetworkAdapterListResult> chooseAdapter_ComboBox_RawData;
+    std::unordered_map<int, WindowsAPI_SRV::GetAdaptersAddressesResult> chooseAdapter_ComboBox_RawData;
     wxButton* chooseAdapter_HelpMeDecideButton = nullptr;
     wxStaticText* displayMtu_IPv4 = nullptr;
     wxStaticText* displayMtu_IPv6 = nullptr;

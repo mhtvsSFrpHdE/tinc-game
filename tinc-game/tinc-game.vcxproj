@@ -163,6 +163,7 @@
     <ClInclude Include="Settings_SRV.h" />
     <ClInclude Include="OptimizeMtuFrame.h" />
     <ClInclude Include="String_SRV.h" />
+    <ClInclude Include="WindowsAPI_SRV.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -178,6 +179,7 @@
     <ClCompile Include="OptimizeMtuFrame_SRV.cpp" />
     <ClCompile Include="OptimizeMtuFrame_Test.cpp" />
     <ClCompile Include="String_SRV.cpp" />
+    <ClCompile Include="WindowsAPI_SRV.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="netsh437.bat" />
