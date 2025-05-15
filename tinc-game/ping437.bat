@@ -1,2 +1,2 @@
-@chcp 437
-@ping -f -l "%2" -n 1 "%1"
+@start "" /min /wait ping437_start.bat %1 %2
+@type ping437_result.txt

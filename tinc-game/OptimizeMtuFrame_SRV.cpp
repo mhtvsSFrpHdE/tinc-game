@@ -86,9 +86,15 @@ MeasureMtuResult::Enum MeasureMTU(std::wstring ipAddress, int mtu, OptimizeMtuFr
 	auto result = MeasureMtuResult::MeasureMTU_NoResult;
 
 	namespace bp = boost::process;
+	namespace sr = String_SRV;
 	bp::ipstream is;
 
-	bp::child c(std::wstring(L"ping437.bat ") + ipAddress + String_SRV::space + std::to_wstring(pingMtu), bp::std_out > is, bp::windows::hide);
+	std::wstringstream commandStringStream;
+	commandStringStream << L"ping437.bat"
+		<< sr::space << sr::doubleQuotes << ipAddress <<sr::doubleQuotes
+		<< sr::space << pingMtu;
+	auto pingCommand = commandStringStream.str();
+	bp::child c(bp::shell(), bp::args({ L"/c", pingCommand }), bp::std_out > is, bp::windows::hide);
 
 	std::string line;
 

@@ -184,6 +184,7 @@
       <DeploymentContent>false</DeploymentContent>
     </None>
     <None Include="GenerateTranslatePot.bat" />
+    <None Include="ping437_start.bat" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
