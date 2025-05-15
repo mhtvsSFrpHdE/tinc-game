@@ -261,7 +261,7 @@ ReturnValue<ApplyMtuResult> ApplyMtuFrame::API_SRV_ApplyMtu(int mtu_IPv4, int mt
     commandStringStream.str(std::wstring());
     commandStringStream << L"netsh437.bat"
         << sr::space << sr::doubleQuotes << adapterName << sr::doubleQuotes
-        << sr::space << mtu_IPv4
+        << sr::space << mtu_IPv6
         << sr::space << L"ipv6";
     auto netshCommandd = commandStringStream.str();
     bp::child d(bp::shell(), bp::args({ L"/c", netshCommandd }), bp::std_out > is, bp::windows::hide);
