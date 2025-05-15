@@ -264,7 +264,7 @@ ReturnValue<ApplyMtuResult> ApplyMtuFrame::API_SRV_ApplyMtu(int mtu_IPv4, int mt
         << sr::space << mtu_IPv6
         << sr::space << L"ipv6";
     auto netshCommandd = commandStringStream.str();
-    bp::child d(bp::shell(), bp::args({ L"/c", netshCommandd }), bp::std_out > is, bp::windows::hide);
+    bp::child d(bp::shell(), bp::args({ L"/c", netshCommandd }), bp::std_out > is2, bp::windows::hide);
     d.wait();
     std::string line2;
     while (std::getline(is2, line2)) {
