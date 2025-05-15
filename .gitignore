@@ -30,8 +30,16 @@
 *.exe
 *.out
 *.app
+
+# Visual Studio
 /tinc-game/.vs
 /tinc-game/Debug
 /tinc-game/x64
+/tinc-game/Release
+
+# wxWidgets translate middle file
 *.mo
 *.pot
+
+# tinc-game runtime files
+tinc-game/ping437_result.txt
