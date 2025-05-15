@@ -18,7 +18,7 @@
 #define MALLOC(x) HeapAlloc(GetProcessHeap(), 0, (x))
 #define FREE(x) HeapFree(GetProcessHeap(), 0, (x))
 
-void API_Windows_GetAdaptersAddresses(std::vector<std::wstring>* result) {
+void API_Windows_GetAdaptersAddresses(std::vector<GetNetworkAdapterListResult>* result) {
     /* Declare and initialize variables */
 
     DWORD dwRetVal = 0;
@@ -123,10 +123,13 @@ void API_Windows_GetAdaptersAddresses(std::vector<std::wstring>* result) {
             //printf("\tDNS Suffix: %wS\n", pCurrAddresses->DnsSuffix);
             //printf("\tDescription: %wS\n", pCurrAddresses->Description);
             //printf("\tFriendly name: %wS\n", pCurrAddresses->FriendlyName);
-            bool isLoopbackInterface = wcsstr(pCurrAddresses->Description, L"Software Loopback");
-            if (isLoopbackInterface == false) {
-                result->push_back(pCurrAddresses->FriendlyName);
-            }
+
+            auto networkAdapter = GetNetworkAdapterListResult();
+            networkAdapter.friendlyName = pCurrAddresses->FriendlyName;
+            networkAdapter.modelName = pCurrAddresses->Description;
+            networkAdapter.windows_LUID = pCurrAddresses->AdapterName;
+            networkAdapter.isLoopback = wcsstr(pCurrAddresses->Description, L"Software Loopback");
+            result->push_back(networkAdapter);
 
             //if (pCurrAddresses->PhysicalAddressLength != 0) {
             //    printf("\tPhysical address: ");
@@ -195,9 +198,9 @@ void API_Windows_GetAdaptersAddresses(std::vector<std::wstring>* result) {
     }
 }
 
-ReturnValue<std::vector<std::wstring>> ApplyMtuFrame::API_SRV_GetNetworkAdapterList()
+ReturnValue<std::vector<GetNetworkAdapterListResult>> ApplyMtuFrame::API_SRV_GetNetworkAdapterList()
 {
-    auto result = ReturnValue<std::vector<std::wstring>>();
+    auto result = ReturnValue<std::vector<GetNetworkAdapterListResult>>();
 
     API_Windows_GetAdaptersAddresses(&result.returnBody);
 

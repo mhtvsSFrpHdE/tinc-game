@@ -4,57 +4,66 @@
 #include <vector>
 #include <string>
 #include "OptimizeMtuFrame.h"
+#include <unordered_map>
 
 struct ApplyMtuResult {
-	enum Enum {
-		ApplyMtu_Other,
-		ApplyMtu_InvalidAdapterName,
-		ApplyMtu_Failed_IPv4,
-		ApplyMtu_Failed_IPv6
-	};
-	Enum messageEnum;
-	std::wstring messageString;
+    enum Enum {
+        ApplyMtu_Other,
+        ApplyMtu_InvalidAdapterName,
+        ApplyMtu_Failed_IPv4,
+        ApplyMtu_Failed_IPv6
+    };
+    Enum messageEnum;
+    std::wstring messageString;
+};
+
+struct GetNetworkAdapterListResult {
+    std::wstring friendlyName;
+    std::wstring modelName;
+    std::string windows_LUID;
+    bool isLoopback = false;
 };
 
 class ApplyMtuFrame : public wxFrame
 {
 public:
-	ApplyMtuFrame(OptimizeMtuFrame* parentFrame, int mtuValue_IPv4, int mtuValue_IPv6);
+    ApplyMtuFrame(OptimizeMtuFrame* parentFrame, int mtuValue_IPv4, int mtuValue_IPv6);
 
-	// UI to SRV
-	static ReturnValue<std::vector<std::wstring>> API_SRV_GetNetworkAdapterList();
-	static ReturnValue<ApplyMtuResult> API_SRV_ApplyMtu(int mtu_IPv4, int mtu_IPv6, std::wstring adapterName);
-	static bool API_SRV_OpenNetworkControlPanel();
-	static void API_SRV_OpenCommandPrompt();
-	static std::wstring API_SRV_GetNetshCommand(std::wstring adapterName, int mtu_IPv4, int mtu_IPv6);
-	static void API_SRV_CopyNetshCommand(std::wstring command);
+    // UI to SRV
+    static ReturnValue<std::vector<GetNetworkAdapterListResult>> API_SRV_GetNetworkAdapterList();
+    static ReturnValue<ApplyMtuResult> API_SRV_ApplyMtu(int mtu_IPv4, int mtu_IPv6, std::wstring adapterName);
+    static bool API_SRV_OpenNetworkControlPanel();
+    static void API_SRV_OpenCommandPrompt();
+    static std::wstring API_SRV_GetNetshCommand(std::wstring adapterName, int mtu_IPv4, int mtu_IPv6);
+    static void API_SRV_CopyNetshCommand(std::wstring command);
 
 private:
-	int _mtuValue_IPv4 = 0;
-	int _mtuValue_IPv6 = 0;
+    int _mtuValue_IPv4 = 0;
+    int _mtuValue_IPv6 = 0;
 
-	wxWindowDisabler makeModal;
+    wxWindowDisabler makeModal;
 
-	wxPanel* rootPanel = nullptr;
+    wxPanel* rootPanel = nullptr;
 
-	wxStaticText* chooseAdapter_StaticText = nullptr;
-	wxComboBox* chooseAdapter_ComboBox = nullptr;
-	wxButton* chooseAdapter_HelpMeDecideButton = nullptr;
-	wxStaticText* displayMtu_IPv4 = nullptr;
-	wxStaticText* displayMtu_IPv6 = nullptr;
-	wxStaticText* yourCommand_StaticText = nullptr;
-	wxTextCtrl* yourCommand_TextCtrl = nullptr;
-	wxButton* yourCommand_CopyButton = nullptr;
-	wxButton* navigate_ApplyButton = nullptr;
-	wxButton* navigate_CancelButton = nullptr;
+    wxStaticText* chooseAdapter_StaticText = nullptr;
+    wxComboBox* chooseAdapter_ComboBox = nullptr;
+    std::unordered_map<int, GetNetworkAdapterListResult> chooseAdapter_ComboBox_RawData;
+    wxButton* chooseAdapter_HelpMeDecideButton = nullptr;
+    wxStaticText* displayMtu_IPv4 = nullptr;
+    wxStaticText* displayMtu_IPv6 = nullptr;
+    wxStaticText* yourCommand_StaticText = nullptr;
+    wxTextCtrl* yourCommand_TextCtrl = nullptr;
+    wxButton* yourCommand_CopyButton = nullptr;
+    wxButton* navigate_ApplyButton = nullptr;
+    wxButton* navigate_CancelButton = nullptr;
 
-	void Init_CreateControls();
-	void Init_BindEventHandlers();
-	void Init_Layout();
+    void Init_CreateControls();
+    void Init_BindEventHandlers();
+    void Init_Layout();
 
-	void OnHelpMeDecideButton(wxCommandEvent& evt);
-	void OnChooseTargetInterfaceChange(wxCommandEvent& evt);
-	void OnCopyButton(wxCommandEvent& evt);
-	void OnConfirmButton(wxCommandEvent& evt);
-	void OnCancelButton(wxCommandEvent& evt);
+    void OnHelpMeDecideButton(wxCommandEvent& evt);
+    void OnChooseTargetInterfaceChange(wxCommandEvent& evt);
+    void OnCopyButton(wxCommandEvent& evt);
+    void OnConfirmButton(wxCommandEvent& evt);
+    void OnCancelButton(wxCommandEvent& evt);
 };
