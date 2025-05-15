@@ -9,7 +9,7 @@ Dependencies
   - Environment variable `WXWIN` as `C:\wxWidgets-3.1.5`
 - boost `1.75.0`
   - Unzip to folder like `C:\boost\boost_1_75_0`, there should be `C:\boost\boost_1_75_0\b2.exe`
-  - Run `b2.exe link=static`
+  - Run `b2.exe link=static`, if want fully static, run `b2.exe link=static runtime-link=static` instead
   - Environment variable `BOOST` as `C:\wxWidgets-3.1.5`
 - clip `1.9`
   - Unzip to folder like `C:\clip-1.9`, there should be `C:\clip-1.9\CMakeLists.txt`
