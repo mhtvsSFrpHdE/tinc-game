@@ -258,7 +258,7 @@ ReturnValue<ApplyMtuResult> ApplyMtuFrame::API_SRV_ApplyMtu(int mtu_IPv4, int mt
     s.clear();
     bp::ipstream is2;
 
-    commandStringStream.clear();
+    commandStringStream.str(std::wstring());
     commandStringStream << L"netsh437.bat"
         << sr::space << sr::doubleQuotes << adapterName << sr::doubleQuotes
         << sr::space << mtu_IPv4
