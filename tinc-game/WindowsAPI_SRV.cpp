@@ -119,8 +119,6 @@ void WindowsAPI_SRV::GetAdaptersAddresses(std::vector<GetAdaptersAddressesResult
             networkAdapter.friendlyName = pCurrAddresses->FriendlyName;
             networkAdapter.modelName = pCurrAddresses->Description;
             networkAdapter.windows_LUID = pCurrAddresses->AdapterName;
-            networkAdapter.isLoopback = wcsstr(pCurrAddresses->Description, L"Software Loopback");
-            networkAdapter.isTapDevice = wcsstr(pCurrAddresses->Description, L"TAP-Win32 Adapter V9");
             result->push_back(networkAdapter);
 
             //if (pCurrAddresses->PhysicalAddressLength != 0) {
@@ -188,4 +186,16 @@ void WindowsAPI_SRV::GetAdaptersAddresses(std::vector<GetAdaptersAddressesResult
     if (pAddresses) {
         FREE(pAddresses);
     }
+}
+
+bool WindowsAPI_SRV::GetAdaptersAddressesResult::isLoopback()
+{
+    auto isLoopback = this->modelName.find(L"Software Loopback") != std::wstring::npos;
+    return isLoopback;
+}
+
+bool WindowsAPI_SRV::GetAdaptersAddressesResult::isTapDevice()
+{
+    auto isTapDevice = this->modelName.find(L"TAP-Win32 Adapter V9") != std::wstring::npos;
+    return isTapDevice;
 }
