@@ -1,2 +1,2 @@
-@chcp 437
-@netsh interface "%3" set subinterface "%1" mtu="%2" store=persistent
+@start "" /min /wait netsh437_start.bat %1 %2 %3
+@type netsh437_result.txt

@@ -215,9 +215,17 @@ ReturnValue<ApplyMtuResult> ApplyMtuFrame::API_SRV_ApplyMtu(int mtu_IPv4, int mt
 {
     auto result = ReturnValue<ApplyMtuResult>();
     namespace bp = boost::process;
+    namespace sr = String_SRV;
     bp::ipstream is;
 
-    bp::child c(std::wstring(L"netsh437.bat "), adapterName, std::to_wstring(mtu_IPv4), "ipv4", bp::std_out > is, bp::windows::hide);
+    std::wstringstream commandStringStream;
+    commandStringStream << L"netsh437.bat"
+        << sr::space << sr::doubleQuotes << adapterName << sr::doubleQuotes
+        << sr::space << mtu_IPv4
+        << sr::space << L"ipv6";
+    auto netshCommand = commandStringStream.str();
+    bp::child c(bp::shell(), bp::args({ L"/c", netshCommand }), bp::std_out > is, bp::windows::hide);
+
     c.wait();
     std::string line;
     std::ostringstream s;
@@ -249,7 +257,14 @@ ReturnValue<ApplyMtuResult> ApplyMtuFrame::API_SRV_ApplyMtu(int mtu_IPv4, int mt
     s.str("");
     s.clear();
     bp::ipstream is2;
-    bp::child d(std::wstring(L"netsh437.bat"), adapterName, std::to_string(mtu_IPv6), "ipv6", bp::std_out > is2, bp::windows::hide);
+
+    commandStringStream.clear();
+    commandStringStream << L"netsh437.bat"
+        << sr::space << sr::doubleQuotes << adapterName << sr::doubleQuotes
+        << sr::space << mtu_IPv4
+        << sr::space << L"ipv6";
+    auto netshCommandd = commandStringStream.str();
+    bp::child d(bp::shell(), bp::args({ L"/c", netshCommandd }), bp::std_out > is, bp::windows::hide);
     d.wait();
     std::string line2;
     while (std::getline(is2, line2)) {

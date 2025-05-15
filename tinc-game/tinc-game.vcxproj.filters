@@ -103,5 +103,8 @@
     <None Include="ping437_start.bat">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="netsh437_start.bat">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

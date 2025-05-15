@@ -181,6 +181,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="netsh437.bat" />
+    <None Include="netsh437_start.bat" />
     <None Include="ping437.bat">
       <DeploymentContent>false</DeploymentContent>
     </None>
