@@ -6,8 +6,8 @@ class MainFrame : public wxFrame
 public:
 	MainFrame();
 
-	wxButton* optimizeMtuButton;
-	wxButton* settingsButton;
+	wxButton* optimizeMtu_Button;
+	wxButton* settings_Button;
 
 	int openedFrameCount = 0;
 

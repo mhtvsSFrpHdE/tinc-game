@@ -14,14 +14,14 @@ MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
 void MainFrame::Init_CreateControls()
 {
 	rootPanel = new wxPanel(this);
-	optimizeMtuButton = new wxButton(rootPanel, wxID_ANY, _("Optimize MTU"));
-	settingsButton = new wxButton(rootPanel, wxID_ANY, _("Settings"));
+	optimizeMtu_Button = new wxButton(rootPanel, wxID_ANY, _("Optimize MTU"));
+	settings_Button = new wxButton(rootPanel, wxID_ANY, _("Settings"));
 }
 
 void MainFrame::Init_BindEventHandlers()
 {
-	optimizeMtuButton->Bind(wxEVT_BUTTON, &MainFrame::OnOptimizeMtuButton, this);
-	settingsButton->Bind(wxEVT_BUTTON, &MainFrame::OnSettingsButton, this);
+	optimizeMtu_Button->Bind(wxEVT_BUTTON, &MainFrame::OnOptimizeMtuButton, this);
+	settings_Button->Bind(wxEVT_BUTTON, &MainFrame::OnSettingsButton, this);
 }
 
 void MainFrame::Init_Layout()
@@ -38,14 +38,14 @@ void MainFrame::Init_Layout()
 	wxBoxSizer* optimizeMtuSizer = new wxBoxSizer(wxHORIZONTAL);
 	rootSizer->Add(optimizeMtuSizer, 1, wxEXPAND);
 	optimizeMtuSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
-	optimizeMtuSizer->Add(optimizeMtuButton, 1);
+	optimizeMtuSizer->Add(optimizeMtu_Button, 1);
 	optimizeMtuSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
 	ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
 	wxBoxSizer* settingsSizer = new wxBoxSizer(wxHORIZONTAL);
 	rootSizer->Add(settingsSizer, 1, wxEXPAND);
 	settingsSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
-	settingsSizer->Add(settingsButton, 1);
+	settingsSizer->Add(settings_Button, 1);
 	settingsSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
 
 	ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);

@@ -156,7 +156,7 @@ void OptimizeMtuFrame::OnClose(wxCloseEvent& event)
 		return;
 	}
 
-	_parentFrame->optimizeMtuButton->Enable(true);
+	_parentFrame->optimizeMtu_Button->Enable(true);
 	_parentFrame->openedFrameCount--;
 	event.Skip();
 }
