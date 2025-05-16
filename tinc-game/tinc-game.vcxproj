@@ -158,11 +158,13 @@
     <ClInclude Include="Layout_SRV.h" />
     <ClInclude Include="MainFrame.h" />
     <ClInclude Include="HelpFrame.h" />
+    <ClInclude Include="ManageTapFrame.h" />
     <ClInclude Include="ReturnValue.h" />
     <ClInclude Include="SettingsFrame.h" />
     <ClInclude Include="Settings_SRV.h" />
     <ClInclude Include="OptimizeMtuFrame.h" />
     <ClInclude Include="String_SRV.h" />
+    <ClInclude Include="TapDevice_SRV.h" />
     <ClInclude Include="WindowsAPI_SRV.h" />
   </ItemGroup>
   <ItemGroup>
@@ -173,12 +175,14 @@
     <ClCompile Include="Layout_SRV.cpp" />
     <ClCompile Include="MainFrame.cpp" />
     <ClCompile Include="HelpFrame.cpp" />
+    <ClCompile Include="ManageTapFrame.cpp" />
     <ClCompile Include="SettingsFrame.cpp" />
     <ClCompile Include="Settings_SRV.cpp" />
     <ClCompile Include="OptimizeMtuFrame.cpp" />
     <ClCompile Include="OptimizeMtuFrame_SRV.cpp" />
     <ClCompile Include="OptimizeMtuFrame_Test.cpp" />
     <ClCompile Include="String_SRV.cpp" />
+    <ClCompile Include="TapDevice_SRV.cpp" />
     <ClCompile Include="WindowsAPI_SRV.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -51,6 +51,12 @@
     <ClInclude Include="WindowsAPI_SRV.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ManageTapFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TapDevice_SRV.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp">
@@ -93,6 +99,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WindowsAPI_SRV.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ManageTapFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TapDevice_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

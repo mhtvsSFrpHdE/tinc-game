@@ -10,26 +10,28 @@
 class Settings_SRV
 {
 public:
-	static wxString GetIniFilePath();
-	static void WriteLanguage(int selectedIndex);
-	static wxLanguage ReadLanguage();
-	static bool CheckIniExists();
-	static void LoadConfigFile();
+    static wxString GetIniFilePath();
+    static void WriteLanguage(int selectedIndex);
+    static wxLanguage ReadLanguage();
+    static bool CheckIniExists();
+    static void LoadConfigFile();
 
-	static const wxString arrayDelimiter1;
-	static const wxString arrayDelimiter2;
-	static ReturnValue<wxArrayString> ReadArray(wxString settingKey, wxString delimiter = arrayDelimiter1);
+    static const wxString arrayDelimiter1;
+    static const wxString arrayDelimiter2;
+    static const wxString emptyPlaceholder1;
+    static ReturnValue<wxArrayString> ReadArray(wxString settingKey, wxString delimiter = arrayDelimiter1);
 
-	static wxFileConfig* config;
+    static wxFileConfig* config;
 };
 
 namespace SettingKeys {
-	const wxString settings = wxT("Settings/");
-	const wxString language = settings + wxT("Language");
+    const wxString settings = wxT("Settings/");
+    const wxString language = settings + wxT("Language");
+    const wxString defaultVirtualNetworkAdapter = settings + wxT("DefaultVirtualNetworkAdapter");
 
-	const wxString lists = wxT("Lists/");
-	const wxString mtuTestIp = lists + wxT("MtuTestIp");
+    const wxString lists = wxT("Lists/");
+    const wxString mtuTestIp = lists + wxT("MtuTestIp");
 
-	const wxString metadata = wxT("Metadata/");
-	const wxString configVersion = metadata + wxT("ConfigVersion");
+    const wxString metadata = wxT("Metadata/");
+    const wxString configVersion = metadata + wxT("ConfigVersion");
 };
