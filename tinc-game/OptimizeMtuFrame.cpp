@@ -107,47 +107,47 @@ void OptimizeMtuFrame::Init_Layout()
 
 	wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
 	rootPanel->SetSizer(rootSizer);
-	ls::AddSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
+	ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
 	wxBoxSizer* chooseAddressTitleSizer = new wxBoxSizer(wxHORIZONTAL);
 	rootSizer->Add(chooseAddressTitleSizer);
 	chooseAddressTitleSizer->Add(chooseAddress_StaticText, 1, wxLEFT, ls::SpaceToFrameBorder);
 	chooseAddressTitleSizer->Add(0, 0, ls::TakeAllSpace);
 	chooseAddressTitleSizer->Add(helpButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
-	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+	ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
 	wxBoxSizer* chooseAddressComboBoxSizer = new wxBoxSizer(wxHORIZONTAL);
 	rootSizer->Add(chooseAddressComboBoxSizer);
 	chooseAddressComboBoxSizer->Add(chooseAddress_ComboBox, 3, wxLEFT, ls::SpaceToFrameBorder);
 	chooseAddressComboBoxSizer->Add(startButton, 1, wxLEFT, ls::SpaceBetweenControl);
 	chooseAddressComboBoxSizer->Add(applyButton, 1, wxLEFT, ls::SpaceBetweenControl);
-	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+	ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
 	wxBoxSizer* liveLogSizer = new wxBoxSizer(wxHORIZONTAL);
 	rootSizer->Add(liveLogSizer, 1, wxEXPAND);
 	liveLogSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
 	liveLogSizer->Add(liveLog, 1, wxEXPAND);
 	liveLogSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
-	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+	ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
 	wxBoxSizer* mtuSizer_IPv4 = new wxBoxSizer(wxHORIZONTAL);
 	rootSizer->Add(mtuSizer_IPv4);
 	mtuSizer_IPv4->Add(mtu_IPv4_StaticText, 0, wxLEFT, ls::SpaceToFrameBorder);
 	mtuSizer_IPv4->Add(mtuValue_IPv4_StaticText, 0, wxLEFT, 5);
-	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+	ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
 	wxBoxSizer* mtuSizer_IPv6 = new wxBoxSizer(wxHORIZONTAL);
 	rootSizer->Add(mtuSizer_IPv6);
 	mtuSizer_IPv6->Add(mtu_IPv6_StaticText, 0, wxLEFT, ls::SpaceToFrameBorder);
 	mtuSizer_IPv6->Add(mtuValue_IPv6_StaticText, 0, wxLEFT, 5);
-	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+	ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
 	wxBoxSizer* navigateSizer = new wxBoxSizer(wxHORIZONTAL);
 	rootSizer->Add(navigateSizer);
 	navigateSizer->AddStretchSpacer(ls::TakeAllSpace);
 	navigateSizer->Add(closeButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
 
-	ls::AddSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
+	ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 }
 
 void OptimizeMtuFrame::OnClose(wxCloseEvent& event)

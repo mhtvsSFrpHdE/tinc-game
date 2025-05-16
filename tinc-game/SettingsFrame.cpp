@@ -51,13 +51,13 @@ void SettingsFrame::Init_Layout()
 
 	wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
 	rootPanel->SetSizer(rootSizer);
-	ls::AddSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
+	ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
 	rootSizer->Add(chooseLanguage_StaticText, 0, wxLEFT, ls::SpaceToFrameBorder);
-	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+	ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
 	rootSizer->Add(chooseLanguage_ComboBox, 0, wxLEFT, ls::SpaceToFrameBorder);
-	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+	ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
 	rootSizer->Add(0, 0, ls::TakeAllSpace, wxEXPAND);
 	wxBoxSizer* navigateSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -65,7 +65,7 @@ void SettingsFrame::Init_Layout()
 	navigateSizer->AddStretchSpacer(ls::TakeAllSpace);
 	navigateSizer->Add(confirmButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
 
-	ls::AddSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
+	ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 }
 
 void SettingsFrame::OnConfirmButtonClick(wxCommandEvent& event)

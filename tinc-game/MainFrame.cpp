@@ -33,14 +33,14 @@ void MainFrame::Init_Layout()
 
 	wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
 	rootPanel->SetSizer(rootSizer);
-	ls::AddSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
+	ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
 	wxBoxSizer* optimizeMtuSizer = new wxBoxSizer(wxHORIZONTAL);
 	rootSizer->Add(optimizeMtuSizer, 1, wxEXPAND);
 	optimizeMtuSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
 	optimizeMtuSizer->Add(optimizeMtuButton, 1);
 	optimizeMtuSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
-	ls::AddSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+	ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
 	wxBoxSizer* settingsSizer = new wxBoxSizer(wxHORIZONTAL);
 	rootSizer->Add(settingsSizer, 1, wxEXPAND);
@@ -48,7 +48,7 @@ void MainFrame::Init_Layout()
 	settingsSizer->Add(settingsButton, 1);
 	settingsSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
 
-	ls::AddSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
+	ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
 	this->SetSize(minSize);
 }

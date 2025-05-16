@@ -7,5 +7,5 @@ namespace Layout_SRV
 	// Stretch proportion that take as much space as possible
 	const int TakeAllSpace = 100;
 
-	void AddSpacer(wxDirection direction, int value, wxSizer* sizer);
+	void AddFixedSpacer(wxDirection direction, int value, wxSizer* sizer);
 };
