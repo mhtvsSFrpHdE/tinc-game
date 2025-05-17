@@ -5,7 +5,7 @@ void TapDevice_SRV::Init()
 {
     namespace sk = SettingKeys;
 
-    defaultVirtualNetworkAdapter = Settings_SRV::config->Read(sk::defaultVirtualNetworkAdapter).ToStdWstring();
+    defaultTap = Settings_SRV::config->Read(sk::defaultVirtualNetworkAdapter).ToStdWstring();
     emptyPlaceholder = Settings_SRV::emptyPlaceholder1;
 
     ReloadAdapterList();
@@ -16,10 +16,10 @@ void TapDevice_SRV::ReloadAdapterList()
     auto newAdapterList = std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult>();
     WindowsAPI_SRV::GetAdaptersAddresses(&newAdapterList);
 
-    adapterList.clear();
+    tapList.clear();
     for (auto& adapter : newAdapterList) {
         if (adapter.isTap()) {
-            adapterList.push_back(adapter);
+            tapList.push_back(adapter);
         }
     }
 }
@@ -27,11 +27,11 @@ void TapDevice_SRV::ReloadAdapterList()
 ReturnValue<TapDevice_SRV::GetDefaultTapResult> TapDevice_SRV::GetDefaultTap()
 {
     auto result = ReturnValue<GetDefaultTapResult>();
-    bool haveAnyInstalledAdapter = adapterList.size() > 0;
+    bool haveAnyInstalledAdapter = tapList.size() > 0;
 
-    if (defaultVirtualNetworkAdapter == emptyPlaceholder) {
+    if (defaultTap == emptyPlaceholder) {
         if (haveAnyInstalledAdapter) {
-            result.returnBody.adapter = adapterList[0];
+            result.returnBody.adapter = tapList[0];
             result.success = true;
             return result;
         }
@@ -42,8 +42,8 @@ ReturnValue<TapDevice_SRV::GetDefaultTapResult> TapDevice_SRV::GetDefaultTap()
     }
     else {
         if (haveAnyInstalledAdapter) {
-            for (auto& adapter : adapterList) {
-                if (adapter.friendlyName == defaultVirtualNetworkAdapter) {
+            for (auto& adapter : tapList) {
+                if (adapter.friendlyName == defaultTap) {
                     result.returnBody.adapter = adapter;
                     result.success = true;
                     return result;
@@ -63,11 +63,13 @@ void TapDevice_SRV::SetDefaultTap(WindowsAPI_SRV::GetAdaptersAddressesResult ada
 {
     namespace sk = SettingKeys;
 
+    defaultTap = adapter.friendlyName;
+
     Settings_SRV::config->Write(sk::defaultVirtualNetworkAdapter, wxString(adapter.friendlyName));
     Settings_SRV::config->Flush();
 }
 
-std::wstring TapDevice_SRV::defaultVirtualNetworkAdapter;
+std::wstring TapDevice_SRV::defaultTap;
 std::wstring TapDevice_SRV::emptyPlaceholder;
 
-std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult> TapDevice_SRV::adapterList;
+std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult> TapDevice_SRV::tapList;

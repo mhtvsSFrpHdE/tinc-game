@@ -16,10 +16,10 @@ namespace TapDevice_SRV
         Enum message = Enum::Unknown;
     };
 
-    extern std::wstring defaultVirtualNetworkAdapter;
+    extern std::wstring defaultTap;
     extern std::wstring emptyPlaceholder;
 
-    extern std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult> adapterList;
+    extern std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult> tapList;
 
     void Init();
     void ReloadAdapterList();

@@ -94,6 +94,7 @@ void ManageTapFrame::OnSetAsDefaultButtonClick(wxCommandEvent& evt)
     auto selectedIndex = installedTap_ComboBox->GetSelection();
     auto adapter = installedTap_ComboBox_RawData[selectedIndex];
     TapDevice_SRV::SetDefaultTap(adapter);
+    Reload_defaultTapValue_TextCtrl();
     wxMessageDialog(this, _("Successfully set default adapter to:") + String_SRV::newLine + adapter.friendlyName + " | " + adapter.modelName).ShowModal();
 }
 
@@ -123,14 +124,37 @@ void ManageTapFrame::OnUninstallTapButtonClick(wxCommandEvent& evt)
 {
     allowCloseFrame = false;
 
+    auto getDefaultTap = TapDevice_SRV::GetDefaultTap();
     auto selectedIndex = installedTap_ComboBox->GetSelection();
-    auto adapter = installedTap_ComboBox_RawData[selectedIndex];
-    auto uninstallTap = API_SRV_UninstallTap(adapter);
+    auto adapterToUninstall = installedTap_ComboBox_RawData[selectedIndex];
+    bool requestClearDefaultTap = false;
+    if (getDefaultTap.success) {
+        bool uninstallingDefaultTap = getDefaultTap.returnBody.adapter.friendlyName == adapterToUninstall.friendlyName;
+        if (uninstallingDefaultTap) {
+            auto askResult = wxMessageBox(_("Uninstalling current default virtual network adapter") + String_SRV::newLine + _("Confirm?"), wxEmptyString, wxYES_NO, this);
+            if (askResult == wxYES)
+            {
+                requestClearDefaultTap = true;
+            }
+            else {
+                allowCloseFrame = true;
+                return;
+            }
+        }
+    }
+
+    auto uninstallTap = API_SRV_UninstallTap(adapterToUninstall);
     if (uninstallTap.success) {
-        wxMessageDialog(this, _("Successfully uninstalled adapter") + String_SRV::newLine + adapter.friendlyName + " | " + adapter.modelName).ShowModal();
+        wxMessageDialog(this, _("Successfully uninstalled adapter") + String_SRV::newLine + adapterToUninstall.friendlyName + " | " + adapterToUninstall.modelName).ShowModal();
     }
     else {
         wxMessageDialog(this, _("Uninstall adapter failed:") + String_SRV::newLine + uninstallTap.returnBody).ShowModal();
+    }
+
+    if (requestClearDefaultTap) {
+        auto adapter = WindowsAPI_SRV::GetAdaptersAddressesResult();
+        adapter.friendlyName = TapDevice_SRV::emptyPlaceholder;
+        TapDevice_SRV::SetDefaultTap(adapter);
     }
 
     Reload();
@@ -146,6 +170,9 @@ void ManageTapFrame::Reload_installedTap_ComboBox()
 {
     auto getNetworkAdapterList = API_SRV_GetNetworkAdapterList();
     if (getNetworkAdapterList.success) {
+        installedTap_ComboBox->Clear();
+        installedTap_ComboBox_RawData.clear();
+
         int mapIndex = 0;
         for (int adapterIndex = 0; adapterIndex < getNetworkAdapterList.returnBody.size(); adapterIndex++)
         {
@@ -180,4 +207,6 @@ void ManageTapFrame::Reload()
 {
     Reload_defaultTapValue_TextCtrl();
     Reload_installedTap_ComboBox();
+    setAsDefault_Button->Enable(false);
+    uninstallTapButton->Enable(false);
 }
