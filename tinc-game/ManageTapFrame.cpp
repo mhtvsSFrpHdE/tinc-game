@@ -104,16 +104,19 @@ void ManageTapFrame::OnInstallTapButtonClick(wxCommandEvent& evt)
 
     if (hasDefaultTap) {
         auto askResult = wxMessageBox(_("Detected exist virtual network adapter") + String_SRV::newLine + _("Install another one?"), wxEmptyString, wxYES_NO, this);
-        if (askResult == wxYES)
+        if (askResult == wxNO)
         {
-            auto installTap = API_SRV_InstallTap();
-            if (installTap.success) {
-                wxMessageDialog(this, _("Successfully installed new adapter")).ShowModal();
-            }
-            else {
-                wxMessageDialog(this, _("Install adapter failed:") + String_SRV::newLine + installTap.returnBody).ShowModal();
-            }
+            allowCloseFrame = true;
+            return;
         }
+    }
+
+    auto installTap = API_SRV_InstallTap();
+    if (installTap.success) {
+        wxMessageDialog(this, _("Successfully installed new adapter")).ShowModal();
+    }
+    else {
+        wxMessageDialog(this, _("Install adapter failed:") + String_SRV::newLine + installTap.returnBody).ShowModal();
     }
 
     Reload();
