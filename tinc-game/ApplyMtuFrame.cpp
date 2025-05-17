@@ -17,9 +17,8 @@ void ApplyMtuFrame::Init_CreateControls()
     rootPanel = new wxPanel(this);
     chooseAdapter_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Set MTU to network interface"));
 
+    chooseAdapter_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
     {
-        chooseAdapter_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
-
         auto getNetworkAdapterList = API_SRV_GetNetworkAdapterList();
         if (getNetworkAdapterList.success) {
             int mapIndex = 0;
