@@ -59,6 +59,14 @@ ReturnValue<TapDevice_SRV::GetDefaultTapResult> TapDevice_SRV::GetDefaultTap()
     return result;
 }
 
+void TapDevice_SRV::SetDefaultTap(WindowsAPI_SRV::GetAdaptersAddressesResult adapter)
+{
+    namespace sk = SettingKeys;
+
+    Settings_SRV::config->Write(sk::defaultVirtualNetworkAdapter, wxString(adapter.friendlyName));
+    Settings_SRV::config->Flush();
+}
+
 std::wstring TapDevice_SRV::defaultVirtualNetworkAdapter;
 std::wstring TapDevice_SRV::emptyPlaceholder;
 

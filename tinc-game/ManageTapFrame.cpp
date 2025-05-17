@@ -18,11 +18,13 @@ void ManageTapFrame::Init_CreateControls()
     defaultTapValue_TextCtrl = new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
     Reload_defaultTapValue_TextCtrl();
     manageTap_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Manage virtual network adapter"));
+    setAsDefault_Button = new wxButton(rootPanel, wxID_ANY, _("Set as default"));
+    setAsDefault_Button->Enable(false);
     installTap_Button = new wxButton(rootPanel, wxID_ANY, _("Install new"));
+    uninstallTapButton = new wxButton(rootPanel, wxID_ANY, _("Uninstall"));
+    uninstallTapButton->Enable(false);
     installedTap_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
     Reload_installedTap_ComboBox();
-    uninstallTapButton = new wxButton(rootPanel, wxID_ANY, _("Uninstall selected"));
-    uninstallTapButton->Enable(false);
     closeButton = new wxButton(rootPanel, wxID_ANY, _("Close"));
 }
 
@@ -30,6 +32,7 @@ void ManageTapFrame::Init_BindEventHandlers()
 {
     Bind(wxEVT_CLOSE_WINDOW, &ManageTapFrame::OnClose, this);
     installedTap_ComboBox->Bind(wxEVT_COMBOBOX, &ManageTapFrame::OnInstalledTapComboBoxChange, this);
+    setAsDefault_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnSetAsDefaultButtonClick, this);
     installTap_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnInstallTapButtonClick, this);
     uninstallTapButton->Bind(wxEVT_BUTTON, &ManageTapFrame::OnUninstallTapButtonClick, this);
     closeButton->Bind(wxEVT_BUTTON, &ManageTapFrame::OnCloseButtonClick, this);
@@ -58,6 +61,7 @@ void ManageTapFrame::Init_Layout()
     wxBoxSizer* manageTapSizer = new wxBoxSizer(wxHORIZONTAL);
     rootSizer->Add(manageTapSizer);
     manageTapSizer->Add(installTap_Button, 0, wxLEFT, ls::SpaceToFrameBorder);
+    manageTapSizer->Add(setAsDefault_Button, 0, wxLEFT, ls::SpaceBetweenControl);
     manageTapSizer->Add(uninstallTapButton, 0, wxLEFT, ls::SpaceBetweenControl);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
@@ -82,6 +86,15 @@ void ManageTapFrame::OnInstalledTapComboBoxChange(wxCommandEvent& evt)
 {
     auto hasValue = installedTap_ComboBox->GetSelection() >= 0;
     uninstallTapButton->Enable(hasValue);
+    setAsDefault_Button->Enable(hasValue);
+}
+
+void ManageTapFrame::OnSetAsDefaultButtonClick(wxCommandEvent& evt)
+{
+    auto selectedIndex = installedTap_ComboBox->GetSelection();
+    auto adapter = installedTap_ComboBox_RawData[selectedIndex];
+    TapDevice_SRV::SetDefaultTap(adapter);
+    wxMessageDialog(this, _("Successfully set default adapter to:") + String_SRV::newLine + adapter.friendlyName + " | " + adapter.modelName).ShowModal();
 }
 
 void ManageTapFrame::OnInstallTapButtonClick(wxCommandEvent& evt)

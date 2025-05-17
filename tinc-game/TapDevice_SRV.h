@@ -24,4 +24,5 @@ namespace TapDevice_SRV
     void Init();
     void ReloadAdapterList();
     ReturnValue<GetDefaultTapResult> GetDefaultTap();
+    void SetDefaultTap(WindowsAPI_SRV::GetAdaptersAddressesResult adapter);
 };
