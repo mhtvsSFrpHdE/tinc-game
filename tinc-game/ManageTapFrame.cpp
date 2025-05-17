@@ -6,6 +6,8 @@
 
 ManageTapFrame::ManageTapFrame(MainFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Manage virtual network adapter"))
 {
+    TapDevice_SRV::ReloadAdapterList();
+
     Init_CreateControls();
     Init_BindEventHandlers();
     Init_Layout();
@@ -208,6 +210,7 @@ void ManageTapFrame::Reload_defaultTapValue_TextCtrl()
 
 void ManageTapFrame::Reload()
 {
+    TapDevice_SRV::ReloadAdapterList();
     Reload_defaultTapValue_TextCtrl();
     Reload_installedTap_ComboBox();
     setAsDefault_Button->Enable(false);

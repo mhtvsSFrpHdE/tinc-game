@@ -7,8 +7,6 @@ void TapDevice_SRV::Init()
 
     defaultTap = Settings_SRV::config->Read(sk::defaultVirtualNetworkAdapter).ToStdWstring();
     emptyPlaceholder = Settings_SRV::emptyPlaceholder1;
-
-    ReloadAdapterList();
 }
 
 void TapDevice_SRV::ReloadAdapterList()
