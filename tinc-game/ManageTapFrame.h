@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include "ReturnValue.h"
 #include "WindowsAPI_SRV.h"
+#include <string>
 
 class ManageTapFrame : public wxFrame
 {
@@ -12,7 +13,8 @@ public:
 
     // UI to SRV
     static ReturnValue<std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult>> API_SRV_GetNetworkAdapterList();
-    //void API_SRV_InstallTap();
+    static ReturnValue<std::wstring> API_SRV_InstallTap();
+    static ReturnValue<std::wstring> API_SRV_UninstallTap(WindowsAPI_SRV::GetAdaptersAddressesResult adapter);
 
 private:
     wxWindowDisabler makeModal;
@@ -22,7 +24,7 @@ private:
     wxStaticText* defaultTap_StaticText = nullptr;
     wxTextCtrl* defaultTapValue_TextCtrl = nullptr;
     wxString defaultTapValue_NoneText = _("None");
-    bool haveDefaultTap = false;
+    bool hasDefaultTap = false;
 
     wxStaticText* manageTap_StaticText = nullptr;
     wxButton* installTap_Button = nullptr;
@@ -38,7 +40,14 @@ private:
     void Init_Layout();
 
     void OnClose(wxCloseEvent& event);
+    void OnInstalledTapComboBoxChange(wxCommandEvent& evt);
+    void OnInstallTapButtonClick(wxCommandEvent& evt);
+    void OnUninstallTapButtonClick(wxCommandEvent& evt);
     void OnCloseButtonClick(wxCommandEvent& evt);
+
+    void Reload_installedTap_ComboBox();
+    void Reload_defaultTapValue_TextCtrl();
+    void Reload();
 
     bool allowCloseFrame = true;
 };
