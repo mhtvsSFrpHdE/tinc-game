@@ -177,6 +177,7 @@
     <ClCompile Include="MainFrame.cpp" />
     <ClCompile Include="HelpFrame.cpp" />
     <ClCompile Include="ManageTapFrame.cpp" />
+    <ClCompile Include="ManageTapFrame_SRV.cpp" />
     <ClCompile Include="SettingsFrame.cpp" />
     <ClCompile Include="Settings_SRV.cpp" />
     <ClCompile Include="OptimizeMtuFrame.cpp" />
