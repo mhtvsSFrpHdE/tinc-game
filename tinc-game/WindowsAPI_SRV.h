@@ -9,7 +9,7 @@ namespace WindowsAPI_SRV
         std::wstring modelName;
         std::string windows_LUID;
         bool isLoopback();
-        bool isTapDevice();
+        bool isTap();
     };
 
     void GetAdaptersAddresses(std::vector<GetAdaptersAddressesResult>* result);
