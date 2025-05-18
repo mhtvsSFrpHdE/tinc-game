@@ -90,19 +90,6 @@ ReturnValue<ApplyMtuResult> ApplyMtuFrame::API_SRV_ApplyMtu(int mtu_IPv4, int mt
     return result;
 }
 
-bool ApplyMtuFrame::API_SRV_OpenNetworkControlPanel()
-{
-    using namespace boost::process;
-    try {
-        child c("control.exe ncpa.cpl");
-        c.wait();
-        return true;
-    }
-    catch (...) {
-        return false;
-    }
-}
-
 void ApplyMtuFrame::API_SRV_OpenCommandPrompt()
 {
     namespace bp = boost::process;

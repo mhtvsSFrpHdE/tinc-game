@@ -1,3 +1,5 @@
+#include "boost/process.hpp"
+#include <boost/process/windows.hpp>
 #include "TapDevice_SRV.h"
 #include "Settings_SRV.h"
 
@@ -96,6 +98,19 @@ ReturnValue<std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult>> TapDevice_S
     }
 
     return result;
+}
+
+bool TapDevice_SRV::API_SRV_OpenNetworkControlPanel()
+{
+    namespace bp = boost::process;
+    try {
+        bp::child c("control.exe ncpa.cpl");
+        c.wait();
+        return true;
+    }
+    catch (...) {
+        return false;
+    }
 }
 
 bool TapDevice_SRV::HasAnyInstalledTap()

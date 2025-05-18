@@ -101,9 +101,9 @@ void ApplyMtuFrame::Init_Layout()
 
 void ApplyMtuFrame::OnHelpMeDecideButton(wxCommandEvent& evt)
 {
-    auto openNetworkControlPanel = API_SRV_OpenNetworkControlPanel();
+    auto openNetworkControlPanel = TapDevice_SRV::API_SRV_OpenNetworkControlPanel();
     if (openNetworkControlPanel == false) {
-        wxMessageDialog(this, _("Failed to open \"control.exe\".")).ShowModal();
+        wxMessageDialog(this, TapDevice_SRV::openNetworkControlPanelFailedMessage).ShowModal();
     }
 }
 

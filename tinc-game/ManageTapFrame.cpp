@@ -27,7 +27,8 @@ void ManageTapFrame::Init_CreateControls()
     uninstallTapButton->Enable(false);
     installedTap_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
     Reload_installedTap_ComboBox();
-    installeTapRefresh_Button = new wxButton(rootPanel, wxID_ANY, _("Refresh"));
+    installedTapHelpMeDecide_Button = new wxButton(rootPanel, wxID_ANY, _("Help me decide"));
+    installedTapRefresh_Button = new wxButton(rootPanel, wxID_ANY, _("Refresh"));
     closeButton = new wxButton(rootPanel, wxID_ANY, _("Close"));
 }
 
@@ -35,7 +36,8 @@ void ManageTapFrame::Init_BindEventHandlers()
 {
     Bind(wxEVT_CLOSE_WINDOW, &ManageTapFrame::OnClose, this);
     installedTap_ComboBox->Bind(wxEVT_COMBOBOX, &ManageTapFrame::OnInstalledTapComboBoxChange, this);
-    installeTapRefresh_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnInstalledTapRefreshButtonClick, this);
+    installedTapHelpMeDecide_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnInstalledTapHelpMeDecideButtonClick, this);
+    installedTapRefresh_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnInstalledTapRefreshButtonClick, this);
     setAsDefault_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnSetAsDefaultButtonClick, this);
     installTap_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnInstallTapButtonClick, this);
     uninstallTapButton->Bind(wxEVT_BUTTON, &ManageTapFrame::OnUninstallTapButtonClick, this);
@@ -46,7 +48,7 @@ void ManageTapFrame::Init_Layout()
 {
     namespace ls = Layout_SRV;
 
-    this->SetSizeHints(320, 250);
+    this->SetSizeHints(405, 250);
 
     wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
     rootPanel->SetSizer(rootSizer);
@@ -62,8 +64,10 @@ void ManageTapFrame::Init_Layout()
 
     wxBoxSizer* installedTapSizer = new wxBoxSizer(wxHORIZONTAL);
     rootSizer->Add(installedTapSizer);
-    installedTapSizer->Add(installedTap_ComboBox, 0, wxLEFT, ls::SpaceToFrameBorder);
-    installedTapSizer->Add(installeTapRefresh_Button, 0, wxLEFT, ls::SpaceBetweenControl);
+    ls::AddFixedSpacer(wxLEFT, ls::SpaceToFrameBorder, installedTapSizer);
+    installedTap_ComboBox->SetMinSize(wxSize(100, -1));
+    installedTapSizer->Add(installedTap_ComboBox, ls::TakeAllSpace, wxRIGHT, ls::SpaceBetweenControl);
+    installedTapSizer->Add(installedTapRefresh_Button, 1, wxRIGHT, ls::SpaceToFrameBorder);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
     wxBoxSizer* manageTapSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -71,6 +75,7 @@ void ManageTapFrame::Init_Layout()
     manageTapSizer->Add(installTap_Button, 0, wxLEFT, ls::SpaceToFrameBorder);
     manageTapSizer->Add(setAsDefault_Button, 0, wxLEFT, ls::SpaceBetweenControl);
     manageTapSizer->Add(uninstallTapButton, 0, wxLEFT, ls::SpaceBetweenControl);
+    manageTapSizer->Add(installedTapHelpMeDecide_Button, 0, wxLEFT, ls::SpaceBetweenControl);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
     wxBoxSizer* navigateSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -95,6 +100,14 @@ void ManageTapFrame::OnInstalledTapComboBoxChange(wxCommandEvent& evt)
     auto hasValue = installedTap_ComboBox->GetSelection() >= 0;
     uninstallTapButton->Enable(hasValue);
     setAsDefault_Button->Enable(hasValue);
+}
+
+void ManageTapFrame::OnInstalledTapHelpMeDecideButtonClick(wxCommandEvent& evt)
+{
+    auto openNetworkControlPanel = TapDevice_SRV::API_SRV_OpenNetworkControlPanel();
+    if (openNetworkControlPanel == false) {
+        wxMessageDialog(this, TapDevice_SRV::openNetworkControlPanelFailedMessage).ShowModal();
+    }
 }
 
 void ManageTapFrame::OnInstalledTapRefreshButtonClick(wxCommandEvent& evt)

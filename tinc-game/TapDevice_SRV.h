@@ -1,4 +1,5 @@
 #pragma once
+#include "wx/wx.h"
 #include <vector>
 #include "WindowsAPI_SRV.h"
 #include <string>
@@ -17,6 +18,8 @@ namespace TapDevice_SRV
     };
 
     ReturnValue<std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult>> API_SRV_GetNetworkAdapterList();
+    bool API_SRV_OpenNetworkControlPanel();
+    const wxString openNetworkControlPanelFailedMessage = _("Failed to open \"control.exe\".");
 
     extern std::wstring defaultTapFriendlyName;
     extern std::wstring defaultTapNotSet;
