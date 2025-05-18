@@ -157,9 +157,7 @@ void ManageTapFrame::OnUninstallTapButtonClick(wxCommandEvent& evt)
     }
 
     if (requestClearDefaultTap) {
-        auto adapter = WindowsAPI_SRV::GetAdaptersAddressesResult();
-        adapter.friendlyName = TapDevice_SRV::emptyPlaceholder;
-        TapDevice_SRV::SetDefaultTap(adapter);
+        TapDevice_SRV::UnsetDefaultTap();
     }
 
     Reload();
