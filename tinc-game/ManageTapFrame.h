@@ -38,7 +38,6 @@ private:
     wxButton* closeButton = nullptr;
 
     void Init_CreateControls();
-    void Init_BindEventHandlers();
     void Init_Layout();
 
     void OnClose(wxCloseEvent& event);

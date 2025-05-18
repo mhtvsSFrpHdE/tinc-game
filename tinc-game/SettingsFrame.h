@@ -5,19 +5,18 @@
 class SettingsFrame : public wxFrame
 {
 public:
-	SettingsFrame(MainFrame* parentFrame);
+    SettingsFrame(MainFrame* parentFrame);
 private:
-	wxWindowDisabler makeModal;
+    wxWindowDisabler makeModal;
 
-	wxPanel* rootPanel = new wxPanel(this);
+    wxPanel* rootPanel = new wxPanel(this);
 
-	wxStaticText* chooseLanguage_StaticText = nullptr;
-	wxComboBox* chooseLanguage_ComboBox = nullptr;
-	wxButton* confirmButton = nullptr;
+    wxStaticText* chooseLanguage_StaticText = nullptr;
+    wxComboBox* chooseLanguage_ComboBox = nullptr;
+    wxButton* confirmButton = nullptr;
 
-	void Init_CreateControls();
-	void Init_BindEventHandlers();
-	void Init_Layout();
+    void Init_CreateControls();
+    void Init_Layout();
 
-	void OnConfirmButtonClick(wxCommandEvent& event);
+    void OnConfirmButtonClick(wxCommandEvent& event);
 };

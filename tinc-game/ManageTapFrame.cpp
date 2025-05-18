@@ -9,7 +9,6 @@ ManageTapFrame::ManageTapFrame(MainFrame* parentFrame) : wxFrame(parentFrame, wx
     TapDevice_SRV::ReloadAdapterList();
 
     Init_CreateControls();
-    Init_BindEventHandlers();
     Init_Layout();
 }
 
@@ -22,26 +21,23 @@ void ManageTapFrame::Init_CreateControls()
     manageTap_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Manage virtual network adapter"));
     setAsDefault_Button = new wxButton(rootPanel, wxID_ANY, _("Set as default"));
     setAsDefault_Button->Enable(false);
+    setAsDefault_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnSetAsDefaultButtonClick, this);
     installTap_Button = new wxButton(rootPanel, wxID_ANY, _("Install new"));
+    installTap_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnInstallTapButtonClick, this);
     uninstallTapButton = new wxButton(rootPanel, wxID_ANY, _("Uninstall"));
     uninstallTapButton->Enable(false);
+    uninstallTapButton->Bind(wxEVT_BUTTON, &ManageTapFrame::OnUninstallTapButtonClick, this);
     installedTap_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
     Reload_installedTap_ComboBox();
-    installedTapHelpMeDecide_Button = new wxButton(rootPanel, wxID_ANY, _("Help me decide"));
-    installedTapRefresh_Button = new wxButton(rootPanel, wxID_ANY, _("Refresh"));
-    closeButton = new wxButton(rootPanel, wxID_ANY, _("Close"));
-}
-
-void ManageTapFrame::Init_BindEventHandlers()
-{
-    Bind(wxEVT_CLOSE_WINDOW, &ManageTapFrame::OnClose, this);
     installedTap_ComboBox->Bind(wxEVT_COMBOBOX, &ManageTapFrame::OnInstalledTapComboBoxChange, this);
+    installedTapHelpMeDecide_Button = new wxButton(rootPanel, wxID_ANY, _("Help me decide"));
     installedTapHelpMeDecide_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnInstalledTapHelpMeDecideButtonClick, this);
+    installedTapRefresh_Button = new wxButton(rootPanel, wxID_ANY, _("Refresh"));
     installedTapRefresh_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnInstalledTapRefreshButtonClick, this);
-    setAsDefault_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnSetAsDefaultButtonClick, this);
-    installTap_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnInstallTapButtonClick, this);
-    uninstallTapButton->Bind(wxEVT_BUTTON, &ManageTapFrame::OnUninstallTapButtonClick, this);
+    closeButton = new wxButton(rootPanel, wxID_ANY, _("Close"));
     closeButton->Bind(wxEVT_BUTTON, &ManageTapFrame::OnCloseButtonClick, this);
+
+    Bind(wxEVT_CLOSE_WINDOW, &ManageTapFrame::OnClose, this);
 }
 
 void ManageTapFrame::Init_Layout()

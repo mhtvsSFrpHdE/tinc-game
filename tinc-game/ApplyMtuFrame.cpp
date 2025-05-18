@@ -9,7 +9,6 @@ ApplyMtuFrame::ApplyMtuFrame(OptimizeMtuFrame* parentFrame, int mtuValue_IPv4, i
     _mtuValue_IPv6 = mtuValue_IPv6;
 
     Init_CreateControls();
-    Init_BindEventHandlers();
     Init_Layout();
 }
 
@@ -34,24 +33,20 @@ void ApplyMtuFrame::Init_CreateControls()
             }
         }
     }
+    chooseAdapter_ComboBox->Bind(wxEVT_COMBOBOX, &ApplyMtuFrame::OnChooseTargetInterfaceChange, this);
 
     chooseAdapter_HelpMeDecideButton = new wxButton(rootPanel, wxID_ANY, _("Help me decide"));
+    chooseAdapter_HelpMeDecideButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnHelpMeDecideButton, this);
     displayMtu_IPv4 = new wxStaticText(rootPanel, wxID_ANY, wxT("IPv4: ") + std::to_wstring(_mtuValue_IPv4));
     displayMtu_IPv6 = new wxStaticText(rootPanel, wxID_ANY, wxT("IPv6: ") + std::to_wstring(_mtuValue_IPv6));
     yourCommand_StaticText = new wxStaticText(rootPanel, wxID_ANY, wxT("Your command"));
     yourCommand_TextCtrl = new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
     yourCommand_CopyButton = new wxButton(rootPanel, wxID_ANY, _("Copy"));
     yourCommand_CopyButton->Enable(false);
-    navigate_ApplyButton = new wxButton(rootPanel, wxID_ANY, _("Apply"));
-    navigate_CancelButton = new wxButton(rootPanel, wxID_ANY, _("Cancel"));
-}
-
-void ApplyMtuFrame::Init_BindEventHandlers()
-{
-    chooseAdapter_HelpMeDecideButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnHelpMeDecideButton, this);
-    chooseAdapter_ComboBox->Bind(wxEVT_COMBOBOX, &ApplyMtuFrame::OnChooseTargetInterfaceChange, this);
     yourCommand_CopyButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnCopyButton, this);
+    navigate_ApplyButton = new wxButton(rootPanel, wxID_ANY, _("Apply"));
     navigate_ApplyButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnConfirmButton, this);
+    navigate_CancelButton = new wxButton(rootPanel, wxID_ANY, _("Cancel"));
     navigate_CancelButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnCancelButton, this);
 }
 

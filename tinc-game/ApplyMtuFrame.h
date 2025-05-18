@@ -50,7 +50,6 @@ private:
     wxButton* navigate_CancelButton = nullptr;
 
     void Init_CreateControls();
-    void Init_BindEventHandlers();
     void Init_Layout();
 
     void OnHelpMeDecideButton(wxCommandEvent& evt);

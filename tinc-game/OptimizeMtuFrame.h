@@ -5,67 +5,66 @@
 #include "MainFrame.h"
 
 struct CheckAddressFormatResult {
-	enum Enum {
-		CheckAddressFormat_Other,
-		CheckAddressFormat_NotIPv4,
-		CheckAddressFormat_NotDomain
-	};
+    enum Enum {
+        CheckAddressFormat_Other,
+        CheckAddressFormat_NotIPv4,
+        CheckAddressFormat_NotDomain
+    };
 };
 
 class OptimizeMtuFrame : public wxFrame
 {
 public:
-	OptimizeMtuFrame(MainFrame* parentFrame);
+    OptimizeMtuFrame(MainFrame* parentFrame);
 
-	// UI to SRV
-	static ReturnValue<CheckAddressFormatResult::Enum> API_SRV_CheckAddressFormat(std::wstring ipAddress);
-	void API_SRV_StartMeasureMTU(std::wstring ipAddress);
+    // UI to SRV
+    static ReturnValue<CheckAddressFormatResult::Enum> API_SRV_CheckAddressFormat(std::wstring ipAddress);
+    void API_SRV_StartMeasureMTU(std::wstring ipAddress);
 
-	// SRV to UI
-	void API_UI_ReportStatus(std::wstring status);
-	void API_UI_ReportMTU_IPv4(int mtu);
-	void API_UI_ReportMTU_IPv6(int mtu);
-	void API_UI_EndMeasureMTU(bool success, std::wstring reason);
+    // SRV to UI
+    void API_UI_ReportStatus(std::wstring status);
+    void API_UI_ReportMTU_IPv4(int mtu);
+    void API_UI_ReportMTU_IPv6(int mtu);
+    void API_UI_EndMeasureMTU(bool success, std::wstring reason);
 
-	wxButton* helpButton = nullptr;
+    wxButton* helpButton = nullptr;
 private:
-	MainFrame* _parentFrame = nullptr;
+    MainFrame* _parentFrame = nullptr;
 
-	wxPanel* rootPanel = nullptr;
+    wxPanel* rootPanel = nullptr;
 
-	wxStaticText* chooseAddress_StaticText = nullptr;
-	wxComboBox* chooseAddress_ComboBox = nullptr;
-	wxButton* startButton = nullptr;
-	wxButton* applyButton = nullptr;
-	wxButton* closeButton = nullptr;
-	wxStaticText* mtu_IPv4_StaticText = nullptr;
-	wxStaticText* mtuValue_IPv4_StaticText = nullptr;
-	wxStaticText* mtu_IPv6_StaticText = nullptr;
-	wxStaticText* mtuValue_IPv6_StaticText = nullptr;
-	const wxString mtuValue_DefaultText = _("Waiting for value...");
-	wxTextCtrl* liveLog = nullptr;
+    wxStaticText* chooseAddress_StaticText = nullptr;
+    wxComboBox* chooseAddress_ComboBox = nullptr;
+    wxButton* startButton = nullptr;
+    wxButton* applyButton = nullptr;
+    wxButton* closeButton = nullptr;
+    wxStaticText* mtu_IPv4_StaticText = nullptr;
+    wxStaticText* mtuValue_IPv4_StaticText = nullptr;
+    wxStaticText* mtu_IPv6_StaticText = nullptr;
+    wxStaticText* mtuValue_IPv6_StaticText = nullptr;
+    const wxString mtuValue_DefaultText = _("Waiting for value...");
+    wxTextCtrl* liveLog = nullptr;
 
-	void Init_CreateControls();
-	void Init_BindEventHandlers();
-	void Init_Layout();
+    void Init_CreateControls();
+    void Init_Layout();
 
-	void OnClose(wxCloseEvent& event);
-	void OnHelpButtonClick(wxCommandEvent& event);
-	void OnStartButtonClick(wxCommandEvent& event);
-	void OnApplyButtonClick(wxCommandEvent& event);
-	void OnCloseButtonClick(wxCommandEvent& event);
+    void OnClose(wxCloseEvent& event);
+    void OnHelpButtonClick(wxCommandEvent& event);
+    void OnStartButtonClick(wxCommandEvent& event);
+    void OnApplyButtonClick(wxCommandEvent& event);
+    void OnCloseButtonClick(wxCommandEvent& event);
 
-	void OpenApplyMtuFrame();
+    void OpenApplyMtuFrame();
 
-	int mtuValue_IPv4 = 0;
-	int reportMtuCount_IPv4 = 0;
-	int mtuValue_IPv6 = 0;
-	int reportMtuCount_IPv6 = 0;
+    int mtuValue_IPv4 = 0;
+    int reportMtuCount_IPv4 = 0;
+    int mtuValue_IPv6 = 0;
+    int reportMtuCount_IPv6 = 0;
 
-	bool allowCloseFrame = true;
+    bool allowCloseFrame = true;
 };
 
 class OptimizeMtuFrameTest {
 public:
-	static void TestCheckAddressFormat(wxWindow* parent);
+    static void TestCheckAddressFormat(wxWindow* parent);
 };
