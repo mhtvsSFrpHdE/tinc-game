@@ -27,6 +27,7 @@ void ManageTapFrame::Init_CreateControls()
     uninstallTapButton->Enable(false);
     installedTap_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
     Reload_installedTap_ComboBox();
+    installeTapRefresh_Button = new wxButton(rootPanel, wxID_ANY, _("Refresh"));
     closeButton = new wxButton(rootPanel, wxID_ANY, _("Close"));
 }
 
@@ -34,6 +35,7 @@ void ManageTapFrame::Init_BindEventHandlers()
 {
     Bind(wxEVT_CLOSE_WINDOW, &ManageTapFrame::OnClose, this);
     installedTap_ComboBox->Bind(wxEVT_COMBOBOX, &ManageTapFrame::OnInstalledTapComboBoxChange, this);
+    installeTapRefresh_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnInstalledTapRefreshButtonClick, this);
     setAsDefault_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnSetAsDefaultButtonClick, this);
     installTap_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnInstallTapButtonClick, this);
     uninstallTapButton->Bind(wxEVT_BUTTON, &ManageTapFrame::OnUninstallTapButtonClick, this);
@@ -57,7 +59,11 @@ void ManageTapFrame::Init_Layout()
 
     rootSizer->Add(manageTap_StaticText, 0, wxLEFT, ls::SpaceToFrameBorder);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
-    rootSizer->Add(installedTap_ComboBox, 0, wxLEFT, ls::SpaceToFrameBorder);
+
+    wxBoxSizer* installedTapSizer = new wxBoxSizer(wxHORIZONTAL);
+    rootSizer->Add(installedTapSizer);
+    installedTapSizer->Add(installedTap_ComboBox, 0, wxLEFT, ls::SpaceToFrameBorder);
+    installedTapSizer->Add(installeTapRefresh_Button, 0, wxLEFT, ls::SpaceBetweenControl);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
     wxBoxSizer* manageTapSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -89,6 +95,11 @@ void ManageTapFrame::OnInstalledTapComboBoxChange(wxCommandEvent& evt)
     auto hasValue = installedTap_ComboBox->GetSelection() >= 0;
     uninstallTapButton->Enable(hasValue);
     setAsDefault_Button->Enable(hasValue);
+}
+
+void ManageTapFrame::OnInstalledTapRefreshButtonClick(wxCommandEvent& evt)
+{
+    Reload();
 }
 
 void ManageTapFrame::OnSetAsDefaultButtonClick(wxCommandEvent& evt)

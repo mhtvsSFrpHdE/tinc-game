@@ -16,6 +16,8 @@ namespace TapDevice_SRV
         Enum message = Enum::Unknown;
     };
 
+    ReturnValue<std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult>> API_SRV_GetNetworkAdapterList();
+
     extern std::wstring defaultTapFriendlyName;
     extern std::wstring defaultTapNotSet;
 
@@ -23,11 +25,11 @@ namespace TapDevice_SRV
 
     void Init();
     void ReloadAdapterList();
+
     ReturnValue<GetDefaultTapResult> GetDefaultTap();
     ReturnValue<GetDefaultTapResult> GetDefaultTap(bool refresh);
     void SetDefaultTap(WindowsAPI_SRV::GetAdaptersAddressesResult adapter);
     void UnsetDefaultTap();
-    bool HasAnyInstalledTap();
 
-    ReturnValue<std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult>> API_SRV_GetNetworkAdapterList();
+    bool HasAnyInstalledTap();
 };

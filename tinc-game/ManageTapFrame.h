@@ -32,6 +32,7 @@ private:
 
     wxComboBox* installedTap_ComboBox = nullptr;
     std::unordered_map<int, WindowsAPI_SRV::GetAdaptersAddressesResult> installedTap_ComboBox_RawData;
+    wxButton* installeTapRefresh_Button = nullptr;
 
     wxButton* closeButton = nullptr;
 
@@ -41,6 +42,7 @@ private:
 
     void OnClose(wxCloseEvent& event);
     void OnInstalledTapComboBoxChange(wxCommandEvent& evt);
+    void OnInstalledTapRefreshButtonClick(wxCommandEvent& evt);
     void OnSetAsDefaultButtonClick(wxCommandEvent& evt);
     void OnInstallTapButtonClick(wxCommandEvent& evt);
     void OnUninstallTapButtonClick(wxCommandEvent& evt);
