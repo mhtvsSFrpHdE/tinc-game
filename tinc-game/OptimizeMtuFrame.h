@@ -5,10 +5,10 @@
 #include "MainFrame.h"
 
 struct CheckAddressFormatResult {
-    enum Enum {
-        CheckAddressFormat_Other,
-        CheckAddressFormat_NotIPv4,
-        CheckAddressFormat_NotDomain
+    enum class Enum {
+        Other,
+        NotIPv4,
+        NotDomain
     };
 };
 

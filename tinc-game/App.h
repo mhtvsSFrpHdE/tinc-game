@@ -4,8 +4,8 @@
 class App : public wxApp
 {
 public:
-	bool OnInit();
+    bool OnInit();
 
 private:
-	wxLocale* locale;
+    wxLocale* locale;
 };

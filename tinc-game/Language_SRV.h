@@ -4,15 +4,15 @@
 
 namespace Language_SRV
 {
-	enum KnownLanguage {
-		Language_Unknown = 0,
-		Language_EnglishUnitedStates = 1,
-		Language_ChineseSimplified = 2
-	};
+    enum class KnownLanguage {
+        Unknown = 0,
+        EnglishUnitedStates = 1,
+        ChineseSimplified = 2
+    };
 
-	extern std::vector<Language_SRV::KnownLanguage> languageList;
-	extern std::unordered_map<Language_SRV::KnownLanguage, wxLanguage> languageMap;
-	extern std::unordered_map<Language_SRV::KnownLanguage, wxString> languageNameMap;
+    extern std::vector<Language_SRV::KnownLanguage> languageList;
+    extern std::unordered_map<Language_SRV::KnownLanguage, wxLanguage> languageMap;
+    extern std::unordered_map<Language_SRV::KnownLanguage, wxString> languageNameMap;
 
-	void Init();
+    void Init();
 };

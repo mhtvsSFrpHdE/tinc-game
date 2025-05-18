@@ -8,13 +8,13 @@
 #include "WindowsAPI_SRV.h"
 
 struct ApplyMtuResult {
-    enum Enum {
-        ApplyMtu_Other,
-        ApplyMtu_InvalidAdapterName,
-        ApplyMtu_Failed_IPv4,
-        ApplyMtu_Failed_IPv6
+    enum class Enum {
+        Other,
+        InvalidAdapterName,
+        Failed_IPv4,
+        Failed_IPv6
     };
-    Enum messageEnum;
+    Enum messageEnum = Enum::Other;
     std::wstring messageString;
 };
 

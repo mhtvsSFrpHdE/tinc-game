@@ -141,17 +141,17 @@ void ApplyMtuFrame::OnConfirmButton(wxCommandEvent& evt)
     }
     else {
         switch (applyMtu.returnBody.messageEnum) {
-        case ApplyMtuResult::ApplyMtu_InvalidAdapterName:
+        case ApplyMtuResult::Enum::InvalidAdapterName:
             failedText = failedText + _("Invalid adapter name: ") + ss::doubleQuotes + adapter.friendlyName + ss::doubleQuotes + ss::newLine
                 + _("If your adapter name contains non English characters, try copy command and run manually in command prompt. You can right click in command prompt window to paste your command");
             wxMessageDialog(this, failedText).ShowModal();
             break;
-        case ApplyMtuResult::ApplyMtu_Failed_IPv6:
+        case ApplyMtuResult::Enum::Failed_IPv6:
             // Ignore IPv6 error
             wxMessageDialog(this, successText).ShowModal();
             break;
-        case ApplyMtuResult::ApplyMtu_Other:
-        case ApplyMtuResult::ApplyMtu_Failed_IPv4:
+        case ApplyMtuResult::Enum::Other:
+        case ApplyMtuResult::Enum::Failed_IPv4:
             failedText = failedText + _("Unknown error: ") + applyMtu.returnBody.messageString;
             wxMessageDialog(this, failedText).ShowModal();
             break;

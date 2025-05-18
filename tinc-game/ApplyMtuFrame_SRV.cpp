@@ -40,11 +40,11 @@ ReturnValue<ApplyMtuResult> ApplyMtuFrame::API_SRV_ApplyMtu(int mtu_IPv4, int mt
         // The filename, directory name, or volume label syntax is incorrect.
         if (line.find(std::string("name")) != std::wstring::npos) {
             result.success = false;
-            result.returnBody.messageEnum = ApplyMtuResult::ApplyMtu_InvalidAdapterName;
+            result.returnBody.messageEnum = ApplyMtuResult::Enum::InvalidAdapterName;
             break;
         }
         if (result.success == false) {
-            result.returnBody.messageEnum = ApplyMtuResult::ApplyMtu_Other;
+            result.returnBody.messageEnum = ApplyMtuResult::Enum::Other;
             result.returnBody.messageString = wline;
             break;
         }
@@ -76,12 +76,12 @@ ReturnValue<ApplyMtuResult> ApplyMtuFrame::API_SRV_ApplyMtu(int mtu_IPv4, int mt
         // Element not found.
         if (line2.find("Element") != std::wstring::npos) {
             result.success = false;
-            result.returnBody.messageEnum = ApplyMtuResult::ApplyMtu_Failed_IPv6;
+            result.returnBody.messageEnum = ApplyMtuResult::Enum::Failed_IPv6;
             break;
         }
 
         if (result.success == false) {
-            result.returnBody.messageEnum = ApplyMtuResult::ApplyMtu_Other;
+            result.returnBody.messageEnum = ApplyMtuResult::Enum::Other;
             result.returnBody.messageString = wline;
             break;
         }

@@ -22,15 +22,15 @@ void Settings_SRV::WriteLanguage(int selectedIndex)
     namespace ls = Language_SRV;
 
     if (selectedIndex == 0) {
-        Settings_SRV::config->Write(sk::language, static_cast<int>(ls::Language_Unknown));
+        Settings_SRV::config->Write(sk::language, static_cast<int>(ls::KnownLanguage::Unknown));
         config->Flush();
     }
     else if (selectedIndex == 1) {
-        config->Write(sk::language, static_cast<int>(ls::Language_EnglishUnitedStates));
+        config->Write(sk::language, static_cast<int>(ls::KnownLanguage::EnglishUnitedStates));
         config->Flush();
     }
     else if (selectedIndex == 2) {
-        config->Write(sk::language, static_cast<int>(ls::Language_ChineseSimplified));
+        config->Write(sk::language, static_cast<int>(ls::KnownLanguage::ChineseSimplified));
         config->Flush();
     }
 }
@@ -43,7 +43,7 @@ wxLanguage Settings_SRV::ReadLanguage()
     wxLanguage language = wxLANGUAGE_ENGLISH_US;
     int value;
     config->Read(sk::language, &value);
-    if (value == ls::Language_Unknown) {
+    if (value == static_cast<int>(ls::KnownLanguage::Unknown)) {
         auto systemLanguage = wxLocale::GetSystemLanguage();
         if (systemLanguage == wxLANGUAGE_ENGLISH_US) {
             language = wxLANGUAGE_ENGLISH_US;
@@ -78,7 +78,7 @@ void Settings_SRV::LoadConfigFile()
     bool checkIni = Settings_SRV::CheckIniExists();
     config = new wxFileConfig(wxEmptyString, wxEmptyString, Settings_SRV::GetIniFilePath());
     if (!checkIni) {
-        config->Write(sk::language, static_cast<int>(ls::Language_Unknown));
+        config->Write(sk::language, static_cast<int>(ls::KnownLanguage::Unknown));
         config->Write(sk::defaultVirtualNetworkAdapter, emptyPlaceholder1);
         config->Write(sk::mtuTestIp, wxT("1.1.1.1, 8.8.8.8, 10.255.60.1"));
         config->Write(sk::configVersion, 0);
