@@ -1,19 +1,6 @@
 #include "ManageTapFrame.h"
 #include "String_SRV.h"
 
-ReturnValue<std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult>> ManageTapFrame::API_SRV_GetNetworkAdapterList()
-{
-    auto result = ReturnValue<std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult>>();
-
-    WindowsAPI_SRV::GetAdaptersAddresses(&result.returnBody);
-
-    if (result.returnBody.size() > 0) {
-        result.success = true;
-    }
-
-    return result;
-}
-
 ReturnValue<std::wstring> ManageTapFrame::API_SRV_InstallTap()
 {
     auto result = ReturnValue<std::wstring>();

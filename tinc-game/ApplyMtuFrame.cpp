@@ -1,6 +1,7 @@
 #include "ApplyMtuFrame.h"
 #include "String_SRV.h"
 #include "Layout_SRV.h"
+#include "TapDevice_SRV.h"
 
 ApplyMtuFrame::ApplyMtuFrame(OptimizeMtuFrame* parentFrame, int mtuValue_IPv4, int mtuValue_IPv6) : wxFrame(parentFrame, wxID_ANY, _("Apply MTU"))
 {
@@ -19,7 +20,7 @@ void ApplyMtuFrame::Init_CreateControls()
 
     chooseAdapter_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
     {
-        auto getNetworkAdapterList = API_SRV_GetNetworkAdapterList();
+        auto getNetworkAdapterList = TapDevice_SRV::API_SRV_GetNetworkAdapterList();
         if (getNetworkAdapterList.success) {
             int mapIndex = 0;
             for (int adapterIndex = 0; adapterIndex < getNetworkAdapterList.returnBody.size(); adapterIndex++)

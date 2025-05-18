@@ -67,6 +67,19 @@ void TapDevice_SRV::SetDefaultTap(WindowsAPI_SRV::GetAdaptersAddressesResult ada
     Settings_SRV::config->Flush();
 }
 
+ReturnValue<std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult>> TapDevice_SRV::API_SRV_GetNetworkAdapterList()
+{
+    auto result = ReturnValue<std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult>>();
+
+    WindowsAPI_SRV::GetAdaptersAddresses(&result.returnBody);
+
+    if (result.returnBody.size() > 0) {
+        result.success = true;
+    }
+
+    return result;
+}
+
 std::wstring TapDevice_SRV::defaultTap;
 std::wstring TapDevice_SRV::emptyPlaceholder;
 

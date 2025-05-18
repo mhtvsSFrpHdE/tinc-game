@@ -18,15 +18,12 @@ struct ApplyMtuResult {
     std::wstring messageString;
 };
 
-
-
 class ApplyMtuFrame : public wxFrame
 {
 public:
     ApplyMtuFrame(OptimizeMtuFrame* parentFrame, int mtuValue_IPv4, int mtuValue_IPv6);
 
     // UI to SRV
-    static ReturnValue<std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult>> API_SRV_GetNetworkAdapterList();
     static ReturnValue<ApplyMtuResult> API_SRV_ApplyMtu(int mtu_IPv4, int mtu_IPv6, std::wstring adapterName);
     static bool API_SRV_OpenNetworkControlPanel();
     static void API_SRV_OpenCommandPrompt();

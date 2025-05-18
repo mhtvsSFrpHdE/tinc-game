@@ -10,19 +10,6 @@
 #include <vector>
 #include <string> 
 
-ReturnValue<std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult>> ApplyMtuFrame::API_SRV_GetNetworkAdapterList()
-{
-    auto result = ReturnValue<std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult>>();
-
-    WindowsAPI_SRV::GetAdaptersAddresses(&result.returnBody);
-
-    if (result.returnBody.size() > 0) {
-        result.success = true;
-    }
-
-    return result;
-}
-
 ReturnValue<ApplyMtuResult> ApplyMtuFrame::API_SRV_ApplyMtu(int mtu_IPv4, int mtu_IPv6, std::wstring adapterName)
 {
     auto result = ReturnValue<ApplyMtuResult>();

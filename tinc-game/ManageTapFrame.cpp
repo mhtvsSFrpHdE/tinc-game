@@ -173,7 +173,7 @@ void ManageTapFrame::OnCloseButtonClick(wxCommandEvent& evt)
 
 void ManageTapFrame::Reload_installedTap_ComboBox()
 {
-    auto getNetworkAdapterList = API_SRV_GetNetworkAdapterList();
+    auto getNetworkAdapterList = TapDevice_SRV::API_SRV_GetNetworkAdapterList();
     if (getNetworkAdapterList.success) {
         installedTap_ComboBox->Clear();
         installedTap_ComboBox_RawData.clear();

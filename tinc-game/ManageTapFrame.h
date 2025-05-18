@@ -12,7 +12,6 @@ public:
     ManageTapFrame(MainFrame* parentFrame);
 
     // UI to SRV
-    static ReturnValue<std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult>> API_SRV_GetNetworkAdapterList();
     static ReturnValue<std::wstring> API_SRV_InstallTap();
     static ReturnValue<std::wstring> API_SRV_UninstallTap(WindowsAPI_SRV::GetAdaptersAddressesResult adapter);
 
