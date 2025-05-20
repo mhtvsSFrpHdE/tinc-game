@@ -6,13 +6,25 @@
 #include "WindowsAPI_SRV.h"
 #include <string>
 
+struct InstallTapResult {
+    enum class Enum {
+        DriverNotExist,
+        UserCanceled,
+        InstallerNotExist,
+        NoPermission,
+        Other
+    };
+    Enum messageEnum;
+    std::wstring messageString;
+};
+
 class ManageTapFrame : public wxFrame
 {
 public:
     ManageTapFrame(MainFrame* parentFrame);
 
     // UI to SRV
-    static ReturnValue<std::wstring> API_SRV_InstallTap();
+    static ReturnValue<InstallTapResult> API_SRV_InstallTap();
     static ReturnValue<std::wstring> API_SRV_UninstallTap(WindowsAPI_SRV::GetAdaptersAddressesResult adapter);
 
 private:

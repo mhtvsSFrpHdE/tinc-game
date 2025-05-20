@@ -3,6 +3,7 @@
 #include "Layout_SRV.h"
 #include "Style_SRV.h"
 #include "String_SRV.h"
+#include <sstream>
 
 ManageTapFrame::ManageTapFrame(MainFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Manage virtual network adapter"))
 {
@@ -133,12 +134,38 @@ void ManageTapFrame::OnInstallTapButtonClick(wxCommandEvent& evt)
         }
     }
 
+    namespace ss = String_SRV;
     auto installTap = API_SRV_InstallTap();
     if (installTap.success) {
         wxMessageDialog(this, _("Successfully installed new adapter")).ShowModal();
     }
     else {
-        wxMessageDialog(this, _("Install adapter failed:") + String_SRV::newLine + installTap.returnBody).ShowModal();
+        std::wostringstream failedString;
+        failedString << _("Install adapter failed:") << ss::newLine;
+
+        if (installTap.returnBody.messageEnum == InstallTapResult::Enum::DriverNotExist) {
+            failedString << _("Driver files incomplete, ")
+                << installTap.returnBody.messageString << ss::space
+                << _("file not found");
+        }
+        if (installTap.returnBody.messageEnum == InstallTapResult::Enum::InstallerNotExist) {
+            failedString << "installTap.bat" << ss::space
+                << _("file not found");
+        }
+        if (installTap.returnBody.messageEnum == InstallTapResult::Enum::NoPermission) {
+            failedString << _("You need to run tinc game as admin");
+        }
+        if (installTap.returnBody.messageEnum == InstallTapResult::Enum::UserCanceled) {
+            failedString << _("Device has configured, but you cancelled driver installation dialog") << ss::newLine
+                << _("In this case, you need to uninstall redundant virtual network adapter once any other install successfully") << ss::newLine
+                << _("Or go to device manager and uninstall \"Unknown device\" if you don't want to have a virtual network adapter");
+        }
+        if (installTap.returnBody.messageEnum == InstallTapResult::Enum::Other) {
+            failedString << _("Can't confirm what happened, the raw error message is") << ss::newLine
+                << installTap.returnBody.messageString;
+        }
+
+        wxMessageDialog(this, failedString.str()).ShowModal();
     }
 
     Reload();

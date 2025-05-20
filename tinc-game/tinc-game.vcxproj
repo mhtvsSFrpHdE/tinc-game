@@ -189,6 +189,7 @@
     <ClCompile Include="WindowsAPI_SRV.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="installTap.bat" />
     <None Include="netsh437.bat" />
     <None Include="netsh437_start.bat" />
     <None Include="ping437.bat">
