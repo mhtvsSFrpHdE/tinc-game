@@ -195,12 +195,35 @@ void ManageTapFrame::OnUninstallTapButtonClick(wxCommandEvent& evt)
         }
     }
 
+    namespace ss = String_SRV;
     auto uninstallTap = API_SRV_UninstallTap(adapterToUninstall);
     if (uninstallTap.success) {
         wxMessageDialog(this, _("Successfully uninstalled adapter") + String_SRV::newLine + adapterToUninstall.friendlyName + " | " + adapterToUninstall.modelName).ShowModal();
     }
     else {
-        wxMessageDialog(this, _("Uninstall adapter failed:") + String_SRV::newLine + uninstallTap.returnBody).ShowModal();
+        std::wostringstream failedString;
+        failedString << _("Uninstall adapter failed:") << ss::newLine;
+
+        if (uninstallTap.returnBody.messageEnum == UninstallTapResult::Enum::NoAnyAdapter) {
+            failedString << _("Didn't find any adapter on your system");
+        }
+        if (uninstallTap.returnBody.messageEnum == UninstallTapResult::Enum::NoPermission) {
+            failedString << _("You need to run tinc game as admin");
+        }
+        if (uninstallTap.returnBody.messageEnum == UninstallTapResult::Enum::NotFound) {
+            failedString << _("Target adapter doesn't exist on your system");
+        }
+        if (uninstallTap.returnBody.messageEnum == UninstallTapResult::Enum::UninstallerNotExist) {
+            failedString << _("Driver files incomplete, ")
+                << uninstallTap.returnBody.messageString << ss::space
+                << _("file not found");
+        }
+        if (uninstallTap.returnBody.messageEnum == UninstallTapResult::Enum::Other) {
+            failedString << _("Can't confirm what happened, the raw error message is") << ss::newLine
+                << uninstallTap.returnBody.messageString;
+        }
+
+        wxMessageDialog(this, failedString.str()).ShowModal();
     }
 
     if (requestClearDefaultTap) {

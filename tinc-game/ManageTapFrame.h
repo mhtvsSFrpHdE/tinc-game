@@ -18,6 +18,18 @@ struct InstallTapResult {
     std::wstring messageString;
 };
 
+struct UninstallTapResult {
+    enum class Enum {
+        NoAnyAdapter,
+        NoPermission,
+        NotFound,
+        UninstallerNotExist,
+        Other
+    };
+    Enum messageEnum;
+    std::wstring messageString;
+};
+
 class ManageTapFrame : public wxFrame
 {
 public:
@@ -25,7 +37,7 @@ public:
 
     // UI to SRV
     static ReturnValue<InstallTapResult> API_SRV_InstallTap();
-    static ReturnValue<std::wstring> API_SRV_UninstallTap(WindowsAPI_SRV::GetAdaptersAddressesResult adapter);
+    static ReturnValue<UninstallTapResult> API_SRV_UninstallTap(WindowsAPI_SRV::GetAdaptersAddressesResult adapter);
 
 private:
     wxWindowDisabler makeModal;
