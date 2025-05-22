@@ -1,13 +1,12 @@
 #include "HelpFrame.h"
 #include "Layout_SRV.h"
-#include "OptimizeMtuFrame.h"
 
-HelpFrame::HelpFrame(wxFrame* parentFrame, wxString title, std::function<void()> onCloseCallback) : wxFrame(parentFrame, wxID_ANY, title)
+HelpFrame::HelpFrame(wxFrame* parentFrame, wxString title, std::function<void()> onCloseCallback, bool defaultInit) : wxFrame(parentFrame, wxID_ANY, title)
 {
     _onCloseCallback = onCloseCallback;
 
-    Init_CreateControls();
-    Init_Layout();
+    Init_CreateControls(defaultInit);
+    Init_Layout(defaultInit);
 }
 
 void HelpFrame::SetHelpText(wxString helpText)
@@ -15,23 +14,29 @@ void HelpFrame::SetHelpText(wxString helpText)
     helpText_TextCtrl->ChangeValue(helpText);
 }
 
-void HelpFrame::Init_CreateControls()
+void HelpFrame::Init_CreateControls(bool defaultInit)
 {
     rootPanel = new wxPanel(this);
-    helpText_TextCtrl = new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
+
+    if (defaultInit) {
+        helpText_TextCtrl = new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
+    }
 
     Bind(wxEVT_CLOSE_WINDOW, &HelpFrame::OnClose, this);
 }
 
-void HelpFrame::Init_Layout()
+void HelpFrame::Init_Layout(bool defaultInit)
 {
     namespace ls = Layout_SRV;
 
     this->SetSizeHints(640, 480);
 
-    wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
+    rootSizer = new wxBoxSizer(wxVERTICAL);
     rootPanel->SetSizer(rootSizer);
-    rootSizer->Add(helpText_TextCtrl, 1, wxEXPAND | wxALL, ls::SpaceToFrameBorder);
+
+    if (defaultInit) {
+        rootSizer->Add(helpText_TextCtrl, 1, wxEXPAND | wxALL, ls::SpaceToFrameBorder);
+    }
 }
 
 void HelpFrame::OnClose(wxCloseEvent& event)

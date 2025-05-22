@@ -100,6 +100,14 @@ void ManageTapFrame::OnClose(wxCloseEvent& event)
     event.Skip();
 }
 
+void InitHelpFrame(HelpFrame* helpFrame) {
+    // CreateControls
+    helpFrame->helpText_TextCtrl = new wxTextCtrl(helpFrame->rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
+    // Layout
+    namespace ls = Layout_SRV;
+    helpFrame->rootSizer->Add(helpFrame->helpText_TextCtrl, 1, wxEXPAND | wxALL, ls::SpaceToFrameBorder);
+}
+
 void ManageTapFrame::OnHelpButtonClick(wxCommandEvent& event)
 {
     namespace ss = String_SRV;
@@ -110,7 +118,8 @@ void ManageTapFrame::OnHelpButtonClick(wxCommandEvent& event)
         << ss::newLine << ss::newLine;
 
     std::function<void()> redirectCallback = std::bind(&ManageTapFrame::OnHelpFrameCloseCallback, this);
-    HelpFrame* manageTapFrame_HelpFrame = new HelpFrame(this, _("About MTU"), redirectCallback);
+    HelpFrame* manageTapFrame_HelpFrame = new HelpFrame(this, _("About virtual network adapter"), redirectCallback, false);
+    InitHelpFrame(manageTapFrame_HelpFrame);
     manageTapFrame_HelpFrame->SetHelpText(helpTextStream.str());
     manageTapFrame_HelpFrame->Center();
     manageTapFrame_HelpFrame->Show();
