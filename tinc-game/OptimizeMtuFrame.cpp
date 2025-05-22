@@ -171,12 +171,18 @@ void OptimizeMtuFrame::OnHelpButtonClick(wxCommandEvent& event)
         << ss::newLine << ss::newLine
         << _("In theory, path mtu discovey is not an optional feature of IPv6 protocol compare to IPv4 DF flag, either applications and internet service provider must support Path MTU Discovery in IPv6 (RFC 8201). However, poor web server maintainer may decide to block all ICMP protocols to improve their server's security, so called \"Path MTU Blackhole\". It's a pretty questionable choice because this may cause some IPv6 applications to use 1280 (RFC 2460) as their MTU when path MTU discovery can't be performed, which reduces network performance");
 
-    HelpFrame* optimizeMtuFrame_HelpFrame = new HelpFrame(this, _("About MTU"));
+    std::function<void()> redirectCallback = std::bind(&OptimizeMtuFrame::OnHelpFrameCloseCallback, this);
+    HelpFrame* optimizeMtuFrame_HelpFrame = new HelpFrame(this, _("About MTU"), redirectCallback);
     optimizeMtuFrame_HelpFrame->SetHelpText(helpTextStream.str());
     optimizeMtuFrame_HelpFrame->Center();
     optimizeMtuFrame_HelpFrame->Show();
 
     helpButton->Enable(false);
+}
+
+void OptimizeMtuFrame::OnHelpFrameCloseCallback()
+{
+    helpButton->Enable(true);
 }
 
 void OptimizeMtuFrame::OnStartButtonClick(wxCommandEvent& event)

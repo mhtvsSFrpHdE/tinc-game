@@ -44,6 +44,7 @@ private:
 
     wxPanel* rootPanel = nullptr;
 
+    wxButton* helpButton = nullptr;
     wxStaticText* defaultTap_StaticText = nullptr;
     wxTextCtrl* defaultTapValue_TextCtrl = nullptr;
     wxString defaultTapValue_NoneText = _("None");
@@ -65,6 +66,8 @@ private:
     void Init_Layout();
 
     void OnClose(wxCloseEvent& event);
+    void OnHelpButtonClick(wxCommandEvent& evt);
+    void OnHelpFrameCloseCallback();
     void OnInstalledTapComboBoxChange(wxCommandEvent& evt);
     void OnInstalledTapHelpMeDecideButtonClick(wxCommandEvent& evt);
     void OnInstalledTapRefreshButtonClick(wxCommandEvent& evt);

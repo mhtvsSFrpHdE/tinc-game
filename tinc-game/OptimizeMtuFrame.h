@@ -50,6 +50,7 @@ private:
 
     void OnClose(wxCloseEvent& event);
     void OnHelpButtonClick(wxCommandEvent& event);
+    void OnHelpFrameCloseCallback();
     void OnStartButtonClick(wxCommandEvent& event);
     void OnApplyButtonClick(wxCommandEvent& event);
     void OnCloseButtonClick(wxCommandEvent& event);

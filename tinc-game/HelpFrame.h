@@ -5,12 +5,10 @@
 class HelpFrame : public wxFrame
 {
 public:
-    HelpFrame(OptimizeMtuFrame* parentFrame, wxString title);
+    HelpFrame(wxFrame* parentFrame, wxString title, std::function<void()> onCloseCallback);
     void SetHelpText(wxString helpText);
 
 private:
-    OptimizeMtuFrame* _parentFrame = nullptr;
-
     wxPanel* rootPanel = nullptr;
 
     wxTextCtrl* helpText_TextCtrl = nullptr;
@@ -19,4 +17,5 @@ private:
     void Init_Layout();
 
     void OnClose(wxCloseEvent& event);
+    std::function<void()> _onCloseCallback;
 };

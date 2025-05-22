@@ -2,9 +2,9 @@
 #include "Layout_SRV.h"
 #include "OptimizeMtuFrame.h"
 
-HelpFrame::HelpFrame(OptimizeMtuFrame* parentFrame, wxString title) : wxFrame(parentFrame, wxID_ANY, title)
+HelpFrame::HelpFrame(wxFrame* parentFrame, wxString title, std::function<void()> onCloseCallback) : wxFrame(parentFrame, wxID_ANY, title)
 {
-    _parentFrame = parentFrame;
+    _onCloseCallback = onCloseCallback;
 
     Init_CreateControls();
     Init_Layout();
@@ -36,7 +36,7 @@ void HelpFrame::Init_Layout()
 
 void HelpFrame::OnClose(wxCloseEvent& event)
 {
-    _parentFrame->helpButton->Enable(true);
+    _onCloseCallback();
 
     event.Skip();
 }

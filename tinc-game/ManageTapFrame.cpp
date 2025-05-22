@@ -4,6 +4,7 @@
 #include "Style_SRV.h"
 #include "String_SRV.h"
 #include <sstream>
+#include "HelpFrame.h"
 
 ManageTapFrame::ManageTapFrame(MainFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Manage virtual network adapter"))
 {
@@ -16,6 +17,8 @@ ManageTapFrame::ManageTapFrame(MainFrame* parentFrame) : wxFrame(parentFrame, wx
 void ManageTapFrame::Init_CreateControls()
 {
     rootPanel = new wxPanel(this);
+    helpButton = new wxButton(rootPanel, wxID_ANY, _("Help"));
+    helpButton->Bind(wxEVT_BUTTON, &ManageTapFrame::OnHelpButtonClick, this);
     defaultTap_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Current default virtual network adapter:"));
     defaultTapValue_TextCtrl = new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
     Reload_defaultTapValue_TextCtrl();
@@ -51,8 +54,13 @@ void ManageTapFrame::Init_Layout()
     rootPanel->SetSizer(rootSizer);
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
-    rootSizer->Add(defaultTap_StaticText, 0, wxLEFT, ls::SpaceToFrameBorder);
+    wxBoxSizer* helpSizer = new wxBoxSizer(wxHORIZONTAL);
+    rootSizer->Add(helpSizer);
+    ls::AddFixedSpacer(wxLEFT, ls::SpaceToFrameBorder, helpSizer);
+    helpSizer->Add(defaultTap_StaticText, ls::TakeAllSpace, wxRIGHT, ls::SpaceBetweenControl);
+    helpSizer->Add(helpButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+
     rootSizer->Add(defaultTapValue_TextCtrl, 0, wxLEFT, ls::SpaceToFrameBorder);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
@@ -92,11 +100,34 @@ void ManageTapFrame::OnClose(wxCloseEvent& event)
     event.Skip();
 }
 
+void ManageTapFrame::OnHelpButtonClick(wxCommandEvent& event)
+{
+    namespace ss = String_SRV;
+
+    std::ostringstream helpTextStream;
+    helpTextStream
+        << _("Placeholder")
+        << ss::newLine << ss::newLine;
+
+    std::function<void()> redirectCallback = std::bind(&ManageTapFrame::OnHelpFrameCloseCallback, this);
+    HelpFrame* manageTapFrame_HelpFrame = new HelpFrame(this, _("About MTU"), redirectCallback);
+    manageTapFrame_HelpFrame->SetHelpText(helpTextStream.str());
+    manageTapFrame_HelpFrame->Center();
+    manageTapFrame_HelpFrame->Show();
+
+    helpButton->Enable(false);
+}
+
 void ManageTapFrame::OnInstalledTapComboBoxChange(wxCommandEvent& evt)
 {
     auto hasValue = installedTap_ComboBox->GetSelection() >= 0;
     uninstallTapButton->Enable(hasValue);
     setAsDefault_Button->Enable(hasValue);
+}
+
+void ManageTapFrame::OnHelpFrameCloseCallback()
+{
+    helpButton->Enable(true);
 }
 
 void ManageTapFrame::OnInstalledTapHelpMeDecideButtonClick(wxCommandEvent& evt)
