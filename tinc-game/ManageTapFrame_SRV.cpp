@@ -94,6 +94,7 @@ ReturnValue<InstallTapResult> ManageTapFrame::API_SRV_InstallTap()
         }
         if (deviceNodeCreated == false && installerFailed) {
             result.returnBody.messageEnum = InstallTapResult::Enum::NoPermission;
+            result.returnBody.messageString = ss::ForceToWstring(stdoutSstream.str());
             return result;
         }
     }

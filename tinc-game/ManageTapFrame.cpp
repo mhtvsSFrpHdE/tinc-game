@@ -153,7 +153,8 @@ void ManageTapFrame::OnInstallTapButtonClick(wxCommandEvent& evt)
                 << _("file not found");
         }
         if (installTap.returnBody.messageEnum == InstallTapResult::Enum::NoPermission) {
-            failedString << _("You need to run tinc game as admin");
+            failedString << _("You may need to run tinc game as admin") << ss::newLine
+                << installTap.returnBody.messageString;
         }
         if (installTap.returnBody.messageEnum == InstallTapResult::Enum::UserCanceled) {
             failedString << _("Device has configured, but you cancelled driver installation dialog") << ss::newLine
