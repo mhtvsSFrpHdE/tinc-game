@@ -133,8 +133,31 @@ void ManageTapFrame::OnHelpButtonClick_Internal() {
 
     std::ostringstream helpTextStream;
     helpTextStream
-        << _("Placeholder")
-        << ss::newLine << ss::newLine;
+        << _("If you don't want to install driver, don't click on \"Install new\" button")
+        << ss::newLine
+        << ss::newLine
+        << _("Although you can deny it, but device will still add to system, and show as \"Unknown device\"")
+        << ss::newLine
+        << _("- If you still want to install driver, click on \"Install new\" again and agree, then you will have two virtual network adapter, one might be redundant and need to be uninstalled manually")
+        << ss::newLine
+        << _("- If you denied driver installation and don't want to install driver, go to Device Manager - Network adapters, right click on \"Unknown device\" and choose \"Uninstall device\"")
+        << ss::newLine
+        << ss::newLine
+        << _("Installed virtual adapter may not be detected immediately")
+        << ss::newLine
+        << _("- Try click on \"Refresh\" button until textbox shows virtual network adapter name with green background")
+        << ss::newLine
+        << ss::newLine
+        << _("Uninstall button is not uninstall driver button")
+        << ss::newLine
+        << _("- If want to uninstall driver, uninstall virtual network adapter until there is only one remains, go to Device manager - Network adapters, right click on \"TAP - Win32 Adapter V9\" and choose \"Uninstall device\"")
+        << ss::newLine
+        << _("- Check \"Attempt to remove the driver for this device\", and hit uninstall")
+        << ss::newLine
+        << _("- If you accidentally uninstalled all virtual network adapter, click on \"Install new\" to add one, in order to uninstall driver in device manager")
+        << ss::newLine
+        << ss::newLine
+        << _("Tinc game can not identify which virtual network adapter is installed by Tinc game, or installed by other program, thus you must take control of the uninstall process");
 
     std::function<void()> redirectCallback = std::bind(&ManageTapFrame::OnHelpFrameCloseCallback, this);
     HelpFrame* manageTapFrame_HelpFrame = new HelpFrame(this, _("About virtual network adapter"), redirectCallback, false);
