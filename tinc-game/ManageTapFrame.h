@@ -39,6 +39,8 @@ public:
     static ReturnValue<InstallTapResult> API_SRV_InstallTap();
     static ReturnValue<UninstallTapResult> API_SRV_UninstallTap(WindowsAPI_SRV::GetAdaptersAddressesResult adapter);
 
+    void OnHelpFrameOpenDeviceManagerButtonClick(wxCommandEvent& evt);
+
 private:
     wxWindowDisabler makeModal;
 
@@ -49,6 +51,7 @@ private:
     wxTextCtrl* defaultTapValue_TextCtrl = nullptr;
     wxString defaultTapValue_NoneText = _("None");
     bool hasDefaultTap = false;
+    bool suggestReadHelp = true;
 
     wxStaticText* manageTap_StaticText = nullptr;
     wxButton* setAsDefault_Button = nullptr;
@@ -66,6 +69,7 @@ private:
     void Init_Layout();
 
     void OnClose(wxCloseEvent& event);
+    void OnHelpButtonClick_Internal();
     void OnHelpButtonClick(wxCommandEvent& evt);
     void OnHelpFrameCloseCallback();
     void OnInstalledTapComboBoxChange(wxCommandEvent& evt);

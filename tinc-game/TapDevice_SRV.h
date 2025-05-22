@@ -19,7 +19,9 @@ namespace TapDevice_SRV
 
     ReturnValue<std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult>> API_SRV_GetNetworkAdapterList();
     bool API_SRV_OpenNetworkControlPanel();
-    const wxString openNetworkControlPanelFailedMessage = _("Failed to open \"control.exe\".");
+    const wxString openNetworkControlPanelFailedMessage = _("Failed to open \"control.exe\"");
+    bool API_SRV_OpenDeviceManager();
+    const wxString openDeviceManagerFailedMessage = _("Failed to open \"devmgmt.msc\"");
 
     extern std::wstring defaultTapFriendlyName;
     extern std::wstring defaultTapNotSet;

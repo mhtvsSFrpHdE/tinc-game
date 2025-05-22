@@ -10,6 +10,7 @@ public:
     wxPanel* rootPanel = nullptr;
     wxTextCtrl* helpText_TextCtrl = nullptr;
     wxBoxSizer* rootSizer = nullptr;
+
 private:
     void Init_CreateControls(bool defaultInit);
     void Init_Layout(bool defaultInit);

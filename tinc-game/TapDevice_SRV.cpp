@@ -113,6 +113,19 @@ bool TapDevice_SRV::API_SRV_OpenNetworkControlPanel()
     }
 }
 
+bool TapDevice_SRV::API_SRV_OpenDeviceManager()
+{
+    namespace bp = boost::process;
+    try {
+        bp::child c(bp::shell(), bp::args({ L"/c", L"start devmgmt.msc" }), bp::windows::hide);
+        c.wait();
+        return true;
+    }
+    catch (...) {
+        return false;
+    }
+}
+
 bool TapDevice_SRV::HasAnyInstalledTap()
 {
     auto result = tapList.size() > 0;

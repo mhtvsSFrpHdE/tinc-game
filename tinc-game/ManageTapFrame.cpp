@@ -100,16 +100,28 @@ void ManageTapFrame::OnClose(wxCloseEvent& event)
     event.Skip();
 }
 
-void InitHelpFrame(HelpFrame* helpFrame) {
+void OnHelpButtonClick_InitHelpFrame(HelpFrame* helpFrame, ManageTapFrame* parentFrame) {
     // CreateControls
     helpFrame->helpText_TextCtrl = new wxTextCtrl(helpFrame->rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
+    wxButton* openDeviceManagerButton = new wxButton(helpFrame->rootPanel, wxID_ANY, _("Open device manager"));
+    openDeviceManagerButton->Bind(wxEVT_BUTTON, &ManageTapFrame::OnHelpFrameOpenDeviceManagerButtonClick, parentFrame);
+
     // Layout
     namespace ls = Layout_SRV;
-    helpFrame->rootSizer->Add(helpFrame->helpText_TextCtrl, 1, wxEXPAND | wxALL, ls::SpaceToFrameBorder);
+    ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, helpFrame->rootSizer);
+
+    helpFrame->rootSizer->Add(openDeviceManagerButton, 0, wxLEFT, ls::SpaceToFrameBorder);
+    ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, helpFrame->rootSizer);
+
+    wxBoxSizer* helpTextSizer = new wxBoxSizer(wxHORIZONTAL);
+    helpFrame->rootSizer->Add(helpTextSizer, 1, wxEXPAND);
+    helpTextSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
+    helpTextSizer->Add(helpFrame->helpText_TextCtrl, 1, wxEXPAND);
+    helpTextSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
+    ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, helpFrame->rootSizer);
 }
 
-void ManageTapFrame::OnHelpButtonClick(wxCommandEvent& event)
-{
+void ManageTapFrame::OnHelpButtonClick_Internal() {
     namespace ss = String_SRV;
 
     std::ostringstream helpTextStream;
@@ -119,12 +131,17 @@ void ManageTapFrame::OnHelpButtonClick(wxCommandEvent& event)
 
     std::function<void()> redirectCallback = std::bind(&ManageTapFrame::OnHelpFrameCloseCallback, this);
     HelpFrame* manageTapFrame_HelpFrame = new HelpFrame(this, _("About virtual network adapter"), redirectCallback, false);
-    InitHelpFrame(manageTapFrame_HelpFrame);
+    OnHelpButtonClick_InitHelpFrame(manageTapFrame_HelpFrame, this);
     manageTapFrame_HelpFrame->SetHelpText(helpTextStream.str());
     manageTapFrame_HelpFrame->Center();
     manageTapFrame_HelpFrame->Show();
 
     helpButton->Enable(false);
+}
+
+void ManageTapFrame::OnHelpButtonClick(wxCommandEvent& event)
+{
+    OnHelpButtonClick_Internal();
 }
 
 void ManageTapFrame::OnInstalledTapComboBoxChange(wxCommandEvent& evt)
@@ -144,6 +161,14 @@ void ManageTapFrame::OnInstalledTapHelpMeDecideButtonClick(wxCommandEvent& evt)
     auto openNetworkControlPanel = TapDevice_SRV::API_SRV_OpenNetworkControlPanel();
     if (openNetworkControlPanel == false) {
         wxMessageDialog(this, TapDevice_SRV::openNetworkControlPanelFailedMessage).ShowModal();
+    }
+}
+
+void ManageTapFrame::OnHelpFrameOpenDeviceManagerButtonClick(wxCommandEvent& evt)
+{
+    auto openDeviceManager = TapDevice_SRV::API_SRV_OpenDeviceManager();
+    if (openDeviceManager == false) {
+        wxMessageDialog(this, TapDevice_SRV::openDeviceManagerFailedMessage).ShowModal();
     }
 }
 
@@ -172,6 +197,13 @@ void ManageTapFrame::OnInstallTapButtonClick(wxCommandEvent& evt)
             allowCloseFrame = true;
             return;
         }
+    }
+
+    if (suggestReadHelp) {
+        wxMessageDialog(this, _("Suggest read help before install first virtual network adapter")).ShowModal();
+        OnHelpButtonClick_Internal();
+        suggestReadHelp = false;
+        return;
     }
 
     namespace ss = String_SRV;
@@ -309,6 +341,7 @@ void ManageTapFrame::Reload_defaultTapValue_TextCtrl()
         defaultTapValue_TextCtrl->SetLabel(getTap.returnBody.adapter.friendlyName);
         defaultTapValue_TextCtrl->SetBackgroundColour(Style_SRV::passed_green);
         hasDefaultTap = true;
+        suggestReadHelp = false;
     }
     else {
         defaultTapValue_TextCtrl->SetLabel(defaultTapValue_NoneText);
