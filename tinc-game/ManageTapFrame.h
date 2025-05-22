@@ -60,6 +60,7 @@ private:
 
     wxComboBox* installedTap_ComboBox = nullptr;
     std::unordered_map<int, WindowsAPI_SRV::GetAdaptersAddressesResult> installedTap_ComboBox_RawData;
+    wxButton* openDeviceManagerButton = nullptr;
     wxButton* installedTapHelpMeDecide_Button = nullptr;
     wxButton* installedTapRefresh_Button = nullptr;
 
