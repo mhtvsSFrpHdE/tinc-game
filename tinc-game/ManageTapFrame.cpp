@@ -219,12 +219,14 @@ void ManageTapFrame::OnSetAsDefaultButtonClick(wxCommandEvent& evt)
 void ManageTapFrame::OnInstallTapButtonClick(wxCommandEvent& evt)
 {
     allowCloseFrame = false;
+    installTap_Button->Enable(false);
 
     if (hasDefaultTap) {
         auto askResult = wxMessageBox(_("Detected exist virtual network adapter") + String_SRV::newLine + _("Install another one?"), wxEmptyString, wxYES_NO, this);
         if (askResult == wxNO)
         {
             allowCloseFrame = true;
+            installTap_Button->Enable(true);
             return;
         }
     }
@@ -233,6 +235,8 @@ void ManageTapFrame::OnInstallTapButtonClick(wxCommandEvent& evt)
         wxMessageDialog(this, _("Suggest read help before install first virtual network adapter")).ShowModal();
         OnHelpButtonClick_Internal();
         suggestReadHelp = false;
+        allowCloseFrame = true;
+        installTap_Button->Enable(true);
         return;
     }
 
@@ -273,11 +277,13 @@ void ManageTapFrame::OnInstallTapButtonClick(wxCommandEvent& evt)
 
     Reload();
     allowCloseFrame = true;
+    installTap_Button->Enable(true);
 }
 
 void ManageTapFrame::OnUninstallTapButtonClick(wxCommandEvent& evt)
 {
     allowCloseFrame = false;
+    uninstallTapButton->Enable(false);
 
     auto getDefaultTap = TapDevice_SRV::GetDefaultTap();
     auto selectedIndex = installedTap_ComboBox->GetSelection();
@@ -293,6 +299,7 @@ void ManageTapFrame::OnUninstallTapButtonClick(wxCommandEvent& evt)
             }
             else {
                 allowCloseFrame = true;
+                uninstallTapButton->Enable(true);
                 return;
             }
         }
@@ -335,6 +342,7 @@ void ManageTapFrame::OnUninstallTapButtonClick(wxCommandEvent& evt)
 
     Reload();
     allowCloseFrame = true;
+    uninstallTapButton->Enable(true);
 }
 
 void ManageTapFrame::OnCloseButtonClick(wxCommandEvent& evt)
