@@ -15,4 +15,5 @@ namespace String_SRV
     const std::wstring doubleQuotes = L"\"";
     const std::wstring newLine = L"\n";
     const std::wstring space = L" ";
+    const std::wstring ellipses = L"...";
 };

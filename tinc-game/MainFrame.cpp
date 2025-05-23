@@ -5,10 +5,13 @@
 #include <wx/dialog.h>
 #include "Layout_SRV.h"
 #include "ManageTapFrame.h"
+#include <wx/filename.h>
+#include <sstream>
+#include "String_SRV.h"
+#include "HelpFrame.h"
 
 MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
     Init_CreateControls();
-    Init_BindEventHandlers();
     Init_Layout();
 }
 
@@ -16,14 +19,12 @@ void MainFrame::Init_CreateControls()
 {
     rootPanel = new wxPanel(this);
     optimizeMtu_Button = new wxButton(rootPanel, wxID_ANY, _("Optimize MTU"));
-    manageTapDevice_Button = new wxButton(rootPanel, wxID_ANY, _("Manage virtual network adapter"));
-    settings_Button = new wxButton(rootPanel, wxID_ANY, _("Settings"));
-}
-
-void MainFrame::Init_BindEventHandlers()
-{
     optimizeMtu_Button->Bind(wxEVT_BUTTON, &MainFrame::OnOptimizeMtuButton, this);
+    manageTapDevice_Button = new wxButton(rootPanel, wxID_ANY, _("Manage virtual network adapter"));
     manageTapDevice_Button->Bind(wxEVT_BUTTON, &MainFrame::OnManageTapButton, this);
+    integrityCheckButton = new wxButton(rootPanel, wxID_ANY, _("Troubleshoot"));
+    integrityCheckButton->Bind(wxEVT_BUTTON, &MainFrame::OnIntegrityCheckButton, this);
+    settings_Button = new wxButton(rootPanel, wxID_ANY, _("Settings"));
     settings_Button->Bind(wxEVT_BUTTON, &MainFrame::OnSettingsButton, this);
 }
 
@@ -31,7 +32,7 @@ void MainFrame::Init_Layout()
 {
     namespace ls = Layout_SRV;
 
-    wxSize minSize(280, 170);
+    wxSize minSize(280, 210);
     this->SetSizeHints(minSize);
 
     wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
@@ -50,6 +51,13 @@ void MainFrame::Init_Layout()
     manageTapDeviceSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
     manageTapDeviceSizer->Add(manageTapDevice_Button, 1);
     manageTapDeviceSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
+    ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+
+    wxBoxSizer* integrityCheckSizer = new wxBoxSizer(wxHORIZONTAL);
+    rootSizer->Add(integrityCheckSizer, 1, wxEXPAND);
+    integrityCheckSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
+    integrityCheckSizer->Add(integrityCheckButton, 1);
+    integrityCheckSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
     wxBoxSizer* settingsSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -83,6 +91,113 @@ void MainFrame::OnManageTapButton(wxCommandEvent& evt)
     ManageTapFrame* manageTapDeviceFrame = new ManageTapFrame(this);
     manageTapDeviceFrame->Center();
     manageTapDeviceFrame->Show();
+}
+
+int OnIntegrityCheckButton_FailedCount = 0;
+void OnIntegrityCheckButton_DirExist(std::wostringstream& helpText, wxFileName& file) {
+    namespace ss = String_SRV;
+
+    bool exists = file.DirExists();
+    helpText << file.GetFullPath() << ss::ellipses
+        << (exists ? _("OK") : _("Fail"))
+        << ss::newLine;
+    if (exists == false) {
+        OnIntegrityCheckButton_FailedCount++;
+    }
+}
+
+void OnIntegrityCheckButton_FileExist(std::wostringstream& helpText, wxFileName& file) {
+    namespace ss = String_SRV;
+
+    bool exists = file.Exists();
+    helpText << file.GetFullPath() << ss::ellipses
+        << (exists ? _("OK") : _("Fail"))
+        << ss::newLine;
+    if (exists == false) {
+        OnIntegrityCheckButton_FailedCount++;
+    }
+}
+
+void MainFrame::OnIntegrityCheckButton(wxCommandEvent& evt)
+{
+    integrityCheckButton->Enable(false);
+    OnIntegrityCheckButton_FailedCount = 0;
+
+    namespace ss = String_SRV;
+
+    std::wostringstream helpText;
+    wxFileName file;
+
+    helpText << _("Program integrity report")
+        << ss::newLine << ss::newLine;
+
+    {
+        helpText << _("Virtual network adapter driver files:") << ss::newLine;
+
+        file.AppendDir("bin");
+        file.AppendDir("tinc");
+        file.AppendDir("tap-win64");
+
+        file.SetName(L"tapinstall.exe");
+        OnIntegrityCheckButton_FileExist(helpText, file);
+        file.SetName(L"OemWin2k.inf");
+        OnIntegrityCheckButton_FileExist(helpText, file);
+        file.SetName(L"tap0901.cat");
+        OnIntegrityCheckButton_FileExist(helpText, file);
+        file.SetName(L"tap0901.sys");
+        OnIntegrityCheckButton_FileExist(helpText, file);
+
+        helpText << ss::newLine;
+        file.Clear();
+    }
+
+    {
+        helpText << _("Command line I/O files:") << ss::newLine;
+
+        file.SetName(L"getTapHwid.bat");
+        OnIntegrityCheckButton_FileExist(helpText, file);
+        file.SetName(L"installTap.bat");
+        OnIntegrityCheckButton_FileExist(helpText, file);
+        file.SetName(L"uninstallTap.bat");
+        OnIntegrityCheckButton_FileExist(helpText, file);
+        file.SetName(L"netsh437.bat");
+        OnIntegrityCheckButton_FileExist(helpText, file);
+        file.SetName(L"netsh437_start.bat");
+        OnIntegrityCheckButton_FileExist(helpText, file);
+        file.SetName(L"ping437.bat");
+        OnIntegrityCheckButton_FileExist(helpText, file);
+        file.SetName(L"ping437_start.bat");
+        OnIntegrityCheckButton_FileExist(helpText, file);
+
+        helpText << ss::newLine;
+        file.Clear();
+    }
+
+    {
+        helpText << _("Translation files:") << ss::newLine;
+
+        file.AppendDir(L"zh");
+        OnIntegrityCheckButton_DirExist(helpText, file);
+
+        helpText << ss::newLine;
+        file.Clear();
+    }
+
+    if (OnIntegrityCheckButton_FailedCount >= 4) {
+        helpText << _("Failed items more than 4, don't double click tinc-game in zip/7z/rar files directly you foo")
+            << ss::newLine << ss::newLine;
+    }
+
+    std::function<void()> redirectCallback = std::bind(&MainFrame::OnIntegrityCheckFrameCloseCallback, this);
+    HelpFrame* optimizeMtuFrame_HelpFrame = new HelpFrame(this, _("Troubleshoot"), redirectCallback);
+    optimizeMtuFrame_HelpFrame->SetHelpText(helpText.str());
+    optimizeMtuFrame_HelpFrame->Center();
+    optimizeMtuFrame_HelpFrame->Show();
+}
+
+void MainFrame::OnIntegrityCheckFrameCloseCallback()
+{
+    integrityCheckButton - Enable(true);
 }
 
 void MainFrame::OnSettingsButton(wxCommandEvent& evt)
