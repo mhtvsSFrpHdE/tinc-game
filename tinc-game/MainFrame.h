@@ -1,10 +1,15 @@
 #pragma once
 #include <wx/wx.h>
+#include <unordered_map>
 
 class MainFrame : public wxFrame
 {
 public:
     MainFrame();
+
+    wxStaticText* currentNetwork_StaticText = nullptr;
+    wxComboBox* currentNetwork_ComboBox = nullptr;
+    std::unordered_map<int, wxString> currentNetwork_ComboBox_RawData;
 
     wxButton* optimizeMtuButton = nullptr;
     wxButton* manageTapDeviceButton = nullptr;

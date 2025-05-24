@@ -18,6 +18,12 @@ MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
 void MainFrame::Init_CreateControls()
 {
     rootPanel = new wxPanel(this);
+    currentNetwork_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Current virtual network"));
+    currentNetwork_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
+    {
+        // TODO: fill data from settings
+        // TODO: get exist network, may contains network not created by tinc-game
+    }
     optimizeMtuButton = new wxButton(rootPanel, wxID_ANY, _("Optimize MTU"));
     optimizeMtuButton->Bind(wxEVT_BUTTON, &MainFrame::OnOptimizeMtuButton, this);
     manageTapDeviceButton = new wxButton(rootPanel, wxID_ANY, _("Manage virtual network adapter"));
@@ -32,12 +38,17 @@ void MainFrame::Init_Layout()
 {
     namespace ls = Layout_SRV;
 
-    wxSize minSize(280, 210);
+    wxSize minSize(640, 480);
     this->SetSizeHints(minSize);
 
     wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
     rootPanel->SetSizer(rootSizer);
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
+
+    rootSizer->Add(currentNetwork_StaticText, 0, wxLEFT, ls::SpaceToFrameBorder);
+    ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+    rootSizer->Add(currentNetwork_ComboBox, 0, wxLEFT, ls::SpaceToFrameBorder);
+    ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
     wxBoxSizer* optimizeMtuSizer = new wxBoxSizer(wxHORIZONTAL);
     rootSizer->Add(optimizeMtuSizer, 1, wxEXPAND);
