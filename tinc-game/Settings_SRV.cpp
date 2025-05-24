@@ -31,13 +31,8 @@ wxLanguage Settings_SRV::ReadLanguage()
     int value;
     config->Read(sk::language, &value);
     if (value == static_cast<int>(ls::KnownLanguage::Unknown)) {
-        auto systemLanguage = wxLocale::GetSystemLanguage();
-        if (systemLanguage == wxLANGUAGE_ENGLISH_US) {
-            language = wxLANGUAGE_ENGLISH_US;
-        }
-        if (systemLanguage == wxLANGUAGE_CHINESE_SIMPLIFIED) {
-            language = wxLANGUAGE_CHINESE_SIMPLIFIED;
-        }
+        auto getSystemLanguage = wxLocale::GetSystemLanguage();
+        language = static_cast<wxLanguage>(getSystemLanguage);
     }
     else {
         language = ls::wxLanguageMap[static_cast<ls::KnownLanguage>(value)];
