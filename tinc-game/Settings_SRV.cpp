@@ -16,23 +16,10 @@ wxString Settings_SRV::GetIniFilePath()
     return ini_filename;
 }
 
-void Settings_SRV::WriteLanguage(int selectedIndex)
+void Settings_SRV::WriteLanguage(Language_SRV::KnownLanguage language)
 {
-    namespace sk = SettingKeys;
-    namespace ls = Language_SRV;
-
-    if (selectedIndex == 0) {
-        Settings_SRV::config->Write(sk::language, static_cast<int>(ls::KnownLanguage::Unknown));
-        config->Flush();
-    }
-    else if (selectedIndex == 1) {
-        config->Write(sk::language, static_cast<int>(ls::KnownLanguage::EnglishUnitedStates));
-        config->Flush();
-    }
-    else if (selectedIndex == 2) {
-        config->Write(sk::language, static_cast<int>(ls::KnownLanguage::ChineseSimplified));
-        config->Flush();
-    }
+    Settings_SRV::config->Write(SettingKeys::language, static_cast<int>(language));
+    config->Flush();
 }
 
 wxLanguage Settings_SRV::ReadLanguage()
@@ -53,7 +40,7 @@ wxLanguage Settings_SRV::ReadLanguage()
         }
     }
     else {
-        language = ls::languageMap[static_cast<ls::KnownLanguage>(value)];
+        language = ls::wxLanguageMap[static_cast<ls::KnownLanguage>(value)];
     }
     return language;
 }

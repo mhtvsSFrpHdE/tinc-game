@@ -22,15 +22,21 @@ void SettingsFrame::Init_CreateControls()
     {
         namespace ls = Language_SRV;
 
-        for (auto& language : ls::languageList)
+        int mapIndex = 0;
+        for (int languageIndex = 0; languageIndex < ls::languageList.size(); languageIndex++)
         {
+            auto language = ls::languageList[languageIndex];
+            chooseLanguage_ComboBox_RawData.insert({ mapIndex, language });
             chooseLanguage_ComboBox->Append(ls::languageNameMap[language]);
+            mapIndex = mapIndex + 1;
         }
 
         int readLanguage;
         bool readSuccess = Settings_SRV::config->Read(SettingKeys::language, &readLanguage);
         if (readSuccess) {
-            chooseLanguage_ComboBox->SetSelection(readLanguage);
+            auto language = static_cast<ls::KnownLanguage>(readLanguage);
+            auto selectionIndex = ls::languageKeyMap[language];
+            chooseLanguage_ComboBox->SetSelection(selectionIndex);
         }
     }
 
@@ -66,7 +72,8 @@ void SettingsFrame::Init_Layout()
 void SettingsFrame::OnConfirmButtonClick(wxCommandEvent& event)
 {
     int selectedIndex = chooseLanguage_ComboBox->GetSelection();
-    Settings_SRV::WriteLanguage(selectedIndex);
+    auto language = chooseLanguage_ComboBox_RawData[selectedIndex];
+    Settings_SRV::WriteLanguage(language);
 
     Close();
 }

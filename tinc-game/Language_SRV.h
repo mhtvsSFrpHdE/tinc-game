@@ -11,8 +11,9 @@ namespace Language_SRV
     };
 
     extern std::vector<Language_SRV::KnownLanguage> languageList;
-    extern std::unordered_map<Language_SRV::KnownLanguage, wxLanguage> languageMap;
+    extern std::unordered_map<Language_SRV::KnownLanguage, int> languageKeyMap;
     extern std::unordered_map<Language_SRV::KnownLanguage, wxString> languageNameMap;
+    extern std::unordered_map<Language_SRV::KnownLanguage, wxLanguage> wxLanguageMap;
 
     void Init();
 };

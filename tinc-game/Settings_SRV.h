@@ -11,7 +11,7 @@ class Settings_SRV
 {
 public:
     static wxString GetIniFilePath();
-    static void WriteLanguage(int selectedIndex);
+    static void WriteLanguage(Language_SRV::KnownLanguage language);
     static wxLanguage ReadLanguage();
     static bool CheckIniExists();
     static void LoadConfigFile();
