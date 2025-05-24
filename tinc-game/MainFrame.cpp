@@ -18,14 +18,14 @@ MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
 void MainFrame::Init_CreateControls()
 {
     rootPanel = new wxPanel(this);
-    optimizeMtu_Button = new wxButton(rootPanel, wxID_ANY, _("Optimize MTU"));
-    optimizeMtu_Button->Bind(wxEVT_BUTTON, &MainFrame::OnOptimizeMtuButton, this);
-    manageTapDevice_Button = new wxButton(rootPanel, wxID_ANY, _("Manage virtual network adapter"));
-    manageTapDevice_Button->Bind(wxEVT_BUTTON, &MainFrame::OnManageTapButton, this);
+    optimizeMtuButton = new wxButton(rootPanel, wxID_ANY, _("Optimize MTU"));
+    optimizeMtuButton->Bind(wxEVT_BUTTON, &MainFrame::OnOptimizeMtuButton, this);
+    manageTapDeviceButton = new wxButton(rootPanel, wxID_ANY, _("Manage virtual network adapter"));
+    manageTapDeviceButton->Bind(wxEVT_BUTTON, &MainFrame::OnManageTapButton, this);
     integrityCheckButton = new wxButton(rootPanel, wxID_ANY, _("Troubleshoot"));
     integrityCheckButton->Bind(wxEVT_BUTTON, &MainFrame::OnIntegrityCheckButton, this);
-    settings_Button = new wxButton(rootPanel, wxID_ANY, _("Settings"));
-    settings_Button->Bind(wxEVT_BUTTON, &MainFrame::OnSettingsButton, this);
+    settingsButton = new wxButton(rootPanel, wxID_ANY, _("Settings"));
+    settingsButton->Bind(wxEVT_BUTTON, &MainFrame::OnSettingsButton, this);
 }
 
 void MainFrame::Init_Layout()
@@ -42,14 +42,14 @@ void MainFrame::Init_Layout()
     wxBoxSizer* optimizeMtuSizer = new wxBoxSizer(wxHORIZONTAL);
     rootSizer->Add(optimizeMtuSizer, 1, wxEXPAND);
     optimizeMtuSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
-    optimizeMtuSizer->Add(optimizeMtu_Button, 1);
+    optimizeMtuSizer->Add(optimizeMtuButton, 1);
     optimizeMtuSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
     wxBoxSizer* manageTapDeviceSizer = new wxBoxSizer(wxHORIZONTAL);
     rootSizer->Add(manageTapDeviceSizer, 1, wxEXPAND);
     manageTapDeviceSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
-    manageTapDeviceSizer->Add(manageTapDevice_Button, 1);
+    manageTapDeviceSizer->Add(manageTapDeviceButton, 1);
     manageTapDeviceSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
@@ -63,7 +63,7 @@ void MainFrame::Init_Layout()
     wxBoxSizer* settingsSizer = new wxBoxSizer(wxHORIZONTAL);
     rootSizer->Add(settingsSizer, 1, wxEXPAND);
     settingsSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
-    settingsSizer->Add(settings_Button, 1);
+    settingsSizer->Add(settingsButton, 1);
     settingsSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
 
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);

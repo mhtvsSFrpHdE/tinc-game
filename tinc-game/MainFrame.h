@@ -6,10 +6,10 @@ class MainFrame : public wxFrame
 public:
     MainFrame();
 
-    wxButton* optimizeMtu_Button = nullptr;
-    wxButton* manageTapDevice_Button = nullptr;
+    wxButton* optimizeMtuButton = nullptr;
+    wxButton* manageTapDeviceButton = nullptr;
     wxButton* integrityCheckButton = nullptr;
-    wxButton* settings_Button = nullptr;
+    wxButton* settingsButton = nullptr;
 
     int openedFrameCount = 0;
 
