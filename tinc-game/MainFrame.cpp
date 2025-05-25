@@ -18,11 +18,33 @@ MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
 void MainFrame::Init_CreateControls()
 {
     rootPanel = new wxPanel(this);
-    currentNetwork_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Current virtual network"));
+    currentNetwork_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Network name"));
     currentNetwork_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
     {
         // TODO: fill data from settings
         // TODO: get exist network, may contains network not created by tinc-game
+    }
+    currentTap_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Connect with"));
+    currentTap_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
+    {
+        auto getNetworkAdapterList = TapDevice_SRV::API_SRV_GetNetworkAdapterList();
+        if (getNetworkAdapterList.success) {
+            currentTap_ComboBox->Clear();
+            currentTap_ComboBox_RawData.clear();
+
+            int mapIndex = 0;
+            for (int adapterIndex = 0; adapterIndex < getNetworkAdapterList.returnBody.size(); adapterIndex++)
+            {
+                auto adapter = getNetworkAdapterList.returnBody[adapterIndex];
+                bool isNotLoopback = adapter.isLoopback() == false;
+                bool isTap = adapter.isTap();
+                if (isNotLoopback && isTap) {
+                    currentTap_ComboBox_RawData.insert({ mapIndex, adapter });
+                    currentTap_ComboBox->Append(adapter.friendlyName + " | " + (adapter.isConnected() ? _("Connected") : _("Available")));
+                    mapIndex = mapIndex + 1;
+                }
+            }
+        }
     }
     optimizeMtuButton = new wxButton(rootPanel, wxID_ANY, _("Optimize MTU"));
     optimizeMtuButton->Bind(wxEVT_BUTTON, &MainFrame::OnOptimizeMtuButton, this);
@@ -45,39 +67,64 @@ void MainFrame::Init_Layout()
     rootPanel->SetSizer(rootSizer);
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
-    rootSizer->Add(currentNetwork_StaticText, 0, wxLEFT, ls::SpaceToFrameBorder);
-    ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
-    rootSizer->Add(currentNetwork_ComboBox, 0, wxLEFT, ls::SpaceToFrameBorder);
-    ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+    {
+        wxBoxSizer* currentNetworkRootSizer = new wxBoxSizer(wxHORIZONTAL);
+        rootSizer->Add(currentNetworkRootSizer, 1, wxEXPAND);
 
-    wxBoxSizer* optimizeMtuSizer = new wxBoxSizer(wxHORIZONTAL);
-    rootSizer->Add(optimizeMtuSizer, 1, wxEXPAND);
-    optimizeMtuSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
-    optimizeMtuSizer->Add(optimizeMtuButton, 1);
-    optimizeMtuSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
-    ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+        wxBoxSizer* networkSizer = new wxBoxSizer(wxVERTICAL);
+        currentNetworkRootSizer->Add(networkSizer, 1);
+        networkSizer->Add(currentNetwork_StaticText, 0, wxLEFT, ls::SpaceToFrameBorder);
+        ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, networkSizer);
+        networkSizer->Add(currentNetwork_ComboBox, 1, wxEXPAND | wxLEFT, ls::SpaceToFrameBorder);
 
-    wxBoxSizer* manageTapDeviceSizer = new wxBoxSizer(wxHORIZONTAL);
-    rootSizer->Add(manageTapDeviceSizer, 1, wxEXPAND);
-    manageTapDeviceSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
-    manageTapDeviceSizer->Add(manageTapDeviceButton, 1);
-    manageTapDeviceSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
-    ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+        ls::AddFixedSpacer(wxLEFT, ls::SpaceBetweenControl, currentNetworkRootSizer);
+        wxBoxSizer* tapSizer = new wxBoxSizer(wxVERTICAL);
+        currentNetworkRootSizer->Add(tapSizer, 1);
+        tapSizer->Add(currentTap_StaticText);
+        ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, tapSizer);
+        tapSizer->Add(currentTap_ComboBox, 1, wxEXPAND | wxRIGHT, ls::SpaceToFrameBorder);
+    }
 
-    wxBoxSizer* integrityCheckSizer = new wxBoxSizer(wxHORIZONTAL);
-    rootSizer->Add(integrityCheckSizer, 1, wxEXPAND);
-    integrityCheckSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
-    integrityCheckSizer->Add(integrityCheckButton, 1);
-    integrityCheckSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
-    ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+    rootSizer->Add(0, 0, ls::TakeAllSpace);
 
-    wxBoxSizer* settingsSizer = new wxBoxSizer(wxHORIZONTAL);
-    rootSizer->Add(settingsSizer, 1, wxEXPAND);
-    settingsSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
-    settingsSizer->Add(settingsButton, 1);
-    settingsSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
+    {
+        wxBoxSizer* buttonRootSizer = new wxBoxSizer(wxHORIZONTAL);
+        rootSizer->Add(buttonRootSizer, 1, wxEXPAND);
+        wxBoxSizer* buttonLeftSizer = new wxBoxSizer(wxVERTICAL);
+        buttonRootSizer->Add(buttonLeftSizer, 1, wxEXPAND);
+        wxBoxSizer* buttonRightSizer = new wxBoxSizer(wxVERTICAL);
+        buttonRootSizer->Add(buttonRightSizer, 2, wxEXPAND);
+        wxPanel* rightSizerPanel = new wxPanel(rootPanel);
+        buttonRootSizer->Add(rightSizerPanel, 2, wxEXPAND);
 
-    ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
+        wxBoxSizer* optimizeMtuSizer = new wxBoxSizer(wxHORIZONTAL);
+        optimizeMtuSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
+        optimizeMtuSizer->Add(optimizeMtuButton, 1, wxEXPAND);
+        optimizeMtuSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
+        buttonLeftSizer->Add(optimizeMtuSizer, 1, wxEXPAND);
+        ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, buttonLeftSizer);
+
+        wxBoxSizer* manageTapDeviceSizer = new wxBoxSizer(wxHORIZONTAL);
+        manageTapDeviceSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
+        manageTapDeviceSizer->Add(manageTapDeviceButton, 1, wxEXPAND);
+        manageTapDeviceSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
+        buttonLeftSizer->Add(manageTapDeviceSizer, 1, wxEXPAND);
+        ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, buttonLeftSizer);
+
+        wxBoxSizer* integrityCheckSizer = new wxBoxSizer(wxHORIZONTAL);
+        integrityCheckSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
+        integrityCheckSizer->Add(integrityCheckButton, 1, wxEXPAND);
+        integrityCheckSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
+        buttonLeftSizer->Add(integrityCheckSizer, 1, wxEXPAND);
+        ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, buttonLeftSizer);
+
+        wxBoxSizer* settingsSizer = new wxBoxSizer(wxHORIZONTAL);
+        settingsSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
+        settingsSizer->Add(settingsButton, 1, wxEXPAND);
+        settingsSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
+        buttonLeftSizer->Add(settingsSizer, 1, wxEXPAND);
+        ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, buttonLeftSizer);
+    }
 
     this->SetSize(minSize);
 }

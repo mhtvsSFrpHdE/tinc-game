@@ -1,6 +1,7 @@
 #pragma once
 #include <wx/wx.h>
 #include <unordered_map>
+#include "TapDevice_SRV.h"
 
 class MainFrame : public wxFrame
 {
@@ -10,6 +11,10 @@ public:
     wxStaticText* currentNetwork_StaticText = nullptr;
     wxComboBox* currentNetwork_ComboBox = nullptr;
     std::unordered_map<int, wxString> currentNetwork_ComboBox_RawData;
+
+    wxStaticText* currentTap_StaticText = nullptr;
+    wxComboBox* currentTap_ComboBox = nullptr;
+    std::unordered_map<int, WindowsAPI_SRV::GetAdaptersAddressesResult> currentTap_ComboBox_RawData;
 
     wxButton* optimizeMtuButton = nullptr;
     wxButton* manageTapDeviceButton = nullptr;

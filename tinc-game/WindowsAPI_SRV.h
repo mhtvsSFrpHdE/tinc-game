@@ -10,6 +10,10 @@ namespace WindowsAPI_SRV
         std::string windows_LUID;
         bool isLoopback();
         bool isTap();
+        bool isConnected();
+        bool Connect();
+    private:
+        bool connected = false;
     };
 
     void GetAdaptersAddresses(std::vector<GetAdaptersAddressesResult>* result);
