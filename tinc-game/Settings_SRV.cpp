@@ -5,31 +5,36 @@
 #include <wx/config.h>
 #include "TapDevice_SRV.h"
 
-wxString Settings_SRV::GetIniFilePath()
+wxString Settings_SRV::GetIniFilePath(GetIniFilePathBy by)
 {
-    // Config file
-    auto a = wxStandardPaths::Get().GetExecutablePath();
-    wxFileName fn(a);
-    auto fnPath = fn.GetPath();
+    auto exePath = wxStandardPaths::Get().GetExecutablePath();
+    wxFileName exeFile(exePath);
+    auto exeDir = exeFile.GetPath();
 
-    wxString ini_filename = fnPath + wxFileName::GetPathSeparator() + "tinc-game.ini";
-    return ini_filename;
+    if (by == GetIniFilePathBy::Program) {
+        wxString ini_filename = exeDir + wxFileName::GetPathSeparator() + "tinc-game.ini";
+        return ini_filename;
+    }
+    if (by == GetIniFilePathBy::Networks) {
+        wxString ini_filename = exeDir + wxFileName::GetPathSeparator() + "tinc-game-networks.ini";
+        return ini_filename;
+    }
 }
 
 void Settings_SRV::WriteLanguage(Language_SRV::KnownLanguage language)
 {
-    Settings_SRV::config->Write(SettingKeys::language, static_cast<int>(language));
-    config->Flush();
+    Settings_SRV::programConfig->Write(SettingKeys_Program::language, static_cast<int>(language));
+    programConfig->Flush();
 }
 
 wxLanguage Settings_SRV::ReadLanguage()
 {
-    namespace sk = SettingKeys;
+    namespace sk = SettingKeys_Program;
     namespace ls = Language_SRV;
 
     wxLanguage language = wxLANGUAGE_ENGLISH_US;
     int value;
-    config->Read(sk::language, &value);
+    programConfig->Read(sk::language, &value);
     if (value == static_cast<int>(ls::KnownLanguage::Unknown)) {
         auto getSystemLanguage = wxLocale::GetSystemLanguage();
         language = static_cast<wxLanguage>(getSystemLanguage);
@@ -40,9 +45,9 @@ wxLanguage Settings_SRV::ReadLanguage()
     return language;
 }
 
-bool Settings_SRV::CheckIniExists()
+bool Settings_SRV::CheckIniExists(GetIniFilePathBy by)
 {
-    wxString ini_filename = Settings_SRV::GetIniFilePath();
+    wxString ini_filename = Settings_SRV::GetIniFilePath(by);
     if (!wxFileName::FileExists(ini_filename)) {
         return false;
     }
@@ -53,18 +58,35 @@ bool Settings_SRV::CheckIniExists()
 
 void Settings_SRV::LoadConfigFile()
 {
-    namespace sk = SettingKeys;
     namespace ls = Language_SRV;
     namespace ts = TapDevice_SRV;
 
-    bool checkIni = Settings_SRV::CheckIniExists();
-    config = new wxFileConfig(wxEmptyString, wxEmptyString, Settings_SRV::GetIniFilePath());
-    if (!checkIni) {
-        config->Write(sk::language, static_cast<int>(ls::KnownLanguage::Unknown));
-        config->Write(sk::defaultVirtualNetworkAdapter, emptyPlaceholder1);
-        config->Write(sk::mtuTestIp, wxT("1.1.1.1, 8.8.8.8, 10.255.60.1"));
-        config->Write(sk::configVersion, 0);
-        config->Flush();
+    {
+        auto iniType = GetIniFilePathBy::Program;
+        namespace sk = SettingKeys_Program;
+
+        bool checkIni = Settings_SRV::CheckIniExists(iniType);
+        programConfig = new wxFileConfig(wxEmptyString, wxEmptyString, Settings_SRV::GetIniFilePath(iniType));
+        if (!checkIni) {
+            programConfig->Write(sk::configVersion, 0);
+            programConfig->Write(sk::language, static_cast<int>(ls::KnownLanguage::Unknown));
+            programConfig->Write(sk::mtuTestIp, wxT("1.1.1.1, 8.8.8.8, 10.255.60.1"));
+            programConfig->Flush();
+        }
+    }
+
+    {
+        auto iniType = GetIniFilePathBy::Networks;
+        namespace sk = SettingKeys_Networks;
+
+        bool checkIni = Settings_SRV::CheckIniExists(iniType);
+        networksConfig = new wxFileConfig(wxEmptyString, wxEmptyString, Settings_SRV::GetIniFilePath(iniType));
+        if (!checkIni) {
+            networksConfig->Write(sk::configVersion, 0);
+            networksConfig->Write(sk::defaultNetwork, emptyPlaceholder1);
+            networksConfig->Write(sk::defaultTap, emptyPlaceholder1);
+            networksConfig->Flush();
+        }
     }
 
     ls::Init();
@@ -76,7 +98,7 @@ ReturnValue<wxArrayString> Settings_SRV::ReadArray(wxString delimiter, wxString 
     auto result = ReturnValue<wxArrayString>();
 
     wxString readConfig;
-    bool readConfigSuccess = config->Read(SettingKeys::mtuTestIp, &readConfig);
+    bool readConfigSuccess = programConfig->Read(SettingKeys_Program::mtuTestIp, &readConfig);
     if (readConfigSuccess == false) {
         return result;
     }
@@ -88,7 +110,9 @@ ReturnValue<wxArrayString> Settings_SRV::ReadArray(wxString delimiter, wxString 
     return result;
 }
 
-wxFileConfig* Settings_SRV::config = nullptr;
+wxFileConfig* Settings_SRV::programConfig = nullptr;
+wxFileConfig* Settings_SRV::networksConfig = nullptr;
+
 const wxString Settings_SRV::arrayDelimiter1 = wxT(",");
 const wxString Settings_SRV::arrayDelimiter2 = wxT("|");
 const wxString Settings_SRV::emptyPlaceholder1 = wxT("|");

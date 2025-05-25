@@ -9,6 +9,7 @@
 #include <sstream>
 #include "String_SRV.h"
 #include "HelpFrame.h"
+#include "Settings_SRV.h"
 
 MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
     Init_CreateControls();

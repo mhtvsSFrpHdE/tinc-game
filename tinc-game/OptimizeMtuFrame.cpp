@@ -72,7 +72,7 @@ void OptimizeMtuFrame::Init_CreateControls()
 
     chooseAddress_ComboBox = new wxComboBox(rootPanel, wxID_ANY);
     {
-        auto getComboBoxItems = Settings_SRV::ReadArray(SettingKeys::mtuTestIp);
+        auto getComboBoxItems = Settings_SRV::ReadArray(SettingKeys_Program::mtuTestIp);
         if (getComboBoxItems.success) {
             chooseAddress_ComboBox->Set(getComboBoxItems.returnBody);
             chooseAddress_ComboBox->SetSelection(0);

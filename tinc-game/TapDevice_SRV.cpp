@@ -5,9 +5,9 @@
 
 void TapDevice_SRV::Init()
 {
-    namespace sk = SettingKeys;
+    namespace sk = SettingKeys_Networks;
 
-    defaultTapFriendlyName = Settings_SRV::config->Read(sk::defaultVirtualNetworkAdapter).ToStdWstring();
+    defaultTapFriendlyName = Settings_SRV::networksConfig->Read(sk::defaultTap).ToStdWstring();
     defaultTapNotSet = Settings_SRV::emptyPlaceholder1;
 }
 
@@ -69,22 +69,22 @@ ReturnValue<TapDevice_SRV::GetDefaultTapResult> TapDevice_SRV::GetDefaultTap(boo
 
 void TapDevice_SRV::SetDefaultTap(WindowsAPI_SRV::GetAdaptersAddressesResult adapter)
 {
-    namespace sk = SettingKeys;
+    namespace sk = SettingKeys_Networks;
 
     defaultTapFriendlyName = adapter.friendlyName;
 
-    Settings_SRV::config->Write(sk::defaultVirtualNetworkAdapter, wxString(defaultTapFriendlyName));
-    Settings_SRV::config->Flush();
+    Settings_SRV::networksConfig->Write(sk::defaultTap, wxString(defaultTapFriendlyName));
+    Settings_SRV::networksConfig->Flush();
 }
 
 void TapDevice_SRV::UnsetDefaultTap()
 {
-    namespace sk = SettingKeys;
+    namespace sk = SettingKeys_Networks;
 
     defaultTapFriendlyName = defaultTapNotSet;
 
-    Settings_SRV::config->Write(sk::defaultVirtualNetworkAdapter, wxString(defaultTapFriendlyName));
-    Settings_SRV::config->Flush();
+    Settings_SRV::networksConfig->Write(sk::defaultTap, wxString(defaultTapFriendlyName));
+    Settings_SRV::networksConfig->Flush();
 }
 
 ReturnValue<std::vector<WindowsAPI_SRV::GetAdaptersAddressesResult>> TapDevice_SRV::API_SRV_GetNetworkAdapterList()
