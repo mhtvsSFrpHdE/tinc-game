@@ -116,3 +116,20 @@ wxFileConfig* Settings_SRV::networksConfig = nullptr;
 const wxString Settings_SRV::arrayDelimiter1 = wxT(",");
 const wxString Settings_SRV::arrayDelimiter2 = wxT("|");
 const wxString Settings_SRV::emptyPlaceholder1 = wxT("|");
+
+wxString SettingKeys_Networks::network(wxString networkName)
+{
+    const wxString network = wxT("Network_");
+    const wxString pathSplitter = wxT("/");
+
+    auto result = network + networkName + pathSplitter;
+    return result;
+}
+
+wxString SettingKeys_Networks::tap(wxString networkName)
+{
+    const wxString keyName = wxT("VirtualNetworkAdapter");
+
+    auto result = network(networkName) + keyName;
+    return result;
+}

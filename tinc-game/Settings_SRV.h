@@ -42,10 +42,13 @@ namespace SettingKeys_Program {
 };
 
 namespace SettingKeys_Networks {
+    const wxString metadata = wxT("Metadata/");
+    const wxString configVersion = metadata + wxT("ConfigVersion");
+
     const wxString default_KeyName = wxT("Default/");
     const wxString defaultNetwork = default_KeyName + wxT("LastUsedNetwork");
     const wxString defaultTap = default_KeyName + wxT("VirtualNetworkAdapter");
 
-    const wxString metadata = wxT("Metadata/");
-    const wxString configVersion = metadata + wxT("ConfigVersion");
+    wxString network(wxString networkName);
+    wxString tap(wxString networkName);
 };
