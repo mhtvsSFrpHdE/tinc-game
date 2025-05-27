@@ -2,6 +2,7 @@
 #include <wx/wx.h>
 #include <unordered_map>
 #include "TapDevice_SRV.h"
+#include "Networks_SRV.h"
 
 class MainFrame : public wxFrame
 {
@@ -10,7 +11,7 @@ public:
 
     wxStaticText* currentNetwork_StaticText = nullptr;
     wxComboBox* currentNetwork_ComboBox = nullptr;
-    std::unordered_map<int, wxString> currentNetwork_ComboBox_RawData;
+    std::unordered_map<int, Networks_SRV::GetNetworksResult> currentNetwork_ComboBox_RawData;
 
     wxStaticText* currentTap_StaticText = nullptr;
     wxComboBox* currentTap_ComboBox = nullptr;

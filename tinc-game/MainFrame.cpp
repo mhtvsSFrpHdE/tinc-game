@@ -10,6 +10,7 @@
 #include "String_SRV.h"
 #include "HelpFrame.h"
 #include "Settings_SRV.h"
+#include "Networks_SRV.h"
 
 MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
     Init_CreateControls();
@@ -22,8 +23,18 @@ void MainFrame::Init_CreateControls()
     currentNetwork_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Network name"));
     currentNetwork_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
     {
-        // TODO: fill data from settings
-        // TODO: get exist network, may contains network not created by tinc-game
+        namespace ns = Networks_SRV;
+        auto getNetworks = ns::GetNetworks();
+        if (getNetworks.success) {
+            int mapIndex = 0;
+            for (int networkIndex = 0; networkIndex < getNetworks.returnBody.size(); networkIndex++)
+            {
+                auto network = getNetworks.returnBody[networkIndex];
+                currentNetwork_ComboBox_RawData.insert({ mapIndex, network });
+                currentNetwork_ComboBox->Append(network.name);
+                mapIndex = mapIndex + 1;
+            }
+        }
     }
     currentTap_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Connect with"));
     currentTap_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
