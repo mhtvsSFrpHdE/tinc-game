@@ -31,7 +31,7 @@ private:
     void Init_Layout();
 
     void OnOptimizeMtuButton(wxCommandEvent& evt);
-    void OnOptimizeMtuButton_OpenOptimizeMtuFrame();
+    void OnOptimizeMtuFrameCloseCallback();
     void OnManageTapButton(wxCommandEvent& evt);
     void OnIntegrityCheckButton(wxCommandEvent& evt);
     void OnIntegrityCheckFrameCloseCallback();

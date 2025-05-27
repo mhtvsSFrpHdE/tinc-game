@@ -6,7 +6,7 @@
 #include <sstream>
 #include "HelpFrame.h"
 
-ManageTapFrame::ManageTapFrame(MainFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Manage virtual network adapter"))
+ManageTapFrame::ManageTapFrame(wxFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Manage virtual network adapter"))
 {
     TapDevice_SRV::ReloadAdapterList();
 

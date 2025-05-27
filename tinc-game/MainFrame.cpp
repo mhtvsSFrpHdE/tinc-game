@@ -143,17 +143,19 @@ void MainFrame::Init_Layout()
 
 void MainFrame::OnOptimizeMtuButton(wxCommandEvent& evt)
 {
-    auto button = (wxButton*)evt.GetEventObject();
-    button->Enable(false);
+    optimizeMtuButton->Enable(false);
+    openedFrameCount++;
 
-    OnOptimizeMtuButton_OpenOptimizeMtuFrame();
-}
-
-void MainFrame::OnOptimizeMtuButton_OpenOptimizeMtuFrame()
-{
-    OptimizeMtuFrame* optimizeMtuframe = new OptimizeMtuFrame(this);
+    std::function<void()> redirectCallback = std::bind(&MainFrame::OnOptimizeMtuFrameCloseCallback, this);
+    OptimizeMtuFrame* optimizeMtuframe = new OptimizeMtuFrame(this, redirectCallback);
     optimizeMtuframe->Center();
     optimizeMtuframe->Show();
+}
+
+void MainFrame::OnOptimizeMtuFrameCloseCallback()
+{
+    openedFrameCount--;
+    optimizeMtuButton->Enable(true);
 }
 
 void MainFrame::OnManageTapButton(wxCommandEvent& evt)

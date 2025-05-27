@@ -8,7 +8,7 @@
 #include "Settings_SRV.h"
 #include "Layout_SRV.h"
 
-SettingsFrame::SettingsFrame(MainFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Settings"))
+SettingsFrame::SettingsFrame(wxFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Settings"))
 {
     Init_CreateControls();
     Init_Layout();

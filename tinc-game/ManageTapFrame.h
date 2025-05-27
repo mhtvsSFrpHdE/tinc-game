@@ -1,6 +1,5 @@
 #pragma once
 #include <wx/wx.h>
-#include "MainFrame.h"
 #include <unordered_map>
 #include "ReturnValue.h"
 #include "WindowsAPI_SRV.h"
@@ -33,7 +32,7 @@ struct UninstallTapResult {
 class ManageTapFrame : public wxFrame
 {
 public:
-    ManageTapFrame(MainFrame* parentFrame);
+    ManageTapFrame(wxFrame* parentFrame);
 
     // UI to SRV
     static ReturnValue<InstallTapResult> API_SRV_InstallTap();

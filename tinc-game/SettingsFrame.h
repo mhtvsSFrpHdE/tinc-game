@@ -1,12 +1,11 @@
 #pragma once
 #include <wx/wx.h>
-#include "MainFrame.h"
 #include "Language_SRV.h"
 
 class SettingsFrame : public wxFrame
 {
 public:
-    SettingsFrame(MainFrame* parentFrame);
+    SettingsFrame(wxFrame* parentFrame);
 private:
     wxWindowDisabler makeModal;
 

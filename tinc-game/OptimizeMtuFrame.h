@@ -2,7 +2,6 @@
 #include <wx/wx.h>
 #include <thread>
 #include "ReturnValue.h"
-#include "MainFrame.h"
 
 struct CheckAddressFormatResult {
     enum class Enum {
@@ -15,7 +14,7 @@ struct CheckAddressFormatResult {
 class OptimizeMtuFrame : public wxFrame
 {
 public:
-    OptimizeMtuFrame(MainFrame* parentFrame);
+    OptimizeMtuFrame(wxFrame* parentFrame, std::function<void()> onCloseCallback);
 
     // UI to SRV
     static ReturnValue<CheckAddressFormatResult::Enum> API_SRV_CheckAddressFormat(std::wstring ipAddress);
@@ -29,7 +28,7 @@ public:
 
     wxButton* helpButton = nullptr;
 private:
-    MainFrame* _parentFrame = nullptr;
+    std::function<void()> _onCloseCallback = nullptr;
 
     wxPanel* rootPanel = nullptr;
 
