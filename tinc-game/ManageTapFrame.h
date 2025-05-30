@@ -13,7 +13,7 @@ struct InstallTapResult {
         NoPermission,
         Other
     };
-    Enum messageEnum;
+    Enum messageEnum = Enum::Other;
     std::wstring messageString;
 };
 
@@ -25,7 +25,7 @@ struct UninstallTapResult {
         UninstallerNotExist,
         Other
     };
-    Enum messageEnum;
+    Enum messageEnum = Enum::Other;
     std::wstring messageString;
 };
 

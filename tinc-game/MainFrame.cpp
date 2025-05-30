@@ -13,6 +13,11 @@
 #include "Networks_SRV.h"
 #include "TapDevice_SRV.h"
 
+void MainFrame::API_UI_ReportStatus(std::wstring status, wxTextCtrl* liveLog)
+{
+    liveLog->AppendText(status);
+}
+
 MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
     Init_CreateControls();
     Init_Layout();
@@ -62,6 +67,9 @@ void MainFrame::Init_CreateControls()
     }
     connectButton = new wxButton(rootPanel, wxID_ANY, _("Connect"));
     connectButton->Bind(wxEVT_BUTTON, &MainFrame::OnConnectButtonClick, this);
+    disconnectButton = new wxButton(rootPanel, wxID_ANY, _("Disconnect"));
+    disconnectButton->Bind(wxEVT_BUTTON, &MainFrame::OnDisconnectButtonClick, this);
+    liveLog = new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
 
     optimizeMtuButton = new wxButton(rootPanel, wxID_ANY, _("Optimize MTU"));
     optimizeMtuButton->Bind(wxEVT_BUTTON, &MainFrame::OnOptimizeMtuButton, this);
@@ -86,7 +94,7 @@ void MainFrame::Init_Layout()
 
     {
         wxBoxSizer* currentNetworkRootSizer = new wxBoxSizer(wxHORIZONTAL);
-        rootSizer->Add(currentNetworkRootSizer, 1, wxEXPAND);
+        rootSizer->Add(currentNetworkRootSizer, 0, wxEXPAND);
 
         wxBoxSizer* networkSizer = new wxBoxSizer(wxVERTICAL);
         currentNetworkRootSizer->Add(networkSizer, 1);
@@ -100,21 +108,35 @@ void MainFrame::Init_Layout()
         tapSizer->Add(currentTap_StaticText);
         ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, tapSizer);
         tapSizer->Add(currentTap_ComboBox, 1, wxEXPAND | wxRIGHT, ls::SpaceToFrameBorder);
+
+        ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
     }
 
-    ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
     {
         wxBoxSizer* networkControlSizer = new wxBoxSizer(wxHORIZONTAL);
         rootSizer->Add(networkControlSizer);
         networkControlSizer->Add(connectButton, 1, wxLEFT, ls::SpaceToFrameBorder);
+        networkControlSizer->Add(disconnectButton, 1, wxLEFT, ls::SpaceBetweenControl);
+
+        ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
     }
 
-    rootSizer->Add(0, 0, ls::TakeAllSpace);
+    {
+        wxBoxSizer* liveLogSizer = new wxBoxSizer(wxHORIZONTAL);
+        rootSizer->Add(liveLogSizer, 1, wxEXPAND);
+        liveLogSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
+        liveLogSizer->Add(liveLog, 1, wxEXPAND);
+        liveLogSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
+
+        ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+    }
+
+    ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
     {
         wxBoxSizer* buttonRootSizer = new wxBoxSizer(wxHORIZONTAL);
-        rootSizer->Add(buttonRootSizer, 1, wxEXPAND);
+        rootSizer->Add(buttonRootSizer, 0, wxEXPAND);
         wxBoxSizer* buttonLeftSizer = new wxBoxSizer(wxVERTICAL);
         buttonRootSizer->Add(buttonLeftSizer, 1, wxEXPAND);
         wxBoxSizer* buttonRightSizer = new wxBoxSizer(wxVERTICAL);
@@ -168,24 +190,16 @@ void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
 
 void MainFrame::OnConnectButtonClick(wxCommandEvent& evt)
 {
+    connectButton->Enable(false);
+
     auto network = currentNetwork_ComboBox_RawData[currentNetwork_ComboBox->GetSelection()];
     auto tap = currentTap_ComboBox_RawData[currentTap_ComboBox->GetSelection()];
-    auto connect = API_SRV_ConnectToNetwork(network, tap);
-    if (connect.success == false) {
-        std::wstringstream errorMessage;
-        errorMessage << _("Failed to connect to network ") << network.name << ":" << std::endl;
+    std::thread t1(&MainFrame::API_SRV_ConnectToNetwork, this, network, tap);
+    t1.detach();
+}
 
-        if (connect.returnBody.messageEnum == ConnectToNetworkResult::Enum::TapUnavailable) {
-            errorMessage << _("Virtual network adapter ") << tap.friendlyName << _(" Unavailable");
-        }
-
-        if (connect.returnBody.messageEnum == ConnectToNetworkResult::Enum::RefusedByTinc) {
-            errorMessage << _("Connect request refused by tinc:") << std::endl
-                << connect.returnBody.messageString;
-        }
-
-        wxMessageDialog(this, errorMessage.str()).ShowModal();
-    }
+void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)
+{
 }
 
 void MainFrame::OnOptimizeMtuButton(wxCommandEvent& evt)

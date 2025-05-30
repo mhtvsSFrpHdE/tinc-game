@@ -8,10 +8,13 @@ struct ConnectToNetworkResult {
     enum class Enum {
         TapUnavailable,
         RefusedByTinc,
+        TincdNotExist,
         Other
     };
-    Enum messageEnum;
+    Enum messageEnum = Enum::Other;
     std::wstring messageString;
+    Networks_SRV::GetNetworksResult network;
+    WindowsAPI_SRV::GetAdaptersAddressesResult tap;
 };
 
 class MainFrame : public wxFrame
@@ -20,7 +23,12 @@ public:
     MainFrame();
 
 private:
-    ReturnValue<ConnectToNetworkResult> API_SRV_ConnectToNetwork(Networks_SRV::GetNetworksResult network, WindowsAPI_SRV::GetAdaptersAddressesResult tap);
+    // UI to SRV
+    void API_SRV_ConnectToNetwork(Networks_SRV::GetNetworksResult network, WindowsAPI_SRV::GetAdaptersAddressesResult tap);
+
+    // SRV to UI
+    void API_UI_ReportStatus(std::wstring status, wxTextCtrl* liveLog);
+    void API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> result);
 
     wxPanel* rootPanel;
 
@@ -35,6 +43,10 @@ private:
 
     wxButton* connectButton = nullptr;
     void OnConnectButtonClick(wxCommandEvent& evt);
+    wxButton* disconnectButton = nullptr;
+    void OnDisconnectButtonClick(wxCommandEvent& evt);
+
+    wxTextCtrl* liveLog = nullptr;
 
     wxButton* optimizeMtuButton = nullptr;
     void OnOptimizeMtuButton(wxCommandEvent& evt);
