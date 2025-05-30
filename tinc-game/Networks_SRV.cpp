@@ -28,3 +28,15 @@ ReturnValue<std::vector<Networks_SRV::GetNetworksResult>> Networks_SRV::GetNetwo
     }
     return result;
 }
+
+std::wstring Networks_SRV::GetNetworksResult::GetFullPath()
+{
+    wxFileName file;
+    file.AppendDir("networks");
+    file.AppendDir(name);
+    file.Normalize();
+
+    auto fileFullPath = file.GetFullPath().ToStdWstring();
+    auto stripEndBackslash = fileFullPath.substr(0, fileFullPath.length() - 1);
+    return stripEndBackslash;
+}

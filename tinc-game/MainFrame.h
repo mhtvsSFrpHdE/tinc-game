@@ -4,12 +4,24 @@
 #include "TapDevice_SRV.h"
 #include "Networks_SRV.h"
 
+struct ConnectToNetworkResult {
+    enum class Enum {
+        TapUnavailable,
+        RefusedByTinc,
+        Other
+    };
+    Enum messageEnum;
+    std::wstring messageString;
+};
+
 class MainFrame : public wxFrame
 {
 public:
     MainFrame();
 
 private:
+    ReturnValue<ConnectToNetworkResult> API_SRV_ConnectToNetwork(Networks_SRV::GetNetworksResult network, WindowsAPI_SRV::GetAdaptersAddressesResult tap);
+
     wxPanel* rootPanel;
 
     wxStaticText* currentNetwork_StaticText = nullptr;
@@ -20,6 +32,9 @@ private:
     wxStaticText* currentTap_StaticText = nullptr;
     wxComboBox* currentTap_ComboBox = nullptr;
     std::unordered_map<int, WindowsAPI_SRV::GetAdaptersAddressesResult> currentTap_ComboBox_RawData;
+
+    wxButton* connectButton = nullptr;
+    void OnConnectButtonClick(wxCommandEvent& evt);
 
     wxButton* optimizeMtuButton = nullptr;
     void OnOptimizeMtuButton(wxCommandEvent& evt);

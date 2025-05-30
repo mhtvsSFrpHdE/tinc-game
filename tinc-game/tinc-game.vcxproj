@@ -177,6 +177,7 @@
     <ClCompile Include="Layout_SRV.cpp" />
     <ClCompile Include="MainFrame.cpp" />
     <ClCompile Include="HelpFrame.cpp" />
+    <ClCompile Include="MainFrame_SRV.cpp" />
     <ClCompile Include="ManageTapFrame.cpp" />
     <ClCompile Include="ManageTapFrame_SRV.cpp" />
     <ClCompile Include="Networks_SRV.cpp" />
