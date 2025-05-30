@@ -25,7 +25,7 @@ void ApplyMtuFrame::Init_CreateControls()
             for (int adapterIndex = 0; adapterIndex < getNetworkAdapterList.returnBody.size(); adapterIndex++)
             {
                 auto adapter = getNetworkAdapterList.returnBody[adapterIndex];
-                if (adapter.isLoopback() == false) {
+                if (adapter.IsLoopback() == false) {
                     chooseAdapter_ComboBox_RawData.insert({ mapIndex, adapter });
                     chooseAdapter_ComboBox->Append(adapter.friendlyName + " | " + adapter.modelName);
                     mapIndex = mapIndex + 1;

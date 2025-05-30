@@ -188,21 +188,21 @@ void WindowsAPI_SRV::GetAdaptersAddresses(std::vector<GetAdaptersAddressesResult
     }
 }
 
-bool WindowsAPI_SRV::GetAdaptersAddressesResult::isLoopback()
+bool WindowsAPI_SRV::GetAdaptersAddressesResult::IsLoopback()
 {
     auto isLoopback = this->modelName.find(L"Software Loopback") != std::wstring::npos;
     return isLoopback;
 }
 
-bool WindowsAPI_SRV::GetAdaptersAddressesResult::isTap()
+bool WindowsAPI_SRV::GetAdaptersAddressesResult::IsTap()
 {
     auto isTap = this->modelName.find(L"TAP-Win32 Adapter V9") != std::wstring::npos;
     return isTap;
 }
 
-bool WindowsAPI_SRV::GetAdaptersAddressesResult::isConnected()
+bool WindowsAPI_SRV::GetAdaptersAddressesResult::Available()
 {
-    return connected;
+    return !connected;
 }
 
 bool WindowsAPI_SRV::GetAdaptersAddressesResult::Connect()
@@ -213,4 +213,9 @@ bool WindowsAPI_SRV::GetAdaptersAddressesResult::Connect()
 
     connected = true;
     return true;
+}
+
+void WindowsAPI_SRV::GetAdaptersAddressesResult::Disconnect()
+{
+    connected = false;
 }

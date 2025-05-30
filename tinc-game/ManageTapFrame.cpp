@@ -361,8 +361,8 @@ void ManageTapFrame::Reload_installedTap_ComboBox()
         for (int adapterIndex = 0; adapterIndex < getNetworkAdapterList.returnBody.size(); adapterIndex++)
         {
             auto adapter = getNetworkAdapterList.returnBody[adapterIndex];
-            bool isNotLoopback = adapter.isLoopback() == false;
-            bool isTap = adapter.isTap();
+            bool isNotLoopback = adapter.IsLoopback() == false;
+            bool isTap = adapter.IsTap();
             if (isNotLoopback && isTap) {
                 installedTap_ComboBox_RawData.insert({ mapIndex, adapter });
                 installedTap_ComboBox->Append(adapter.friendlyName + " | " + adapter.modelName);

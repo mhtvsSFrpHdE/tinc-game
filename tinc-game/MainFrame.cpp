@@ -11,6 +11,7 @@
 #include "HelpFrame.h"
 #include "Settings_SRV.h"
 #include "Networks_SRV.h"
+#include "TapDevice_SRV.h"
 
 MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
     Init_CreateControls();
@@ -36,6 +37,7 @@ void MainFrame::Init_CreateControls()
             }
         }
     }
+    currentNetwork_ComboBox->Bind(wxEVT_COMBOBOX, &MainFrame::OnCurrentNetworkChange, this);
     currentTap_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Connect with"));
     currentTap_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
     {
@@ -48,11 +50,11 @@ void MainFrame::Init_CreateControls()
             for (int adapterIndex = 0; adapterIndex < getNetworkAdapterList.returnBody.size(); adapterIndex++)
             {
                 auto adapter = getNetworkAdapterList.returnBody[adapterIndex];
-                bool isNotLoopback = adapter.isLoopback() == false;
-                bool isTap = adapter.isTap();
+                bool isNotLoopback = adapter.IsLoopback() == false;
+                bool isTap = adapter.IsTap();
                 if (isNotLoopback && isTap) {
                     currentTap_ComboBox_RawData.insert({ mapIndex, adapter });
-                    currentTap_ComboBox->Append(adapter.friendlyName + " | " + (adapter.isConnected() ? _("Connected") : _("Available")));
+                    currentTap_ComboBox->Append(adapter.friendlyName + " | " + (adapter.Available() ? _("Available") : _("Connected")));
                     mapIndex = mapIndex + 1;
                 }
             }
@@ -139,6 +141,18 @@ void MainFrame::Init_Layout()
     }
 
     this->SetSize(minSize);
+}
+
+void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
+{
+    for (int i = 0; i < currentTap_ComboBox_RawData.size(); i++)
+    {
+        auto adapter = currentTap_ComboBox_RawData[i];
+        if (adapter.Available()) {
+            currentTap_ComboBox->SetSelection(i);
+            return;
+        }
+    }
 }
 
 void MainFrame::OnOptimizeMtuButton(wxCommandEvent& evt)
@@ -272,29 +286,29 @@ void MainFrame::OnIntegrityCheckFrameCloseCallback()
     integrityCheckButton - Enable(true);
 }
 
-void MainFrame::OnSettingsButton(wxCommandEvent& evt)
+void OnSettingsButton_OpenSettingsFrame(MainFrame* mainFrame)
 {
-    if (openedFrameCount == 0)
-    {
-        OnSettingsButton_OpenSettingsFrame();
-    }
-    else {
-        OnSettingsButton_OtherWindowExists();
-    }
-}
-
-void MainFrame::OnSettingsButton_OpenSettingsFrame()
-{
-    SettingsFrame* settingsframe = new SettingsFrame(this);
+    SettingsFrame* settingsframe = new SettingsFrame(mainFrame);
     settingsframe->Center();
     settingsframe->Show();
 }
 
-void MainFrame::OnSettingsButton_OtherWindowExists()
+void OnSettingsButton_OtherWindowExists(MainFrame* mainFrame)
 {
     wxString buttonHint = _("Close all windows before enter setting interface.");
     wxString title = _("hint");
     wxMessageDialog* dial = new wxMessageDialog(NULL,
         buttonHint, title, wxOK);
     dial->ShowModal();
+}
+
+void MainFrame::OnSettingsButton(wxCommandEvent& evt)
+{
+    if (openedFrameCount == 0)
+    {
+        OnSettingsButton_OpenSettingsFrame(this);
+    }
+    else {
+        OnSettingsButton_OtherWindowExists(this);
+    }
 }

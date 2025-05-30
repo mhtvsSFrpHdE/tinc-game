@@ -18,7 +18,7 @@ void TapDevice_SRV::ReloadAdapterList()
 
     tapList.clear();
     for (auto& adapter : newAdapterList) {
-        if (adapter.isTap()) {
+        if (adapter.IsTap()) {
             tapList.push_back(adapter);
         }
     }

@@ -8,10 +8,11 @@ namespace WindowsAPI_SRV
         std::wstring friendlyName;
         std::wstring modelName;
         std::string windows_LUID;
-        bool isLoopback();
-        bool isTap();
-        bool isConnected();
+        bool IsLoopback();
+        bool IsTap();
+        bool Available();
         bool Connect();
+        void Disconnect();
     private:
         bool connected = false;
     };
