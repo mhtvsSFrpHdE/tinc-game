@@ -6,7 +6,7 @@
 #include <wx/filename.h>
 #include <boost/circular_buffer.hpp>
 
-void MainFrame::API_SRV_ConnectToNetwork(Networks_SRV::GetNetworksResult network, WindowsAPI_SRV::GetAdaptersAddressesResult tap)
+void MainFrame::API_SRV_ConnectToNetwork(Networks_SRV::GetNetworksResult network, PerTapDataStorage perTapData)
 {
     auto result = ReturnValue<ConnectToNetworkResult>();
 
@@ -26,7 +26,7 @@ void MainFrame::API_SRV_ConnectToNetwork(Networks_SRV::GetNetworksResult network
         << sr::space << L"--config="
         << sr::doubleQuotes << network.GetFullPath() << sr::doubleQuotes
         << sr::space << L"--option=interface="
-        << sr::doubleQuotes << tap.friendlyName << sr::doubleQuotes
+        << sr::doubleQuotes << perTapData.tap.friendlyName << sr::doubleQuotes
         << sr::space << L"--no-detach"
         << sr::space << L"--debug=3";
 
@@ -34,14 +34,14 @@ void MainFrame::API_SRV_ConnectToNetwork(Networks_SRV::GetNetworksResult network
 
     boost::circular_buffer<std::string> cb(10);
     try {
-        bp::child c(command, bp::std_err > is, bp::std_in < in);
+        perTapData.tincProcess = std::shared_ptr<bp::child>(new bp::child(command, bp::std_err > is, bp::std_in < in));
         //bp::child c(command, bp::std_err > is, bp::windows::hide);
 
         std::string line;
         while (std::getline(is, line)) {
             cb.push_back(line);
             auto wline = sr::ForceToWstring(line);
-            CallAfter(&MainFrame::API_UI_ReportStatus, wline, liveLog);
+            CallAfter(&MainFrame::API_UI_ReportStatus, wline, perTapData.liveLog);
 
             // {3D6DCCE4-F183-4859-9B35-129361209E5F} (Ethernet 2) is not a usable Windows tap device: (31) A device attached to the system is not functioning.
 
@@ -50,11 +50,12 @@ void MainFrame::API_SRV_ConnectToNetwork(Networks_SRV::GetNetworksResult network
                 result.success = true;
             }
         }
-        c.wait();
+        perTapData.tincProcess->wait();
     }
     catch (...) {
         result.returnBody.messageEnum = ConnectToNetworkResult::Enum::TincdNotExist;
-        CallAfter(&MainFrame::API_UI_EndConnectToNetwork, result);
+        CallAfter(&MainFrame::API_UI_EndConnectToNetwork, result, perTapData);
+
         return;
     }
 
@@ -65,15 +66,15 @@ void MainFrame::API_SRV_ConnectToNetwork(Networks_SRV::GetNetworksResult network
         }
         result.returnBody.messageEnum = ConnectToNetworkResult::Enum::Other;
         result.returnBody.messageString = messageStringStream.str();
-        CallAfter(&MainFrame::API_UI_EndConnectToNetwork, result);
+        CallAfter(&MainFrame::API_UI_EndConnectToNetwork, result, perTapData);
         return;
     }
 
-    CallAfter(&MainFrame::API_UI_EndConnectToNetwork, result);
+    CallAfter(&MainFrame::API_UI_EndConnectToNetwork, result, perTapData);
     return;
 }
 
-void MainFrame::API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> result)
+void MainFrame::API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> result, PerTapDataStorage perTapData)
 {
     if (result.success == false) {
         std::wstringstream errorMessage;
@@ -93,8 +94,8 @@ void MainFrame::API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> r
 
         wxMessageDialog(this, errorMessage.str()).ShowModal();
 
-        connectButton->Enable(true);
+        perTapData.connectButton->Enable(true);
     }
 
-    connectButton->Enable(true);
+    perTapData.connectButton->Enable(true);
 }

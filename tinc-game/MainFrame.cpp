@@ -26,6 +26,50 @@ MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
 void MainFrame::Init_CreateControls()
 {
     rootPanel = new wxPanel(this);
+
+    connectButtonPlaceholder = new wxButton(rootPanel, wxID_ANY, _("Connect"));
+    connectButtonPlaceholder->Enable(false);
+    disconnectButtonPlaceholder = new wxButton(rootPanel, wxID_ANY, _("Disconnect"));
+    disconnectButtonPlaceholder->Enable(false);
+    liveLogPlaceholder = new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
+    liveLogPlaceholder->Enable(false);
+
+    currentTap_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Connect with"));
+    currentTap_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
+    {
+        auto getNetworkAdapterList = TapDevice_SRV::API_SRV_GetNetworkAdapterList();
+        if (getNetworkAdapterList.success) {
+            currentTap_ComboBox->Clear();
+            currentTap_ComboBox_RawData.clear();
+
+            int mapIndex = 0;
+            for (int adapterIndex = 0; adapterIndex < getNetworkAdapterList.returnBody.size(); adapterIndex++)
+            {
+                auto adapter = getNetworkAdapterList.returnBody[adapterIndex];
+                bool isNotLoopback = adapter.IsLoopback() == false;
+                bool isTap = adapter.IsTap();
+                if (isNotLoopback && isTap) {
+                    PerTapDataStorage perTapData;
+                    perTapData.tap = adapter;
+                    perTapData.liveLog = new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
+                    perTapData.liveLog->tincSetMaxLines(100);
+                    perTapData.liveLog->Hide();
+                    perTapData.connectButton = new wxButton(rootPanel, wxID_ANY, _("Connect"));
+                    perTapData.connectButton->Bind(wxEVT_BUTTON, &MainFrame::OnConnectButtonClick, this);
+                    perTapData.connectButton->Hide();
+                    perTapData.disconnectButton = new wxButton(rootPanel, wxID_ANY, _("Disconnect"));
+                    perTapData.disconnectButton->Bind(wxEVT_BUTTON, &MainFrame::OnDisconnectButtonClick, this);
+                    perTapData.disconnectButton->Hide();
+
+                    currentTap_ComboBox_RawData.insert({ mapIndex, perTapData });
+                    currentTap_ComboBox->Append(adapter.friendlyName + " | " + (adapter.Available() ? _("Available") : _("Connected")));
+
+                    mapIndex = mapIndex + 1;
+                }
+            }
+        }
+    }
+    currentTap_ComboBox->Bind(wxEVT_COMBOBOX, &MainFrame::OnCurrentTapChange, this);
     currentNetwork_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Network name"));
     currentNetwork_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
     {
@@ -43,34 +87,6 @@ void MainFrame::Init_CreateControls()
         }
     }
     currentNetwork_ComboBox->Bind(wxEVT_COMBOBOX, &MainFrame::OnCurrentNetworkChange, this);
-    currentTap_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Connect with"));
-    currentTap_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
-    {
-        auto getNetworkAdapterList = TapDevice_SRV::API_SRV_GetNetworkAdapterList();
-        if (getNetworkAdapterList.success) {
-            currentTap_ComboBox->Clear();
-            currentTap_ComboBox_RawData.clear();
-
-            int mapIndex = 0;
-            for (int adapterIndex = 0; adapterIndex < getNetworkAdapterList.returnBody.size(); adapterIndex++)
-            {
-                auto adapter = getNetworkAdapterList.returnBody[adapterIndex];
-                bool isNotLoopback = adapter.IsLoopback() == false;
-                bool isTap = adapter.IsTap();
-                if (isNotLoopback && isTap) {
-                    currentTap_ComboBox_RawData.insert({ mapIndex, adapter });
-                    currentTap_ComboBox->Append(adapter.friendlyName + " | " + (adapter.Available() ? _("Available") : _("Connected")));
-                    mapIndex = mapIndex + 1;
-                }
-            }
-        }
-    }
-    connectButton = new wxButton(rootPanel, wxID_ANY, _("Connect"));
-    connectButton->Bind(wxEVT_BUTTON, &MainFrame::OnConnectButtonClick, this);
-    disconnectButton = new wxButton(rootPanel, wxID_ANY, _("Disconnect"));
-    disconnectButton->Bind(wxEVT_BUTTON, &MainFrame::OnDisconnectButtonClick, this);
-    liveLog = new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
-    liveLog->tincSetMaxLines(100);
 
     optimizeMtuButton = new wxButton(rootPanel, wxID_ANY, _("Optimize MTU"));
     optimizeMtuButton->Bind(wxEVT_BUTTON, &MainFrame::OnOptimizeMtuButton, this);
@@ -115,19 +131,19 @@ void MainFrame::Init_Layout()
 
 
     {
-        wxBoxSizer* networkControlSizer = new wxBoxSizer(wxHORIZONTAL);
+        networkControlSizer = new wxBoxSizer(wxHORIZONTAL);
         rootSizer->Add(networkControlSizer);
-        networkControlSizer->Add(connectButton, 1, wxLEFT, ls::SpaceToFrameBorder);
-        networkControlSizer->Add(disconnectButton, 1, wxLEFT, ls::SpaceBetweenControl);
+        networkControlSizer->Add(connectButtonPlaceholder, 1, wxLEFT, ls::SpaceToFrameBorder);
+        networkControlSizer->Add(disconnectButtonPlaceholder, 1, wxLEFT, ls::SpaceBetweenControl);
 
         ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
     }
 
     {
-        wxBoxSizer* liveLogSizer = new wxBoxSizer(wxHORIZONTAL);
+        liveLogSizer = new wxBoxSizer(wxHORIZONTAL);
         rootSizer->Add(liveLogSizer, 1, wxEXPAND);
         liveLogSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
-        liveLogSizer->Add(liveLog, 1, wxEXPAND);
+        liveLogSizer->Add(liveLogPlaceholder, 1, wxEXPAND);
         liveLogSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
 
         ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
@@ -182,25 +198,57 @@ void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
     for (int i = 0; i < currentTap_ComboBox_RawData.size(); i++)
     {
         auto adapter = currentTap_ComboBox_RawData[i];
-        if (adapter.Available()) {
+        if (adapter.tap.Available()) {
             currentTap_ComboBox->SetSelection(i);
+            currentTap_ComboBox->SendSelectionChangedEvent(wxEVT_COMBOBOX);
             return;
         }
     }
 }
 
+void MainFrame::OnCurrentTapChange(wxCommandEvent& evt)
+{
+    auto selection = currentTap_ComboBox->GetSelection();
+    auto rawData = currentTap_ComboBox_RawData[selection];
+
+    {
+        liveLogPlaceholder->Hide();
+        liveLogSizer->Replace(liveLogPlaceholder, rawData.liveLog);
+        rawData.liveLog->Show();
+        liveLogPlaceholder = rawData.liveLog;
+
+        liveLogSizer->Layout();
+    }
+
+    {
+        connectButtonPlaceholder->Hide();
+        networkControlSizer->Replace(connectButtonPlaceholder, rawData.connectButton);
+        rawData.connectButton->Show();
+        connectButtonPlaceholder = rawData.connectButton;
+
+        disconnectButtonPlaceholder->Hide();
+        networkControlSizer->Replace(disconnectButtonPlaceholder, rawData.disconnectButton);
+        rawData.disconnectButton->Show();
+        disconnectButtonPlaceholder = rawData.disconnectButton;
+
+        networkControlSizer->Layout();
+    }
+}
+
 void MainFrame::OnConnectButtonClick(wxCommandEvent& evt)
 {
-    connectButton->Enable(false);
+    auto tap = currentTap_ComboBox_RawData[currentTap_ComboBox->GetSelection()];
+    tap.connectButton->Enable(false);
 
     auto network = currentNetwork_ComboBox_RawData[currentNetwork_ComboBox->GetSelection()];
-    auto tap = currentTap_ComboBox_RawData[currentTap_ComboBox->GetSelection()];
     std::thread t1(&MainFrame::API_SRV_ConnectToNetwork, this, network, tap);
     t1.detach();
 }
 
 void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)
 {
+    //auto tap = currentTap_ComboBox_RawData[currentTap_ComboBox->GetSelection()];
+    //tap.disconnectButton->Enable(false);
 }
 
 void MainFrame::OnOptimizeMtuButton(wxCommandEvent& evt)

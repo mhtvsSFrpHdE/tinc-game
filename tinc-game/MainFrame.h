@@ -1,4 +1,5 @@
 #pragma once
+#include "boost/process.hpp"
 #include <wx/wx.h>
 #include <unordered_map>
 #include "TapDevice_SRV.h"
@@ -18,6 +19,14 @@ struct ConnectToNetworkResult {
     WindowsAPI_SRV::GetAdaptersAddressesResult tap;
 };
 
+struct PerTapDataStorage {
+    WindowsAPI_SRV::GetAdaptersAddressesResult tap;
+    tincTextCtrl* liveLog = nullptr;
+    std::shared_ptr<boost::process::child> tincProcess;
+    wxButton* connectButton = nullptr;
+    wxButton* disconnectButton = nullptr;
+};
+
 class MainFrame : public wxFrame
 {
 public:
@@ -25,11 +34,11 @@ public:
 
 private:
     // UI to SRV
-    void API_SRV_ConnectToNetwork(Networks_SRV::GetNetworksResult network, WindowsAPI_SRV::GetAdaptersAddressesResult tap);
+    void API_SRV_ConnectToNetwork(Networks_SRV::GetNetworksResult network, PerTapDataStorage perTapData);
 
     // SRV to UI
     void API_UI_ReportStatus(std::wstring status, tincTextCtrl* liveLog);
-    void API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> result);
+    void API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> result, PerTapDataStorage perTapData);
 
     wxPanel* rootPanel;
 
@@ -40,14 +49,18 @@ private:
 
     wxStaticText* currentTap_StaticText = nullptr;
     wxComboBox* currentTap_ComboBox = nullptr;
-    std::unordered_map<int, WindowsAPI_SRV::GetAdaptersAddressesResult> currentTap_ComboBox_RawData;
+    std::unordered_map<int, PerTapDataStorage> currentTap_ComboBox_RawData;
+    void OnCurrentTapChange(wxCommandEvent& evt);
 
-    wxButton* connectButton = nullptr;
+    wxButton* connectButtonPlaceholder = nullptr;
     void OnConnectButtonClick(wxCommandEvent& evt);
-    wxButton* disconnectButton = nullptr;
+    wxButton* disconnectButtonPlaceholder = nullptr;
     void OnDisconnectButtonClick(wxCommandEvent& evt);
 
-    tincTextCtrl* liveLog = nullptr;
+    wxBoxSizer* networkControlSizer = nullptr;
+
+    tincTextCtrl* liveLogPlaceholder = nullptr;
+    wxBoxSizer* liveLogSizer = nullptr;
 
     wxButton* optimizeMtuButton = nullptr;
     void OnOptimizeMtuButton(wxCommandEvent& evt);

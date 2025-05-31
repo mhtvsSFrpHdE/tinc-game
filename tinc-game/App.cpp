@@ -1,5 +1,5 @@
-#include "App.h"
 #include "MainFrame.h"
+#include "App.h"
 #include <wx/stdpaths.h>
 #include <wx/filename.h>
 #include <wx/fileconf.h>
