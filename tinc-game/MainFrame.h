@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include "TapDevice_SRV.h"
 #include "Networks_SRV.h"
+#include "tincTextCtrl.h"
 
 struct ConnectToNetworkResult {
     enum class Enum {
@@ -27,7 +28,7 @@ private:
     void API_SRV_ConnectToNetwork(Networks_SRV::GetNetworksResult network, WindowsAPI_SRV::GetAdaptersAddressesResult tap);
 
     // SRV to UI
-    void API_UI_ReportStatus(std::wstring status, wxTextCtrl* liveLog);
+    void API_UI_ReportStatus(std::wstring status, tincTextCtrl* liveLog);
     void API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> result);
 
     wxPanel* rootPanel;
@@ -46,7 +47,7 @@ private:
     wxButton* disconnectButton = nullptr;
     void OnDisconnectButtonClick(wxCommandEvent& evt);
 
-    wxTextCtrl* liveLog = nullptr;
+    tincTextCtrl* liveLog = nullptr;
 
     wxButton* optimizeMtuButton = nullptr;
     void OnOptimizeMtuButton(wxCommandEvent& evt);

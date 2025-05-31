@@ -167,6 +167,7 @@
     <ClInclude Include="String_SRV.h" />
     <ClInclude Include="Style_SRV.h" />
     <ClInclude Include="TapDevice_SRV.h" />
+    <ClInclude Include="tincTextCtrl.h" />
     <ClInclude Include="WindowsAPI_SRV.h" />
   </ItemGroup>
   <ItemGroup>
@@ -189,6 +190,7 @@
     <ClCompile Include="String_SRV.cpp" />
     <ClCompile Include="Style_SRV.cpp" />
     <ClCompile Include="TapDevice_SRV.cpp" />
+    <ClCompile Include="tincTextCtrl.cpp" />
     <ClCompile Include="WindowsAPI_SRV.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -13,9 +13,9 @@
 #include "Networks_SRV.h"
 #include "TapDevice_SRV.h"
 
-void MainFrame::API_UI_ReportStatus(std::wstring status, wxTextCtrl* liveLog)
+void MainFrame::API_UI_ReportStatus(std::wstring status, tincTextCtrl* liveLog)
 {
-    liveLog->AppendText(status);
+    liveLog->tincAppendText(status);
 }
 
 MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
@@ -69,7 +69,8 @@ void MainFrame::Init_CreateControls()
     connectButton->Bind(wxEVT_BUTTON, &MainFrame::OnConnectButtonClick, this);
     disconnectButton = new wxButton(rootPanel, wxID_ANY, _("Disconnect"));
     disconnectButton->Bind(wxEVT_BUTTON, &MainFrame::OnDisconnectButtonClick, this);
-    liveLog = new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
+    liveLog = new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
+    liveLog->tincSetMaxLines(100);
 
     optimizeMtuButton = new wxButton(rootPanel, wxID_ANY, _("Optimize MTU"));
     optimizeMtuButton->Bind(wxEVT_BUTTON, &MainFrame::OnOptimizeMtuButton, this);
