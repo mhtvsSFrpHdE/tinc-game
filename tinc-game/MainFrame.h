@@ -19,12 +19,13 @@ struct ConnectToNetworkResult {
     WindowsAPI_SRV::GetAdaptersAddressesResult tap;
 };
 
-struct PerTapDataStorage {
+struct PerNetworkData {
+    Networks_SRV::GetNetworksResult network;
     WindowsAPI_SRV::GetAdaptersAddressesResult tap;
-    tincTextCtrl* liveLog = nullptr;
     std::shared_ptr<boost::process::child> tincProcess;
     wxButton* connectButton = nullptr;
     wxButton* disconnectButton = nullptr;
+    tincTextCtrl* liveLog = nullptr;
 };
 
 class MainFrame : public wxFrame
@@ -34,22 +35,22 @@ public:
 
 private:
     // UI to SRV
-    void API_SRV_ConnectToNetwork(Networks_SRV::GetNetworksResult network, PerTapDataStorage perTapData);
+    void API_SRV_ConnectToNetwork(PerNetworkData perNetworkData);
 
     // SRV to UI
     void API_UI_ReportStatus(std::wstring status, tincTextCtrl* liveLog);
-    void API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> result, PerTapDataStorage perTapData);
+    void API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> result, PerNetworkData perNetworkData);
 
     wxPanel* rootPanel;
 
     wxStaticText* currentNetwork_StaticText = nullptr;
     wxComboBox* currentNetwork_ComboBox = nullptr;
-    std::unordered_map<int, Networks_SRV::GetNetworksResult> currentNetwork_ComboBox_RawData;
+    std::unordered_map<int, PerNetworkData> currentNetwork_ComboBox_RawData;
     void OnCurrentNetworkChange(wxCommandEvent& evt);
 
     wxStaticText* currentTap_StaticText = nullptr;
     wxComboBox* currentTap_ComboBox = nullptr;
-    std::unordered_map<int, PerTapDataStorage> currentTap_ComboBox_RawData;
+    std::unordered_map<int, WindowsAPI_SRV::GetAdaptersAddressesResult> currentTap_ComboBox_RawData;
     void OnCurrentTapChange(wxCommandEvent& evt);
 
     wxButton* connectButtonPlaceholder = nullptr;
