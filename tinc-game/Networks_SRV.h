@@ -2,11 +2,13 @@
 #include <string>
 #include "ReturnValue.h"
 #include <vector>
+#include "WindowsAPI_SRV.h"
 
 namespace Networks_SRV
 {
     struct GetNetworksResult {
-        std::wstring name;
+        std::wstring networkName;
+        std::wstring recentUsedTapName;
         std::wstring GetFullPath();
     };
 

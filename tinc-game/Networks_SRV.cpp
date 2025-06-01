@@ -1,6 +1,7 @@
 #include "Networks_SRV.h"
 #include <wx/filename.h>
 #include <wx/dir.h>
+#include "Settings_SRV.h"
 
 ReturnValue<std::vector<Networks_SRV::GetNetworksResult>> Networks_SRV::GetNetworks()
 {
@@ -18,7 +19,9 @@ ReturnValue<std::vector<Networks_SRV::GetNetworksResult>> Networks_SRV::GetNetwo
     while (cont)
     {
         GetNetworksResult subFolder;
-        subFolder.name = filename.ToStdWstring();
+        subFolder.networkName = filename.ToStdWstring();
+        auto settingsKeyName = SettingKeys_Networks::tap(subFolder.networkName);
+        subFolder.recentUsedTapName = Settings_SRV::networksConfig->Read(settingsKeyName);
         result.returnBody.push_back(subFolder);
 
         cont = dir.GetNext(&filename);
@@ -33,7 +36,7 @@ std::wstring Networks_SRV::GetNetworksResult::GetFullPath()
 {
     wxFileName file;
     file.AppendDir("networks");
-    file.AppendDir(name);
+    file.AppendDir(networkName);
     file.Normalize();
 
     auto fileFullPath = file.GetFullPath().ToStdWstring();
