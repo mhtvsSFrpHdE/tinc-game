@@ -5,6 +5,7 @@
 #include "TapDevice_SRV.h"
 #include "Networks_SRV.h"
 #include "tincTextCtrl.h"
+#include "boost/optional.hpp"
 
 struct ConnectToNetworkResult {
     enum class Enum {
@@ -21,7 +22,8 @@ struct ConnectToNetworkResult {
 
 struct PerNetworkData {
     Networks_SRV::GetNetworksResult network;
-    WindowsAPI_SRV::GetAdaptersAddressesResult tap;
+    boost::optional<WindowsAPI_SRV::GetAdaptersAddressesResult*> tap;
+    int tapSelection = wxNOT_FOUND;
     std::shared_ptr<boost::process::child> tincProcess;
     wxButton* connectButton = nullptr;
     wxButton* disconnectButton = nullptr;
@@ -52,6 +54,8 @@ private:
     wxComboBox* currentTap_ComboBox = nullptr;
     std::unordered_map<int, WindowsAPI_SRV::GetAdaptersAddressesResult> currentTap_ComboBox_RawData;
     void OnCurrentTapChange(wxCommandEvent& evt);
+    wxString GetDisplayText(WindowsAPI_SRV::GetAdaptersAddressesResult tap);
+    void UpdateCurrentTapItemDisplayText(WindowsAPI_SRV::GetAdaptersAddressesResult tap, int insertAt);
 
     wxButton* connectButtonPlaceholder = nullptr;
     void OnConnectButtonClick(wxCommandEvent& evt);

@@ -79,7 +79,7 @@ void MainFrame::Init_CreateControls()
                 bool isTap = adapter.IsTap();
                 if (isNotLoopback && isTap) {
                     currentTap_ComboBox_RawData.insert({ mapIndex, adapter });
-                    currentTap_ComboBox->Append(adapter.friendlyName + " | " + (adapter.Available() ? _("Available") : _("Connected")));
+                    currentTap_ComboBox->Append(GetDisplayText(adapter));
 
                     mapIndex = mapIndex + 1;
                 }
@@ -196,7 +196,7 @@ void MainFrame::Init_Layout()
 void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
 {
     auto selection = currentNetwork_ComboBox->GetSelection();
-    auto rawData = currentNetwork_ComboBox_RawData[selection];
+    auto& rawData = currentNetwork_ComboBox_RawData[selection];
 
     {
         liveLogPlaceholder->Hide();
@@ -224,20 +224,25 @@ void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
     {
         for (int i = 0; i < currentTap_ComboBox_RawData.size(); i++)
         {
-            auto adapter = currentTap_ComboBox_RawData[i];
+            auto& adapter = currentTap_ComboBox_RawData[i];
+
+            if (rawData.tap) {
+                if (adapter.friendlyName == rawData.tap.get()->friendlyName) {
+                    currentTap_ComboBox->SetSelection(i);
+                    return;
+                }
+            }
 
             if (adapter.Available() && adapter.friendlyName == rawData.network.recentUsedTapName) {
                 currentTap_ComboBox->SetSelection(i);
-                currentTap_ComboBox->SendSelectionChangedEvent(wxEVT_COMBOBOX);
                 return;
             }
         }
         for (int i = 0; i < currentTap_ComboBox_RawData.size(); i++) {
-            auto adapter = currentTap_ComboBox_RawData[i];
+            auto& adapter = currentTap_ComboBox_RawData[i];
 
             if (adapter.Available()) {
                 currentTap_ComboBox->SetSelection(i);
-                currentTap_ComboBox->SendSelectionChangedEvent(wxEVT_COMBOBOX);
                 return;
             }
         }
@@ -250,21 +255,43 @@ void MainFrame::OnCurrentTapChange(wxCommandEvent& evt)
     // TODO: PerNetworkData tap set to this ?
 }
 
+wxString MainFrame::GetDisplayText(WindowsAPI_SRV::GetAdaptersAddressesResult tap)
+{
+    auto displayText = tap.friendlyName + " | " + (tap.Available() ? _("Available") : _("Connected"));
+    return displayText;
+}
+
+void MainFrame::UpdateCurrentTapItemDisplayText(WindowsAPI_SRV::GetAdaptersAddressesResult tap, int insertAt)
+{
+    currentTap_ComboBox->Delete(insertAt);
+    currentTap_ComboBox->Insert(GetDisplayText(tap), insertAt);
+    currentTap_ComboBox->SetSelection(insertAt);
+}
+
 void MainFrame::OnConnectButtonClick(wxCommandEvent& evt)
 {
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
-    auto networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
+    auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
     networkRawData.connectButton->Enable(false);
 
     auto tapSelection = currentTap_ComboBox->GetSelection();
-    auto tapRawData = currentTap_ComboBox_RawData[tapSelection];
+    auto& tapRawData = currentTap_ComboBox_RawData[tapSelection];
+    if (tapRawData.Available()) {
+        tapRawData.Connect();
+        UpdateCurrentTapItemDisplayText(tapRawData, tapSelection);
 
-    networkRawData.tap = tapRawData;
+        auto settingKey = SettingKeys_Networks::tap(networkRawData.network.networkName);
+        Settings_SRV::networksConfig->Write(settingKey, wxString(tapRawData.friendlyName));
 
-    // TODO: Settings save recent used tap name
-
-    std::thread t1(&MainFrame::API_SRV_ConnectToNetwork, this, networkRawData);
-    t1.detach();
+        networkRawData.tap = &tapRawData;
+        networkRawData.tapSelection = tapSelection;
+        std::thread t1(&MainFrame::API_SRV_ConnectToNetwork, this, networkRawData);
+        t1.detach();
+    }
+    else {
+        wxMessageDialog(this, _("Selected virtual network adapter already connected to another network")).ShowModal();
+        networkRawData.connectButton->Enable(true);
+    }
 }
 
 void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)
