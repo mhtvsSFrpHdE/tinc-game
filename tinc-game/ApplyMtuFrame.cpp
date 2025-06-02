@@ -121,9 +121,8 @@ void ApplyMtuFrame::OnCopyButton(wxCommandEvent& evt)
 
 void ApplyMtuFrame::OnConfirmButton(wxCommandEvent& evt)
 {
-    const int NO_SELECTION = -1;
     auto selectedIndex = chooseAdapter_ComboBox->GetSelection();
-    if (selectedIndex == NO_SELECTION) {
+    if (selectedIndex == wxNOT_FOUND) {
         wxMessageDialog(this, _("Select network interface before apply MTU values.")).ShowModal();
         return;
     }

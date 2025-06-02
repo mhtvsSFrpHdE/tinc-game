@@ -226,7 +226,7 @@ void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
         {
             auto adapter = currentTap_ComboBox_RawData[i];
 
-            if (adapter.friendlyName == rawData.network.recentUsedTapName) {
+            if (adapter.Available() && adapter.friendlyName == rawData.network.recentUsedTapName) {
                 currentTap_ComboBox->SetSelection(i);
                 currentTap_ComboBox->SendSelectionChangedEvent(wxEVT_COMBOBOX);
                 return;
@@ -241,6 +241,7 @@ void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
                 return;
             }
         }
+        currentTap_ComboBox->SetSelection(wxNOT_FOUND);
     }
 }
 
