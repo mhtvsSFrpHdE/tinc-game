@@ -7,7 +7,7 @@ void TapDevice_SRV::Init()
 {
     namespace sk = SettingKeys_Networks;
 
-    defaultTapFriendlyName = Settings_SRV::networksConfig->Read(sk::defaultTap).ToStdWstring();
+    defaultTapFriendlyName = Settings_SRV::networksConfig->Read(sk::default_tap).ToStdWstring();
     defaultTapNotSet = Settings_SRV::emptyPlaceholder1;
 }
 
@@ -73,7 +73,7 @@ void TapDevice_SRV::SetDefaultTap(WindowsAPI_SRV::GetAdaptersAddressesResult ada
 
     defaultTapFriendlyName = adapter.friendlyName;
 
-    Settings_SRV::networksConfig->Write(sk::defaultTap, wxString(defaultTapFriendlyName));
+    Settings_SRV::networksConfig->Write(sk::default_tap, wxString(defaultTapFriendlyName));
     Settings_SRV::networksConfig->Flush();
 }
 
@@ -83,7 +83,7 @@ void TapDevice_SRV::UnsetDefaultTap()
 
     defaultTapFriendlyName = defaultTapNotSet;
 
-    Settings_SRV::networksConfig->Write(sk::defaultTap, wxString(defaultTapFriendlyName));
+    Settings_SRV::networksConfig->Write(sk::default_tap, wxString(defaultTapFriendlyName));
     Settings_SRV::networksConfig->Flush();
 }
 

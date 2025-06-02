@@ -23,7 +23,7 @@ wxString Settings_SRV::GetIniFilePath(GetIniFilePathBy by)
 
 void Settings_SRV::WriteLanguage(Language_SRV::KnownLanguage language)
 {
-    Settings_SRV::programConfig->Write(SettingKeys_Program::language, static_cast<int>(language));
+    Settings_SRV::programConfig->Write(SettingKeys_Program::settings_language, static_cast<int>(language));
     programConfig->Flush();
 }
 
@@ -34,7 +34,7 @@ wxLanguage Settings_SRV::ReadLanguage()
 
     wxLanguage language = wxLANGUAGE_ENGLISH_US;
     int value;
-    programConfig->Read(sk::language, &value);
+    programConfig->Read(sk::settings_language, &value);
     if (value == static_cast<int>(ls::KnownLanguage::Unknown)) {
         auto getSystemLanguage = wxLocale::GetSystemLanguage();
         language = static_cast<wxLanguage>(getSystemLanguage);
@@ -68,9 +68,9 @@ void Settings_SRV::LoadConfigFile()
         bool checkIni = Settings_SRV::CheckIniExists(iniType);
         programConfig = new wxFileConfig(wxEmptyString, wxEmptyString, Settings_SRV::GetIniFilePath(iniType));
         if (!checkIni) {
-            programConfig->Write(sk::configVersion, 0);
-            programConfig->Write(sk::language, static_cast<int>(ls::KnownLanguage::Unknown));
-            programConfig->Write(sk::mtuTestIp, wxT("1.1.1.1, 8.8.8.8, 10.255.60.1"));
+            programConfig->Write(sk::metadata_configVersion, 0);
+            programConfig->Write(sk::settings_language, static_cast<int>(ls::KnownLanguage::Unknown));
+            programConfig->Write(sk::lists_mtuTestIp, wxT("1.1.1.1, 8.8.8.8, 10.255.60.1"));
             programConfig->Flush();
         }
     }
@@ -82,9 +82,9 @@ void Settings_SRV::LoadConfigFile()
         bool checkIni = Settings_SRV::CheckIniExists(iniType);
         networksConfig = new wxFileConfig(wxEmptyString, wxEmptyString, Settings_SRV::GetIniFilePath(iniType));
         if (!checkIni) {
-            networksConfig->Write(sk::configVersion, 0);
-            networksConfig->Write(sk::defaultNetwork, emptyPlaceholder1);
-            networksConfig->Write(sk::defaultTap, emptyPlaceholder1);
+            networksConfig->Write(sk::metadata_configVersion, 0);
+            networksConfig->Write(sk::default_recentUsedNetwork, emptyPlaceholder1);
+            networksConfig->Write(sk::default_tap, emptyPlaceholder1);
             networksConfig->Flush();
         }
     }
@@ -98,7 +98,7 @@ ReturnValue<wxArrayString> Settings_SRV::ReadArray(wxString delimiter, wxString 
     auto result = ReturnValue<wxArrayString>();
 
     wxString readConfig;
-    bool readConfigSuccess = programConfig->Read(SettingKeys_Program::mtuTestIp, &readConfig);
+    bool readConfigSuccess = programConfig->Read(SettingKeys_Program::lists_mtuTestIp, &readConfig);
     if (readConfigSuccess == false) {
         return result;
     }
@@ -126,7 +126,7 @@ wxString SettingKeys_Networks::network(wxString networkName)
     return result;
 }
 
-wxString SettingKeys_Networks::tap(wxString networkName)
+wxString SettingKeys_Networks::network_tap(wxString networkName)
 {
     const wxString keyName = wxT("VirtualNetworkAdapter");
 

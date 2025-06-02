@@ -32,7 +32,7 @@ void SettingsFrame::Init_CreateControls()
         }
 
         int readLanguage;
-        bool readSuccess = Settings_SRV::programConfig->Read(SettingKeys_Program::language, &readLanguage);
+        bool readSuccess = Settings_SRV::programConfig->Read(SettingKeys_Program::settings_language, &readLanguage);
         if (readSuccess) {
             auto language = static_cast<ls::KnownLanguage>(readLanguage);
             auto selectionIndex = ls::languageKeyMap[language];

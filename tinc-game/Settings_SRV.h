@@ -32,23 +32,23 @@ public:
 
 namespace SettingKeys_Program {
     const wxString settings = wxT("Settings/");
-    const wxString language = settings + wxT("Language");
+    const wxString settings_language = settings + wxT("Language");
 
     const wxString lists = wxT("Lists/");
-    const wxString mtuTestIp = lists + wxT("MtuTestIp");
+    const wxString lists_mtuTestIp = lists + wxT("MtuTestIp");
 
     const wxString metadata = wxT("Metadata/");
-    const wxString configVersion = metadata + wxT("ConfigVersion");
+    const wxString metadata_configVersion = metadata + wxT("ConfigVersion");
 };
 
 namespace SettingKeys_Networks {
     const wxString metadata = wxT("Metadata/");
-    const wxString configVersion = metadata + wxT("ConfigVersion");
+    const wxString metadata_configVersion = metadata + wxT("ConfigVersion");
 
-    const wxString default_KeyName = wxT("Default/");
-    const wxString defaultNetwork = default_KeyName + wxT("LastUsedNetwork");
-    const wxString defaultTap = default_KeyName + wxT("VirtualNetworkAdapter");
+    const wxString default_rootKeyName = wxT("Default/");
+    const wxString default_recentUsedNetwork = default_rootKeyName + wxT("RecentUsedNetwork");
+    const wxString default_tap = default_rootKeyName + wxT("VirtualNetworkAdapter");
 
     wxString network(wxString networkName);
-    wxString tap(wxString networkName);
+    wxString network_tap(wxString networkName);
 };

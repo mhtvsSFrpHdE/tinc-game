@@ -20,7 +20,7 @@ ReturnValue<std::vector<Networks_SRV::GetNetworksResult>> Networks_SRV::GetNetwo
     {
         GetNetworksResult subFolder;
         subFolder.networkName = filename.ToStdWstring();
-        auto settingsKeyName = SettingKeys_Networks::tap(subFolder.networkName);
+        auto settingsKeyName = SettingKeys_Networks::network_tap(subFolder.networkName);
         subFolder.recentUsedTapName = Settings_SRV::networksConfig->Read(settingsKeyName);
         result.returnBody.push_back(subFolder);
 
