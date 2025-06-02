@@ -79,14 +79,13 @@ void MainFrame::Init_CreateControls()
                 bool isTap = adapter.IsTap();
                 if (isNotLoopback && isTap) {
                     currentTap_ComboBox_RawData.insert({ mapIndex, adapter });
-                    currentTap_ComboBox->Append(GetDisplayText(adapter));
+                    currentTap_ComboBox->Append(GetCurrentTapDisplayText(adapter));
 
                     mapIndex = mapIndex + 1;
                 }
             }
         }
     }
-    currentTap_ComboBox->Bind(wxEVT_COMBOBOX, &MainFrame::OnCurrentTapChange, this);
 
     optimizeMtuButton = new wxButton(rootPanel, wxID_ANY, _("Optimize MTU"));
     optimizeMtuButton->Bind(wxEVT_BUTTON, &MainFrame::OnOptimizeMtuButton, this);
@@ -227,7 +226,7 @@ void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
             auto& adapter = currentTap_ComboBox_RawData[i];
 
             if (rawData.tap) {
-                if (adapter.friendlyName == rawData.tap.get()->friendlyName) {
+                if (adapter.friendlyName == rawData.tap->friendlyName) {
                     currentTap_ComboBox->SetSelection(i);
                     return;
                 }
@@ -250,12 +249,7 @@ void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
     }
 }
 
-void MainFrame::OnCurrentTapChange(wxCommandEvent& evt)
-{
-    // TODO: PerNetworkData tap set to this ?
-}
-
-wxString MainFrame::GetDisplayText(WindowsAPI_SRV::GetAdaptersAddressesResult tap)
+wxString MainFrame::GetCurrentTapDisplayText(WindowsAPI_SRV::GetAdaptersAddressesResult tap)
 {
     auto displayText = tap.friendlyName + " | " + (tap.Available() ? _("Available") : _("Connected"));
     return displayText;
@@ -264,7 +258,7 @@ wxString MainFrame::GetDisplayText(WindowsAPI_SRV::GetAdaptersAddressesResult ta
 void MainFrame::UpdateCurrentTapItemDisplayText(WindowsAPI_SRV::GetAdaptersAddressesResult tap, int insertAt)
 {
     currentTap_ComboBox->Delete(insertAt);
-    currentTap_ComboBox->Insert(GetDisplayText(tap), insertAt);
+    currentTap_ComboBox->Insert(GetCurrentTapDisplayText(tap), insertAt);
     currentTap_ComboBox->SetSelection(insertAt);
 }
 

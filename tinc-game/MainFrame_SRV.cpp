@@ -26,7 +26,7 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData perNetworkData)
         << sr::space << L"--config="
         << sr::doubleQuotes << perNetworkData.network.GetFullPath() << sr::doubleQuotes
         << sr::space << L"--option=interface="
-        << sr::doubleQuotes << perNetworkData.tap.get()->friendlyName << sr::doubleQuotes
+        << sr::doubleQuotes << perNetworkData.tap->friendlyName << sr::doubleQuotes
         << sr::space << L"--no-detach"
         << sr::space << L"--debug=3";
 
@@ -94,12 +94,12 @@ void MainFrame::API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> r
 
         wxMessageDialog(this, errorMessage.str()).ShowModal();
 
-        perNetworkData.tap.get()->Disconnect();
-        UpdateCurrentTapItemDisplayText(*perNetworkData.tap.get(), perNetworkData.tapSelection);
+        perNetworkData.tap->Disconnect();
+        UpdateCurrentTapItemDisplayText(*perNetworkData.tap, perNetworkData.tapSelection);
         perNetworkData.connectButton->Enable(true);
     }
 
-    perNetworkData.tap.get()->Disconnect();
-    UpdateCurrentTapItemDisplayText(*perNetworkData.tap.get(), perNetworkData.tapSelection);
+    perNetworkData.tap->Disconnect();
+    UpdateCurrentTapItemDisplayText(*perNetworkData.tap, perNetworkData.tapSelection);
     perNetworkData.connectButton->Enable(true);
 }
