@@ -48,6 +48,7 @@ private:
     wxComboBox* currentNetwork_ComboBox = nullptr;
     std::unordered_map<int, PerNetworkData> currentNetwork_ComboBox_RawData;
     void OnCurrentNetworkChange(wxCommandEvent& evt);
+    int recentUsedNetworkSelection = wxNOT_FOUND;
 
     wxStaticText* currentTap_StaticText = nullptr;
     wxComboBox* currentTap_ComboBox = nullptr;
@@ -80,4 +81,5 @@ private:
 
     void Init_CreateControls();
     void Init_Layout();
+    void Init_PostLayout();
 };

@@ -21,6 +21,7 @@ void MainFrame::API_UI_ReportStatus(std::wstring status, tincTextCtrl* liveLog)
 MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
     Init_CreateControls();
     Init_Layout();
+    Init_PostLayout();
 }
 
 void MainFrame::Init_CreateControls()
@@ -33,35 +34,6 @@ void MainFrame::Init_CreateControls()
     disconnectButtonPlaceholder->Enable(false);
     liveLogPlaceholder = new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
     liveLogPlaceholder->Enable(false);
-
-    currentNetwork_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Network name"));
-    currentNetwork_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
-    {
-        namespace ns = Networks_SRV;
-        auto getNetworks = ns::GetNetworks();
-        if (getNetworks.success) {
-            int mapIndex = 0;
-            for (int networkIndex = 0; networkIndex < getNetworks.returnBody.size(); networkIndex++)
-            {
-                PerNetworkData perNetworkData;
-                perNetworkData.network = getNetworks.returnBody[networkIndex];
-                perNetworkData.liveLog = new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
-                perNetworkData.liveLog->tincSetMaxLines(100);
-                perNetworkData.liveLog->Hide();
-                perNetworkData.connectButton = new wxButton(rootPanel, wxID_ANY, _("Connect"));
-                perNetworkData.connectButton->Bind(wxEVT_BUTTON, &MainFrame::OnConnectButtonClick, this);
-                perNetworkData.connectButton->Hide();
-                perNetworkData.disconnectButton = new wxButton(rootPanel, wxID_ANY, _("Disconnect"));
-                perNetworkData.disconnectButton->Bind(wxEVT_BUTTON, &MainFrame::OnDisconnectButtonClick, this);
-                perNetworkData.disconnectButton->Hide();
-
-                currentNetwork_ComboBox_RawData.insert({ mapIndex, perNetworkData });
-                currentNetwork_ComboBox->Append(perNetworkData.network.networkName);
-                mapIndex = mapIndex + 1;
-            }
-        }
-    }
-    currentNetwork_ComboBox->Bind(wxEVT_COMBOBOX, &MainFrame::OnCurrentNetworkChange, this);
 
     currentTap_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Connect with"));
     currentTap_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
@@ -83,6 +55,41 @@ void MainFrame::Init_CreateControls()
 
                     mapIndex = mapIndex + 1;
                 }
+            }
+        }
+    }
+
+    currentNetwork_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Network name"));
+    currentNetwork_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
+    currentNetwork_ComboBox->Bind(wxEVT_COMBOBOX, &MainFrame::OnCurrentNetworkChange, this);
+    {
+        namespace ns = Networks_SRV;
+        auto getNetworks = ns::GetNetworks();
+        if (getNetworks.success) {
+            auto recentUsedNetwork = Settings_SRV::networksConfig->Read(SettingKeys_Networks::default_recentUsedNetwork);
+
+            int mapIndex = 0;
+            for (int networkIndex = 0; networkIndex < getNetworks.returnBody.size(); networkIndex++)
+            {
+                PerNetworkData perNetworkData;
+                perNetworkData.network = getNetworks.returnBody[networkIndex];
+                perNetworkData.liveLog = new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
+                perNetworkData.liveLog->tincSetMaxLines(100);
+                perNetworkData.liveLog->Hide();
+                perNetworkData.connectButton = new wxButton(rootPanel, wxID_ANY, _("Connect"));
+                perNetworkData.connectButton->Bind(wxEVT_BUTTON, &MainFrame::OnConnectButtonClick, this);
+                perNetworkData.connectButton->Hide();
+                perNetworkData.disconnectButton = new wxButton(rootPanel, wxID_ANY, _("Disconnect"));
+                perNetworkData.disconnectButton->Bind(wxEVT_BUTTON, &MainFrame::OnDisconnectButtonClick, this);
+                perNetworkData.disconnectButton->Hide();
+
+                if (perNetworkData.network.networkName == recentUsedNetwork) {
+                    recentUsedNetworkSelection = mapIndex;
+                }
+
+                currentNetwork_ComboBox_RawData.insert({ mapIndex, perNetworkData });
+                currentNetwork_ComboBox->Append(perNetworkData.network.networkName);
+                mapIndex = mapIndex + 1;
             }
         }
     }
@@ -127,7 +134,6 @@ void MainFrame::Init_Layout()
 
         ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
     }
-
 
     {
         networkControlSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -190,6 +196,12 @@ void MainFrame::Init_Layout()
     }
 
     this->SetSize(minSize);
+}
+
+void MainFrame::Init_PostLayout()
+{
+    currentNetwork_ComboBox->SetSelection(recentUsedNetworkSelection);
+    currentNetwork_ComboBox->SendSelectionChangedEvent(wxEVT_COMBOBOX);
 }
 
 void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
@@ -274,8 +286,11 @@ void MainFrame::OnConnectButtonClick(wxCommandEvent& evt)
         tapRawData.Connect();
         UpdateCurrentTapItemDisplayText(tapRawData, tapSelection);
 
-        auto settingKey = SettingKeys_Networks::tap(networkRawData.network.networkName);
-        Settings_SRV::networksConfig->Write(settingKey, wxString(tapRawData.friendlyName));
+        auto tapSettingsKey = SettingKeys_Networks::network_tap(networkRawData.network.networkName);
+        Settings_SRV::networksConfig->Write(tapSettingsKey, wxString(tapRawData.friendlyName));
+        auto networkSettingsKey = SettingKeys_Networks::default_recentUsedNetwork;
+        Settings_SRV::networksConfig->Write(networkSettingsKey, wxString(networkRawData.network.networkName));
+        Settings_SRV::networksConfig->Flush();
 
         networkRawData.tap = &tapRawData;
         networkRawData.tapSelection = tapSelection;
