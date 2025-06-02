@@ -3,7 +3,6 @@
 #include <wx/filename.h>
 #include <wx/fileconf.h>
 #include <wx/config.h>
-#include "TapDevice_SRV.h"
 
 wxString Settings_SRV::GetIniFilePath(GetIniFilePathBy by)
 {
@@ -59,7 +58,6 @@ bool Settings_SRV::CheckIniExists(GetIniFilePathBy by)
 void Settings_SRV::LoadConfigFile()
 {
     namespace ls = Language_SRV;
-    namespace ts = TapDevice_SRV;
 
     {
         auto iniType = GetIniFilePathBy::Program;
@@ -84,13 +82,11 @@ void Settings_SRV::LoadConfigFile()
         if (!checkIni) {
             networksConfig->Write(sk::metadata_configVersion, 0);
             networksConfig->Write(sk::default_recentUsedNetwork, emptyPlaceholder1);
-            networksConfig->Write(sk::default_tap, emptyPlaceholder1);
             networksConfig->Flush();
         }
     }
 
     ls::Init();
-    ts::Init();
 }
 
 ReturnValue<wxArrayString> Settings_SRV::ReadArray(wxString delimiter, wxString settingKey)

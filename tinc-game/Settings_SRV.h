@@ -47,7 +47,6 @@ namespace SettingKeys_Networks {
 
     const wxString default_rootKeyName = wxT("Default/");
     const wxString default_recentUsedNetwork = default_rootKeyName + wxT("RecentUsedNetwork");
-    const wxString default_tap = default_rootKeyName + wxT("VirtualNetworkAdapter");
 
     wxString network(wxString networkName);
     wxString network_tap(wxString networkName);

@@ -46,14 +46,14 @@ private:
     wxPanel* rootPanel = nullptr;
 
     wxButton* helpButton = nullptr;
-    wxStaticText* defaultTap_StaticText = nullptr;
-    wxTextCtrl* defaultTapValue_TextCtrl = nullptr;
-    wxString defaultTapValue_NoneText = _("None");
-    bool hasDefaultTap = false;
+    wxStaticText* firstTap_StaticText = nullptr;
+    wxTextCtrl* firstTapValue_TextCtrl = nullptr;
+    wxString firstTapValue_NoneText = _("None");
+    bool hasFirstTap = false;
+
     bool suggestReadHelp = true;
 
     wxStaticText* manageTap_StaticText = nullptr;
-    wxButton* setAsDefault_Button = nullptr;
     wxButton* installTap_Button = nullptr;
     wxButton* uninstallTapButton = nullptr;
 
@@ -75,13 +75,12 @@ private:
     void OnInstalledTapComboBoxChange(wxCommandEvent& evt);
     void OnInstalledTapHelpMeDecideButtonClick(wxCommandEvent& evt);
     void OnInstalledTapRefreshButtonClick(wxCommandEvent& evt);
-    void OnSetAsDefaultButtonClick(wxCommandEvent& evt);
     void OnInstallTapButtonClick(wxCommandEvent& evt);
     void OnUninstallTapButtonClick(wxCommandEvent& evt);
     void OnCloseButtonClick(wxCommandEvent& evt);
 
     void Reload_installedTap_ComboBox();
-    void Reload_defaultTapValue_TextCtrl();
+    void Reload_firstTapValue_TextCtrl();
     void Reload();
 
     bool allowCloseFrame = true;

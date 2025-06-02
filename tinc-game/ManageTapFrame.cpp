@@ -19,13 +19,10 @@ void ManageTapFrame::Init_CreateControls()
     rootPanel = new wxPanel(this);
     helpButton = new wxButton(rootPanel, wxID_ANY, _("Help"));
     helpButton->Bind(wxEVT_BUTTON, &ManageTapFrame::OnHelpButtonClick, this);
-    defaultTap_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Current default virtual network adapter:"));
-    defaultTapValue_TextCtrl = new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
-    Reload_defaultTapValue_TextCtrl();
+    firstTap_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Detected virtual network adapter"));
+    firstTapValue_TextCtrl = new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
+    Reload_firstTapValue_TextCtrl();
     manageTap_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Manage virtual network adapter"));
-    setAsDefault_Button = new wxButton(rootPanel, wxID_ANY, _("Set as default"));
-    setAsDefault_Button->Enable(false);
-    setAsDefault_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnSetAsDefaultButtonClick, this);
     installTap_Button = new wxButton(rootPanel, wxID_ANY, _("Install new"));
     installTap_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnInstallTapButtonClick, this);
     uninstallTapButton = new wxButton(rootPanel, wxID_ANY, _("Uninstall"));
@@ -59,11 +56,11 @@ void ManageTapFrame::Init_Layout()
     wxBoxSizer* helpSizer = new wxBoxSizer(wxHORIZONTAL);
     rootSizer->Add(helpSizer);
     ls::AddFixedSpacer(wxLEFT, ls::SpaceToFrameBorder, helpSizer);
-    helpSizer->Add(defaultTap_StaticText, ls::TakeAllSpace, wxRIGHT, ls::SpaceBetweenControl);
+    helpSizer->Add(firstTap_StaticText, ls::TakeAllSpace, wxRIGHT, ls::SpaceBetweenControl);
     helpSizer->Add(helpButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
-    rootSizer->Add(defaultTapValue_TextCtrl, 0, wxLEFT, ls::SpaceToFrameBorder);
+    rootSizer->Add(firstTapValue_TextCtrl, 0, wxLEFT, ls::SpaceToFrameBorder);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
     rootSizer->Add(manageTap_StaticText, 0, wxLEFT, ls::SpaceToFrameBorder);
@@ -80,7 +77,6 @@ void ManageTapFrame::Init_Layout()
     wxBoxSizer* manageTapSizer = new wxBoxSizer(wxHORIZONTAL);
     rootSizer->Add(manageTapSizer);
     manageTapSizer->Add(installTap_Button, 0, wxLEFT, ls::SpaceToFrameBorder);
-    manageTapSizer->Add(setAsDefault_Button, 0, wxLEFT, ls::SpaceBetweenControl);
     manageTapSizer->Add(uninstallTapButton, 0, wxLEFT, ls::SpaceBetweenControl);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
@@ -178,7 +174,6 @@ void ManageTapFrame::OnInstalledTapComboBoxChange(wxCommandEvent& evt)
 {
     auto hasValue = installedTap_ComboBox->GetSelection() >= 0;
     uninstallTapButton->Enable(hasValue);
-    setAsDefault_Button->Enable(hasValue);
 }
 
 void ManageTapFrame::OnHelpFrameCloseCallback()
@@ -207,21 +202,12 @@ void ManageTapFrame::OnInstalledTapRefreshButtonClick(wxCommandEvent& evt)
     Reload();
 }
 
-void ManageTapFrame::OnSetAsDefaultButtonClick(wxCommandEvent& evt)
-{
-    auto selectedIndex = installedTap_ComboBox->GetSelection();
-    auto adapter = installedTap_ComboBox_RawData[selectedIndex];
-    TapDevice_SRV::SetDefaultTap(adapter);
-    Reload_defaultTapValue_TextCtrl();
-    wxMessageDialog(this, _("Successfully set default adapter to:") + String_SRV::newLine + adapter.friendlyName + " | " + adapter.modelName).ShowModal();
-}
-
 void ManageTapFrame::OnInstallTapButtonClick(wxCommandEvent& evt)
 {
     allowCloseFrame = false;
     installTap_Button->Enable(false);
 
-    if (hasDefaultTap) {
+    if (hasFirstTap) {
         auto askResult = wxMessageBox(_("Detected exist virtual network adapter") + String_SRV::newLine + _("Install another one?"), wxEmptyString, wxYES_NO, this);
         if (askResult == wxNO)
         {
@@ -285,23 +271,17 @@ void ManageTapFrame::OnUninstallTapButtonClick(wxCommandEvent& evt)
     allowCloseFrame = false;
     uninstallTapButton->Enable(false);
 
-    auto getDefaultTap = TapDevice_SRV::GetDefaultTap();
     auto selectedIndex = installedTap_ComboBox->GetSelection();
     auto adapterToUninstall = installedTap_ComboBox_RawData[selectedIndex];
-    bool requestClearDefaultTap = false;
-    if (getDefaultTap.success) {
-        bool uninstallingDefaultTap = getDefaultTap.returnBody.adapter.friendlyName == adapterToUninstall.friendlyName;
-        if (uninstallingDefaultTap) {
-            auto askResult = wxMessageBox(_("Uninstalling current default virtual network adapter") + String_SRV::newLine + _("Confirm?"), wxEmptyString, wxYES_NO, this);
-            if (askResult == wxYES)
-            {
-                requestClearDefaultTap = true;
-            }
-            else {
-                allowCloseFrame = true;
-                uninstallTapButton->Enable(true);
-                return;
-            }
+
+    bool uninstallingLastTap = TapDevice_SRV::tapList.size() == 1;
+    if (uninstallingLastTap) {
+        auto askResult = wxMessageBox(_("Uninstalling last virtual network adapter") + String_SRV::newLine + _("Confirm?"), wxEmptyString, wxYES_NO, this);
+        if (askResult == wxNO)
+        {
+            allowCloseFrame = true;
+            uninstallTapButton->Enable(true);
+            return;
         }
     }
 
@@ -336,13 +316,8 @@ void ManageTapFrame::OnUninstallTapButtonClick(wxCommandEvent& evt)
         wxMessageDialog(this, failedString.str()).ShowModal();
     }
 
-    if (requestClearDefaultTap) {
-        TapDevice_SRV::UnsetDefaultTap();
-    }
-
     Reload();
     allowCloseFrame = true;
-    uninstallTapButton->Enable(true);
 }
 
 void ManageTapFrame::OnCloseButtonClick(wxCommandEvent& evt)
@@ -372,27 +347,26 @@ void ManageTapFrame::Reload_installedTap_ComboBox()
     }
 }
 
-void ManageTapFrame::Reload_defaultTapValue_TextCtrl()
+void ManageTapFrame::Reload_firstTapValue_TextCtrl()
 {
-    auto getTap = TapDevice_SRV::GetDefaultTap();
-    if (getTap.success) {
-        defaultTapValue_TextCtrl->SetLabel(getTap.returnBody.adapter.friendlyName);
-        defaultTapValue_TextCtrl->SetBackgroundColour(Style_SRV::passed_green);
-        hasDefaultTap = true;
+    auto getFirstTap = TapDevice_SRV::GetFirstTap();
+    if (getFirstTap.success) {
+        firstTapValue_TextCtrl->SetLabel(getFirstTap.returnBody.friendlyName);
+        firstTapValue_TextCtrl->SetBackgroundColour(Style_SRV::passed_green);
+        hasFirstTap = true;
         suggestReadHelp = false;
     }
     else {
-        defaultTapValue_TextCtrl->SetLabel(defaultTapValue_NoneText);
-        defaultTapValue_TextCtrl->SetBackgroundColour(Style_SRV::denied_red);
-        hasDefaultTap = false;
+        firstTapValue_TextCtrl->SetLabel(firstTapValue_NoneText);
+        firstTapValue_TextCtrl->SetBackgroundColour(Style_SRV::denied_red);
+        hasFirstTap = false;
     }
 }
 
 void ManageTapFrame::Reload()
 {
     TapDevice_SRV::ReloadAdapterList();
-    Reload_defaultTapValue_TextCtrl();
+    Reload_firstTapValue_TextCtrl();
     Reload_installedTap_ComboBox();
-    setAsDefault_Button->Enable(false);
     uninstallTapButton->Enable(false);
 }
