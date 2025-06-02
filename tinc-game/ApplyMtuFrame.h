@@ -27,7 +27,6 @@ public:
     static ReturnValue<ApplyMtuResult> API_SRV_ApplyMtu(int mtu_IPv4, int mtu_IPv6, std::wstring adapterName);
     static void API_SRV_OpenCommandPrompt();
     static std::wstring API_SRV_GetNetshCommand(std::wstring adapterName, int mtu_IPv4, int mtu_IPv6);
-    static void API_SRV_CopyNetshCommand(std::wstring command);
 
 private:
     int _mtuValue_IPv4 = 0;

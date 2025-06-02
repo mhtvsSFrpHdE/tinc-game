@@ -3,8 +3,6 @@
 #include "ApplyMtuFrame.h"
 #include "String_SRV.h"
 #include <codecvt>
-#include "clip.h"
-#pragma comment(lib, "clip.lib")
 #include <sstream>
 #include <thread>
 #include <vector>
@@ -120,11 +118,4 @@ std::wstring ApplyMtuFrame::API_SRV_GetNetshCommand(std::wstring adapterName, in
 
     auto netshCommand = netshCommandStringBuilder.str();
     return netshCommand;
-}
-
-void ApplyMtuFrame::API_SRV_CopyNetshCommand(std::wstring command)
-{
-    std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
-    auto commandBytes = conv.to_bytes(command);
-    clip::set_text(commandBytes);
 }

@@ -114,8 +114,9 @@ void ApplyMtuFrame::OnChooseTargetInterfaceChange(wxCommandEvent& evt)
 
 void ApplyMtuFrame::OnCopyButton(wxCommandEvent& evt)
 {
-    auto commandText = yourCommand_TextCtrl->GetLabel();
-    API_SRV_CopyNetshCommand(commandText.ToStdWstring());
+    yourCommand_TextCtrl->SelectAll();
+    yourCommand_TextCtrl->Copy();
+    yourCommand_TextCtrl->SelectNone();
     API_SRV_OpenCommandPrompt();
 }
 
