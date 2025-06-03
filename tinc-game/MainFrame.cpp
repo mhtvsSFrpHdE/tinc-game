@@ -13,6 +13,11 @@
 #include "Networks_SRV.h"
 #include "TapDevice_SRV.h"
 
+void MainFrame::API_UI_SetDisconnectButtonEnable(bool enable, wxButton* disconnectButton)
+{
+    disconnectButton->Enable(enable);
+}
+
 void MainFrame::API_UI_ReportStatus(std::wstring status, tincTextCtrl* liveLog)
 {
     liveLog->tincAppendText(status);
@@ -81,6 +86,7 @@ void MainFrame::Init_CreateControls()
                 perNetworkData.connectButton->Hide();
                 perNetworkData.disconnectButton = new wxButton(rootPanel, wxID_ANY, _("Disconnect"));
                 perNetworkData.disconnectButton->Bind(wxEVT_BUTTON, &MainFrame::OnDisconnectButtonClick, this);
+                perNetworkData.disconnectButton->Enable(false);
                 perNetworkData.disconnectButton->Hide();
 
                 if (perNetworkData.network.networkName == recentUsedNetwork) {

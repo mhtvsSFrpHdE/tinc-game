@@ -36,6 +36,7 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData perNetworkData)
     try {
         perNetworkData.tincProcess = std::shared_ptr<bp::child>(new bp::child(command, bp::std_err > is, bp::std_in < in));
         //bp::child c(command, bp::std_err > is, bp::windows::hide);
+        CallAfter(&MainFrame::API_UI_SetDisconnectButtonEnable, true, perNetworkData.disconnectButton);
 
         std::string line;
         while (std::getline(is, line)) {
@@ -96,10 +97,12 @@ void MainFrame::API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> r
 
         perNetworkData.tap->Disconnect();
         UpdateCurrentTapItemDisplayText(*perNetworkData.tap, perNetworkData.tapSelection);
+        perNetworkData.disconnectButton->Enable(false);
         perNetworkData.connectButton->Enable(true);
     }
 
     perNetworkData.tap->Disconnect();
     UpdateCurrentTapItemDisplayText(*perNetworkData.tap, perNetworkData.tapSelection);
+    perNetworkData.disconnectButton->Enable(false);
     perNetworkData.connectButton->Enable(true);
 }
