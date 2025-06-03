@@ -5,12 +5,13 @@
 #include "TapDevice_SRV.h"
 #include "Networks_SRV.h"
 #include "tincTextCtrl.h"
+#include "boost/optional.hpp"
 
 struct ConnectToNetworkResult {
     enum class Enum {
         TapUnavailable,
         RefusedByTinc,
-        TincdNotExist,
+        TincNotExist,
         Other
     };
     Enum messageEnum = Enum::Other;
@@ -36,12 +37,13 @@ public:
 
 private:
     // UI to SRV
-    void API_SRV_ConnectToNetwork(PerNetworkData perNetworkData);
+    void API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData);
+    bool API_SRV_DisconnectNetwork(PerNetworkData* perNetworkData);
 
     // SRV to UI
     void API_UI_SetDisconnectButtonEnable(bool enable, wxButton* disconnectButton);
     void API_UI_ReportStatus(std::wstring status, tincTextCtrl* liveLog);
-    void API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> result, PerNetworkData perNetworkData);
+    void API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> result, PerNetworkData* perNetworkData);
 
     wxPanel* rootPanel;
 

@@ -300,7 +300,7 @@ void MainFrame::OnConnectButtonClick(wxCommandEvent& evt)
 
         networkRawData.tap = &tapRawData;
         networkRawData.tapSelection = tapSelection;
-        std::thread t1(&MainFrame::API_SRV_ConnectToNetwork, this, networkRawData);
+        std::thread t1(&MainFrame::API_SRV_ConnectToNetwork, this, &networkRawData);
         t1.detach();
     }
     else {
@@ -311,8 +311,17 @@ void MainFrame::OnConnectButtonClick(wxCommandEvent& evt)
 
 void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)
 {
-    //auto tap = currentTap_ComboBox_RawData[currentTap_ComboBox->GetSelection()];
-    //tap.disconnectButton->Enable(false);
+    auto networkSelection = currentNetwork_ComboBox->GetSelection();
+    auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
+
+    networkRawData.disconnectButton->Enable(false);
+    bool disconnectResult = API_SRV_DisconnectNetwork(&networkRawData);
+    if (disconnectResult == false) {
+        wxMessageDialog(this, _("Failed to disconnect, tinc.exe may not exist")).ShowModal();
+        networkRawData.disconnectButton->Enable(true);
+        return;
+    }
+    networkRawData.connectButton->Enable(true);
 }
 
 void MainFrame::OnOptimizeMtuButton(wxCommandEvent& evt)

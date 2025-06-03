@@ -6,14 +6,25 @@
 #include <wx/filename.h>
 #include <boost/circular_buffer.hpp>
 
-void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData perNetworkData)
+void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
 {
     auto result = ReturnValue<ConnectToNetworkResult>();
 
     namespace bp = boost::process;
     namespace sr = String_SRV;
     bp::ipstream is;
-    bp::opstream in;
+
+    wxFileName pid;
+    pid.SetPath(perNetworkData->network.GetFullPath());
+    pid.SetName(L"pid");
+    if (pid.Exists()) {
+        bool disconnectResult = API_SRV_DisconnectNetwork(perNetworkData);
+        if (disconnectResult == false) {
+            result.returnBody.messageEnum = ConnectToNetworkResult::Enum::TincNotExist;
+            CallAfter(&MainFrame::API_UI_EndConnectToNetwork, result, perNetworkData);
+            return;
+        }
+    }
 
     wxFileName tincBin;
     tincBin.AppendDir("bin");
@@ -24,9 +35,9 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData perNetworkData)
     std::wstringstream commandStringStream;
     commandStringStream << tincBinPath
         << sr::space << L"--config="
-        << sr::doubleQuotes << perNetworkData.network.GetFullPath() << sr::doubleQuotes
+        << sr::doubleQuotes << perNetworkData->network.GetFullPath() << sr::doubleQuotes
         << sr::space << L"--option=interface="
-        << sr::doubleQuotes << perNetworkData.tap->friendlyName << sr::doubleQuotes
+        << sr::doubleQuotes << perNetworkData->tap->friendlyName << sr::doubleQuotes
         << sr::space << L"--no-detach"
         << sr::space << L"--debug=3";
 
@@ -34,15 +45,14 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData perNetworkData)
 
     boost::circular_buffer<std::string> cb(10);
     try {
-        perNetworkData.tincProcess = std::shared_ptr<bp::child>(new bp::child(command, bp::std_err > is, bp::std_in < in));
-        //bp::child c(command, bp::std_err > is, bp::windows::hide);
-        CallAfter(&MainFrame::API_UI_SetDisconnectButtonEnable, true, perNetworkData.disconnectButton);
+        perNetworkData->tincProcess = std::shared_ptr<bp::child>(new bp::child(command, bp::std_err > is, bp::windows::hide));
+        CallAfter(&MainFrame::API_UI_SetDisconnectButtonEnable, true, perNetworkData->disconnectButton);
 
         std::string line;
         while (std::getline(is, line)) {
             cb.push_back(line);
             auto wline = sr::ForceToWstring(line);
-            CallAfter(&MainFrame::API_UI_ReportStatus, wline, perNetworkData.liveLog);
+            CallAfter(&MainFrame::API_UI_ReportStatus, wline, perNetworkData->liveLog);
 
             // {3D6DCCE4-F183-4859-9B35-129361209E5F} (Ethernet 2) is not a usable Windows tap device: (31) A device attached to the system is not functioning.
 
@@ -51,14 +61,17 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData perNetworkData)
                 result.success = true;
             }
         }
-        perNetworkData.tincProcess->wait();
+        perNetworkData->tincProcess->wait();
     }
     catch (...) {
-        result.returnBody.messageEnum = ConnectToNetworkResult::Enum::TincdNotExist;
+        CallAfter(&MainFrame::API_UI_SetDisconnectButtonEnable, false, perNetworkData->disconnectButton);
+
+        result.returnBody.messageEnum = ConnectToNetworkResult::Enum::TincNotExist;
         CallAfter(&MainFrame::API_UI_EndConnectToNetwork, result, perNetworkData);
 
         return;
     }
+    CallAfter(&MainFrame::API_UI_SetDisconnectButtonEnable, false, perNetworkData->disconnectButton);
 
     if (result.success == false) {
         std::wstringstream messageStringStream;
@@ -75,7 +88,35 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData perNetworkData)
     return;
 }
 
-void MainFrame::API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> result, PerNetworkData perNetworkData)
+bool MainFrame::API_SRV_DisconnectNetwork(PerNetworkData* perNetworkData)
+{
+    namespace ss = String_SRV;
+    namespace bp = boost::process;
+
+    wxFileName tincBin;
+    tincBin.AppendDir("bin");
+    tincBin.AppendDir("tinc");
+    tincBin.SetName(L"tinc.exe");
+    auto tincBinPath = tincBin.GetFullPath();
+
+    std::wstringstream commandStringStream;
+    commandStringStream << tincBinPath
+        << ss::space << L"--config="
+        << ss::doubleQuotes << perNetworkData->network.GetFullPath() << ss::doubleQuotes
+        << ss::space << L"stop";
+
+    try {
+        auto command = commandStringStream.str();
+        bp::system(command, bp::windows::hide);
+    }
+    catch (...) {
+        return false;
+    }
+
+    return true;
+}
+
+void MainFrame::API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> result, PerNetworkData* perNetworkData)
 {
     if (result.success == false) {
         std::wstringstream errorMessage;
@@ -88,6 +129,9 @@ void MainFrame::API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> r
             errorMessage << _("Connect request refused by tinc:") << std::endl
                 << result.returnBody.messageString;
         }
+        if (result.returnBody.messageEnum == ConnectToNetworkResult::Enum::TincNotExist) {
+            errorMessage << _("Installation corroupted, tinc.exe or tincd.exe may not exist") << std::endl;
+        }
         if (result.returnBody.messageEnum == ConnectToNetworkResult::Enum::Other) {
             errorMessage << _("Unknown error:") << std::endl
                 << result.returnBody.messageString;
@@ -95,14 +139,13 @@ void MainFrame::API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> r
 
         wxMessageDialog(this, errorMessage.str()).ShowModal();
 
-        perNetworkData.tap->Disconnect();
-        UpdateCurrentTapItemDisplayText(*perNetworkData.tap, perNetworkData.tapSelection);
-        perNetworkData.disconnectButton->Enable(false);
-        perNetworkData.connectButton->Enable(true);
+        perNetworkData->tap->Disconnect();
+        UpdateCurrentTapItemDisplayText(*perNetworkData->tap, perNetworkData->tapSelection);
+        perNetworkData->disconnectButton->Enable(true);
+        return;
     }
 
-    perNetworkData.tap->Disconnect();
-    UpdateCurrentTapItemDisplayText(*perNetworkData.tap, perNetworkData.tapSelection);
-    perNetworkData.disconnectButton->Enable(false);
-    perNetworkData.connectButton->Enable(true);
+    perNetworkData->tap->Disconnect();
+    UpdateCurrentTapItemDisplayText(*perNetworkData->tap, perNetworkData->tapSelection);
+    perNetworkData->connectButton->Enable(true);
 }
