@@ -18,8 +18,8 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
     pid.SetPath(perNetworkData->network.GetFullPath());
     pid.SetName(L"pid");
     if (pid.Exists()) {
-        bool disconnectResult = API_SRV_DisconnectNetwork(perNetworkData);
-        if (disconnectResult == false) {
+        auto disconnectResult = API_SRV_DisconnectNetwork(perNetworkData);
+        if (disconnectResult.success == false) {
             result.returnBody.messageEnum = ConnectToNetworkResult::Enum::TincNotExist;
             CallAfter(&MainFrame::API_UI_EndConnectToNetwork, result, perNetworkData);
             return;
@@ -88,8 +88,10 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
     return;
 }
 
-bool MainFrame::API_SRV_DisconnectNetwork(PerNetworkData* perNetworkData)
+ReturnValue<std::wstring> MainFrame::API_SRV_DisconnectNetwork(PerNetworkData* perNetworkData)
 {
+    auto result = ReturnValue<std::wstring>();
+
     namespace ss = String_SRV;
     namespace bp = boost::process;
 
@@ -104,16 +106,28 @@ bool MainFrame::API_SRV_DisconnectNetwork(PerNetworkData* perNetworkData)
         << ss::space << L"--config="
         << ss::doubleQuotes << perNetworkData->network.GetFullPath() << ss::doubleQuotes
         << ss::space << L"stop";
+    auto command = commandStringStream.str();
 
+    std::wostringstream lines;
     try {
-        auto command = commandStringStream.str();
-        bp::system(command, bp::windows::hide);
+        bp::ipstream is;
+        std::string line;
+        bp::child c(command, bp::std_err > is, bp::windows::hide);
+        while (std::getline(is, line)) {
+            lines << line;
+        }
+        c.wait();
+
+        auto collectOutput = lines.str();
+        result.returnBody = collectOutput;
+        CallAfter(&MainFrame::API_UI_ReportStatus, collectOutput, perNetworkData->liveLog);
     }
     catch (...) {
-        return false;
+        return result;
     }
 
-    return true;
+    result.success = true;
+    return result;
 }
 
 void MainFrame::API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> result, PerNetworkData* perNetworkData)

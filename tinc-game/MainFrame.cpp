@@ -315,8 +315,8 @@ void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
 
     networkRawData.disconnectButton->Enable(false);
-    bool disconnectResult = API_SRV_DisconnectNetwork(&networkRawData);
-    if (disconnectResult == false) {
+    auto disconnectResult = API_SRV_DisconnectNetwork(&networkRawData);
+    if (disconnectResult.success == false) {
         wxMessageDialog(this, _("Failed to disconnect, tinc.exe may not exist")).ShowModal();
         networkRawData.disconnectButton->Enable(true);
         return;

@@ -6,6 +6,7 @@
 #include "Networks_SRV.h"
 #include "tincTextCtrl.h"
 #include "boost/optional.hpp"
+#include "ReturnValue.h"
 
 struct ConnectToNetworkResult {
     enum class Enum {
@@ -38,7 +39,7 @@ public:
 private:
     // UI to SRV
     void API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData);
-    bool API_SRV_DisconnectNetwork(PerNetworkData* perNetworkData);
+    ReturnValue<std::wstring> API_SRV_DisconnectNetwork(PerNetworkData* perNetworkData);
 
     // SRV to UI
     void API_UI_SetDisconnectButtonEnable(bool enable, wxButton* disconnectButton);
