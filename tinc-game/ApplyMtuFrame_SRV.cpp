@@ -6,82 +6,67 @@
 #include <sstream>
 #include <thread>
 #include <vector>
-#include <string> 
+#include <string>
+#include "Resource_SRV.h"
 
 ReturnValue<ApplyMtuResult> ApplyMtuFrame::API_SRV_ApplyMtu(int mtu_IPv4, int mtu_IPv6, std::wstring adapterName)
 {
     auto result = ReturnValue<ApplyMtuResult>();
+
     namespace bp = boost::process;
     namespace sr = String_SRV;
-    bp::ipstream is;
+    namespace rsb = Resource_SRV::Bat;
 
-    std::wstringstream commandStringStream;
-    commandStringStream << L"netsh437.bat"
-        << sr::space << sr::doubleQuotes << adapterName << sr::doubleQuotes
-        << sr::space << mtu_IPv4
-        << sr::space << L"ipv6";
-    auto netshCommand = commandStringStream.str();
-    bp::child c(bp::shell(), bp::args({ L"/c", netshCommand }), bp::std_out > is, bp::windows::hide);
+    {
+        bp::ipstream is;
+        bp::child c(bp::shell(), bp::args({ rsb::cmdRumCommand, rsb::netsh437, rsb::netshArgV4, adapterName, std::to_wstring(mtu_IPv4) }), bp::std_out > is, bp::windows::hide);
 
-    c.wait();
-    std::string line;
-    std::ostringstream s;
-    while (std::getline(is, line)) {
-        s << line;
-        auto wline = String_SRV::ForceToWstring(s.str());
-        // Ok.
-        if (line.find(std::string("Ok")) != std::wstring::npos) {
+        std::string line;
+        std::wostringstream lines;
+        while (std::getline(is, line)) {
+            lines << line;
 
-            result.success = true;
-            break;
+            // Ok.
+            if (line.find(std::string("Ok")) != std::wstring::npos) {
+                result.success = true;
+                break;
+            }
+            // The filename, directory name, or volume label syntax is incorrect.
+            if (line.find(std::string("name")) != std::wstring::npos) {
+                result.success = false;
+                result.returnBody.messageEnum = ApplyMtuResult::Enum::InvalidAdapterName;
+                return result;
+            }
         }
-        // The filename, directory name, or volume label syntax is incorrect.
-        if (line.find(std::string("name")) != std::wstring::npos) {
-            result.success = false;
-            result.returnBody.messageEnum = ApplyMtuResult::Enum::InvalidAdapterName;
-            break;
-        }
+        c.wait();
+
         if (result.success == false) {
             result.returnBody.messageEnum = ApplyMtuResult::Enum::Other;
-            result.returnBody.messageString = wline;
-            break;
+            result.returnBody.messageString = lines.str();
+            return result;
         }
     }
-    is.close();
-    if (result.success == false) {
-        return result;
-    }
-    s.str("");
-    s.clear();
-    bp::ipstream is2;
 
-    commandStringStream.str(std::wstring());
-    commandStringStream << L"netsh437.bat"
-        << sr::space << sr::doubleQuotes << adapterName << sr::doubleQuotes
-        << sr::space << mtu_IPv6
-        << sr::space << L"ipv6";
-    auto netshCommandd = commandStringStream.str();
-    bp::child d(bp::shell(), bp::args({ L"/c", netshCommandd }), bp::std_out > is2, bp::windows::hide);
-    d.wait();
-    std::string line2;
-    while (std::getline(is2, line2)) {
-        s << line2;
-        auto wline = String_SRV::ForceToWstring(s.str());
-        // Ok.
-        if (line2.find("Ok") != std::wstring::npos) {
-            break;
+    {
+        bp::ipstream is;
+        bp::child c(bp::shell(), bp::args({ rsb::cmdRumCommand, rsb::netsh437, rsb::netshArgV6, adapterName, std::to_wstring(mtu_IPv6) }), bp::std_out > is, bp::windows::hide);
+
+        std::string line;
+        std::wostringstream lines;
+        while (std::getline(is, line)) {
+            lines << line;
+
+            // Ok.
+            if (line.find("Ok") != std::wstring::npos) {
+                return result;
+            }
         }
-        // Element not found.
-        if (line2.find("Element") != std::wstring::npos) {
-            result.success = false;
+        c.wait();
+
+        if (result.success == false) {
             result.returnBody.messageEnum = ApplyMtuResult::Enum::Failed_IPv6;
-            break;
-        }
-
-        if (result.success == false) {
-            result.returnBody.messageEnum = ApplyMtuResult::Enum::Other;
-            result.returnBody.messageString = wline;
-            break;
+            result.returnBody.messageString = lines.str();
+            return result;
         }
     }
 
