@@ -3,8 +3,8 @@
 #include "MainFrame.h"
 #include "String_SRV.h"
 #include <sstream>
-#include <wx/filename.h>
 #include <boost/circular_buffer.hpp>
+#include "Resource_SRV.h"
 
 void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
 {
@@ -12,11 +12,11 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
 
     namespace bp = boost::process;
     namespace sr = String_SRV;
+    namespace rst = Resource_SRV::TincBin;
+
     bp::ipstream is;
 
-    wxFileName pid;
-    pid.SetPath(perNetworkData->network.GetFullPath());
-    pid.SetName(L"pid");
+    auto pid = rst::GetTincdPid(perNetworkData->network);
     if (pid.Exists()) {
         auto disconnectResult = API_SRV_DisconnectNetwork(perNetworkData);
         if (disconnectResult.success == false) {
@@ -26,12 +26,7 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
         }
     }
 
-    wxFileName tincBin;
-    tincBin.AppendDir("bin");
-    tincBin.AppendDir("tinc");
-    tincBin.SetName(L"tincd.exe");
-    auto tincBinPath = tincBin.GetFullPath();
-
+    auto tincBinPath = rst::GetTincdBinAsWxStr();
     std::wstringstream commandStringStream;
     commandStringStream << tincBinPath
         << sr::space << L"--config="
@@ -94,13 +89,9 @@ ReturnValue<std::wstring> MainFrame::API_SRV_DisconnectNetwork(PerNetworkData* p
 
     namespace ss = String_SRV;
     namespace bp = boost::process;
+    namespace rst = Resource_SRV::TincBin;
 
-    wxFileName tincBin;
-    tincBin.AppendDir("bin");
-    tincBin.AppendDir("tinc");
-    tincBin.SetName(L"tinc.exe");
-    auto tincBinPath = tincBin.GetFullPath();
-
+    auto tincBinPath = rst::GetTincBinAsWxStr();
     std::wstringstream commandStringStream;
     commandStringStream << tincBinPath
         << ss::space << L"--config="

@@ -1,8 +1,5 @@
 #pragma once
 #include <wx/wx.h>
-#include <wx/config.h>
-#include <wx/stdpaths.h>
-#include <wx/filename.h>
 #include <wx/fileconf.h>
 #include "ReturnValue.h"
 #include "Language_SRV.h"
@@ -16,6 +13,7 @@ class Settings_SRV
 {
 public:
     static wxString GetIniFilePath(GetIniFilePathBy by = GetIniFilePathBy::Program);
+    static wxFileName GetIniFilePathAsWxFile(GetIniFilePathBy by = GetIniFilePathBy::Program);
     static void WriteLanguage(Language_SRV::KnownLanguage language);
     static wxLanguage ReadLanguage();
     static bool CheckIniExists(GetIniFilePathBy by = GetIniFilePathBy::Program);

@@ -2,7 +2,7 @@
 #include <boost/process/windows.hpp>
 #include "ManageTapFrame.h"
 #include "String_SRV.h"
-#include <wx/filename.h>
+#include "Resource_SRV.h"
 #include <sstream>
 #include <unordered_map>
 
@@ -11,13 +11,11 @@ ReturnValue<InstallTapResult> ManageTapFrame::API_SRV_InstallTap()
     auto result = ReturnValue<InstallTapResult>();
 
     {
-        wxFileName driverFile;
-        driverFile.AppendDir("bin");
-        driverFile.AppendDir("tinc");
-        driverFile.AppendDir("tap-win64");
+        namespace rst = Resource_SRV::TincBin;
 
-        const std::wstring installerFileName = L"tapinstall.exe";
-        driverFile.SetName(installerFileName);
+        auto driverFile = rst::GetTapInstallerDir();
+
+        driverFile.SetName(rst::tapInstallerBin);
         bool installerFileNotExist = driverFile.Exists() == false;
         if (installerFileNotExist) {
             result.returnBody.messageEnum = InstallTapResult::Enum::DriverNotExist;
@@ -25,8 +23,7 @@ ReturnValue<InstallTapResult> ManageTapFrame::API_SRV_InstallTap()
             return result;
         }
 
-        const std::wstring infFileName = L"OemWin2k.inf";
-        driverFile.SetName(infFileName);
+        driverFile.SetName(rst::tapInstallerInf);
         bool infFileNotExist = driverFile.Exists() == false;
         if (infFileNotExist) {
             result.returnBody.messageEnum = InstallTapResult::Enum::DriverNotExist;
@@ -34,8 +31,7 @@ ReturnValue<InstallTapResult> ManageTapFrame::API_SRV_InstallTap()
             return result;
         }
 
-        const std::wstring catFileName = L"tap0901.cat";
-        driverFile.SetName(catFileName);
+        driverFile.SetName(rst::tapInstallerCat);
         bool catFileNotExist = driverFile.Exists() == false;
         if (catFileNotExist) {
             result.returnBody.messageEnum = InstallTapResult::Enum::DriverNotExist;
@@ -43,8 +39,7 @@ ReturnValue<InstallTapResult> ManageTapFrame::API_SRV_InstallTap()
             return result;
         }
 
-        const std::wstring sysFileName = L"tap0901.sys";
-        driverFile.SetName(sysFileName);
+        driverFile.SetName(rst::tapInstallerSys);
         bool sysFileNotExist = driverFile.Exists() == false;
         if (sysFileNotExist) {
             result.returnBody.messageEnum = InstallTapResult::Enum::DriverNotExist;
@@ -55,12 +50,13 @@ ReturnValue<InstallTapResult> ManageTapFrame::API_SRV_InstallTap()
 
     namespace bp = boost::process;
     namespace ss = String_SRV;
+    namespace rsb = Resource_SRV::Bat;
 
     std::ostringstream stdoutSstream;
     try
     {
         bp::ipstream is;
-        bp::child c(L"installTap.bat", bp::std_out > is, bp::windows::hide);
+        bp::child c(rsb::installTap, bp::std_out > is, bp::windows::hide);
         std::string line;
 
         bool deviceNodeCreated = false;
@@ -114,12 +110,13 @@ typedef std::unordered_map<std::wstring, std::string> GetTapHwidResult;
 ReturnValue<GetTapHwidResult> GetTapHwid() {
     namespace bp = boost::process;
     namespace ss = String_SRV;
+    namespace rsb = Resource_SRV::Bat;
 
     auto result = ReturnValue<GetTapHwidResult>();
     try
     {
         bp::ipstream is;
-        bp::child c(L"getTapHwid.bat", bp::std_out > is, bp::windows::hide);
+        bp::child c(rsb::getTapHwid, bp::std_out > is, bp::windows::hide);
         std::string line;
 
         while (std::getline(is, line)) {
@@ -158,13 +155,10 @@ ReturnValue<UninstallTapResult> ManageTapFrame::API_SRV_UninstallTap(WindowsAPI_
     auto result = ReturnValue<UninstallTapResult>();
 
     {
-        wxFileName driverFile;
-        driverFile.AppendDir("bin");
-        driverFile.AppendDir("tinc");
-        driverFile.AppendDir("tap-win64");
+        namespace rst = Resource_SRV::TincBin;
 
-        const std::wstring uninstallerFileName = L"tapinstall.exe";
-        driverFile.SetName(uninstallerFileName);
+        auto driverFile = rst::GetTapInstallerDir();
+        driverFile.SetName(rst::tapInstallerBin);
         bool uninstallerFileNotExist = driverFile.Exists() == false;
         if (uninstallerFileNotExist) {
             result.returnBody.messageEnum = UninstallTapResult::Enum::UninstallerNotExist;
@@ -187,13 +181,14 @@ ReturnValue<UninstallTapResult> ManageTapFrame::API_SRV_UninstallTap(WindowsAPI_
 
     namespace bp = boost::process;
     namespace ss = String_SRV;
+    namespace rsb = Resource_SRV::Bat;
 
     std::ostringstream stdoutSstream;
     try
     {
         bp::ipstream is;
         std::wostringstream command;
-        command << L"uninstallTap.bat" << ss::space
+        command << rsb::uninstallTap << ss::space
             << ss::doubleQuotes << L"@" << hwid << ss::doubleQuotes;
         bp::child c(command.str(), bp::std_out > is, bp::windows::hide);
         std::string line;

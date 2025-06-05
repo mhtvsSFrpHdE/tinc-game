@@ -1,7 +1,8 @@
 #include "Resource_SRV.h"
 #include "String_SRV.h"
 #include <sstream>
-#include <wx/filename.h>
+#include "boost/optional.hpp"
+#include <wx/stdpaths.h>
 
 void IntegrityCheck_DirExist(std::wostringstream& helpText, wxFileName& file, int& failedCount) {
     namespace ss = String_SRV;
@@ -98,4 +99,112 @@ std::wstring Resource_SRV::IntegrityCheck()
 
     auto collectHelpText = helpText.str();
     return collectHelpText;
+}
+
+boost::optional<wxFileName> nullableTapInstallerDir;
+wxFileName Resource_SRV::TincBin::GetTapInstallerDir()
+{
+    if (nullableTapInstallerDir) {
+        return nullableTapInstallerDir.get();
+    }
+
+    wxFileName file;
+    file.AppendDir(binDir);
+    file.AppendDir(tincBinDir);
+    file.AppendDir(tapInstallerDir);
+    nullableTapInstallerDir = file;
+    return file;
+}
+
+boost::optional<wxFileName> nullableTincBinDir;
+wxFileName Resource_SRV::TincBin::GetTincBinDir()
+{
+    if (nullableTincBinDir) {
+        return nullableTincBinDir.get();
+    }
+
+    wxFileName file;
+    file.AppendDir(binDir);
+    file.AppendDir(tincBinDir);
+    nullableTincBinDir = file;
+    return file;
+}
+
+boost::optional<wxString> nullableTincBinPath;
+wxString Resource_SRV::TincBin::GetTincBinAsWxStr()
+{
+    if (nullableTincBinPath) {
+        return nullableTincBinPath.get();
+    }
+
+    wxFileName file;
+    file.AppendDir(binDir);
+    file.AppendDir(tincBinDir);
+    file.SetName(tincBin);
+    nullableTincBinPath = file.GetFullPath();
+    return nullableTincBinPath.get();
+}
+
+boost::optional<wxString> nullableTincdBinPath;
+wxString Resource_SRV::TincBin::GetTincdBinAsWxStr()
+{
+    if (nullableTincdBinPath) {
+        return nullableTincdBinPath.get();
+    }
+
+    wxFileName file;
+    file.AppendDir(binDir);
+    file.AppendDir(tincBinDir);
+    file.SetName(tincdBin);
+    nullableTincdBinPath = file.GetFullPath();
+    return nullableTincdBinPath.get();
+}
+
+boost::optional<wxFileName> nullableTincdPid;
+wxFileName Resource_SRV::TincBin::GetTincdPid(Networks_SRV::GetNetworksResult& network)
+{
+    if (nullableTincdPid) {
+        return nullableTincdPid.get();
+    }
+
+    wxFileName file;
+    auto networkFullPath = network.GetFullPath();
+    file.SetPath(networkFullPath);
+    file.SetName(tincdPid);
+    nullableTincdPid = file;
+    return file;
+}
+
+std::unique_ptr<wxDir> Resource_SRV::Networks::GetNetworksDirAsWxDir()
+{
+    auto dir = std::unique_ptr<wxDir>(new wxDir(networksDir));
+    return dir;
+}
+
+boost::optional<wxFileName> nullableNetworksDir;
+wxFileName Resource_SRV::Networks::GetNetworksDir()
+{
+    if (nullableNetworksDir) {
+        return nullableNetworksDir.get();
+    }
+
+    wxFileName file;
+    file.AppendDir(networksDir);
+    nullableNetworksDir = file;
+    return file;
+}
+
+boost::optional<wxFileName> nullableIniDir;
+wxFileName Resource_SRV::Program::GetIniDir()
+{
+    if (nullableIniDir) {
+        return nullableIniDir.get();
+    }
+
+    auto exePath = wxStandardPaths::Get().GetExecutablePath();
+    wxFileName file(exePath);
+    file.ClearExt();
+    file.SetName(wxEmptyString);
+    nullableIniDir = file;
+    return file;
 }

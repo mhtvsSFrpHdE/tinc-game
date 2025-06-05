@@ -2,7 +2,6 @@
 #include "SettingsFrame.h"
 #include <wx/spinctrl.h>
 #include <wx/stdpaths.h>
-#include <wx/filename.h>
 #include <wx/fileconf.h>
 #include <wx/config.h>
 #include "Settings_SRV.h"

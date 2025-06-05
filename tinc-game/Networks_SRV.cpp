@@ -1,13 +1,13 @@
 #include "Networks_SRV.h"
-#include <wx/filename.h>
-#include <wx/dir.h>
 #include "Settings_SRV.h"
+#include "Resource_SRV.h"
 
 ReturnValue<std::vector<Networks_SRV::GetNetworksResult>> Networks_SRV::GetNetworks()
 {
     auto result = ReturnValue<std::vector<Networks_SRV::GetNetworksResult>>();
 
-    wxDir dir("networks");
+    auto getDir = Resource_SRV::Networks::GetNetworksDirAsWxDir();
+    auto& dir = *getDir;
     if (!dir.IsOpened())
     {
         return result;
@@ -34,8 +34,7 @@ ReturnValue<std::vector<Networks_SRV::GetNetworksResult>> Networks_SRV::GetNetwo
 
 std::wstring Networks_SRV::GetNetworksResult::GetFullPath()
 {
-    wxFileName file;
-    file.AppendDir("networks");
+    auto file = Resource_SRV::Networks::GetNetworksDir();
     file.AppendDir(networkName);
     file.Normalize();
 

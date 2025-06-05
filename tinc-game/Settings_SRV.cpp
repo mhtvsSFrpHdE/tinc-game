@@ -1,22 +1,25 @@
 ﻿#include "Settings_SRV.h"
-#include <wx/stdpaths.h>
-#include <wx/filename.h>
-#include <wx/fileconf.h>
-#include <wx/config.h>
+#include "Resource_SRV.h"
 
 wxString Settings_SRV::GetIniFilePath(GetIniFilePathBy by)
 {
-    auto exePath = wxStandardPaths::Get().GetExecutablePath();
-    wxFileName exeFile(exePath);
-    auto exeDir = exeFile.GetPath();
+    auto iniFile = GetIniFilePathAsWxFile(by);
+    return iniFile.GetFullPath();
+}
+
+wxFileName Settings_SRV::GetIniFilePathAsWxFile(GetIniFilePathBy by)
+{
+    namespace rsp = Resource_SRV::Program;
+
+    auto iniFile = rsp::GetIniDir();
 
     if (by == GetIniFilePathBy::Program) {
-        wxString ini_filename = exeDir + wxFileName::GetPathSeparator() + "tinc-game.ini";
-        return ini_filename;
+        iniFile.SetName(rsp::programIni);
+        return iniFile;
     }
     if (by == GetIniFilePathBy::Networks) {
-        wxString ini_filename = exeDir + wxFileName::GetPathSeparator() + "tinc-game-networks.ini";
-        return ini_filename;
+        iniFile.SetName(rsp::networksIni);
+        return iniFile;
     }
 }
 
@@ -46,13 +49,9 @@ wxLanguage Settings_SRV::ReadLanguage()
 
 bool Settings_SRV::CheckIniExists(GetIniFilePathBy by)
 {
-    wxString ini_filename = Settings_SRV::GetIniFilePath(by);
-    if (!wxFileName::FileExists(ini_filename)) {
-        return false;
-    }
-    else {
-        return true;
-    }
+    auto iniFile = Settings_SRV::GetIniFilePathAsWxFile(by);
+    auto exists = iniFile.Exists();
+    return exists;
 }
 
 void Settings_SRV::LoadConfigFile()
