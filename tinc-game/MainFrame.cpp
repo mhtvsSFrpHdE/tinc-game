@@ -5,7 +5,7 @@
 #include <wx/dialog.h>
 #include "Layout_SRV.h"
 #include "ManageTapFrame.h"
-#include <wx/filename.h>
+#include "Resource_SRV.h"
 #include <sstream>
 #include "String_SRV.h"
 #include "HelpFrame.h"
@@ -348,104 +348,15 @@ void MainFrame::OnManageTapButton(wxCommandEvent& evt)
     manageTapDeviceFrame->Show();
 }
 
-int OnIntegrityCheckButton_FailedCount = 0;
-void OnIntegrityCheckButton_DirExist(std::wostringstream& helpText, wxFileName& file) {
-    namespace ss = String_SRV;
-
-    bool exists = file.DirExists();
-    helpText << file.GetFullPath() << ss::ellipses
-        << (exists ? _("OK") : _("Fail"))
-        << ss::newLine;
-    if (exists == false) {
-        OnIntegrityCheckButton_FailedCount++;
-    }
-}
-
-void OnIntegrityCheckButton_FileExist(std::wostringstream& helpText, wxFileName& file) {
-    namespace ss = String_SRV;
-
-    bool exists = file.Exists();
-    helpText << file.GetFullPath() << ss::ellipses
-        << (exists ? _("OK") : _("Fail"))
-        << ss::newLine;
-    if (exists == false) {
-        OnIntegrityCheckButton_FailedCount++;
-    }
-}
-
 void MainFrame::OnIntegrityCheckButton(wxCommandEvent& evt)
 {
     integrityCheckButton->Enable(false);
-    OnIntegrityCheckButton_FailedCount = 0;
 
-    namespace ss = String_SRV;
-
-    std::wostringstream helpText;
-    wxFileName file;
-
-    helpText << _("Program integrity report")
-        << ss::newLine << ss::newLine;
-
-    {
-        helpText << _("Virtual network adapter driver files:") << ss::newLine;
-
-        file.AppendDir("bin");
-        file.AppendDir("tinc");
-        file.AppendDir("tap-win64");
-
-        file.SetName(L"tapinstall.exe");
-        OnIntegrityCheckButton_FileExist(helpText, file);
-        file.SetName(L"OemWin2k.inf");
-        OnIntegrityCheckButton_FileExist(helpText, file);
-        file.SetName(L"tap0901.cat");
-        OnIntegrityCheckButton_FileExist(helpText, file);
-        file.SetName(L"tap0901.sys");
-        OnIntegrityCheckButton_FileExist(helpText, file);
-
-        helpText << ss::newLine;
-        file.Clear();
-    }
-
-    {
-        helpText << _("Command line I/O files:") << ss::newLine;
-
-        file.SetName(L"getTapHwid.bat");
-        OnIntegrityCheckButton_FileExist(helpText, file);
-        file.SetName(L"installTap.bat");
-        OnIntegrityCheckButton_FileExist(helpText, file);
-        file.SetName(L"uninstallTap.bat");
-        OnIntegrityCheckButton_FileExist(helpText, file);
-        file.SetName(L"netsh437.bat");
-        OnIntegrityCheckButton_FileExist(helpText, file);
-        file.SetName(L"netsh437_start.bat");
-        OnIntegrityCheckButton_FileExist(helpText, file);
-        file.SetName(L"ping437.bat");
-        OnIntegrityCheckButton_FileExist(helpText, file);
-        file.SetName(L"ping437_start.bat");
-        OnIntegrityCheckButton_FileExist(helpText, file);
-
-        helpText << ss::newLine;
-        file.Clear();
-    }
-
-    {
-        helpText << _("Translation files:") << ss::newLine;
-
-        file.AppendDir(L"zh");
-        OnIntegrityCheckButton_DirExist(helpText, file);
-
-        helpText << ss::newLine;
-        file.Clear();
-    }
-
-    if (OnIntegrityCheckButton_FailedCount >= 4) {
-        helpText << _("Failed items more than 4, don't double click tinc-game in zip/7z/rar files directly you foo")
-            << ss::newLine << ss::newLine;
-    }
+    auto checkResult = Resource_SRV::IntegrityCheck();
 
     std::function<void()> redirectCallback = std::bind(&MainFrame::OnIntegrityCheckFrameCloseCallback, this);
     HelpFrame* optimizeMtuFrame_HelpFrame = new HelpFrame(this, _("Troubleshoot"), redirectCallback);
-    optimizeMtuFrame_HelpFrame->SetHelpText(helpText.str());
+    optimizeMtuFrame_HelpFrame->SetHelpText(checkResult);
     optimizeMtuFrame_HelpFrame->Center();
     optimizeMtuFrame_HelpFrame->Show();
 }
