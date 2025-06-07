@@ -15,9 +15,11 @@ private:
     wxComboBox* chooseLanguage_ComboBox = nullptr;
     std::unordered_map<int, Language_SRV::KnownLanguage> chooseLanguage_ComboBox_RawData;
     wxButton* confirmButton = nullptr;
+    wxButton* cancelButton = nullptr;
 
     void Init_CreateControls();
     void Init_Layout();
 
     void OnConfirmButtonClick(wxCommandEvent& event);
+    void OnCancelButtonClick(wxCommandEvent& event);
 };

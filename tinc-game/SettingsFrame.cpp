@@ -40,13 +40,15 @@ void SettingsFrame::Init_CreateControls()
     }
     confirmButton = new wxButton(rootPanel, wxID_ANY, _("Confirm"));
     confirmButton->Bind(wxEVT_BUTTON, &SettingsFrame::OnConfirmButtonClick, this);
+    cancelButton = new wxButton(rootPanel, wxID_ANY, _("Cancel"));
+    cancelButton->Bind(wxEVT_BUTTON, &SettingsFrame::OnCancelButtonClick, this);
 }
 
 void SettingsFrame::Init_Layout()
 {
     namespace ls = Layout_SRV;
 
-    this->SetSizeHints(320, 160);
+    this->SetSizeHints(320, 170);
 
     wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
     rootPanel->SetSizer(rootSizer);
@@ -62,7 +64,8 @@ void SettingsFrame::Init_Layout()
     wxBoxSizer* navigateSizer = new wxBoxSizer(wxHORIZONTAL);
     rootSizer->Add(navigateSizer);
     navigateSizer->AddStretchSpacer(ls::TakeAllSpace);
-    navigateSizer->Add(confirmButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
+    navigateSizer->Add(confirmButton, 1, wxRIGHT, ls::SpaceBetweenControl);
+    navigateSizer->Add(cancelButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
 
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 }
@@ -73,5 +76,10 @@ void SettingsFrame::OnConfirmButtonClick(wxCommandEvent& event)
     auto language = chooseLanguage_ComboBox_RawData[selectedIndex];
     Settings_SRV::WriteLanguage(language);
 
+    Close();
+}
+
+void SettingsFrame::OnCancelButtonClick(wxCommandEvent& event)
+{
     Close();
 }
