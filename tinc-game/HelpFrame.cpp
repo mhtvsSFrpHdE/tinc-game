@@ -37,6 +37,8 @@ void HelpFrame::Init_Layout(bool defaultInit)
     if (defaultInit) {
         rootSizer->Add(helpText_TextCtrl, 1, wxEXPAND | wxALL, ls::SpaceToFrameBorder);
     }
+
+    this->Fit();
 }
 
 void HelpFrame::OnClose(wxCloseEvent& event)

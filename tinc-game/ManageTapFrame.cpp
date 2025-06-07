@@ -92,6 +92,8 @@ void ManageTapFrame::Init_Layout()
     navigateSizer->Add(closeButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
 
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+
+    this->Fit();
 }
 
 void ManageTapFrame::OnClose(wxCloseEvent& event)

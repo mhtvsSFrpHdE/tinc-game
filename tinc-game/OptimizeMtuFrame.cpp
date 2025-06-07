@@ -142,6 +142,8 @@ void OptimizeMtuFrame::Init_Layout()
     navigateSizer->Add(closeButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
 
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
+
+    this->Fit();
 }
 
 void OptimizeMtuFrame::OnClose(wxCloseEvent& event)

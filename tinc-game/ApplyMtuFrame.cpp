@@ -92,6 +92,8 @@ void ApplyMtuFrame::Init_Layout()
     navigateSizer->Add(navigate_CancelButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
 
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
+
+    this->Fit();
 }
 
 void ApplyMtuFrame::OnHelpMeDecideButton(wxCommandEvent& evt)

@@ -68,6 +68,8 @@ void SettingsFrame::Init_Layout()
     navigateSizer->Add(cancelButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
 
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
+
+    this->Fit();
 }
 
 void SettingsFrame::OnConfirmButtonClick(wxCommandEvent& event)

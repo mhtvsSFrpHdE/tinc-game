@@ -213,7 +213,7 @@ void MainFrame::Init_Layout()
         ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, buttonLeftSizer);
     }
 
-    this->SetSize(minSize);
+    this->Fit();
 }
 
 void MainFrame::Init_PostLayout()
