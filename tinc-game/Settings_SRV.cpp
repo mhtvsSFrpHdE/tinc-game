@@ -128,3 +128,11 @@ wxString SettingKeys_Networks::network_tap(wxString networkName)
     auto result = network(networkName) + keyName;
     return result;
 }
+
+wxString SettingKeys_Networks::network_verbose(wxString networkName)
+{
+    const wxString keyName = wxT("ShowDetailedLiveLog");
+
+    auto result = network(networkName) + keyName;
+    return result;
+}

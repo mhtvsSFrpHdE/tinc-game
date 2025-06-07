@@ -48,4 +48,5 @@ namespace SettingKeys_Networks {
 
     wxString network(wxString networkName);
     wxString network_tap(wxString networkName);
+    wxString network_verbose(wxString networkName);
 };

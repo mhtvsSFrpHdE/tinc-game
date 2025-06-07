@@ -5,6 +5,7 @@
 #include <sstream>
 #include <boost/circular_buffer.hpp>
 #include "Resource_SRV.h"
+#include "Settings_SRV.h"
 
 void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
 {
@@ -26,6 +27,9 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
         }
     }
 
+    auto verboseSettingsKey = SettingKeys_Networks::network_verbose(perNetworkData->network.networkName);
+    auto verbose = Settings_SRV::networksConfig->ReadBool(verboseSettingsKey, true);
+
     auto tincBinPath = rst::GetTincdBinAsWxStr();
     std::wstringstream commandStringStream;
     commandStringStream << tincBinPath
@@ -33,8 +37,10 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
         << sr::doubleQuotes << perNetworkData->network.GetFullPath() << sr::doubleQuotes
         << sr::space << L"--option=interface="
         << sr::doubleQuotes << perNetworkData->tap->friendlyName << sr::doubleQuotes
-        << sr::space << L"--no-detach"
-        << sr::space << L"--debug=3";
+        << sr::space << L"--no-detach";
+    if (verbose) {
+        commandStringStream << sr::space << L"--debug=3";
+    }
 
     auto command = commandStringStream.str();
 

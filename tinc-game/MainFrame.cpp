@@ -312,8 +312,16 @@ void MainFrame::OnConnectButtonClick(wxCommandEvent& evt)
 
         auto tapSettingsKey = SettingKeys_Networks::network_tap(networkRawData.network.networkName);
         Settings_SRV::networksConfig->Write(tapSettingsKey, wxString(tapRawData.friendlyName));
-        auto networkSettingsKey = SettingKeys_Networks::default_recentUsedNetwork;
-        Settings_SRV::networksConfig->Write(networkSettingsKey, wxString(networkRawData.network.networkName));
+
+        auto recentUsedNetworkSettingsKey = SettingKeys_Networks::default_recentUsedNetwork;
+        Settings_SRV::networksConfig->Write(recentUsedNetworkSettingsKey, wxString(networkRawData.network.networkName));
+
+        auto verboseSettingsKey = SettingKeys_Networks::network_verbose(networkRawData.network.networkName);
+        bool verboseExists = Settings_SRV::networksConfig->HasEntry(verboseSettingsKey);
+        if (verboseExists == false) {
+            Settings_SRV::networksConfig->Write(verboseSettingsKey, true);
+        }
+
         Settings_SRV::networksConfig->Flush();
 
         networkRawData.tap = &tapRawData;
@@ -349,7 +357,7 @@ void MainFrame::OnEditButtonClick(wxCommandEvent& evt)
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
 
-    auto editNetworkFrame = new EditNetworkFrame(this, networkRawData.network);
+    auto editNetworkFrame = new EditNetworkFrame(this, &networkRawData.network);
     editNetworkFrame->Center();
     editNetworkFrame->Show();
 }
