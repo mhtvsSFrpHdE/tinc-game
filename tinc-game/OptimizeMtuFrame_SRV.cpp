@@ -4,6 +4,7 @@
 #include <sstream>
 #include <thread>
 #include "String_SRV.h"
+#include "Resource_SRV.h"
 
 struct MeasureMtuResult {
     enum class Enum {
@@ -87,17 +88,12 @@ MeasureMtuResult::Enum MeasureMTU(std::wstring ipAddress, int mtu, OptimizeMtuFr
 
     namespace bp = boost::process;
     namespace sr = String_SRV;
-    bp::ipstream is;
+    namespace rsb = Resource_SRV::Bat;
 
-    std::wstringstream commandStringStream;
-    commandStringStream << L"ping437.bat"
-        << sr::space << sr::doubleQuotes << ipAddress << sr::doubleQuotes
-        << sr::space << pingMtu;
-    auto pingCommand = commandStringStream.str();
-    bp::child c(bp::shell(), bp::args({ L"/c", pingCommand }), bp::std_out > is, bp::windows::hide);
+    bp::ipstream is;
+    bp::child c(bp::shell(), bp::args({ rsb::cmdRumCommand, rsb::ping437, ipAddress, std::to_wstring(pingMtu) }), bp::std_out > is, bp::windows::hide);
 
     std::string line;
-
     while (std::getline(is, line)) {
         // "Reply from <ip address>: bytes=..."
         if (line.find(std::string(": b")) != std::string::npos) {

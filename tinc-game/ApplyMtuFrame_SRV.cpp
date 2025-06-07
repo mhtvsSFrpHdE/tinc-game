@@ -77,7 +77,7 @@ void ApplyMtuFrame::API_SRV_OpenCommandPrompt()
 {
     namespace bp = boost::process;
     try {
-        bp::child process("cmd.exe");
+        bp::child process(bp::shell());
         process.detach();
     }
     catch (...) {
@@ -87,17 +87,17 @@ void ApplyMtuFrame::API_SRV_OpenCommandPrompt()
 
 std::wstring ApplyMtuFrame::API_SRV_GetNetshCommand(std::wstring adapterName, int mtu_IPv4, int mtu_IPv6)
 {
-    const std::wstring doubleQuotes = L"\"";
+    namespace sr = String_SRV;
 
     std::wostringstream netshCommandStringBuilder;
     netshCommandStringBuilder
         << L"netsh.exe interface ipv4 set subinterface "
-        << doubleQuotes << adapterName << doubleQuotes
+        << sr::doubleQuotes << adapterName << sr::doubleQuotes
         << L" mtu=" << std::to_wstring(mtu_IPv4)
         << L" store=persistent"
         << L" & "
         << L"netsh.exe interface ipv6 set subinterface "
-        << doubleQuotes << adapterName << doubleQuotes
+        << sr::doubleQuotes << adapterName << sr::doubleQuotes
         << L" mtu=" << std::to_wstring(mtu_IPv6)
         << L" store=persistent";
 

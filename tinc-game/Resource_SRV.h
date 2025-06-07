@@ -50,6 +50,9 @@ namespace Resource_SRV
         const std::wstring netsh437 = L"netsh437.bat";
         const std::wstring netshArgV4 = L"ipv4";
         const std::wstring netshArgV6 = L"ipv6";
+        const std::wstring ping437 = L"ping437.bat";
+        const std::wstring controlPanel = L"control.exe ncpa.cpl";
+        const std::wstring deviceManager = L"start devmgmt.msc";
     }
 
     namespace Networks {

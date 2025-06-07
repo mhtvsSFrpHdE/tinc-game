@@ -2,6 +2,7 @@
 #include <boost/process/windows.hpp>
 #include "TapDevice_SRV.h"
 #include "Settings_SRV.h"
+#include "Resource_SRV.h"
 
 void TapDevice_SRV::ReloadAdapterList()
 {
@@ -54,7 +55,7 @@ bool TapDevice_SRV::API_SRV_OpenNetworkControlPanel()
 {
     namespace bp = boost::process;
     try {
-        bp::child c("control.exe ncpa.cpl");
+        bp::child c(Resource_SRV::Bat::controlPanel);
         c.wait();
         return true;
     }
@@ -66,8 +67,9 @@ bool TapDevice_SRV::API_SRV_OpenNetworkControlPanel()
 bool TapDevice_SRV::API_SRV_OpenDeviceManager()
 {
     namespace bp = boost::process;
+    namespace rsb = Resource_SRV::Bat;
     try {
-        bp::child c(bp::shell(), bp::args({ L"/c", L"start devmgmt.msc" }), bp::windows::hide);
+        bp::child c(bp::shell(), bp::args({ rsb::cmdRumCommand, rsb::deviceManager }), bp::windows::hide);
         c.wait();
         return true;
     }
