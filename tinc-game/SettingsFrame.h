@@ -9,7 +9,7 @@ public:
 private:
     wxWindowDisabler makeModal;
 
-    wxPanel* rootPanel = new wxPanel(this);
+    wxPanel* rootPanel = nullptr;
 
     wxStaticText* chooseLanguage_StaticText = nullptr;
     wxComboBox* chooseLanguage_ComboBox = nullptr;

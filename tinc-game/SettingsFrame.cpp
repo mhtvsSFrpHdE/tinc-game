@@ -15,8 +15,8 @@ SettingsFrame::SettingsFrame(wxFrame* parentFrame) : wxFrame(parentFrame, wxID_A
 
 void SettingsFrame::Init_CreateControls()
 {
+    rootPanel = new wxPanel(this);
     chooseLanguage_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Language"));
-
     chooseLanguage_ComboBox = new wxComboBox(rootPanel, wxID_ANY);
     {
         namespace ls = Language_SRV;
@@ -38,7 +38,6 @@ void SettingsFrame::Init_CreateControls()
             chooseLanguage_ComboBox->SetSelection(selectionIndex);
         }
     }
-
     confirmButton = new wxButton(rootPanel, wxID_ANY, _("Confirm"));
     confirmButton->Bind(wxEVT_BUTTON, &SettingsFrame::OnConfirmButtonClick, this);
 }

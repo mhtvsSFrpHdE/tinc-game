@@ -28,6 +28,7 @@ struct PerNetworkData {
     std::shared_ptr<boost::process::child> tincProcess;
     wxButton* connectButton = nullptr;
     wxButton* disconnectButton = nullptr;
+    wxButton* editButton = nullptr;
     tincTextCtrl* liveLog = nullptr;
 };
 
@@ -43,6 +44,7 @@ private:
 
     // SRV to UI
     void API_UI_SetDisconnectButtonEnable(bool enable, wxButton* disconnectButton);
+    void API_UI_SetEditButtonEnable(bool enable, wxButton* editButton);
     void API_UI_ReportStatus(std::wstring status, tincTextCtrl* liveLog);
     void API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> result, PerNetworkData* perNetworkData);
 
@@ -64,6 +66,8 @@ private:
     void OnConnectButtonClick(wxCommandEvent& evt);
     wxButton* disconnectButtonPlaceholder = nullptr;
     void OnDisconnectButtonClick(wxCommandEvent& evt);
+    wxButton* editButtonPlaceholder = nullptr;
+    void OnEditButtonClick(wxCommandEvent& evt);
 
     wxBoxSizer* networkControlSizer = nullptr;
 

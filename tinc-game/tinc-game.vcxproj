@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="ApplyMtuFrame.h" />
+    <ClInclude Include="EditNetworkFrame.h" />
     <ClInclude Include="Language_SRV.h" />
     <ClInclude Include="Layout_SRV.h" />
     <ClInclude Include="MainFrame.h" />
@@ -171,6 +172,7 @@
     <ClCompile Include="App.cpp" />
     <ClCompile Include="ApplyMtuFrame.cpp" />
     <ClCompile Include="ApplyMtuFrame_SRV.cpp" />
+    <ClCompile Include="EditNetworkFrame.cpp" />
     <ClCompile Include="Language_SRV.cpp" />
     <ClCompile Include="Layout_SRV.cpp" />
     <ClCompile Include="MainFrame.cpp" />

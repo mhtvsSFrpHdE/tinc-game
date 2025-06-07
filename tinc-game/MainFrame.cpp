@@ -12,10 +12,16 @@
 #include "Settings_SRV.h"
 #include "Networks_SRV.h"
 #include "TapDevice_SRV.h"
+#include "EditNetworkFrame.h"
 
 void MainFrame::API_UI_SetDisconnectButtonEnable(bool enable, wxButton* disconnectButton)
 {
     disconnectButton->Enable(enable);
+}
+
+void MainFrame::API_UI_SetEditButtonEnable(bool enable, wxButton* editButton)
+{
+    editButton->Enable(enable);
 }
 
 void MainFrame::API_UI_ReportStatus(std::wstring status, tincTextCtrl* liveLog)
@@ -37,6 +43,8 @@ void MainFrame::Init_CreateControls()
     connectButtonPlaceholder->Enable(false);
     disconnectButtonPlaceholder = new wxButton(rootPanel, wxID_ANY, _("Disconnect"));
     disconnectButtonPlaceholder->Enable(false);
+    editButtonPlaceholder = new wxButton(rootPanel, wxID_ANY, _("Edit"));
+    editButtonPlaceholder->Enable(false);
     liveLogPlaceholder = new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
     liveLogPlaceholder->Enable(false);
 
@@ -88,6 +96,9 @@ void MainFrame::Init_CreateControls()
                 perNetworkData.disconnectButton->Bind(wxEVT_BUTTON, &MainFrame::OnDisconnectButtonClick, this);
                 perNetworkData.disconnectButton->Enable(false);
                 perNetworkData.disconnectButton->Hide();
+                perNetworkData.editButton = new wxButton(rootPanel, wxID_ANY, _("Edit"));
+                perNetworkData.editButton->Bind(wxEVT_BUTTON, &MainFrame::OnEditButtonClick, this);
+                perNetworkData.editButton->Hide();
 
                 if (perNetworkData.network.networkName == recentUsedNetwork) {
                     recentUsedNetworkSelection = mapIndex;
@@ -146,6 +157,7 @@ void MainFrame::Init_Layout()
         rootSizer->Add(networkControlSizer);
         networkControlSizer->Add(connectButtonPlaceholder, 1, wxLEFT, ls::SpaceToFrameBorder);
         networkControlSizer->Add(disconnectButtonPlaceholder, 1, wxLEFT, ls::SpaceBetweenControl);
+        networkControlSizer->Add(editButtonPlaceholder, 1, wxLEFT, ls::SpaceBetweenControl);
 
         ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
     }
@@ -235,6 +247,11 @@ void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
         rawData.disconnectButton->Show();
         disconnectButtonPlaceholder = rawData.disconnectButton;
 
+        editButtonPlaceholder->Hide();
+        networkControlSizer->Replace(editButtonPlaceholder, rawData.editButton);
+        rawData.editButton->Show();
+        editButtonPlaceholder = rawData.editButton;
+
         networkControlSizer->Layout();
     }
 
@@ -285,6 +302,7 @@ void MainFrame::OnConnectButtonClick(wxCommandEvent& evt)
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
     networkRawData.connectButton->Enable(false);
+    networkRawData.editButton->Enable(false);
 
     auto tapSelection = currentTap_ComboBox->GetSelection();
     auto& tapRawData = currentTap_ComboBox_RawData[tapSelection];
@@ -306,6 +324,7 @@ void MainFrame::OnConnectButtonClick(wxCommandEvent& evt)
     else {
         wxMessageDialog(this, _("Selected virtual network adapter already connected to another network")).ShowModal();
         networkRawData.connectButton->Enable(true);
+        networkRawData.editButton->Enable(true);
     }
 }
 
@@ -322,6 +341,17 @@ void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)
         return;
     }
     networkRawData.connectButton->Enable(true);
+    networkRawData.editButton->Enable(true);
+}
+
+void MainFrame::OnEditButtonClick(wxCommandEvent& evt)
+{
+    auto networkSelection = currentNetwork_ComboBox->GetSelection();
+    auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
+
+    auto editNetworkFrame = new EditNetworkFrame(this, networkRawData.network);
+    editNetworkFrame->Center();
+    editNetworkFrame->Show();
 }
 
 void MainFrame::OnOptimizeMtuButton(wxCommandEvent& evt)
