@@ -47,7 +47,7 @@ void ManageTapFrame::Init_Layout()
 {
     namespace ls = Layout_SRV;
 
-    this->SetSizeHints(405, 290);
+    this->SetSizeHints(405, 310);
 
     wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
     rootPanel->SetSizer(rootSizer);
@@ -86,12 +86,14 @@ void ManageTapFrame::Init_Layout()
     deviceManagerSizer->Add(installedTapHelpMeDecide_Button, 0, wxLEFT, ls::SpaceBetweenControl);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
+    rootSizer->AddStretchSpacer(ls::TakeAllSpace);
+
     wxBoxSizer* navigateSizer = new wxBoxSizer(wxHORIZONTAL);
     rootSizer->Add(navigateSizer);
     navigateSizer->Add(0, 0, ls::TakeAllSpace);
     navigateSizer->Add(closeButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
 
-    ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+    ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
     this->Fit();
 }
@@ -106,6 +108,7 @@ void ManageTapFrame::OnClose(wxCloseEvent& event)
 }
 
 void OnHelpButtonClick_InitHelpFrame(HelpFrame* helpFrame, ManageTapFrame* parentFrame) {
+
     // CreateControls
     helpFrame->helpText_TextCtrl = new wxTextCtrl(helpFrame->rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
     wxButton* openDeviceManagerButton = new wxButton(helpFrame->rootPanel, wxID_ANY, _("Open device manager"));
@@ -113,6 +116,7 @@ void OnHelpButtonClick_InitHelpFrame(HelpFrame* helpFrame, ManageTapFrame* paren
 
     // Layout
     namespace ls = Layout_SRV;
+
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, helpFrame->rootSizer);
 
     helpFrame->rootSizer->Add(openDeviceManagerButton, 0, wxLEFT, ls::SpaceToFrameBorder);
@@ -124,6 +128,8 @@ void OnHelpButtonClick_InitHelpFrame(HelpFrame* helpFrame, ManageTapFrame* paren
     helpTextSizer->Add(helpFrame->helpText_TextCtrl, 1, wxEXPAND);
     helpTextSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, helpFrame->rootSizer);
+
+    helpFrame->rootSizer->Layout();
 }
 
 void ManageTapFrame::OnHelpButtonClick_Internal() {

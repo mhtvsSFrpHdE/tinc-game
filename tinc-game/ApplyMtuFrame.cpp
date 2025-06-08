@@ -54,7 +54,7 @@ void ApplyMtuFrame::Init_Layout()
 {
     namespace ls = Layout_SRV;
 
-    this->SetSizeHints(320, 270);
+    this->SetSizeHints(320, 290);
 
     wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
     rootPanel->SetSizer(rootSizer);
@@ -84,6 +84,8 @@ void ApplyMtuFrame::Init_Layout()
     yourCommandSizer->Add(yourCommand_TextCtrl, ls::TakeAllSpace, wxRIGHT, ls::SpaceBetweenControl);
     yourCommandSizer->Add(yourCommand_CopyButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+
+    rootSizer->AddStretchSpacer(ls::TakeAllSpace);
 
     wxBoxSizer* navigateSizer = new wxBoxSizer(wxHORIZONTAL);
     rootSizer->Add(navigateSizer);
