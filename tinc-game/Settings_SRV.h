@@ -31,9 +31,11 @@ public:
 namespace SettingKeys_Program {
     const wxString settings = wxT("Settings/");
     const wxString settings_language = settings + wxT("Language");
+    const wxString settings_gameMode = settings + wxT("GameApp.exe");
 
     const wxString lists = wxT("Lists/");
     const wxString lists_mtuTestIp = lists + wxT("MtuTestIp");
+    const wxString lists_gameModeGames = lists + wxT("GameModeGames");
 
     const wxString metadata = wxT("Metadata/");
     const wxString metadata_configVersion = metadata + wxT("ConfigVersion");
@@ -49,4 +51,6 @@ namespace SettingKeys_Networks {
     wxString network(wxString networkName);
     wxString network_tap(wxString networkName);
     wxString network_verbose(wxString networkName);
+    wxString network_autoStart(wxString networkName);
+    wxString network_gameMode(wxString networkName);
 };

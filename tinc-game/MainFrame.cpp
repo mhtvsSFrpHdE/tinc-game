@@ -321,6 +321,16 @@ void MainFrame::OnConnectButtonClick(wxCommandEvent& evt)
         if (verboseExists == false) {
             Settings_SRV::networksConfig->Write(verboseSettingsKey, true);
         }
+        auto gameModeSettingsKey = SettingKeys_Networks::network_gameMode(networkRawData.network.networkName);
+        auto gameModeExists = Settings_SRV::networksConfig->HasEntry(gameModeSettingsKey);
+        if (gameModeExists == false) {
+            Settings_SRV::networksConfig->Write(gameModeSettingsKey, false);
+        }
+        auto autoStartSettingsKey = SettingKeys_Networks::network_autoStart(networkRawData.network.networkName);
+        auto autoStartExists = Settings_SRV::networksConfig->HasEntry(gameModeSettingsKey);
+        if (autoStartExists == false) {
+            Settings_SRV::networksConfig->Write(autoStartSettingsKey, false);
+        }
 
         Settings_SRV::networksConfig->Flush();
 

@@ -32,6 +32,8 @@ namespace Resource_SRV
         wxString GetTincBinAsWxStr();
         const wxString tincdBin = wxT("tincd.exe");
         wxString GetTincdBinAsWxStr();
+        wxFileName GetTincdBin();
+        wxFileName GetTincdGameModeBin(wxString gameModeValue);
         const wxString tincdPid = wxT("pid");
         wxFileName GetTincdPid(Networks_SRV::GetNetworksResult& network);
         const wxString tapInstallerDir = wxT("tap-win64");

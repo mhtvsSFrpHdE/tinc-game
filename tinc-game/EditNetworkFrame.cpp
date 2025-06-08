@@ -22,6 +22,14 @@ void EditNetworkFrame::Init_CreateControls()
         auto verboseSettingsKey = SettingKeys_Networks::network_verbose(_network->networkName);
         auto verbose = Settings_SRV::networksConfig->ReadBool(verboseSettingsKey, true);
         showDetailedLiveLogCheckBox->SetValue(verbose);
+
+        auto gameModeSettingsKey = SettingKeys_Networks::network_gameMode(_network->networkName);
+        auto gameMode = Settings_SRV::networksConfig->ReadBool(gameModeSettingsKey, false);
+        gameModeCheckBox->SetValue(gameMode);
+
+        auto autoStartSettingsKey = SettingKeys_Networks::network_autoStart(_network->networkName);
+        auto autoStart = Settings_SRV::networksConfig->ReadBool(autoStartSettingsKey, false);
+        autoConnectOnStartCheckBox->SetValue(autoStart);
     }
     confirmButton = new wxButton(rootPanel, wxID_ANY, _("Confirm"));
     confirmButton->Bind(wxEVT_BUTTON, &EditNetworkFrame::OnConfirmButtonClick, this);
@@ -88,6 +96,14 @@ void EditNetworkFrame::OnConfirmButtonClick(wxCommandEvent& event)
     auto verboseSettingsKey = SettingKeys_Networks::network_verbose(_network->networkName);
     auto verbose = showDetailedLiveLogCheckBox->GetValue();
     Settings_SRV::networksConfig->Write(verboseSettingsKey, verbose);
+
+    auto gameModeSettingsKey = SettingKeys_Networks::network_gameMode(_network->networkName);
+    auto gameMode = gameModeCheckBox->GetValue();
+    Settings_SRV::networksConfig->Write(gameModeSettingsKey, gameMode);
+
+    auto autoStartSettingsKey = SettingKeys_Networks::network_autoStart(_network->networkName);
+    auto autoStart = autoConnectOnStartCheckBox->GetValue();
+    Settings_SRV::networksConfig->Write(autoStartSettingsKey, autoStart);
 
     Settings_SRV::networksConfig->Flush();
     Close();

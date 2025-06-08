@@ -112,6 +112,7 @@ wxFileName Resource_SRV::TincBin::GetTapInstallerDir()
     file.AppendDir(binDir);
     file.AppendDir(tincBinDir);
     file.AppendDir(tapInstallerDir);
+
     nullableTapInstallerDir = file;
     return file;
 }
@@ -126,6 +127,7 @@ wxFileName Resource_SRV::TincBin::GetTincBinDir()
     wxFileName file;
     file.AppendDir(binDir);
     file.AppendDir(tincBinDir);
+
     nullableTincBinDir = file;
     return file;
 }
@@ -141,6 +143,7 @@ wxString Resource_SRV::TincBin::GetTincBinAsWxStr()
     file.AppendDir(binDir);
     file.AppendDir(tincBinDir);
     file.SetName(tincBin);
+
     nullableTincBinPath = file.GetFullPath();
     return nullableTincBinPath.get();
 }
@@ -156,8 +159,35 @@ wxString Resource_SRV::TincBin::GetTincdBinAsWxStr()
     file.AppendDir(binDir);
     file.AppendDir(tincBinDir);
     file.SetName(tincdBin);
+
     nullableTincdBinPath = file.GetFullPath();
     return nullableTincdBinPath.get();
+}
+
+boost::optional<wxFileName> nullableTincdBin;
+wxFileName Resource_SRV::TincBin::GetTincdBin()
+{
+    if (nullableTincdBin) {
+        return nullableTincdBin.get();
+    }
+
+    wxFileName file;
+    file.AppendDir(binDir);
+    file.AppendDir(tincBinDir);
+    file.SetName(tincdBin);
+
+    nullableTincdBin = file;
+    return nullableTincdBin.get();
+}
+
+wxFileName Resource_SRV::TincBin::GetTincdGameModeBin(wxString gameModeValue)
+{
+    wxFileName file;
+    file.AppendDir(binDir);
+    file.AppendDir(tincBinDir);
+    file.SetName(gameModeValue);
+
+    return file;
 }
 
 boost::optional<wxFileName> nullableTincdPid;
@@ -171,6 +201,7 @@ wxFileName Resource_SRV::TincBin::GetTincdPid(Networks_SRV::GetNetworksResult& n
     auto networkFullPath = network.GetFullPath();
     file.SetPath(networkFullPath);
     file.SetName(tincdPid);
+
     nullableTincdPid = file;
     return file;
 }
@@ -190,6 +221,7 @@ wxFileName Resource_SRV::Networks::GetNetworksDir()
 
     wxFileName file;
     file.AppendDir(networksDir);
+
     nullableNetworksDir = file;
     return file;
 }
@@ -205,6 +237,7 @@ wxFileName Resource_SRV::Program::GetIniDir()
     wxFileName file(exePath);
     file.ClearExt();
     file.SetName(wxEmptyString);
+
     nullableIniDir = file;
     return file;
 }

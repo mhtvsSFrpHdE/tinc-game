@@ -30,7 +30,26 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
     auto verboseSettingsKey = SettingKeys_Networks::network_verbose(perNetworkData->network.networkName);
     auto verbose = Settings_SRV::networksConfig->ReadBool(verboseSettingsKey, true);
 
-    auto tincBinPath = rst::GetTincdBinAsWxStr();
+    wxString tincBinPath;
+    auto networkGameModeSettingsKey = SettingKeys_Networks::network_gameMode(perNetworkData->network.networkName);
+    auto gameMode = Settings_SRV::networksConfig->ReadBool(networkGameModeSettingsKey, false);
+    if (gameMode) {
+        auto programGameModeSettingsKey = SettingKeys_Program::settings_gameMode;
+        auto gameModeValue = Settings_SRV::programConfig->Read(programGameModeSettingsKey);
+        auto tincGameModeBin = rst::GetTincdGameModeBin(gameModeValue);
+        tincBinPath = tincGameModeBin.GetFullPath();
+
+        bool gameModeFileExists = wxFileExists(tincBinPath);
+        if (gameModeFileExists == false) {
+            auto srcTincdPath = rst::GetTincdBinAsWxStr();
+            auto dstTincdPath = tincGameModeBin.GetFullPath();
+            wxCopyFile(srcTincdPath, dstTincdPath);
+        }
+    }
+    else {
+        tincBinPath = rst::GetTincdBinAsWxStr();
+    }
+
     std::wstringstream commandStringStream;
     commandStringStream << tincBinPath
         << sr::space << L"--config="

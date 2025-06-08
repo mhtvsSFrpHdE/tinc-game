@@ -14,6 +14,10 @@ private:
     wxStaticText* chooseLanguage_StaticText = nullptr;
     wxComboBox* chooseLanguage_ComboBox = nullptr;
     std::unordered_map<int, Language_SRV::KnownLanguage> chooseLanguage_ComboBox_RawData;
+
+    wxStaticText* chooseGameMode_StaticText = nullptr;
+    wxComboBox* chooseGameMode_ComboBox = nullptr;
+
     wxButton* confirmButton = nullptr;
     wxButton* cancelButton = nullptr;
 

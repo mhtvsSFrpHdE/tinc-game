@@ -25,8 +25,7 @@ wxFileName Settings_SRV::GetIniFilePathAsWxFile(GetIniFilePathBy by)
 
 void Settings_SRV::WriteLanguage(Language_SRV::KnownLanguage language)
 {
-    Settings_SRV::programConfig->Write(SettingKeys_Program::settings_language, static_cast<int>(language));
-    programConfig->Flush();
+    programConfig->Write(SettingKeys_Program::settings_language, static_cast<int>(language));
 }
 
 wxLanguage Settings_SRV::ReadLanguage()
@@ -67,7 +66,9 @@ void Settings_SRV::LoadConfigFile()
         if (!checkIni) {
             programConfig->Write(sk::metadata_configVersion, 0);
             programConfig->Write(sk::settings_language, static_cast<int>(ls::KnownLanguage::Unknown));
+            programConfig->Write(sk::settings_gameMode, wxT("GameApp.exe"));
             programConfig->Write(sk::lists_mtuTestIp, wxT("1.1.1.1, 8.8.8.8, 10.255.60.1"));
+            programConfig->Write(sk::lists_gameModeGames, wxT("GameApp.exe, javaw.exe"));
             programConfig->Flush();
         }
     }
@@ -88,12 +89,12 @@ void Settings_SRV::LoadConfigFile()
     ls::Init();
 }
 
-ReturnValue<wxArrayString> Settings_SRV::ReadArray(wxString delimiter, wxString settingKey)
+ReturnValue<wxArrayString> Settings_SRV::ReadArray(wxString settingKey, wxString delimiter)
 {
     auto result = ReturnValue<wxArrayString>();
 
     wxString readConfig;
-    bool readConfigSuccess = programConfig->Read(SettingKeys_Program::lists_mtuTestIp, &readConfig);
+    bool readConfigSuccess = programConfig->Read(settingKey, &readConfig);
     if (readConfigSuccess == false) {
         return result;
     }
@@ -132,6 +133,22 @@ wxString SettingKeys_Networks::network_tap(wxString networkName)
 wxString SettingKeys_Networks::network_verbose(wxString networkName)
 {
     const wxString keyName = wxT("ShowDetailedLiveLog");
+
+    auto result = network(networkName) + keyName;
+    return result;
+}
+
+wxString SettingKeys_Networks::network_autoStart(wxString networkName)
+{
+    const wxString keyName = wxT("AutoConnectOnStart");
+
+    auto result = network(networkName) + keyName;
+    return result;
+}
+
+wxString SettingKeys_Networks::network_gameMode(wxString networkName)
+{
+    const wxString keyName = wxT("GameMode");
 
     auto result = network(networkName) + keyName;
     return result;
