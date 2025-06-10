@@ -196,7 +196,11 @@ bool WindowsAPI_SRV::GetAdaptersAddressesResult::IsLoopback()
 
 bool WindowsAPI_SRV::GetAdaptersAddressesResult::IsTap()
 {
-    auto isTap = this->modelName.find(L"TAP-Win32 Adapter V9") != std::wstring::npos;
+    bool isTap = this->modelName.find(L"TAP-Win32 Adapter V9") == 0;
+    bool containsHash = this->modelName.find(L"#") != std::wstring::npos;
+    if (containsHash) {
+        isTap = isTap && this->modelName[21] == L'#';
+    }
     return isTap;
 }
 
