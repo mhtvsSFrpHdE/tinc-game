@@ -157,3 +157,11 @@ wxString SettingKeys_Networks::network_port(wxString networkName)
     auto result = network(networkName) + keyName;
     return result;
 }
+
+wxString SettingKeys_Networks::network_setMetric(wxString networkName)
+{
+    const wxString keyName = wxT("SetMetric");
+
+    auto result = network(networkName) + keyName;
+    return result;
+}

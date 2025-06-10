@@ -15,7 +15,16 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
     namespace bp = boost::process;
     namespace sr = String_SRV;
     namespace rst = Resource_SRV::TincBin;
+    namespace rsb = Resource_SRV::Bat;
     namespace ss = Settings_SRV;
+
+    auto setMetricSettingsKey = SettingKeys_Networks::network_setMetric(perNetworkData->network.networkName);
+    auto setMetric = ss::networksConfig->ReadBool(setMetricSettingsKey, true);
+    if (setMetric) {
+        // netsh interface ipv4 set interface "interface_name" metric=value
+        bp::system(bp::shell(), bp::args({ rsb::cmdRumCommand, rsb::netsh, L"interface", rsb::netshArgV4, L"set", L"interface", perNetworkData->tap->friendlyName, L"metric=1" }), bp::windows::hide);
+        bp::system(bp::shell(), bp::args({ rsb::cmdRumCommand, rsb::netsh, L"interface", rsb::netshArgV6, L"set", L"interface", perNetworkData->tap->friendlyName, L"metric=1" }), bp::windows::hide);
+    }
 
     bp::ipstream is;
 

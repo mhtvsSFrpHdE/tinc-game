@@ -49,6 +49,7 @@ namespace Resource_SRV
         const std::wstring installTap = L"installTap.bat";
         const std::wstring getTapHwid = L"getTapHwid.bat";
         const std::wstring uninstallTap = L"uninstallTap.bat";
+        const std::wstring netsh = L"netsh.exe";
         const std::wstring netsh437 = L"netsh437.bat";
         const std::wstring netshArgV4 = L"ipv4";
         const std::wstring netshArgV6 = L"ipv6";

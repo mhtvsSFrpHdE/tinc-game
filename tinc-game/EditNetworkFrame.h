@@ -14,10 +14,15 @@ private:
 
     wxPanel* rootPanel = nullptr;
 
+    wxButton* helpButton = nullptr;
+    void OnHelpButtonClick(wxCommandEvent& event);
+    void OnHelpFrameCloseCallback();
+
     wxCheckBox* gameModeCheckBox = nullptr;
     void OnGameModeCheckBoxClick(wxCommandEvent& event);
     wxCheckBox* autoConnectOnStartCheckBox = nullptr;
     wxCheckBox* showDetailedLiveLogCheckBox = nullptr;
+    wxCheckBox* setMetricCheckBox = nullptr;
     wxStaticText* portNumber_StaticText = nullptr;
     wxComboBox* portNumber_ComboBox = nullptr;
 

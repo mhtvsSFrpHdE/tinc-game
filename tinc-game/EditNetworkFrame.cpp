@@ -2,6 +2,8 @@
 #include "String_SRV.h"
 #include "Layout_SRV.h"
 #include "Settings_SRV.h"
+#include <sstream>
+#include "HelpFrame.h"
 
 EditNetworkFrame::EditNetworkFrame(wxFrame* parentFrame, Networks_SRV::GetNetworksResult* network) : wxFrame(parentFrame, wxID_ANY, _("Edit:") + String_SRV::space + network->networkName)
 {
@@ -16,22 +18,32 @@ void EditNetworkFrame::Init_CreateControls()
     namespace ss = Settings_SRV;
 
     rootPanel = new wxPanel(this);
+    helpButton = new wxButton(rootPanel, wxID_ANY, _("Help"));
+    helpButton->Bind(wxEVT_BUTTON, &EditNetworkFrame::OnHelpButtonClick, this);
     gameModeCheckBox = new wxCheckBox(rootPanel, wxID_ANY, _("Game mode"));
     gameModeCheckBox->Bind(wxEVT_CHECKBOX, &EditNetworkFrame::OnGameModeCheckBoxClick, this);
+    {
+        auto gameModeSettingsKey = SettingKeys_Networks::network_gameMode(_network->networkName);
+        auto gameMode = ss::networksConfig->ReadBool(gameModeSettingsKey, false);
+        gameModeCheckBox->SetValue(gameMode);
+    }
     autoConnectOnStartCheckBox = new wxCheckBox(rootPanel, wxID_ANY, _("Auto connect on start"));
+    {
+        auto autoStartSettingsKey = SettingKeys_Networks::network_autoStart(_network->networkName);
+        auto autoStart = ss::networksConfig->ReadBool(autoStartSettingsKey, false);
+        autoConnectOnStartCheckBox->SetValue(autoStart);
+    }
     showDetailedLiveLogCheckBox = new wxCheckBox(rootPanel, wxID_ANY, _("Show detailed live log"));
     {
         auto verboseSettingsKey = SettingKeys_Networks::network_verbose(_network->networkName);
         auto verbose = ss::networksConfig->ReadBool(verboseSettingsKey, true);
         showDetailedLiveLogCheckBox->SetValue(verbose);
-
-        auto gameModeSettingsKey = SettingKeys_Networks::network_gameMode(_network->networkName);
-        auto gameMode = ss::networksConfig->ReadBool(gameModeSettingsKey, false);
-        gameModeCheckBox->SetValue(gameMode);
-
-        auto autoStartSettingsKey = SettingKeys_Networks::network_autoStart(_network->networkName);
-        auto autoStart = ss::networksConfig->ReadBool(autoStartSettingsKey, false);
-        autoConnectOnStartCheckBox->SetValue(autoStart);
+    }
+    setMetricCheckBox = new wxCheckBox(rootPanel, wxID_ANY, _("Set metric before connect"));
+    {
+        auto setMetricSettingsKey = SettingKeys_Networks::network_setMetric(_network->networkName);
+        auto setMetric = ss::networksConfig->ReadBool(setMetricSettingsKey, true);
+        setMetricCheckBox->SetValue(setMetric);
     }
     portNumber_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Port (0-65535):"));
     portNumber_ComboBox = new wxComboBox(rootPanel, wxID_ANY);
@@ -52,17 +64,24 @@ void EditNetworkFrame::Init_Layout()
 {
     namespace ls = Layout_SRV;
 
-    this->SetSizeHints(290, 220);
+    this->SetSizeHints(290, 250);
 
     wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
     rootPanel->SetSizer(rootSizer);
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
-    rootSizer->Add(gameModeCheckBox, 0, wxLEFT, ls::SpaceToFrameBorder);
+    wxBoxSizer* helpSizer = new wxBoxSizer(wxHORIZONTAL);
+    rootSizer->Add(helpSizer);
+    helpSizer->Add(gameModeCheckBox, 1, wxLEFT | wxALIGN_BOTTOM, ls::SpaceToFrameBorder);
+    helpSizer->AddStretchSpacer(ls::TakeAllSpace);
+    helpSizer->Add(helpButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+
     rootSizer->Add(autoConnectOnStartCheckBox, 0, wxLEFT, ls::SpaceToFrameBorder);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
     rootSizer->Add(showDetailedLiveLogCheckBox, 0, wxLEFT, ls::SpaceToFrameBorder);
+    ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+    rootSizer->Add(setMetricCheckBox, 0, wxLEFT, ls::SpaceToFrameBorder);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
     wxBoxSizer* portSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -82,6 +101,46 @@ void EditNetworkFrame::Init_Layout()
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
     this->Fit();
+}
+
+void EditNetworkFrame::OnHelpButtonClick(wxCommandEvent& event)
+{
+    namespace ss = String_SRV;
+
+    std::ostringstream helpTextStream;
+    helpTextStream
+        << _("Game mode")
+        << ss::newLine
+        << _("Allow you to utilize potential high quality internet lane for reducing latency and packet lose rate, carefully read hints when click on it, and try your best to NOT to use this feature, unless your game is really latency sensitive or your ISP is totally crap")
+        << ss::newLine << ss::newLine
+        << _("Auto connect on start")
+        << ss::newLine
+        << _("Manually connect your network once before enable auto connect to let tinc-game know relationship between network and virtual network adapter, otherwise each network will try to use first available virtual network adapter")
+        << ss::newLine << ss::newLine
+        << _("Show detailed live log")
+        << ss::newLine
+        << _("Append \"--debug=3\" to tincd start argument, print more network activity information like users you are connecting to, and their public IP address")
+        << ss::newLine << ss::newLine
+        << _("Set metric before connect")
+        << ss::newLine
+        << _("Some router push private network route table like 10.x.x.x to device connected to it for unknown reason, cause tinc virtual network inaccessible. Set metric=1 before connect can workaround this. If you don't like set each time on connect, go to \"Manage virtual network adapter\" and there is a button let you persistent set metric, so you can turn off option here and connect to network even faster")
+        << ss::newLine << ss::newLine
+        << _("Port")
+        << ss::newLine
+        << _("If you don't have open port and just a regular player, set to 0 to use random port to increase UDP hole punching success rate. If you have dedicated public IPv4 address and open port, you can set your port forwarding information here, let other people connect to you in direct path to minimize lantancy, this WILL ALSO allow other people do UDP hole punching between each other by using your network to swap information, or even forward traffic through your network when UDP hole punching failed. tinc didn't provide an option to turn off \"help other people\", so you can't have open port but refuse to serve others at same time, consider to limit your upload speed to prevent your upload traffic goes wild by using tools like NetLimiter on Windows, nftables on Linux");
+
+    std::function<void()> redirectCallback = std::bind(&EditNetworkFrame::OnHelpFrameCloseCallback, this);
+    HelpFrame* helpFrame = new HelpFrame(this, _("About network settings"), redirectCallback);
+    helpFrame->SetHelpText(helpTextStream.str());
+    helpFrame->Center();
+    helpFrame->Show();
+
+    helpButton->Enable(false);
+}
+
+void EditNetworkFrame::OnHelpFrameCloseCallback()
+{
+    helpButton->Enable(true);
 }
 
 void EditNetworkFrame::OnGameModeCheckBoxClick(wxCommandEvent& event)
@@ -135,6 +194,10 @@ void EditNetworkFrame::OnConfirmButtonClick(wxCommandEvent& event)
     auto verboseSettingsKey = SettingKeys_Networks::network_verbose(_network->networkName);
     auto verbose = showDetailedLiveLogCheckBox->GetValue();
     ss::networksConfig->Write(verboseSettingsKey, verbose);
+
+    auto setMetricSettingsKey = SettingKeys_Networks::network_setMetric(_network->networkName);
+    auto setMetric = setMetricCheckBox->GetValue();
+    ss::networksConfig->Write(setMetricSettingsKey, setMetric);
 
     auto gameModeSettingsKey = SettingKeys_Networks::network_gameMode(_network->networkName);
     auto gameMode = gameModeCheckBox->GetValue();

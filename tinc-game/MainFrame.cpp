@@ -354,6 +354,11 @@ void MainFrame::OnConnectButtonClick_Internal()
         if (portExists == false) {
             ss::networksConfig->Write(portSettingsKey, 0);
         }
+        auto setMetricSettingsKey = SettingKeys_Networks::network_setMetric(networkRawData.network.networkName);
+        auto setMetricExists = ss::networksConfig->HasEntry(setMetricSettingsKey);
+        if (setMetricExists == false) {
+            ss::networksConfig->Write(setMetricSettingsKey, true);
+        }
 
         ss::networksConfig->Flush();
 
