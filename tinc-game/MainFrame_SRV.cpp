@@ -15,6 +15,7 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
     namespace bp = boost::process;
     namespace sr = String_SRV;
     namespace rst = Resource_SRV::TincBin;
+    namespace ss = Settings_SRV;
 
     bp::ipstream is;
 
@@ -29,17 +30,17 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
     }
 
     auto verboseSettingsKey = SettingKeys_Networks::network_verbose(perNetworkData->network.networkName);
-    auto verbose = Settings_SRV::networksConfig->ReadBool(verboseSettingsKey, true);
+    auto verbose = ss::networksConfig->ReadBool(verboseSettingsKey, true);
 
     auto portSettingsKey = SettingKeys_Networks::network_port(perNetworkData->network.networkName);
-    auto port = Settings_SRV::networksConfig->Read(portSettingsKey);
+    auto port = ss::networksConfig->Read(portSettingsKey);
 
     wxString tincBinPath;
     auto networkGameModeSettingsKey = SettingKeys_Networks::network_gameMode(perNetworkData->network.networkName);
-    auto gameMode = Settings_SRV::networksConfig->ReadBool(networkGameModeSettingsKey, false);
+    auto gameMode = ss::networksConfig->ReadBool(networkGameModeSettingsKey, false);
     if (gameMode) {
         auto programGameModeSettingsKey = SettingKeys_Program::settings_gameMode;
-        auto gameModeValue = Settings_SRV::programConfig->Read(programGameModeSettingsKey);
+        auto gameModeValue = ss::programConfig->Read(programGameModeSettingsKey);
         auto tincGameModeBin = rst::GetTincdGameModeBin(gameModeValue);
         tincBinPath = tincGameModeBin.GetFullPath();
 

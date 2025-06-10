@@ -13,6 +13,8 @@ EditNetworkFrame::EditNetworkFrame(wxFrame* parentFrame, Networks_SRV::GetNetwor
 
 void EditNetworkFrame::Init_CreateControls()
 {
+    namespace ss = Settings_SRV;
+
     rootPanel = new wxPanel(this);
     gameModeCheckBox = new wxCheckBox(rootPanel, wxID_ANY, _("Game mode"));
     gameModeCheckBox->Bind(wxEVT_CHECKBOX, &EditNetworkFrame::OnGameModeCheckBoxClick, this);
@@ -20,15 +22,15 @@ void EditNetworkFrame::Init_CreateControls()
     showDetailedLiveLogCheckBox = new wxCheckBox(rootPanel, wxID_ANY, _("Show detailed live log"));
     {
         auto verboseSettingsKey = SettingKeys_Networks::network_verbose(_network->networkName);
-        auto verbose = Settings_SRV::networksConfig->ReadBool(verboseSettingsKey, true);
+        auto verbose = ss::networksConfig->ReadBool(verboseSettingsKey, true);
         showDetailedLiveLogCheckBox->SetValue(verbose);
 
         auto gameModeSettingsKey = SettingKeys_Networks::network_gameMode(_network->networkName);
-        auto gameMode = Settings_SRV::networksConfig->ReadBool(gameModeSettingsKey, false);
+        auto gameMode = ss::networksConfig->ReadBool(gameModeSettingsKey, false);
         gameModeCheckBox->SetValue(gameMode);
 
         auto autoStartSettingsKey = SettingKeys_Networks::network_autoStart(_network->networkName);
-        auto autoStart = Settings_SRV::networksConfig->ReadBool(autoStartSettingsKey, false);
+        auto autoStart = ss::networksConfig->ReadBool(autoStartSettingsKey, false);
         autoConnectOnStartCheckBox->SetValue(autoStart);
     }
     portNumber_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Port (0-65535):"));
@@ -37,7 +39,7 @@ void EditNetworkFrame::Init_CreateControls()
         portNumber_ComboBox->Append(_("0"));
 
         auto portSettingsKey = SettingKeys_Networks::network_port(_network->networkName);
-        auto port = Settings_SRV::networksConfig->Read(portSettingsKey);
+        auto port = ss::networksConfig->Read(portSettingsKey);
         portNumber_ComboBox->SetValue(port);
     }
     confirmButton = new wxButton(rootPanel, wxID_ANY, _("Confirm"));
@@ -109,6 +111,8 @@ void EditNetworkFrame::OnGameModeCheckBoxClick(wxCommandEvent& event)
 
 void EditNetworkFrame::OnConfirmButtonClick(wxCommandEvent& event)
 {
+    namespace ss = Settings_SRV;
+
     auto portSettingsKey = SettingKeys_Networks::network_port(_network->networkName);
     auto port = portNumber_ComboBox->GetValue();
     {
@@ -126,21 +130,21 @@ void EditNetworkFrame::OnConfirmButtonClick(wxCommandEvent& event)
             return;
         }
     }
-    Settings_SRV::networksConfig->Write(portSettingsKey, port);
+    ss::networksConfig->Write(portSettingsKey, port);
 
     auto verboseSettingsKey = SettingKeys_Networks::network_verbose(_network->networkName);
     auto verbose = showDetailedLiveLogCheckBox->GetValue();
-    Settings_SRV::networksConfig->Write(verboseSettingsKey, verbose);
+    ss::networksConfig->Write(verboseSettingsKey, verbose);
 
     auto gameModeSettingsKey = SettingKeys_Networks::network_gameMode(_network->networkName);
     auto gameMode = gameModeCheckBox->GetValue();
-    Settings_SRV::networksConfig->Write(gameModeSettingsKey, gameMode);
+    ss::networksConfig->Write(gameModeSettingsKey, gameMode);
 
     auto autoStartSettingsKey = SettingKeys_Networks::network_autoStart(_network->networkName);
     auto autoStart = autoConnectOnStartCheckBox->GetValue();
-    Settings_SRV::networksConfig->Write(autoStartSettingsKey, autoStart);
+    ss::networksConfig->Write(autoStartSettingsKey, autoStart);
 
-    Settings_SRV::networksConfig->Flush();
+    ss::networksConfig->Flush();
     Close();
 }
 

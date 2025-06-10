@@ -16,6 +16,8 @@ SettingsFrame::SettingsFrame(wxFrame* parentFrame) : wxFrame(parentFrame, wxID_A
 
 void SettingsFrame::Init_CreateControls()
 {
+    namespace ss = Settings_SRV;
+
     rootPanel = new wxPanel(this);
     chooseLanguage_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Language"));
     chooseLanguage_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
@@ -32,7 +34,7 @@ void SettingsFrame::Init_CreateControls()
         }
 
         int readLanguage;
-        bool readSuccess = Settings_SRV::programConfig->Read(SettingKeys_Program::settings_language, &readLanguage);
+        bool readSuccess = ss::programConfig->Read(SettingKeys_Program::settings_language, &readLanguage);
         if (readSuccess) {
             auto language = static_cast<ls::KnownLanguage>(readLanguage);
             auto selectionIndex = ls::languageKeyMap[language];
@@ -42,13 +44,13 @@ void SettingsFrame::Init_CreateControls()
     chooseGameMode_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Game mode"));
     chooseGameMode_ComboBox = new wxComboBox(rootPanel, wxID_ANY);
     {
-        auto getComboBoxItems = Settings_SRV::ReadArray(SettingKeys_Program::lists_gameModeGames);
+        auto getComboBoxItems = ss::ReadArray(SettingKeys_Program::lists_gameModeGames);
         if (getComboBoxItems.success) {
             chooseGameMode_ComboBox->Set(getComboBoxItems.returnBody);
         }
 
         auto gameModeSettingsKey = SettingKeys_Program::settings_gameMode;
-        auto gameMode = Settings_SRV::programConfig->Read(gameModeSettingsKey);
+        auto gameMode = ss::programConfig->Read(gameModeSettingsKey);
         chooseGameMode_ComboBox->SetValue(gameMode);
     }
     confirmButton = new wxButton(rootPanel, wxID_ANY, _("Confirm"));
@@ -91,7 +93,8 @@ void SettingsFrame::Init_Layout()
 
 void SettingsFrame::OnConfirmButtonClick(wxCommandEvent& event)
 {
-    namespace ss = String_SRV;
+    namespace sr = String_SRV;
+    namespace ss = Settings_SRV;
 
     int languageSelectedIndex = chooseLanguage_ComboBox->GetSelection();
     auto language = chooseLanguage_ComboBox_RawData[languageSelectedIndex];
@@ -99,15 +102,15 @@ void SettingsFrame::OnConfirmButtonClick(wxCommandEvent& event)
     auto validGameMode = gameMode.Find(L".exe") == gameMode.size() - 4;
     if (validGameMode == false) {
         auto hint = _("Game mode must be a valid .exe file")
-            + ss::newLine + _("You may select one from the list");
+            + sr::newLine + _("You may select one from the list");
         wxMessageDialog(this, hint).ShowModal();
         return;
     }
 
-    Settings_SRV::WriteLanguage(language);
+    ss::WriteLanguage(language);
     auto gameModeSettingsKey = SettingKeys_Program::settings_gameMode;
-    Settings_SRV::programConfig->Write(gameModeSettingsKey, gameMode);
-    Settings_SRV::programConfig->Flush();
+    ss::programConfig->Write(gameModeSettingsKey, gameMode);
+    ss::programConfig->Flush();
 
     Close();
 }

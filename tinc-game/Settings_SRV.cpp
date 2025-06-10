@@ -109,10 +109,6 @@ ReturnValue<wxArrayString> Settings_SRV::ReadArray(wxString settingKey, wxString
 wxFileConfig* Settings_SRV::programConfig = nullptr;
 wxFileConfig* Settings_SRV::networksConfig = nullptr;
 
-const wxString Settings_SRV::arrayDelimiter1 = wxT(",");
-const wxString Settings_SRV::arrayDelimiter2 = wxT("|");
-const wxString Settings_SRV::emptyPlaceholder1 = wxT("|");
-
 wxString SettingKeys_Networks::network(wxString networkName)
 {
     const wxString network = wxT("Network_");

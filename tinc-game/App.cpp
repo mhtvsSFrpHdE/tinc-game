@@ -9,11 +9,13 @@
 wxIMPLEMENT_APP(App);
 
 bool App::OnInit() {
+    namespace ss = Settings_SRV;
+
     // Config file
-    Settings_SRV::LoadConfigFile();
+    ss::LoadConfigFile();
 
     // Language
-    wxLanguage language = Settings_SRV::ReadLanguage();
+    wxLanguage language = ss::ReadLanguage();
     locale = new wxLocale(language, wxLOCALE_LOAD_DEFAULT);
 
     bool localeAllOk = true;

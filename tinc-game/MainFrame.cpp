@@ -37,6 +37,8 @@ MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
 
 void MainFrame::Init_CreateControls()
 {
+    namespace ss = Settings_SRV;
+
     rootPanel = new wxPanel(this);
 
     connectButtonPlaceholder = new wxButton(rootPanel, wxID_ANY, _("Connect"));
@@ -79,7 +81,7 @@ void MainFrame::Init_CreateControls()
         namespace ns = Networks_SRV;
         auto getNetworks = ns::GetNetworks();
         if (getNetworks.success) {
-            auto recentUsedNetwork = Settings_SRV::networksConfig->Read(SettingKeys_Networks::default_recentUsedNetwork);
+            auto recentUsedNetwork = ss::networksConfig->Read(SettingKeys_Networks::default_recentUsedNetwork);
 
             int mapIndex = 0;
             for (int networkIndex = 0; networkIndex < getNetworks.returnBody.size(); networkIndex++)
@@ -108,7 +110,7 @@ void MainFrame::Init_CreateControls()
                 currentNetwork_ComboBox->Append(perNetworkData.network.networkName);
 
                 auto autoStartSettingsKey = SettingKeys_Networks::network_autoStart(perNetworkData.network.networkName);
-                bool autoStart = Settings_SRV::networksConfig->ReadBool(autoStartSettingsKey, false);
+                bool autoStart = ss::networksConfig->ReadBool(autoStartSettingsKey, false);
                 if (autoStart) {
                     autoStartNetworkRawDataIndex_pending.push_back(mapIndex);
                 }
@@ -309,6 +311,8 @@ void MainFrame::UpdateCurrentTapItemDisplayText(WindowsAPI_SRV::GetAdaptersAddre
 
 void MainFrame::OnConnectButtonClick_Internal()
 {
+    namespace ss = Settings_SRV;
+
     auto tapSelection = currentTap_ComboBox->GetSelection();
     if (tapSelection == wxNOT_FOUND) {
         return;
@@ -325,33 +329,33 @@ void MainFrame::OnConnectButtonClick_Internal()
         UpdateCurrentTapItemDisplayText(tapRawData, tapSelection);
 
         auto tapSettingsKey = SettingKeys_Networks::network_tap(networkRawData.network.networkName);
-        Settings_SRV::networksConfig->Write(tapSettingsKey, wxString(tapRawData.friendlyName));
+        ss::networksConfig->Write(tapSettingsKey, wxString(tapRawData.friendlyName));
 
         auto recentUsedNetworkSettingsKey = SettingKeys_Networks::default_recentUsedNetwork;
-        Settings_SRV::networksConfig->Write(recentUsedNetworkSettingsKey, wxString(networkRawData.network.networkName));
+        ss::networksConfig->Write(recentUsedNetworkSettingsKey, wxString(networkRawData.network.networkName));
 
         auto verboseSettingsKey = SettingKeys_Networks::network_verbose(networkRawData.network.networkName);
-        bool verboseExists = Settings_SRV::networksConfig->HasEntry(verboseSettingsKey);
+        bool verboseExists = ss::networksConfig->HasEntry(verboseSettingsKey);
         if (verboseExists == false) {
-            Settings_SRV::networksConfig->Write(verboseSettingsKey, true);
+            ss::networksConfig->Write(verboseSettingsKey, true);
         }
         auto gameModeSettingsKey = SettingKeys_Networks::network_gameMode(networkRawData.network.networkName);
-        auto gameModeExists = Settings_SRV::networksConfig->HasEntry(gameModeSettingsKey);
+        auto gameModeExists = ss::networksConfig->HasEntry(gameModeSettingsKey);
         if (gameModeExists == false) {
-            Settings_SRV::networksConfig->Write(gameModeSettingsKey, false);
+            ss::networksConfig->Write(gameModeSettingsKey, false);
         }
         auto autoStartSettingsKey = SettingKeys_Networks::network_autoStart(networkRawData.network.networkName);
-        auto autoStartExists = Settings_SRV::networksConfig->HasEntry(gameModeSettingsKey);
+        auto autoStartExists = ss::networksConfig->HasEntry(gameModeSettingsKey);
         if (autoStartExists == false) {
-            Settings_SRV::networksConfig->Write(autoStartSettingsKey, false);
+            ss::networksConfig->Write(autoStartSettingsKey, false);
         }
         auto portSettingsKey = SettingKeys_Networks::network_port(networkRawData.network.networkName);
-        auto portExists = Settings_SRV::networksConfig->HasEntry(portSettingsKey);
+        auto portExists = ss::networksConfig->HasEntry(portSettingsKey);
         if (portExists == false) {
-            Settings_SRV::networksConfig->Write(portSettingsKey, 0);
+            ss::networksConfig->Write(portSettingsKey, 0);
         }
 
-        Settings_SRV::networksConfig->Flush();
+        ss::networksConfig->Flush();
 
         networkRawData.tap = &tapRawData;
         networkRawData.tapSelection = tapSelection;

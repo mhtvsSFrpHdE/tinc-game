@@ -9,23 +9,22 @@ enum class GetIniFilePathBy {
     Networks
 };
 
-class Settings_SRV
+namespace Settings_SRV
 {
-public:
-    static wxString GetIniFilePath(GetIniFilePathBy by = GetIniFilePathBy::Program);
-    static wxFileName GetIniFilePathAsWxFile(GetIniFilePathBy by = GetIniFilePathBy::Program);
-    static void WriteLanguage(Language_SRV::KnownLanguage language);
-    static wxLanguage ReadLanguage();
-    static bool CheckIniExists(GetIniFilePathBy by = GetIniFilePathBy::Program);
-    static void LoadConfigFile();
+    wxString GetIniFilePath(GetIniFilePathBy by = GetIniFilePathBy::Program);
+    wxFileName GetIniFilePathAsWxFile(GetIniFilePathBy by = GetIniFilePathBy::Program);
+    void WriteLanguage(Language_SRV::KnownLanguage language);
+    wxLanguage ReadLanguage();
+    bool CheckIniExists(GetIniFilePathBy by = GetIniFilePathBy::Program);
+    void LoadConfigFile();
 
-    static const wxString arrayDelimiter1;
-    static const wxString arrayDelimiter2;
-    static const wxString emptyPlaceholder1;
-    static ReturnValue<wxArrayString> ReadArray(wxString settingKey, wxString delimiter = arrayDelimiter1);
+    const wxString arrayDelimiter1 = wxT(",");
+    const wxString arrayDelimiter2 = wxT("|");
+    const wxString emptyPlaceholder1 = wxT("|");
+    ReturnValue<wxArrayString> ReadArray(wxString settingKey, wxString delimiter = arrayDelimiter1);
 
-    static wxFileConfig* programConfig;
-    static wxFileConfig* networksConfig;
+    extern wxFileConfig* programConfig;
+    extern wxFileConfig* networksConfig;
 };
 
 namespace SettingKeys_Program {
