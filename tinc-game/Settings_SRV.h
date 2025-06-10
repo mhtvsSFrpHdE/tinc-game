@@ -53,4 +53,5 @@ namespace SettingKeys_Networks {
     wxString network_verbose(wxString networkName);
     wxString network_autoStart(wxString networkName);
     wxString network_gameMode(wxString networkName);
+    wxString network_port(wxString networkName);
 };

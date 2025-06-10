@@ -18,6 +18,8 @@ private:
     void OnGameModeCheckBoxClick(wxCommandEvent& event);
     wxCheckBox* autoConnectOnStartCheckBox = nullptr;
     wxCheckBox* showDetailedLiveLogCheckBox = nullptr;
+    wxStaticText* portNumber_StaticText = nullptr;
+    wxComboBox* portNumber_ComboBox = nullptr;
 
     wxButton* confirmButton = nullptr;
     void OnConfirmButtonClick(wxCommandEvent& event);

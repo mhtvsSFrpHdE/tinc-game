@@ -153,3 +153,11 @@ wxString SettingKeys_Networks::network_gameMode(wxString networkName)
     auto result = network(networkName) + keyName;
     return result;
 }
+
+wxString SettingKeys_Networks::network_port(wxString networkName)
+{
+    const wxString keyName = wxT("Port");
+
+    auto result = network(networkName) + keyName;
+    return result;
+}

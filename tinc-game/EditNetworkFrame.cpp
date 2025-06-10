@@ -31,6 +31,15 @@ void EditNetworkFrame::Init_CreateControls()
         auto autoStart = Settings_SRV::networksConfig->ReadBool(autoStartSettingsKey, false);
         autoConnectOnStartCheckBox->SetValue(autoStart);
     }
+    portNumber_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Port (0-65535):"));
+    portNumber_ComboBox = new wxComboBox(rootPanel, wxID_ANY);
+    {
+        portNumber_ComboBox->Append(_("0"));
+
+        auto portSettingsKey = SettingKeys_Networks::network_port(_network->networkName);
+        auto port = Settings_SRV::networksConfig->Read(portSettingsKey);
+        portNumber_ComboBox->SetValue(port);
+    }
     confirmButton = new wxButton(rootPanel, wxID_ANY, _("Confirm"));
     confirmButton->Bind(wxEVT_BUTTON, &EditNetworkFrame::OnConfirmButtonClick, this);
     cancelButton = new wxButton(rootPanel, wxID_ANY, _("Cancel"));
@@ -41,7 +50,7 @@ void EditNetworkFrame::Init_Layout()
 {
     namespace ls = Layout_SRV;
 
-    this->SetSizeHints(290, 190);
+    this->SetSizeHints(290, 220);
 
     wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
     rootPanel->SetSizer(rootSizer);
@@ -52,6 +61,13 @@ void EditNetworkFrame::Init_Layout()
     rootSizer->Add(autoConnectOnStartCheckBox, 0, wxLEFT, ls::SpaceToFrameBorder);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
     rootSizer->Add(showDetailedLiveLogCheckBox, 0, wxLEFT, ls::SpaceToFrameBorder);
+    ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
+
+    wxBoxSizer* portSizer = new wxBoxSizer(wxHORIZONTAL);
+    rootSizer->Add(portSizer);
+    ls::AddFixedSpacer(wxLEFT, ls::SpaceToFrameBorder, portSizer);
+    portSizer->Add(portNumber_StaticText, 1, wxRIGHT, ls::SpaceBetweenControl);
+    portSizer->Add(portNumber_ComboBox, ls::TakeAllSpace, wxRIGHT, ls::SpaceToFrameBorder);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
     rootSizer->Add(0, 0, ls::TakeAllSpace, wxEXPAND);
@@ -93,6 +109,25 @@ void EditNetworkFrame::OnGameModeCheckBoxClick(wxCommandEvent& event)
 
 void EditNetworkFrame::OnConfirmButtonClick(wxCommandEvent& event)
 {
+    auto portSettingsKey = SettingKeys_Networks::network_port(_network->networkName);
+    auto port = portNumber_ComboBox->GetValue();
+    {
+        auto portHint = _("Invalid port number");
+        try {
+            auto portInt = std::stoi(port.ToStdWstring());
+            auto validPort = portInt >= 0 && portInt <= 65535;
+            if (validPort == false) {
+                wxMessageDialog(this, portHint).ShowModal();
+                return;
+            }
+        }
+        catch (...) {
+            wxMessageDialog(this, portHint).ShowModal();
+            return;
+        }
+    }
+    Settings_SRV::networksConfig->Write(portSettingsKey, port);
+
     auto verboseSettingsKey = SettingKeys_Networks::network_verbose(_network->networkName);
     auto verbose = showDetailedLiveLogCheckBox->GetValue();
     Settings_SRV::networksConfig->Write(verboseSettingsKey, verbose);

@@ -345,6 +345,11 @@ void MainFrame::OnConnectButtonClick_Internal()
         if (autoStartExists == false) {
             Settings_SRV::networksConfig->Write(autoStartSettingsKey, false);
         }
+        auto portSettingsKey = SettingKeys_Networks::network_port(networkRawData.network.networkName);
+        auto portExists = Settings_SRV::networksConfig->HasEntry(portSettingsKey);
+        if (portExists == false) {
+            Settings_SRV::networksConfig->Write(portSettingsKey, 0);
+        }
 
         Settings_SRV::networksConfig->Flush();
 

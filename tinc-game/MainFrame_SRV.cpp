@@ -31,6 +31,9 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
     auto verboseSettingsKey = SettingKeys_Networks::network_verbose(perNetworkData->network.networkName);
     auto verbose = Settings_SRV::networksConfig->ReadBool(verboseSettingsKey, true);
 
+    auto portSettingsKey = SettingKeys_Networks::network_port(perNetworkData->network.networkName);
+    auto port = Settings_SRV::networksConfig->Read(portSettingsKey);
+
     wxString tincBinPath;
     auto networkGameModeSettingsKey = SettingKeys_Networks::network_gameMode(perNetworkData->network.networkName);
     auto gameMode = Settings_SRV::networksConfig->ReadBool(networkGameModeSettingsKey, false);
@@ -57,6 +60,7 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
         << sr::doubleQuotes << perNetworkData->network.GetFullPath() << sr::doubleQuotes
         << sr::space << L"--option=interface="
         << sr::doubleQuotes << perNetworkData->tap->friendlyName << sr::doubleQuotes
+        << sr::space << L"--option=port=" << port
         << sr::space << L"--no-detach";
     if (verbose) {
         commandStringStream << sr::space << L"--debug=3";
