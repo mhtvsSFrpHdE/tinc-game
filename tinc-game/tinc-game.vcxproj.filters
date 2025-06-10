@@ -72,6 +72,9 @@
     <ClInclude Include="EditNetworkFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Lock_SRV.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp">
@@ -141,6 +144,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EditNetworkFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Lock_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

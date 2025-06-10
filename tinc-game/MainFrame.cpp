@@ -106,7 +106,17 @@ void MainFrame::Init_CreateControls()
 
                 currentNetwork_ComboBox_RawData.insert({ mapIndex, perNetworkData });
                 currentNetwork_ComboBox->Append(perNetworkData.network.networkName);
+
+                auto autoStartSettingsKey = SettingKeys_Networks::network_autoStart(perNetworkData.network.networkName);
+                bool autoStart = Settings_SRV::networksConfig->ReadBool(autoStartSettingsKey, false);
+                if (autoStart) {
+                    autoStartNetworkRawDataIndex_pending.push_back(mapIndex);
+                }
+
                 mapIndex = mapIndex + 1;
+            }
+            if (recentUsedNetworkSelection == wxNOT_FOUND) {
+                recentUsedNetworkSelection = 0;
             }
         }
     }
@@ -218,8 +228,8 @@ void MainFrame::Init_Layout()
 
 void MainFrame::Init_PostLayout()
 {
-    currentNetwork_ComboBox->SetSelection(recentUsedNetworkSelection);
-    currentNetwork_ComboBox->SendSelectionChangedEvent(wxEVT_COMBOBOX);
+    std::thread t1(&MainFrame::API_SRV_PostLayout, this);
+    t1.detach();
 }
 
 void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
@@ -297,14 +307,18 @@ void MainFrame::UpdateCurrentTapItemDisplayText(WindowsAPI_SRV::GetAdaptersAddre
     currentTap_ComboBox->SetSelection(insertAt);
 }
 
-void MainFrame::OnConnectButtonClick(wxCommandEvent& evt)
+void MainFrame::OnConnectButtonClick_Internal()
 {
+    auto tapSelection = currentTap_ComboBox->GetSelection();
+    if (tapSelection == wxNOT_FOUND) {
+        return;
+    }
+
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
     networkRawData.connectButton->Enable(false);
     networkRawData.editButton->Enable(false);
 
-    auto tapSelection = currentTap_ComboBox->GetSelection();
     auto& tapRawData = currentTap_ComboBox_RawData[tapSelection];
     if (tapRawData.Available()) {
         tapRawData.Connect();
@@ -344,6 +358,11 @@ void MainFrame::OnConnectButtonClick(wxCommandEvent& evt)
         networkRawData.connectButton->Enable(true);
         networkRawData.editButton->Enable(true);
     }
+}
+
+void MainFrame::OnConnectButtonClick(wxCommandEvent& evt)
+{
+    OnConnectButtonClick_Internal();
 }
 
 void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)

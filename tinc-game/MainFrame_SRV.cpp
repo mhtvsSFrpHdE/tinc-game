@@ -6,6 +6,7 @@
 #include <boost/circular_buffer.hpp>
 #include "Resource_SRV.h"
 #include "Settings_SRV.h"
+#include "Lock_SRV.h"
 
 void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
 {
@@ -144,6 +145,65 @@ ReturnValue<std::wstring> MainFrame::API_SRV_DisconnectNetwork(PerNetworkData* p
 
     result.success = true;
     return result;
+}
+
+void MainFrame::API_SRV_PostLayout()
+{
+    namespace ss = String_SRV;
+    {
+        int pendingAutoStartCount = autoStartNetworkRawDataIndex_pending.size();
+        if (pendingAutoStartCount > 0) {
+            for (int i = 0; i < pendingAutoStartCount; i++)
+            {
+                auto autoStartIndex = autoStartNetworkRawDataIndex_pending[i];
+                auto& perNetworkData = currentNetwork_ComboBox_RawData[autoStartIndex];
+
+                CallAfter([this, autoStartIndex] {
+                    currentNetwork_ComboBox->SetSelection(autoStartIndex);
+                    currentNetwork_ComboBox->SendSelectionChangedEvent(wxEVT_COMBOBOX);
+                    Lock_SRV::Notify(uiMutex, uiCb);
+                    });
+                Lock_SRV::Wait(uiMutex, uiCb);
+
+                auto tapSelection = currentTap_ComboBox->GetSelection();
+                if (tapSelection == wxNOT_FOUND) {
+                    auto hint = _("Network ") + perNetworkData.network.networkName + _(" was set to auto connect on start")
+                        + ss::newLine + _("but there is no available virtual network adapter");
+                    wxMessageDialog(this, hint).ShowModal();
+                    continue;
+                }
+                autoStartNetworkRawDataIndex_submitted.push_back(autoStartIndex);
+                CallAfter(&MainFrame::OnConnectButtonClick_Internal);
+            }
+        }
+
+        int submittedAutoStartCount = autoStartNetworkRawDataIndex_submitted.size();
+        std::wostringstream submittedNetworkSstream;
+        if (pendingAutoStartCount != submittedAutoStartCount) {
+            for (int i = 0; i < submittedAutoStartCount; i++)
+            {
+                auto submittedAutoStartIndex = autoStartNetworkRawDataIndex_submitted[i];
+                auto& perNetworkData = currentNetwork_ComboBox_RawData[submittedAutoStartIndex];
+                submittedNetworkSstream << perNetworkData.network.networkName << ss::newLine;
+            }
+            auto submittedNetworks = submittedNetworkSstream.str();
+            submittedNetworks = submittedNetworks.substr(0, submittedNetworks.length() - 1);
+            auto hint = _("Not all auto connect network submitted") + ss::newLine + _("The following network successfully submitted to auto connected, you may want to disconnect them before edit settings") + ss::newLine + submittedNetworks;
+            CallAfter([this, hint]() {
+                wxMessageDialog(this, hint).ShowModal();
+                });
+        }
+
+        autoStartNetworkRawDataIndex_pending.clear();
+        autoStartNetworkRawDataIndex_submitted.clear();
+    }
+
+    {
+        CallAfter([this]() {
+            currentNetwork_ComboBox->SetSelection(recentUsedNetworkSelection);
+            currentNetwork_ComboBox->SendSelectionChangedEvent(wxEVT_COMBOBOX);
+            });
+    }
 }
 
 void MainFrame::API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> result, PerNetworkData* perNetworkData)

@@ -38,9 +38,13 @@ public:
     MainFrame();
 
 private:
+    std::mutex uiMutex;
+    std::condition_variable uiCb;
+
     // UI to SRV
     void API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData);
     ReturnValue<std::wstring> API_SRV_DisconnectNetwork(PerNetworkData* perNetworkData);
+    void API_SRV_PostLayout();
 
     // SRV to UI
     void API_UI_SetDisconnectButtonEnable(bool enable, wxButton* disconnectButton);
@@ -61,8 +65,11 @@ private:
     std::unordered_map<int, WindowsAPI_SRV::GetAdaptersAddressesResult> currentTap_ComboBox_RawData;
     wxString GetCurrentTapDisplayText(WindowsAPI_SRV::GetAdaptersAddressesResult tap);
     void UpdateCurrentTapItemDisplayText(WindowsAPI_SRV::GetAdaptersAddressesResult tap, int insertAt);
+    std::vector<int> autoStartNetworkRawDataIndex_pending;
+    std::vector<int> autoStartNetworkRawDataIndex_submitted;
 
     wxButton* connectButtonPlaceholder = nullptr;
+    void OnConnectButtonClick_Internal();
     void OnConnectButtonClick(wxCommandEvent& evt);
     wxButton* disconnectButtonPlaceholder = nullptr;
     void OnDisconnectButtonClick(wxCommandEvent& evt);
