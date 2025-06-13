@@ -29,6 +29,7 @@ struct PerNetworkData {
     wxButton* connectButton = nullptr;
     wxButton* disconnectButton = nullptr;
     wxButton* editButton = nullptr;
+    wxButton* joinNetworkButton = nullptr;
     tincTextCtrl* liveLog = nullptr;
 };
 
@@ -75,6 +76,8 @@ private:
     void OnDisconnectButtonClick(wxCommandEvent& evt);
     wxButton* editButtonPlaceholder = nullptr;
     void OnEditButtonClick(wxCommandEvent& evt);
+    wxButton* joinNetworkButtonPlaceholder = nullptr;
+    void OnJoinNetworkButtonClick(wxCommandEvent& evt);
 
     wxBoxSizer* networkControlSizer = nullptr;
 
