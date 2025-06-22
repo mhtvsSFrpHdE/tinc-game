@@ -23,8 +23,13 @@ private:
 
     wxStaticText* inviteCode_StaticText = nullptr;
     wxTextCtrl* inviteCode_TextCtrl = nullptr;
-    wxStaticText* saveTo_StaticText = nullptr;
-    wxComboBox* saveTo_ComboBox = nullptr;
+    wxStaticText* saveAs_StaticText = nullptr;
+    wxComboBox* saveAs_ComboBox = nullptr;
+
+    wxButton* joinButton = nullptr;
+    void OnJoinButtonClick(wxCommandEvent& event);
+    wxButton* closeButton = nullptr;
+    void OnCloseButtonClick(wxCommandEvent& event);
 
     void Init_CreateControls();
     void Init_Layout();
