@@ -21,10 +21,12 @@ private:
     };
     JoinBy joinBy = JoinBy::InviteCode;
 
-    wxStaticText* inviteCode_StaticText = nullptr;
-    wxTextCtrl* inviteCode_TextCtrl = nullptr;
     wxStaticText* saveAs_StaticText = nullptr;
     wxComboBox* saveAs_ComboBox = nullptr;
+
+    wxStaticText* inviteCode_StaticText = nullptr;
+    wxTextCtrl* inviteCode_TextCtrl = nullptr;
+    void OnInviteCodeChanged(wxCommandEvent& event);
 
     wxButton* joinButton = nullptr;
     void OnJoinButtonClick(wxCommandEvent& event);

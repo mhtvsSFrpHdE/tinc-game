@@ -1,5 +1,7 @@
 #include "JoinNetworkFrame.h"
 #include "Layout_SRV.h"
+#include "String_SRV.h"
+#include "Resource_SRV.h"
 
 JoinNetworkFrame::JoinNetworkFrame(wxFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Join network"))
 {
@@ -7,8 +9,36 @@ JoinNetworkFrame::JoinNetworkFrame(wxFrame* parentFrame) : wxFrame(parentFrame, 
     Init_Layout();
 }
 
+void JoinNetworkFrame::OnInviteCodeChanged(wxCommandEvent& event)
+{
+    namespace ss = String_SRV;
+
+    auto text = inviteCode_TextCtrl->GetValue();
+    if (text.Contains(ss::newLine) || text.Contains(ss::space)) {
+
+        text.Replace(ss::newLine, wxEmptyString);
+        text.Replace(ss::space, wxEmptyString);
+        inviteCode_TextCtrl->SetValue(text);
+        inviteCode_TextCtrl->SetInsertionPointEnd();
+    }
+}
+
 void JoinNetworkFrame::OnJoinButtonClick(wxCommandEvent& event)
 {
+    auto networkName = saveAs_ComboBox->GetValue();
+    if (networkName == wxEmptyString) {
+        wxMessageDialog(this, _("Network name is required")).ShowModal();
+        return;
+    }
+
+    auto networkDir = Resource_SRV::Networks::GetNetworksDir();
+    auto whatDir = networkDir.GetFullPath();
+    if (networkDir.DirExists()) {
+        wxMessageDialog(this, _("Network name already exist, use another one")).ShowModal();
+        return;
+    }
+
+    auto inviteCodeText = inviteCode_TextCtrl->GetValue();
 }
 
 void JoinNetworkFrame::OnCloseButtonClick(wxCommandEvent& event)
@@ -31,6 +61,7 @@ void JoinNetworkFrame::Init_CreateControls()
     {
         inviteCode_StaticText = new wxStaticText(joinByInviteCodePanel, wxID_ANY, _("Invite code"));
         inviteCode_TextCtrl = new wxTextCtrl(joinByInviteCodePanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
+        inviteCode_TextCtrl->Bind(wxEVT_TEXT, &JoinNetworkFrame::OnInviteCodeChanged, this);
     }
 
     joinButton = new wxButton(rootPanel, wxID_ANY, _("Confirm"));
@@ -60,8 +91,8 @@ void JoinNetworkFrame::Init_Layout()
         wxBoxSizer* saveAsSizer = new wxBoxSizer(wxVERTICAL);
         saveAsSizer->Add(saveAs_StaticText, 0, wxLEFT, ls::SpaceToFrameBorder);
         ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, saveAsSizer);
-        saveAsSizer->Add(saveAs_ComboBox, 0, wxLEFT, ls::SpaceToFrameBorder);
-        headerSizer->Add(saveAsSizer);
+        saveAsSizer->Add(saveAs_ComboBox, 1, wxLEFT | wxEXPAND, ls::SpaceToFrameBorder);
+        headerSizer->Add(saveAsSizer, 1, wxEXPAND);
     }
     rootSizer->Add(headerSizer);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
