@@ -1,5 +1,18 @@
 #pragma once
 #include <wx/wx.h>
+#include "ReturnValue.h"
+
+struct JoinNetworkResult {
+    enum class Enum {
+        Other,
+        InvalidInviteCode,
+        ConnectFailed,
+        AuthenticateFailed,
+        TincBinFailed
+    };
+    Enum messageEnum = Enum::Other;
+    std::wstring messageString;
+};
 
 class JoinNetworkFrame : public wxFrame
 {
@@ -7,6 +20,12 @@ public:
     JoinNetworkFrame(wxFrame* parentFrame);
 
 private:
+    // UI to SRV
+    void API_SRV_JoinNetworkByInviteCode(std::wstring networkName, std::wstring inviteCode);
+
+    // SRV to UI
+    void API_UI_EndJoinNetworkByInviteCode(ReturnValue<JoinNetworkResult> result);
+
     wxWindowDisabler makeModal;
 
     wxPanel* rootPanel = nullptr;
@@ -36,4 +55,3 @@ private:
     void Init_CreateControls();
     void Init_Layout();
 };
-

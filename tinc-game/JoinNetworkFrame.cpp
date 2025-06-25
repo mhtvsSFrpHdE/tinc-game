@@ -2,11 +2,44 @@
 #include "Layout_SRV.h"
 #include "String_SRV.h"
 #include "Resource_SRV.h"
+#include <thread>
 
 JoinNetworkFrame::JoinNetworkFrame(wxFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Join network"))
 {
     Init_CreateControls();
     Init_Layout();
+}
+
+void JoinNetworkFrame::API_UI_EndJoinNetworkByInviteCode(ReturnValue<JoinNetworkResult> result)
+{
+    if (result.success) {
+        wxMessageDialog(this, _("Successfully joined network")).ShowModal();
+        Close();
+    }
+    else {
+        if (result.returnBody.messageEnum == JoinNetworkResult::Enum::TincBinFailed) {
+            wxMessageDialog(this, _("Failed to run tinc program")).ShowModal();
+        }
+        if (result.returnBody.messageEnum == JoinNetworkResult::Enum::InvalidInviteCode) {
+            wxMessageDialog(this, _("Invalid invite code, check invite code format")).ShowModal();
+        }
+        if (result.returnBody.messageEnum == JoinNetworkResult::Enum::ConnectFailed) {
+            wxMessageDialog(this, _("Failed to connect your server")).ShowModal();
+        }
+        if (result.returnBody.messageEnum == JoinNetworkResult::Enum::AuthenticateFailed) {
+            wxMessageDialog(this, _("Server refused your invite code")).ShowModal();
+        }
+        if (result.returnBody.messageEnum == JoinNetworkResult::Enum::Other) {
+            auto errorMessage = _("Unknown error") + String_SRV::newLine + result.returnBody.messageString;
+            wxMessageDialog(this, errorMessage).ShowModal();
+        }
+    }
+
+    joinButton->Enable(true);
+    closeButton->Enable(true);
+    joinBy_ComboBox->Enable(true);
+    saveAs_ComboBox->Enable(true);
+    inviteCode_TextCtrl->Enable(true);
 }
 
 void JoinNetworkFrame::OnInviteCodeChanged(wxCommandEvent& event)
@@ -15,7 +48,6 @@ void JoinNetworkFrame::OnInviteCodeChanged(wxCommandEvent& event)
 
     auto text = inviteCode_TextCtrl->GetValue();
     if (text.Contains(ss::newLine) || text.Contains(ss::space)) {
-
         text.Replace(ss::newLine, wxEmptyString);
         text.Replace(ss::space, wxEmptyString);
         inviteCode_TextCtrl->SetValue(text);
@@ -25,20 +57,38 @@ void JoinNetworkFrame::OnInviteCodeChanged(wxCommandEvent& event)
 
 void JoinNetworkFrame::OnJoinButtonClick(wxCommandEvent& event)
 {
+    joinButton->Enable(false);
+    closeButton->Enable(false);
+    joinBy_ComboBox->Enable(false);
+    saveAs_ComboBox->Enable(false);
+    inviteCode_TextCtrl->Enable(false);
+
     auto networkName = saveAs_ComboBox->GetValue();
     if (networkName == wxEmptyString) {
         wxMessageDialog(this, _("Network name is required")).ShowModal();
+        joinButton->Enable(true);
+        closeButton->Enable(true);
+        joinBy_ComboBox->Enable(true);
+        saveAs_ComboBox->Enable(true);
+        inviteCode_TextCtrl->Enable(true);
         return;
     }
 
     auto networkDir = Resource_SRV::Networks::GetNetworksDir();
-    auto whatDir = networkDir.GetFullPath();
+    networkDir.AppendDir(networkName);
     if (networkDir.DirExists()) {
         wxMessageDialog(this, _("Network name already exist, use another one")).ShowModal();
+        joinButton->Enable(true);
+        closeButton->Enable(true);
+        joinBy_ComboBox->Enable(true);
+        saveAs_ComboBox->Enable(true);
+        inviteCode_TextCtrl->Enable(true);
         return;
     }
 
-    auto inviteCodeText = inviteCode_TextCtrl->GetValue();
+    auto inviteCode = inviteCode_TextCtrl->GetValue();
+    std::thread t1(&JoinNetworkFrame::API_SRV_JoinNetworkByInviteCode, this, networkName.ToStdWstring(), inviteCode.ToStdWstring());
+    t1.detach();
 }
 
 void JoinNetworkFrame::OnCloseButtonClick(wxCommandEvent& event)

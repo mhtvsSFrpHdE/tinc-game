@@ -178,6 +178,7 @@
     <ClCompile Include="ApplyMtuFrame_SRV.cpp" />
     <ClCompile Include="EditNetworkFrame.cpp" />
     <ClCompile Include="JoinNetworkFrame.cpp" />
+    <ClCompile Include="JoinNetworkFrame_SRV.cpp" />
     <ClCompile Include="Language_SRV.cpp" />
     <ClCompile Include="Layout_SRV.cpp" />
     <ClCompile Include="Lock_SRV.cpp" />

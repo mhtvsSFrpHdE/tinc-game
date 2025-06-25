@@ -155,6 +155,9 @@
     <ClCompile Include="JoinNetworkFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="JoinNetworkFrame_SRV.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ping437.bat">
