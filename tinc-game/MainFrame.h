@@ -97,6 +97,20 @@ private:
 
     int openedFrameCount = 0;
 
+    wxMenuBar* menuBar = nullptr;
+
+    wxMenu* networksMenu = nullptr;
+    const int wxIdMenuNetworksEdit = wxWindow::NewControlId();
+    void OnMenuNetworksEdit(wxCommandEvent& event);
+    const int wxIdMenuNetworksJoin = wxWindow::NewControlId();
+    void OnMenuNetworksJoin(wxCommandEvent& event);
+    const int wxIdMenuNetworksRename = wxWindow::NewControlId();
+    void OnMenuNetworksRename(wxCommandEvent& event);
+
+    wxMenu* networksAdvancedMenu = nullptr;
+    const int wxIdMenuNetworksAdvancedDelete = wxWindow::NewControlId();
+    void OnMenuNetworksAdvancedDelete(wxCommandEvent& event);
+
     void Init_CreateControls();
     void Init_Layout();
     void Init_PostLayout();

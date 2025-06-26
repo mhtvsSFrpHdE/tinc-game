@@ -184,6 +184,8 @@
     <ClCompile Include="Lock_SRV.cpp" />
     <ClCompile Include="MainFrame.cpp" />
     <ClCompile Include="HelpFrame.cpp" />
+    <ClCompile Include="MainFrameInit.cpp" />
+    <ClCompile Include="MainFrameMenu.cpp" />
     <ClCompile Include="MainFrame_SRV.cpp" />
     <ClCompile Include="ManageTapFrame.cpp" />
     <ClCompile Include="ManageTapFrame_SRV.cpp" />

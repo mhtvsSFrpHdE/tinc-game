@@ -158,6 +158,12 @@
     <ClCompile Include="JoinNetworkFrame_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MainFrameMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrameInit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ping437.bat">
