@@ -11,7 +11,6 @@
 #include "Settings_SRV.h"
 #include "Networks_SRV.h"
 #include "TapDevice_SRV.h"
-#include "JoinNetworkFrame.h"
 
 void MainFrame::API_UI_SetDisconnectButtonEnable(bool enable, wxButton* disconnectButton)
 {
@@ -54,13 +53,6 @@ void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
         networkControlSizer->Replace(disconnectButtonPlaceholder, rawData.disconnectButton);
         rawData.disconnectButton->Show();
         disconnectButtonPlaceholder = rawData.disconnectButton;
-
-        rawData.allowEdit = true;
-
-        joinNetworkButtonPlaceholder->Hide();
-        networkControlSizer->Replace(joinNetworkButtonPlaceholder, rawData.joinNetworkButton);
-        rawData.joinNetworkButton->Show();
-        joinNetworkButtonPlaceholder = rawData.joinNetworkButton;
 
         networkControlSizer->Layout();
     }
@@ -120,7 +112,6 @@ void MainFrame::OnConnectButtonClick_Internal()
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
     networkRawData.connectButton->Enable(false);
     networkRawData.allowEdit = false;
-    networkRawData.joinNetworkButton->Enable(false);
 
     auto& tapRawData = currentTap_ComboBox_RawData[tapSelection];
     if (tapRawData.Available()) {
@@ -170,7 +161,6 @@ void MainFrame::OnConnectButtonClick_Internal()
         wxMessageDialog(this, _("Selected virtual network adapter already connected to another network")).ShowModal();
         networkRawData.connectButton->Enable(true);
         networkRawData.allowEdit = true;
-        networkRawData.joinNetworkButton->Enable(true);
     }
 }
 
@@ -193,17 +183,6 @@ void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)
     }
     networkRawData.connectButton->Enable(true);
     networkRawData.allowEdit = true;
-    networkRawData.joinNetworkButton->Enable(true);
-}
-
-void MainFrame::OnJoinNetworkButtonClick(wxCommandEvent& evt)
-{
-    auto networkSelection = currentNetwork_ComboBox->GetSelection();
-    auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
-
-    auto joinNetworkFrame = new JoinNetworkFrame(this);
-    joinNetworkFrame->Center();
-    joinNetworkFrame->Show();
 }
 
 void MainFrame::OnOptimizeMtuButton(wxCommandEvent& evt)
