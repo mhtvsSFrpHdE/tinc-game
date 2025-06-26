@@ -28,7 +28,7 @@ struct PerNetworkData {
     std::shared_ptr<boost::process::child> tincProcess;
     wxButton* connectButton = nullptr;
     wxButton* disconnectButton = nullptr;
-    wxButton* editButton = nullptr;
+    bool allowEdit = false;
     wxButton* joinNetworkButton = nullptr;
     tincTextCtrl* liveLog = nullptr;
 };
@@ -74,8 +74,6 @@ private:
     void OnConnectButtonClick(wxCommandEvent& evt);
     wxButton* disconnectButtonPlaceholder = nullptr;
     void OnDisconnectButtonClick(wxCommandEvent& evt);
-    wxButton* editButtonPlaceholder = nullptr;
-    void OnEditButtonClick(wxCommandEvent& evt);
     wxButton* joinNetworkButtonPlaceholder = nullptr;
     void OnJoinNetworkButtonClick(wxCommandEvent& evt);
 

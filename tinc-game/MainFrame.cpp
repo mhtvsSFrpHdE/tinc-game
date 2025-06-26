@@ -11,7 +11,6 @@
 #include "Settings_SRV.h"
 #include "Networks_SRV.h"
 #include "TapDevice_SRV.h"
-#include "EditNetworkFrame.h"
 #include "JoinNetworkFrame.h"
 
 void MainFrame::API_UI_SetDisconnectButtonEnable(bool enable, wxButton* disconnectButton)
@@ -56,10 +55,7 @@ void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
         rawData.disconnectButton->Show();
         disconnectButtonPlaceholder = rawData.disconnectButton;
 
-        editButtonPlaceholder->Hide();
-        networkControlSizer->Replace(editButtonPlaceholder, rawData.editButton);
-        rawData.editButton->Show();
-        editButtonPlaceholder = rawData.editButton;
+        rawData.allowEdit = true;
 
         joinNetworkButtonPlaceholder->Hide();
         networkControlSizer->Replace(joinNetworkButtonPlaceholder, rawData.joinNetworkButton);
@@ -123,7 +119,7 @@ void MainFrame::OnConnectButtonClick_Internal()
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
     networkRawData.connectButton->Enable(false);
-    networkRawData.editButton->Enable(false);
+    networkRawData.allowEdit = false;
     networkRawData.joinNetworkButton->Enable(false);
 
     auto& tapRawData = currentTap_ComboBox_RawData[tapSelection];
@@ -173,7 +169,7 @@ void MainFrame::OnConnectButtonClick_Internal()
     else {
         wxMessageDialog(this, _("Selected virtual network adapter already connected to another network")).ShowModal();
         networkRawData.connectButton->Enable(true);
-        networkRawData.editButton->Enable(true);
+        networkRawData.allowEdit = true;
         networkRawData.joinNetworkButton->Enable(true);
     }
 }
@@ -196,18 +192,8 @@ void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)
         return;
     }
     networkRawData.connectButton->Enable(true);
-    networkRawData.editButton->Enable(true);
+    networkRawData.allowEdit = true;
     networkRawData.joinNetworkButton->Enable(true);
-}
-
-void MainFrame::OnEditButtonClick(wxCommandEvent& evt)
-{
-    auto networkSelection = currentNetwork_ComboBox->GetSelection();
-    auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
-
-    auto editNetworkFrame = new EditNetworkFrame(this, &networkRawData.network);
-    editNetworkFrame->Center();
-    editNetworkFrame->Show();
 }
 
 void MainFrame::OnJoinNetworkButtonClick(wxCommandEvent& evt)

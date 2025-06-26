@@ -37,8 +37,6 @@ void MainFrame::Init_CreateControls()
     connectButtonPlaceholder->Enable(false);
     disconnectButtonPlaceholder = new wxButton(rootPanel, wxID_ANY, _("Disconnect"));
     disconnectButtonPlaceholder->Enable(false);
-    editButtonPlaceholder = new wxButton(rootPanel, wxID_ANY, _("Edit"));
-    editButtonPlaceholder->Enable(false);
     joinNetworkButtonPlaceholder = new wxButton(rootPanel, wxID_ANY, _("Edit"));
     joinNetworkButtonPlaceholder->Enable(false);
     liveLogPlaceholder = new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
@@ -92,9 +90,6 @@ void MainFrame::Init_CreateControls()
                 perNetworkData.disconnectButton->Bind(wxEVT_BUTTON, &MainFrame::OnDisconnectButtonClick, this);
                 perNetworkData.disconnectButton->Enable(false);
                 perNetworkData.disconnectButton->Hide();
-                perNetworkData.editButton = new wxButton(rootPanel, wxID_ANY, _("Edit"));
-                perNetworkData.editButton->Bind(wxEVT_BUTTON, &MainFrame::OnEditButtonClick, this);
-                perNetworkData.editButton->Hide();
                 perNetworkData.joinNetworkButton = new wxButton(rootPanel, wxID_ANY, _("Join network"));
                 perNetworkData.joinNetworkButton->Bind(wxEVT_BUTTON, &MainFrame::OnJoinNetworkButtonClick, this);
                 perNetworkData.joinNetworkButton->Hide();
@@ -166,7 +161,6 @@ void MainFrame::Init_Layout()
         rootSizer->Add(networkControlSizer);
         networkControlSizer->Add(connectButtonPlaceholder, 1, wxLEFT, ls::SpaceToFrameBorder);
         networkControlSizer->Add(disconnectButtonPlaceholder, 1, wxLEFT, ls::SpaceBetweenControl);
-        networkControlSizer->Add(editButtonPlaceholder, 1, wxLEFT, ls::SpaceBetweenControl);
         networkControlSizer->Add(joinNetworkButtonPlaceholder, 1, wxLEFT, ls::SpaceBetweenControl);
 
         ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
