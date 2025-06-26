@@ -58,7 +58,7 @@ void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
     }
 
     {
-        for (int i = 0; i < currentTap_ComboBox_RawData.size(); i++)
+        for (size_t i = 0; i < currentTap_ComboBox_RawData.size(); i++)
         {
             auto& adapter = currentTap_ComboBox_RawData[i];
 
@@ -74,7 +74,7 @@ void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
                 return;
             }
         }
-        for (int i = 0; i < currentTap_ComboBox_RawData.size(); i++) {
+        for (size_t i = 0; i < currentTap_ComboBox_RawData.size(); i++) {
             auto& adapter = currentTap_ComboBox_RawData[i];
 
             if (adapter.Available()) {

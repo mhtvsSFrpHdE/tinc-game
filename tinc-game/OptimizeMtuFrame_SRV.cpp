@@ -49,7 +49,7 @@ ReturnValue<CheckAddressFormatResult::Enum> OptimizeMtuFrame::API_SRV_CheckAddre
                     validIpv4 = false;
                     break;
                 }
-                for (int tempIndex = 0; tempIndex < tempDelimited.length(); tempIndex++) {
+                for (size_t tempIndex = 0; tempIndex < tempDelimited.length(); tempIndex++) {
                     bool isDigit = std::isdigit(tempDelimited[tempIndex]);
                     if (isDigit == false) {
                         validIpv4 = false;
@@ -79,6 +79,8 @@ ReturnValue<CheckAddressFormatResult::Enum> OptimizeMtuFrame::API_SRV_CheckAddre
             return result;
         }
     }
+
+    return result;
 }
 
 MeasureMtuResult::Enum MeasureMTU(std::wstring ipAddress, int mtu, OptimizeMtuFrame* frame) {
@@ -145,12 +147,12 @@ int MtuHalfSearch(std::wstring ipAddress, OptimizeMtuFrame* frame, int min = 576
 #if VERBOSE == 1
                 if (verbose) {
                     std::cout << "Min: " << min << " UpperBoundary: " << upperBoundary << " Diff: " << diff << " Min == RecentSuccessValue" << std::endl;
-                }
+        }
 #endif
                 break;
-            }
+    }
             stopNextLoop = true;
-        }
+}
 
         int halfDiff = diff / 2;
 
@@ -174,7 +176,7 @@ int MtuHalfSearch(std::wstring ipAddress, OptimizeMtuFrame* frame, int min = 576
 #if VERBOSE == 1
             if (verbose) {
                 std::cout << " TestMid: true" << std::endl;
-            }
+        }
 #endif
             min = min + halfDiff;
         }

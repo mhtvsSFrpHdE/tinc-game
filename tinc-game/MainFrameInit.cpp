@@ -49,7 +49,7 @@ void MainFrame::Init_CreateControls()
             currentTap_ComboBox_RawData.clear();
 
             int mapIndex = 0;
-            for (int adapterIndex = 0; adapterIndex < getNetworkAdapterList.returnBody.size(); adapterIndex++)
+            for (size_t adapterIndex = 0; adapterIndex < getNetworkAdapterList.returnBody.size(); adapterIndex++)
             {
                 auto adapter = getNetworkAdapterList.returnBody[adapterIndex];
                 bool isNotLoopback = adapter.IsLoopback() == false;
@@ -74,7 +74,7 @@ void MainFrame::Init_CreateControls()
             auto recentUsedNetwork = ss::networksConfig->Read(SettingKeys_Networks::default_recentUsedNetwork);
 
             int mapIndex = 0;
-            for (int networkIndex = 0; networkIndex < getNetworks.returnBody.size(); networkIndex++)
+            for (size_t networkIndex = 0; networkIndex < getNetworks.returnBody.size(); networkIndex++)
             {
                 PerNetworkData perNetworkData;
                 perNetworkData.network = getNetworks.returnBody[networkIndex];
