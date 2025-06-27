@@ -101,6 +101,27 @@ std::wstring Resource_SRV::IntegrityCheck()
     return collectHelpText;
 }
 
+boost::optional<wxString> nullableForbiddenChars;
+ReturnValue<wxString> Resource_SRV::IsValidFileOrDir(wxString& name)
+{
+    auto result = ReturnValue<wxString>();
+
+    if (!nullableForbiddenChars) {
+        nullableForbiddenChars = wxFileName::GetForbiddenChars() + "/\\";
+    }
+
+    auto& forbiddenChars = nullableForbiddenChars.get();
+    for (wxChar wxC : forbiddenChars) {
+        if (name.Contains(wxC)) {
+            result.returnBody = wxC;
+            return result;
+        };
+    }
+
+    result.success = true;
+    return result;
+}
+
 boost::optional<wxFileName> nullableTapInstallerDir;
 wxFileName Resource_SRV::TincBin::GetTapInstallerDir()
 {

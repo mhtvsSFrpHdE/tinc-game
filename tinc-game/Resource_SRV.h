@@ -4,6 +4,7 @@
 #include <wx/filename.h>
 #include <wx/dir.h>
 #include "Networks_SRV.h"
+#include "ReturnValue.h"
 
 /// <summary>
 /// If something is reused many times, make it Resource_SRV to
@@ -17,6 +18,13 @@
 namespace Resource_SRV
 {
     std::wstring IntegrityCheck();
+
+    /// <summary>
+    /// If false, returnBody will be first invalid char
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    ReturnValue<wxString> IsValidFileOrDir(wxString& name);
 
     namespace Program {
         wxFileName GetIniDir();

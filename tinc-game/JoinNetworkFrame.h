@@ -47,10 +47,10 @@ private:
     wxTextCtrl* inviteCode_TextCtrl = nullptr;
     void OnInviteCodeChanged(wxCommandEvent& event);
 
-    wxButton* joinButton = nullptr;
-    void OnJoinButtonClick(wxCommandEvent& event);
-    wxButton* closeButton = nullptr;
-    void OnCloseButtonClick(wxCommandEvent& event);
+    wxButton* confirmButton = nullptr;
+    void OnConfirmButtonClick(wxCommandEvent& event);
+    wxButton* cancelButton = nullptr;
+    void OnCancelButtonClick(wxCommandEvent& event);
 
     void Init_CreateControls();
     void Init_Layout();

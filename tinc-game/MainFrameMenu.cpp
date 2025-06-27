@@ -4,6 +4,7 @@
 #include "String_SRV.h"
 #include <wx/filename.h>
 #include <wx/dir.h>
+#include "RenameNetworkFrame.h"
 
 bool AllAllowEdit(std::unordered_map<int, PerNetworkData>& data) {
     bool allAllowEdit = true;
@@ -44,7 +45,17 @@ void MainFrame::OnMenuNetworksJoin(wxCommandEvent& event)
 void MainFrame::OnMenuNetworksRename(wxCommandEvent& event)
 {
     bool allAllowEdit = AllAllowEdit(currentNetwork_ComboBox_RawData);
-    wxMessageDialog(this, _("Rename")).ShowModal();
+    if (allAllowEdit == false) {
+        wxMessageDialog(this, _("Disconnect ALL network before rename any network")).ShowModal();
+        return;
+    }
+
+    auto networkSelection = currentNetwork_ComboBox->GetSelection();
+    auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
+
+    auto renameNetworkFrame = new RenameNetworkFrame(this, &networkRawData.network);
+    renameNetworkFrame->Center();
+    renameNetworkFrame->Show();
 }
 
 void MainFrame::OnMenuNetworksAdvancedDelete(wxCommandEvent& event)

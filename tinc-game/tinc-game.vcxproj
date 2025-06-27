@@ -161,6 +161,7 @@
     <ClInclude Include="HelpFrame.h" />
     <ClInclude Include="ManageTapFrame.h" />
     <ClInclude Include="Networks_SRV.h" />
+    <ClInclude Include="RenameNetworkFrame.h" />
     <ClInclude Include="Resource_SRV.h" />
     <ClInclude Include="ReturnValue.h" />
     <ClInclude Include="SettingsFrame.h" />
@@ -190,6 +191,7 @@
     <ClCompile Include="ManageTapFrame.cpp" />
     <ClCompile Include="ManageTapFrame_SRV.cpp" />
     <ClCompile Include="Networks_SRV.cpp" />
+    <ClCompile Include="RenameNetworkFrame.cpp" />
     <ClCompile Include="Resource_SRV.cpp" />
     <ClCompile Include="SettingsFrame.cpp" />
     <ClCompile Include="Settings_SRV.cpp" />

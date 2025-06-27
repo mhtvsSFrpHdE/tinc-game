@@ -35,8 +35,8 @@ void JoinNetworkFrame::API_UI_EndJoinNetworkByInviteCode(ReturnValue<JoinNetwork
         }
     }
 
-    joinButton->Enable(true);
-    closeButton->Enable(true);
+    confirmButton->Enable(true);
+    cancelButton->Enable(true);
     joinBy_ComboBox->Enable(true);
     saveAs_ComboBox->Enable(true);
     inviteCode_TextCtrl->Enable(true);
@@ -55,10 +55,13 @@ void JoinNetworkFrame::OnInviteCodeChanged(wxCommandEvent& event)
     }
 }
 
-void JoinNetworkFrame::OnJoinButtonClick(wxCommandEvent& event)
+void JoinNetworkFrame::OnConfirmButtonClick(wxCommandEvent& event)
 {
-    joinButton->Enable(false);
-    closeButton->Enable(false);
+    namespace ss = String_SRV;
+    namespace rs = Resource_SRV;
+
+    confirmButton->Enable(false);
+    cancelButton->Enable(false);
     joinBy_ComboBox->Enable(false);
     saveAs_ComboBox->Enable(false);
     inviteCode_TextCtrl->Enable(false);
@@ -66,20 +69,34 @@ void JoinNetworkFrame::OnJoinButtonClick(wxCommandEvent& event)
     auto networkName = saveAs_ComboBox->GetValue();
     if (networkName == wxEmptyString) {
         wxMessageDialog(this, _("Network name is required")).ShowModal();
-        joinButton->Enable(true);
-        closeButton->Enable(true);
+        confirmButton->Enable(true);
+        cancelButton->Enable(true);
         joinBy_ComboBox->Enable(true);
         saveAs_ComboBox->Enable(true);
         inviteCode_TextCtrl->Enable(true);
         return;
     }
 
-    auto networkDir = Resource_SRV::Networks::GetNetworksDir();
+    auto isValidFileOrDir = rs::IsValidFileOrDir(networkName);
+    if (isValidFileOrDir.success == false) {
+        auto hint = _("Network name must be a valid folder name")
+            + ss::newLine + _("First discovered invalid character: ")
+            + isValidFileOrDir.returnBody;
+        wxMessageDialog(this, hint).ShowModal();
+        confirmButton->Enable(true);
+        cancelButton->Enable(true);
+        joinBy_ComboBox->Enable(true);
+        saveAs_ComboBox->Enable(true);
+        inviteCode_TextCtrl->Enable(true);
+        return;
+    }
+
+    auto networkDir = rs::Networks::GetNetworksDir();
     networkDir.AppendDir(networkName);
     if (networkDir.DirExists()) {
         wxMessageDialog(this, _("Network name already exist, use another one")).ShowModal();
-        joinButton->Enable(true);
-        closeButton->Enable(true);
+        confirmButton->Enable(true);
+        cancelButton->Enable(true);
         joinBy_ComboBox->Enable(true);
         saveAs_ComboBox->Enable(true);
         inviteCode_TextCtrl->Enable(true);
@@ -91,7 +108,7 @@ void JoinNetworkFrame::OnJoinButtonClick(wxCommandEvent& event)
     t1.detach();
 }
 
-void JoinNetworkFrame::OnCloseButtonClick(wxCommandEvent& event)
+void JoinNetworkFrame::OnCancelButtonClick(wxCommandEvent& event)
 {
     Close();
 }
@@ -114,10 +131,10 @@ void JoinNetworkFrame::Init_CreateControls()
         inviteCode_TextCtrl->Bind(wxEVT_TEXT, &JoinNetworkFrame::OnInviteCodeChanged, this);
     }
 
-    joinButton = new wxButton(rootPanel, wxID_ANY, _("Confirm"));
-    joinButton->Bind(wxEVT_BUTTON, &JoinNetworkFrame::OnJoinButtonClick, this);
-    closeButton = new wxButton(rootPanel, wxID_ANY, _("Close"));
-    closeButton->Bind(wxEVT_BUTTON, &JoinNetworkFrame::OnCloseButtonClick, this);
+    confirmButton = new wxButton(rootPanel, wxID_ANY, _("Join"));
+    confirmButton->Bind(wxEVT_BUTTON, &JoinNetworkFrame::OnConfirmButtonClick, this);
+    cancelButton = new wxButton(rootPanel, wxID_ANY, _("Cancel"));
+    cancelButton->Bind(wxEVT_BUTTON, &JoinNetworkFrame::OnCancelButtonClick, this);
 }
 
 void JoinNetworkFrame::Init_Layout()
@@ -166,8 +183,8 @@ void JoinNetworkFrame::Init_Layout()
     wxBoxSizer* navigateSizer = new wxBoxSizer(wxHORIZONTAL);
     rootSizer->Add(navigateSizer);
     navigateSizer->AddStretchSpacer(ls::TakeAllSpace);
-    navigateSizer->Add(joinButton, 1, wxRIGHT, ls::SpaceBetweenControl);
-    navigateSizer->Add(closeButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
+    navigateSizer->Add(confirmButton, 1, wxRIGHT, ls::SpaceBetweenControl);
+    navigateSizer->Add(cancelButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
 
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
