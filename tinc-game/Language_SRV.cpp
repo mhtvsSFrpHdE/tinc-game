@@ -25,7 +25,7 @@ void Language_SRV::Init()
 
     // Use for loop make sure languageKeyMap order matchs languageList
     // So you don't have to manually track order twice
-    for (int i = 0; i < languageList.size(); i++)
+    for (size_t i = 0; i < languageList.size(); i++)
     {
         languageKeyMap.insert({ languageList[i], i });
     }

@@ -341,7 +341,7 @@ void ManageTapFrame::Reload_installedTap_ComboBox()
         installedTap_ComboBox_RawData.clear();
 
         int mapIndex = 0;
-        for (int adapterIndex = 0; adapterIndex < getNetworkAdapterList.returnBody.size(); adapterIndex++)
+        for (size_t adapterIndex = 0; adapterIndex < getNetworkAdapterList.returnBody.size(); adapterIndex++)
         {
             auto adapter = getNetworkAdapterList.returnBody[adapterIndex];
             bool isNotLoopback = adapter.IsLoopback() == false;

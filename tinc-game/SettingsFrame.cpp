@@ -25,7 +25,7 @@ void SettingsFrame::Init_CreateControls()
         namespace ls = Language_SRV;
 
         int mapIndex = 0;
-        for (int languageIndex = 0; languageIndex < ls::languageList.size(); languageIndex++)
+        for (size_t languageIndex = 0; languageIndex < ls::languageList.size(); languageIndex++)
         {
             auto language = ls::languageList[languageIndex];
             chooseLanguage_ComboBox_RawData.insert({ mapIndex, language });

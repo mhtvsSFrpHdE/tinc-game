@@ -2,7 +2,7 @@
 
 std::wstring String_SRV::ForceToWstring(std::string input)
 {
-	return std::wstring(input.begin(), input.end());
+    return std::wstring(input.begin(), input.end());
 }
 
 /// <summary>
@@ -14,13 +14,13 @@ std::wstring String_SRV::ForceToWstring(std::string input)
 const std::wstring cp437Table = L" !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~␡ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜ¢£¥₧ƒáíóúñÑªº¿⌐¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αßΓπΣσµτΦΘΩδ∞φε∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■";
 bool String_SRV::IsCp437(std::wstring input)
 {
-	bool result = true;
-	for (int i = 0; i < input.length(); i++) {
+    bool result = true;
+    for (size_t i = 0; i < input.length(); i++) {
 
-		if (cp437Table.find(input[i]) == std::string::npos) {
-			result = false;
-			break;
-		}
-	}
-	return result;
+        if (cp437Table.find(input[i]) == std::string::npos) {
+            result = false;
+            break;
+        }
+    }
+    return result;
 }

@@ -22,7 +22,7 @@ void ApplyMtuFrame::Init_CreateControls()
         auto getNetworkAdapterList = TapDevice_SRV::API_SRV_GetNetworkAdapterList();
         if (getNetworkAdapterList.success) {
             int mapIndex = 0;
-            for (int adapterIndex = 0; adapterIndex < getNetworkAdapterList.returnBody.size(); adapterIndex++)
+            for (size_t adapterIndex = 0; adapterIndex < getNetworkAdapterList.returnBody.size(); adapterIndex++)
             {
                 auto adapter = getNetworkAdapterList.returnBody[adapterIndex];
                 if (adapter.IsLoopback() == false) {

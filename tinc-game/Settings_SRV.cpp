@@ -21,6 +21,8 @@ wxFileName Settings_SRV::GetIniFilePathAsWxFile(GetIniFilePathBy by)
         iniFile.SetName(rsp::networksIni);
         return iniFile;
     }
+
+    return iniFile;
 }
 
 void Settings_SRV::WriteLanguage(Language_SRV::KnownLanguage language)
