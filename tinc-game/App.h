@@ -7,5 +7,5 @@ public:
     bool OnInit();
 
 private:
-    wxLocale* locale;
+    std::shared_ptr<wxLocale> locale;
 };

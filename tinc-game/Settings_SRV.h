@@ -23,8 +23,8 @@ namespace Settings_SRV
     const wxString emptyPlaceholder1 = wxT("|");
     ReturnValue<wxArrayString> ReadArray(wxString settingKey, wxString delimiter = arrayDelimiter1);
 
-    extern wxFileConfig* programConfig;
-    extern wxFileConfig* networksConfig;
+    extern std::shared_ptr<wxFileConfig> programConfig;
+    extern std::shared_ptr<wxFileConfig> networksConfig;
 };
 
 namespace SettingKeys_Program {

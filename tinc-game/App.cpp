@@ -16,7 +16,7 @@ bool App::OnInit() {
 
     // Language
     wxLanguage language = ss::ReadLanguage();
-    locale = new wxLocale(language, wxLOCALE_LOAD_DEFAULT);
+    locale = std::shared_ptr<wxLocale>(new wxLocale(language, wxLOCALE_LOAD_DEFAULT));
 
     bool localeAllOk = true;
     localeAllOk = localeAllOk && locale->AddCatalog(wxT("tinc-game-MainFrame"));
@@ -26,9 +26,8 @@ bool App::OnInit() {
     localeAllOk = localeAllOk && locale->IsOk();
     if (localeAllOk == false)
     {
-        std::cerr << "selected language is wrong" << std::endl;
-        delete locale;
-        locale = new wxLocale(wxLANGUAGE_ENGLISH_US);
+        locale.reset();
+        locale = std::shared_ptr<wxLocale>(new wxLocale(wxLANGUAGE_ENGLISH_US));
         language = wxLANGUAGE_ENGLISH_US;
     }
 

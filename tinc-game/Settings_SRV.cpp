@@ -62,7 +62,7 @@ void Settings_SRV::LoadConfigFile()
         namespace sk = SettingKeys_Program;
 
         bool checkIni = Settings_SRV::CheckIniExists(iniType);
-        programConfig = new wxFileConfig(wxEmptyString, wxEmptyString, Settings_SRV::GetIniFilePath(iniType));
+        programConfig = std::shared_ptr<wxFileConfig>(new wxFileConfig(wxEmptyString, wxEmptyString, Settings_SRV::GetIniFilePath(iniType)));
         if (!checkIni) {
             programConfig->Write(sk::metadata_configVersion, 0);
             programConfig->Write(sk::settings_language, static_cast<int>(ls::KnownLanguage::Unknown));
@@ -78,7 +78,7 @@ void Settings_SRV::LoadConfigFile()
         namespace sk = SettingKeys_Networks;
 
         bool checkIni = Settings_SRV::CheckIniExists(iniType);
-        networksConfig = new wxFileConfig(wxEmptyString, wxEmptyString, Settings_SRV::GetIniFilePath(iniType));
+        networksConfig = std::shared_ptr<wxFileConfig>(new wxFileConfig(wxEmptyString, wxEmptyString, Settings_SRV::GetIniFilePath(iniType)));
         if (!checkIni) {
             networksConfig->Write(sk::metadata_configVersion, 0);
             networksConfig->Write(sk::default_recentUsedNetwork, emptyPlaceholder1);
@@ -106,8 +106,8 @@ ReturnValue<wxArrayString> Settings_SRV::ReadArray(wxString settingKey, wxString
     return result;
 }
 
-wxFileConfig* Settings_SRV::programConfig = nullptr;
-wxFileConfig* Settings_SRV::networksConfig = nullptr;
+std::shared_ptr<wxFileConfig> Settings_SRV::programConfig = nullptr;
+std::shared_ptr<wxFileConfig> Settings_SRV::networksConfig = nullptr;
 
 wxString SettingKeys_Networks::network(wxString networkName)
 {
