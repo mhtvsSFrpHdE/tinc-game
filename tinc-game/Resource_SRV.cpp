@@ -262,3 +262,8 @@ wxFileName Resource_SRV::Program::GetIniDir()
     nullableIniDir = file;
     return file;
 }
+
+void Resource_SRV::wxWidgets::wxButtonDeleter(wxButton* obj)
+{
+    obj->Destroy();
+}

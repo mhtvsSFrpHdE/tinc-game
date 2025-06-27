@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <memory>
+#include <wx/wx.h>
 #include <wx/filename.h>
 #include <wx/dir.h>
 #include "Networks_SRV.h"
@@ -25,6 +26,10 @@ namespace Resource_SRV
     /// <param name="name"></param>
     /// <returns></returns>
     ReturnValue<wxString> IsValidFileOrDir(wxString& name);
+
+    namespace wxWidgets {
+        void wxButtonDeleter(wxButton* obj);
+    }
 
     namespace Program {
         wxFileName GetIniDir();

@@ -1,6 +1,7 @@
 #include "MainFrame.h"
 #include "Settings_SRV.h"
 #include "Layout_SRV.h"
+#include "Resource_SRV.h"
 
 MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
     Init_CreateControls();
@@ -10,14 +11,14 @@ MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
 
 std::shared_ptr<wxButton> MainFrame::GetInitPhaseDummyConnectButton()
 {
-    auto button = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Connect")));
+    auto button = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Connect")), Resource_SRV::wxWidgets::wxButtonDeleter);
     button->Enable(false);
     return button;
 }
 
 std::shared_ptr<wxButton> MainFrame::GetInitPhaseDummyDisconnectButton()
 {
-    auto button = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Disconnect")));
+    auto button = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Disconnect")), Resource_SRV::wxWidgets::wxButtonDeleter);
     button->Enable(false);
     return button;
 }
@@ -42,10 +43,10 @@ void MainFrame::ReloadCurrentNetwork()
             perNetworkData.liveLog = new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
             perNetworkData.liveLog->tincSetMaxLines(100);
             perNetworkData.liveLog->Hide();
-            perNetworkData.connectButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Connect")));
+            perNetworkData.connectButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Connect")), Resource_SRV::wxWidgets::wxButtonDeleter);
             perNetworkData.connectButton->Bind(wxEVT_BUTTON, &MainFrame::OnConnectButtonClick, this);
             perNetworkData.connectButton->Hide();
-            perNetworkData.disconnectButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Disconnect")));
+            perNetworkData.disconnectButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Disconnect")), Resource_SRV::wxWidgets::wxButtonDeleter);
             perNetworkData.disconnectButton->Bind(wxEVT_BUTTON, &MainFrame::OnDisconnectButtonClick, this);
             perNetworkData.disconnectButton->Enable(false);
             perNetworkData.disconnectButton->Hide();
