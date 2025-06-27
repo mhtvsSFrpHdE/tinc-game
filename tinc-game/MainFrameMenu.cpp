@@ -1,6 +1,9 @@
 #include "MainFrame.h"
 #include "EditNetworkFrame.h"
 #include "JoinNetworkFrame.h"
+#include "String_SRV.h"
+#include <wx/filename.h>
+#include <wx/dir.h>
 
 bool AllAllowEdit(std::unordered_map<int, PerNetworkData>& data) {
     bool allAllowEdit = true;
@@ -46,6 +49,34 @@ void MainFrame::OnMenuNetworksRename(wxCommandEvent& event)
 
 void MainFrame::OnMenuNetworksAdvancedDelete(wxCommandEvent& event)
 {
+    namespace ss = String_SRV;
+
     bool allAllowEdit = AllAllowEdit(currentNetwork_ComboBox_RawData);
-    wxMessageDialog(this, _("Delete")).ShowModal();
+    if (allAllowEdit == false) {
+        wxMessageDialog(this, _("Disconnect ALL network before delete any network")).ShowModal();
+        return;
+    }
+
+    auto firstHint = _("Your network password (identity) only stored on your local computer")
+        + ss::newLine
+        + ss::newLine + _("I can not help you recover any of your data")
+        + ss::newLine + _("To join the network again, you may need another invite code")
+        + ss::newLine
+        + ss::newLine + _("Confirm delete network?");
+    auto firstAskResult = wxMessageBox(firstHint, _("WARNING"), wxYES_NO | wxICON_ERROR, this);
+    if (firstAskResult == wxNO)
+    {
+        return;
+    }
+
+    auto secondHint = _("Confirm delete network?");
+    auto secondAskResult = wxMessageBox(secondHint, _("WARNING"), wxYES_NO | wxICON_ERROR, this);
+    if (secondAskResult == wxNO)
+    {
+        return;
+    }
+
+    auto networkSelection = currentNetwork_ComboBox->GetSelection();
+    auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
+    wxFileName::Rmdir(networkRawData.network.GetFullPath(), wxDIR_DIRS);
 }

@@ -27,8 +27,6 @@ void MainFrame::API_UI_ReportStatus(std::wstring status, tincTextCtrl* liveLog)
     liveLog->tincAppendText(status);
 }
 
-
-
 void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
 {
     auto selection = currentNetwork_ComboBox->GetSelection();
