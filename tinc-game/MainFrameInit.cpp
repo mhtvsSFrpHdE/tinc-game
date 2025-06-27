@@ -8,6 +8,92 @@ MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
     Init_PostLayout();
 }
 
+std::shared_ptr<wxButton> MainFrame::GetInitPhaseDummyConnectButton()
+{
+    auto button = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Connect")));
+    button->Enable(false);
+    return button;
+}
+
+std::shared_ptr<wxButton> MainFrame::GetInitPhaseDummyDisconnectButton()
+{
+    auto button = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Disconnect")));
+    button->Enable(false);
+    return button;
+}
+
+void MainFrame::ReloadCurrentNetwork()
+{
+    namespace ss = Settings_SRV;
+    namespace ns = Networks_SRV;
+
+    auto getNetworks = ns::GetNetworks();
+    if (getNetworks.success) {
+        currentNetwork_ComboBox->Clear();
+        currentNetwork_ComboBox_RawData.clear();
+
+        auto recentUsedNetwork = ss::networksConfig->Read(SettingKeys_Networks::default_recentUsedNetwork);
+
+        int mapIndex = 0;
+        for (size_t networkIndex = 0; networkIndex < getNetworks.returnBody.size(); networkIndex++)
+        {
+            PerNetworkData perNetworkData;
+            perNetworkData.network = getNetworks.returnBody[networkIndex];
+            perNetworkData.liveLog = new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
+            perNetworkData.liveLog->tincSetMaxLines(100);
+            perNetworkData.liveLog->Hide();
+            perNetworkData.connectButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Connect")));
+            perNetworkData.connectButton->Bind(wxEVT_BUTTON, &MainFrame::OnConnectButtonClick, this);
+            perNetworkData.connectButton->Hide();
+            perNetworkData.disconnectButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Disconnect")));
+            perNetworkData.disconnectButton->Bind(wxEVT_BUTTON, &MainFrame::OnDisconnectButtonClick, this);
+            perNetworkData.disconnectButton->Enable(false);
+            perNetworkData.disconnectButton->Hide();
+
+            if (perNetworkData.network.networkName == recentUsedNetwork) {
+                recentUsedNetworkSelection = mapIndex;
+            }
+
+            currentNetwork_ComboBox_RawData.insert({ mapIndex, perNetworkData });
+            currentNetwork_ComboBox->Append(perNetworkData.network.networkName);
+
+            auto autoStartSettingsKey = SettingKeys_Networks::network_autoStart(perNetworkData.network.networkName);
+            bool autoStart = ss::networksConfig->ReadBool(autoStartSettingsKey, false);
+            if (autoStart) {
+                autoStartNetworkRawDataIndex_pending.push_back(mapIndex);
+            }
+
+            mapIndex = mapIndex + 1;
+        }
+        if (recentUsedNetworkSelection == wxNOT_FOUND) {
+            recentUsedNetworkSelection = 0;
+        }
+    }
+}
+
+void MainFrame::ReloadCurrentTap()
+{
+    auto getNetworkAdapterList = TapDevice_SRV::API_SRV_GetNetworkAdapterList();
+    if (getNetworkAdapterList.success) {
+        currentTap_ComboBox->Clear();
+        currentTap_ComboBox_RawData.clear();
+
+        int mapIndex = 0;
+        for (size_t adapterIndex = 0; adapterIndex < getNetworkAdapterList.returnBody.size(); adapterIndex++)
+        {
+            auto adapter = getNetworkAdapterList.returnBody[adapterIndex];
+            bool isNotLoopback = adapter.IsLoopback() == false;
+            bool isTap = adapter.IsTap();
+            if (isNotLoopback && isTap) {
+                currentTap_ComboBox_RawData.insert({ mapIndex, adapter });
+                currentTap_ComboBox->Append(GetCurrentTapDisplayText(adapter));
+
+                mapIndex = mapIndex + 1;
+            }
+        }
+    }
+}
+
 void MainFrame::Init_CreateControls()
 {
     namespace ss = Settings_SRV;
@@ -37,82 +123,19 @@ void MainFrame::Init_CreateControls()
     SetMenuBar(menuBar);
 
     rootPanel = new wxPanel(this);
-    connectButtonPlaceholder = new wxButton(rootPanel, wxID_ANY, _("Connect"));
-    connectButtonPlaceholder->Enable(false);
-    disconnectButtonPlaceholder = new wxButton(rootPanel, wxID_ANY, _("Disconnect"));
-    disconnectButtonPlaceholder->Enable(false);
+    recentActiveConnectButton = GetInitPhaseDummyConnectButton();
+    recentActiveDisconnectButton = GetInitPhaseDummyDisconnectButton();
     liveLogPlaceholder = new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
     liveLogPlaceholder->Enable(false);
 
     currentTap_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Connect with"));
     currentTap_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
-    {
-        auto getNetworkAdapterList = TapDevice_SRV::API_SRV_GetNetworkAdapterList();
-        if (getNetworkAdapterList.success) {
-            currentTap_ComboBox->Clear();
-            currentTap_ComboBox_RawData.clear();
-
-            int mapIndex = 0;
-            for (size_t adapterIndex = 0; adapterIndex < getNetworkAdapterList.returnBody.size(); adapterIndex++)
-            {
-                auto adapter = getNetworkAdapterList.returnBody[adapterIndex];
-                bool isNotLoopback = adapter.IsLoopback() == false;
-                bool isTap = adapter.IsTap();
-                if (isNotLoopback && isTap) {
-                    currentTap_ComboBox_RawData.insert({ mapIndex, adapter });
-                    currentTap_ComboBox->Append(GetCurrentTapDisplayText(adapter));
-
-                    mapIndex = mapIndex + 1;
-                }
-            }
-        }
-    }
+    ReloadCurrentTap();
 
     currentNetwork_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Network name"));
     currentNetwork_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
     currentNetwork_ComboBox->Bind(wxEVT_COMBOBOX, &MainFrame::OnCurrentNetworkChange, this);
-    {
-        namespace ns = Networks_SRV;
-        auto getNetworks = ns::GetNetworks();
-        if (getNetworks.success) {
-            auto recentUsedNetwork = ss::networksConfig->Read(SettingKeys_Networks::default_recentUsedNetwork);
-
-            int mapIndex = 0;
-            for (size_t networkIndex = 0; networkIndex < getNetworks.returnBody.size(); networkIndex++)
-            {
-                PerNetworkData perNetworkData;
-                perNetworkData.network = getNetworks.returnBody[networkIndex];
-                perNetworkData.liveLog = new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
-                perNetworkData.liveLog->tincSetMaxLines(100);
-                perNetworkData.liveLog->Hide();
-                perNetworkData.connectButton = new wxButton(rootPanel, wxID_ANY, _("Connect"));
-                perNetworkData.connectButton->Bind(wxEVT_BUTTON, &MainFrame::OnConnectButtonClick, this);
-                perNetworkData.connectButton->Hide();
-                perNetworkData.disconnectButton = new wxButton(rootPanel, wxID_ANY, _("Disconnect"));
-                perNetworkData.disconnectButton->Bind(wxEVT_BUTTON, &MainFrame::OnDisconnectButtonClick, this);
-                perNetworkData.disconnectButton->Enable(false);
-                perNetworkData.disconnectButton->Hide();
-
-                if (perNetworkData.network.networkName == recentUsedNetwork) {
-                    recentUsedNetworkSelection = mapIndex;
-                }
-
-                currentNetwork_ComboBox_RawData.insert({ mapIndex, perNetworkData });
-                currentNetwork_ComboBox->Append(perNetworkData.network.networkName);
-
-                auto autoStartSettingsKey = SettingKeys_Networks::network_autoStart(perNetworkData.network.networkName);
-                bool autoStart = ss::networksConfig->ReadBool(autoStartSettingsKey, false);
-                if (autoStart) {
-                    autoStartNetworkRawDataIndex_pending.push_back(mapIndex);
-                }
-
-                mapIndex = mapIndex + 1;
-            }
-            if (recentUsedNetworkSelection == wxNOT_FOUND) {
-                recentUsedNetworkSelection = 0;
-            }
-        }
-    }
+    ReloadCurrentNetwork();
 
     optimizeMtuButton = new wxButton(rootPanel, wxID_ANY, _("Optimize MTU"));
     optimizeMtuButton->Bind(wxEVT_BUTTON, &MainFrame::OnOptimizeMtuButton, this);
@@ -158,8 +181,8 @@ void MainFrame::Init_Layout()
     {
         networkControlSizer = new wxBoxSizer(wxHORIZONTAL);
         rootSizer->Add(networkControlSizer);
-        networkControlSizer->Add(connectButtonPlaceholder, 1, wxLEFT, ls::SpaceToFrameBorder);
-        networkControlSizer->Add(disconnectButtonPlaceholder, 1, wxLEFT, ls::SpaceBetweenControl);
+        networkControlSizer->Add(recentActiveConnectButton.get(), 1, wxLEFT, ls::SpaceToFrameBorder);
+        networkControlSizer->Add(recentActiveDisconnectButton.get(), 1, wxLEFT, ls::SpaceBetweenControl);
 
         ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
     }

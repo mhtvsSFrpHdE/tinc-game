@@ -26,8 +26,8 @@ struct PerNetworkData {
     WindowsAPI_SRV::GetAdaptersAddressesResult* tap = nullptr;
     int tapSelection = wxNOT_FOUND;
     std::shared_ptr<boost::process::child> tincProcess;
-    wxButton* connectButton = nullptr;
-    wxButton* disconnectButton = nullptr;
+    std::shared_ptr<wxButton> connectButton = nullptr;
+    std::shared_ptr<wxButton> disconnectButton = nullptr;
     bool allowEdit = true;
     tincTextCtrl* liveLog = nullptr;
 };
@@ -59,6 +59,7 @@ private:
     std::unordered_map<int, PerNetworkData> currentNetwork_ComboBox_RawData;
     void OnCurrentNetworkChange(wxCommandEvent& evt);
     int recentUsedNetworkSelection = wxNOT_FOUND;
+    void ReloadCurrentNetwork();
 
     wxStaticText* currentTap_StaticText = nullptr;
     wxComboBox* currentTap_ComboBox = nullptr;
@@ -67,11 +68,14 @@ private:
     void UpdateCurrentTapItemDisplayText(WindowsAPI_SRV::GetAdaptersAddressesResult tap, int insertAt);
     std::vector<int> autoStartNetworkRawDataIndex_pending;
     std::vector<int> autoStartNetworkRawDataIndex_submitted;
+    void ReloadCurrentTap();
 
-    wxButton* connectButtonPlaceholder = nullptr;
+    std::shared_ptr<wxButton> recentActiveConnectButton = nullptr;
+    std::shared_ptr<wxButton> GetInitPhaseDummyConnectButton();
     void OnConnectButtonClick_Internal();
     void OnConnectButtonClick(wxCommandEvent& evt);
-    wxButton* disconnectButtonPlaceholder = nullptr;
+    std::shared_ptr<wxButton> recentActiveDisconnectButton = nullptr;
+    std::shared_ptr<wxButton> GetInitPhaseDummyDisconnectButton();
     void OnDisconnectButtonClick(wxCommandEvent& evt);
 
     wxBoxSizer* networkControlSizer = nullptr;

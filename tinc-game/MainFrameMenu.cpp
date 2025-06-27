@@ -84,6 +84,36 @@ void MainFrame::OnMenuNetworksReload(wxCommandEvent& event)
         wxMessageDialog(this, _("Disconnect ALL network before reload network list")).ShowModal();
         return;
     }
+
+    auto dummyConnectButton = GetInitPhaseDummyConnectButton();
+    networkControlSizer->Replace(recentActiveConnectButton.get(), dummyConnectButton.get());
+    recentActiveConnectButton = dummyConnectButton;
+    auto dummyDisconnectButton = GetInitPhaseDummyDisconnectButton();
+    networkControlSizer->Replace(recentActiveDisconnectButton.get(), dummyDisconnectButton.get());
+    recentActiveDisconnectButton = dummyDisconnectButton;
+    networkControlSizer->Layout();
+
+    std::vector<std::wstring> existNetworks;
+    for (size_t i = 0; i < currentNetwork_ComboBox_RawData.size(); i++)
+    {
+        existNetworks.push_back(currentNetwork_ComboBox_RawData[i].network.networkName);
+    }
+
+    ReloadCurrentTap();
+    ReloadCurrentNetwork();
+
+    std::vector<std::wstring> newNetworks;
+    bool exactSameList = true;
+    for (size_t i = 0; i < currentNetwork_ComboBox_RawData.size(); i++)
+    {
+        auto& existNetworkName = existNetworks[i];
+        auto& newNetworkName = currentNetwork_ComboBox_RawData[i].network.networkName;
+        exactSameList = exactSameList && existNetworkName == newNetworkName;
+    }
+    if (exactSameList) {
+        currentNetwork_ComboBox->SetSelection(recentUsedNetworkSelection);
+        currentNetwork_ComboBox->SendSelectionChangedEvent(wxEVT_COMBOBOX);
+    }
 }
 
 void MainFrame::OnMenuNetworksAdvancedDelete(wxCommandEvent& event)

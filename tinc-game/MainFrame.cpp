@@ -42,15 +42,15 @@ void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
     }
 
     {
-        connectButtonPlaceholder->Hide();
-        networkControlSizer->Replace(connectButtonPlaceholder, rawData.connectButton);
+        recentActiveConnectButton->Hide();
+        networkControlSizer->Replace(recentActiveConnectButton.get(), rawData.connectButton.get());
         rawData.connectButton->Show();
-        connectButtonPlaceholder = rawData.connectButton;
+        recentActiveConnectButton = rawData.connectButton;
 
-        disconnectButtonPlaceholder->Hide();
-        networkControlSizer->Replace(disconnectButtonPlaceholder, rawData.disconnectButton);
+        recentActiveDisconnectButton->Hide();
+        networkControlSizer->Replace(recentActiveDisconnectButton.get(), rawData.disconnectButton.get());
         rawData.disconnectButton->Show();
-        disconnectButtonPlaceholder = rawData.disconnectButton;
+        recentActiveDisconnectButton = rawData.disconnectButton;
 
         networkControlSizer->Layout();
     }
