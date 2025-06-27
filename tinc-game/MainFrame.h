@@ -101,6 +101,10 @@ private:
     void OnMenuNetworksJoin(wxCommandEvent& event);
     const int wxIdMenuNetworksRename = wxWindow::NewControlId();
     void OnMenuNetworksRename(wxCommandEvent& event);
+    const int wxIdMenuNetworksImportAndExport = wxWindow::NewControlId();
+    void OnMenuNetworksImportAndExport(wxCommandEvent& event);
+    const int wxIdMenuNetworksReload = wxWindow::NewControlId();
+    void OnMenuNetworksReload(wxCommandEvent& event);
 
     wxMenu* networksAdvancedMenu = nullptr;
     const int wxIdMenuNetworksAdvancedDelete = wxWindow::NewControlId();

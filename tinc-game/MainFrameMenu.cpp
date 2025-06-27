@@ -1,3 +1,5 @@
+#include "boost/process.hpp"
+#include <boost/process/windows.hpp>
 #include "MainFrame.h"
 #include "EditNetworkFrame.h"
 #include "JoinNetworkFrame.h"
@@ -5,6 +7,7 @@
 #include <wx/filename.h>
 #include <wx/dir.h>
 #include "RenameNetworkFrame.h"
+#include "Resource_SRV.h"
 
 bool AllAllowEdit(std::unordered_map<int, PerNetworkData>& data) {
     bool allAllowEdit = true;
@@ -56,6 +59,31 @@ void MainFrame::OnMenuNetworksRename(wxCommandEvent& event)
     auto renameNetworkFrame = new RenameNetworkFrame(this, &networkRawData.network);
     renameNetworkFrame->Center();
     renameNetworkFrame->Show();
+}
+
+void MainFrame::OnMenuNetworksImportAndExport(wxCommandEvent& event)
+{
+    namespace bp = boost::process;
+    namespace rs = Resource_SRV;
+
+    bool allAllowEdit = AllAllowEdit(currentNetwork_ComboBox_RawData);
+    if (allAllowEdit == false) {
+        wxMessageDialog(this, _("Disconnect ALL network before operate network data")).ShowModal();
+        return;
+    }
+
+    wxMessageDialog(this, _("Run Networks - Reload after you are done")).ShowModal();
+
+    bp::system(bp::shell(), bp::args({ rs::Bat::cmdRumCommand, L"explorer.exe", rs::Networks::networksDir.ToStdWstring() }), bp::windows::hide);
+}
+
+void MainFrame::OnMenuNetworksReload(wxCommandEvent& event)
+{
+    bool allAllowEdit = AllAllowEdit(currentNetwork_ComboBox_RawData);
+    if (allAllowEdit == false) {
+        wxMessageDialog(this, _("Disconnect ALL network before reload network list")).ShowModal();
+        return;
+    }
 }
 
 void MainFrame::OnMenuNetworksAdvancedDelete(wxCommandEvent& event)

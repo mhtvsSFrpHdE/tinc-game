@@ -17,10 +17,14 @@ void MainFrame::Init_CreateControls()
     networksMenu = new wxMenu();
     networksMenu->Append(wxIdMenuNetworksEdit, _T("&Edit"));
     Bind(wxEVT_MENU, &MainFrame::OnMenuNetworksEdit, this, wxIdMenuNetworksEdit);
-    networksMenu->Append(wxIdMenuNetworksJoin, _T("&Join network"));
-    Bind(wxEVT_MENU, &MainFrame::OnMenuNetworksJoin, this, wxIdMenuNetworksJoin);
     networksMenu->Append(wxIdMenuNetworksRename, _T("&Rename"));
     Bind(wxEVT_MENU, &MainFrame::OnMenuNetworksRename, this, wxIdMenuNetworksRename);
+    networksMenu->Append(wxIdMenuNetworksJoin, _T("&Join network"));
+    Bind(wxEVT_MENU, &MainFrame::OnMenuNetworksJoin, this, wxIdMenuNetworksJoin);
+    networksMenu->Append(wxIdMenuNetworksImportAndExport, _T("&Import and Export"));
+    Bind(wxEVT_MENU, &MainFrame::OnMenuNetworksImportAndExport, this, wxIdMenuNetworksImportAndExport);
+    networksMenu->Append(wxIdMenuNetworksReload, _T("&Reload"));
+    Bind(wxEVT_MENU, &MainFrame::OnMenuNetworksReload, this, wxIdMenuNetworksReload);
 
     networksMenu->AppendSeparator();
 
