@@ -104,6 +104,7 @@ private:
     void OnMenuNetworksEdit(wxCommandEvent& event);
     const int wxIdMenuNetworksJoin = wxWindow::NewControlId();
     void OnMenuNetworksJoin(wxCommandEvent& event);
+    void OnJoinNetworkFrameCloseCallback();
     const int wxIdMenuNetworksRename = wxWindow::NewControlId();
     void OnMenuNetworksRename(wxCommandEvent& event);
     const int wxIdMenuNetworksImportAndExport = wxWindow::NewControlId();

@@ -4,8 +4,11 @@
 #include "Resource_SRV.h"
 #include <thread>
 
-JoinNetworkFrame::JoinNetworkFrame(wxFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Join network"))
+JoinNetworkFrame::JoinNetworkFrame(wxFrame* parentFrame, std::function<void()> onCloseCallback) : wxFrame(parentFrame, wxID_ANY, _("Join network"))
 {
+    _parentFrame = parentFrame;
+    _onCloseCallback = onCloseCallback;
+
     Init_CreateControls();
     Init_Layout();
 }
@@ -135,6 +138,8 @@ void JoinNetworkFrame::Init_CreateControls()
     confirmButton->Bind(wxEVT_BUTTON, &JoinNetworkFrame::OnConfirmButtonClick, this);
     cancelButton = new wxButton(rootPanel, wxID_ANY, _("Cancel"));
     cancelButton->Bind(wxEVT_BUTTON, &JoinNetworkFrame::OnCancelButtonClick, this);
+
+    Bind(wxEVT_CLOSE_WINDOW, &JoinNetworkFrame::OnClose, this);
 }
 
 void JoinNetworkFrame::Init_Layout()
@@ -189,4 +194,12 @@ void JoinNetworkFrame::Init_Layout()
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
     this->Fit();
+}
+
+void JoinNetworkFrame::OnClose(wxCloseEvent& event)
+{
+    _onCloseCallback();
+    _parentFrame->Raise();
+
+    event.Skip();
 }

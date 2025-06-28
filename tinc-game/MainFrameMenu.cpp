@@ -38,6 +38,11 @@ void MainFrame::OnMenuNetworksEdit(wxCommandEvent& event)
     editNetworkFrame->Show();
 }
 
+void MainFrame::OnJoinNetworkFrameCloseCallback()
+{
+    OnMenuNetworksReload_Internal();
+}
+
 void MainFrame::OnMenuNetworksJoin(wxCommandEvent& event)
 {
     bool allAllowEdit = AllowMakeChange();
@@ -45,7 +50,8 @@ void MainFrame::OnMenuNetworksJoin(wxCommandEvent& event)
         return;
     }
 
-    auto joinNetworkFrame = new JoinNetworkFrame(this);
+    std::function<void()> redirectCallback = std::bind(&MainFrame::OnJoinNetworkFrameCloseCallback, this);
+    auto joinNetworkFrame = new JoinNetworkFrame(this, redirectCallback);
     joinNetworkFrame->Center();
     joinNetworkFrame->Show();
 }

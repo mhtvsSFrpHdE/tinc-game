@@ -17,9 +17,12 @@ struct JoinNetworkResult {
 class JoinNetworkFrame : public wxFrame
 {
 public:
-    JoinNetworkFrame(wxFrame* parentFrame);
+    JoinNetworkFrame(wxFrame* parentFrame, std::function<void()> onCloseCallback);
 
 private:
+    wxFrame* _parentFrame;
+    std::function<void()> _onCloseCallback;
+
     // UI to SRV
     void API_SRV_JoinNetworkByInviteCode(std::wstring networkName, std::wstring inviteCode);
 
@@ -54,4 +57,6 @@ private:
 
     void Init_CreateControls();
     void Init_Layout();
+
+    void OnClose(wxCloseEvent& event);
 };
