@@ -109,7 +109,7 @@ void MainFrame::OnConnectButtonClick_Internal()
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
     networkRawData.connectButton->Enable(false);
-    networkRawData.allowEdit = false;
+    networkRawData.connected = true;
 
     auto& tapRawData = currentTap_ComboBox_RawData[tapSelection];
     if (tapRawData.Available()) {
@@ -158,7 +158,7 @@ void MainFrame::OnConnectButtonClick_Internal()
     else {
         wxMessageDialog(this, _("Selected virtual network adapter already connected to another network")).ShowModal();
         networkRawData.connectButton->Enable(true);
-        networkRawData.allowEdit = true;
+        networkRawData.connected = false;
     }
 }
 
@@ -180,7 +180,7 @@ void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)
         return;
     }
     networkRawData.connectButton->Enable(true);
-    networkRawData.allowEdit = true;
+    networkRawData.connected = false;
 }
 
 void MainFrame::OnOptimizeMtuButton(wxCommandEvent& evt)
@@ -205,6 +205,11 @@ void MainFrame::OnManageTapButton(wxCommandEvent& evt)
     ManageTapFrame* manageTapDeviceFrame = new ManageTapFrame(this);
     manageTapDeviceFrame->Center();
     manageTapDeviceFrame->Show();
+}
+
+void MainFrame::OnManageTapButtonCloseCallback()
+{
+    OnMenuNetworksReload_Internal();
 }
 
 void MainFrame::OnIntegrityCheckButton(wxCommandEvent& evt)

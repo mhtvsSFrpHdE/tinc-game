@@ -254,5 +254,5 @@ void MainFrame::API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> r
     perNetworkData->tap->Disconnect();
     UpdateCurrentTapItemDisplayText(*perNetworkData->tap, perNetworkData->tapSelection);
     perNetworkData->connectButton->Enable(true);
-    perNetworkData->allowEdit = true;
+    perNetworkData->connected = false;
 }

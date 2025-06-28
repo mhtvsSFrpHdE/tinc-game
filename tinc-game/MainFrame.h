@@ -28,7 +28,7 @@ struct PerNetworkData {
     std::shared_ptr<boost::process::child> tincProcess;
     std::shared_ptr<wxButton> connectButton = nullptr;
     std::shared_ptr<wxButton> disconnectButton = nullptr;
-    bool allowEdit = true;
+    bool connected = false;
     tincTextCtrl* liveLog = nullptr;
 };
 
@@ -88,6 +88,7 @@ private:
     void OnOptimizeMtuFrameCloseCallback();
     wxButton* manageTapDeviceButton = nullptr;
     void OnManageTapButton(wxCommandEvent& evt);
+    void OnManageTapButtonCloseCallback();
     wxButton* integrityCheckButton = nullptr;
     void OnIntegrityCheckButton(wxCommandEvent& evt);
     void OnIntegrityCheckFrameCloseCallback();
@@ -108,7 +109,9 @@ private:
     const int wxIdMenuNetworksImportAndExport = wxWindow::NewControlId();
     void OnMenuNetworksImportAndExport(wxCommandEvent& event);
     const int wxIdMenuNetworksReload = wxWindow::NewControlId();
+    void OnMenuNetworksReload_Internal();
     void OnMenuNetworksReload(wxCommandEvent& event);
+    bool AllowMakeChange(bool showDialog = true);
 
     wxMenu* networksAdvancedMenu = nullptr;
     const int wxIdMenuNetworksAdvancedDelete = wxWindow::NewControlId();

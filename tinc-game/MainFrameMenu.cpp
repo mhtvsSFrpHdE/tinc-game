@@ -9,12 +9,18 @@
 #include "RenameNetworkFrame.h"
 #include "Resource_SRV.h"
 
-bool AllAllowEdit(std::unordered_map<int, PerNetworkData>& data) {
-    bool allAllowEdit = true;
-    for (const auto& pair : data) {
-        allAllowEdit = allAllowEdit && pair.second.allowEdit;
+bool MainFrame::AllowMakeChange(bool showDialog) {
+    bool allAllowMakeChange = true;
+
+    for (const auto& pair : currentNetwork_ComboBox_RawData) {
+        allAllowMakeChange = allAllowMakeChange && pair.second.connected == false;
     }
-    return allAllowEdit;
+
+    if (allAllowMakeChange == false && showDialog) {
+        wxMessageDialog(this, _("Disconnect ALL network before making changes")).ShowModal();
+    }
+
+    return allAllowMakeChange;
 }
 
 void MainFrame::OnMenuNetworksEdit(wxCommandEvent& event)
@@ -22,34 +28,32 @@ void MainFrame::OnMenuNetworksEdit(wxCommandEvent& event)
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
 
-    if (networkRawData.allowEdit) {
-        auto editNetworkFrame = new EditNetworkFrame(this, &networkRawData.network);
-        editNetworkFrame->Center();
-        editNetworkFrame->Show();
-    }
-    else {
+    if (networkRawData.connected) {
         wxMessageDialog(this, _("Disconnect network before edit: ") + networkRawData.network.networkName).ShowModal();
+        return;
     }
+
+    auto editNetworkFrame = new EditNetworkFrame(this, &networkRawData.network);
+    editNetworkFrame->Center();
+    editNetworkFrame->Show();
 }
 
 void MainFrame::OnMenuNetworksJoin(wxCommandEvent& event)
 {
-    bool allAllowEdit = AllAllowEdit(currentNetwork_ComboBox_RawData);
-    if (allAllowEdit) {
-        auto joinNetworkFrame = new JoinNetworkFrame(this);
-        joinNetworkFrame->Center();
-        joinNetworkFrame->Show();
+    bool allAllowEdit = AllowMakeChange();
+    if (allAllowEdit == false) {
+        return;
     }
-    else {
-        wxMessageDialog(this, _("Disconnect ALL network before join new network")).ShowModal();
-    }
+
+    auto joinNetworkFrame = new JoinNetworkFrame(this);
+    joinNetworkFrame->Center();
+    joinNetworkFrame->Show();
 }
 
 void MainFrame::OnMenuNetworksRename(wxCommandEvent& event)
 {
-    bool allAllowEdit = AllAllowEdit(currentNetwork_ComboBox_RawData);
+    bool allAllowEdit = AllowMakeChange();
     if (allAllowEdit == false) {
-        wxMessageDialog(this, _("Disconnect ALL network before rename any network")).ShowModal();
         return;
     }
 
@@ -66,9 +70,8 @@ void MainFrame::OnMenuNetworksImportAndExport(wxCommandEvent& event)
     namespace bp = boost::process;
     namespace rs = Resource_SRV;
 
-    bool allAllowEdit = AllAllowEdit(currentNetwork_ComboBox_RawData);
+    bool allAllowEdit = AllowMakeChange();
     if (allAllowEdit == false) {
-        wxMessageDialog(this, _("Disconnect ALL network before operate network data")).ShowModal();
         return;
     }
 
@@ -77,14 +80,8 @@ void MainFrame::OnMenuNetworksImportAndExport(wxCommandEvent& event)
     bp::system(bp::shell(), bp::args({ rs::Bat::cmdRumCommand, L"explorer.exe", rs::Networks::networksDir.ToStdWstring() }), bp::windows::hide);
 }
 
-void MainFrame::OnMenuNetworksReload(wxCommandEvent& event)
+void MainFrame::OnMenuNetworksReload_Internal()
 {
-    bool allAllowEdit = AllAllowEdit(currentNetwork_ComboBox_RawData);
-    if (allAllowEdit == false) {
-        wxMessageDialog(this, _("Disconnect ALL network before reload network list")).ShowModal();
-        return;
-    }
-
     auto dummyConnectButton = GetInitPhaseDummyConnectButton();
     networkControlSizer->Replace(recentActiveConnectButton.get(), dummyConnectButton.get());
     recentActiveConnectButton = dummyConnectButton;
@@ -116,13 +113,22 @@ void MainFrame::OnMenuNetworksReload(wxCommandEvent& event)
     }
 }
 
+void MainFrame::OnMenuNetworksReload(wxCommandEvent& event)
+{
+    bool allAllowEdit = AllowMakeChange();
+    if (allAllowEdit == false) {
+        return;
+    }
+
+    OnMenuNetworksReload_Internal();
+}
+
 void MainFrame::OnMenuNetworksAdvancedDelete(wxCommandEvent& event)
 {
     namespace ss = String_SRV;
 
-    bool allAllowEdit = AllAllowEdit(currentNetwork_ComboBox_RawData);
+    bool allAllowEdit = AllowMakeChange();
     if (allAllowEdit == false) {
-        wxMessageDialog(this, _("Disconnect ALL network before delete any network")).ShowModal();
         return;
     }
 
