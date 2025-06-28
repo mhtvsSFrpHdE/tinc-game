@@ -24,6 +24,13 @@ std::shared_ptr<wxButton> MainFrame::GetInitPhaseDummyDisconnectButton()
     return button;
 }
 
+std::shared_ptr<tincTextCtrl> MainFrame::GetInitPhaseDummyLiveLog()
+{
+    auto textCtrl = std::shared_ptr<tincTextCtrl>(new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE), Resource_SRV::wxWidgets::wxTextCtrlDeleter);
+    textCtrl->Enable(false);
+    return textCtrl;
+}
+
 void MainFrame::ReloadCurrentNetwork()
 {
     namespace ss = Settings_SRV;
@@ -41,7 +48,7 @@ void MainFrame::ReloadCurrentNetwork()
         {
             PerNetworkData perNetworkData;
             perNetworkData.network = getNetworks.returnBody[networkIndex];
-            perNetworkData.liveLog = new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
+            perNetworkData.liveLog = std::shared_ptr<tincTextCtrl>(new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE));
             perNetworkData.liveLog->tincSetMaxLines(100);
             perNetworkData.liveLog->Hide();
             perNetworkData.connectButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Connect")), Resource_SRV::wxWidgets::wxButtonDeleter);
@@ -127,8 +134,7 @@ void MainFrame::Init_CreateControls()
     rootPanel = new wxPanel(this);
     recentActiveConnectButton = GetInitPhaseDummyConnectButton();
     recentActiveDisconnectButton = GetInitPhaseDummyDisconnectButton();
-    liveLogPlaceholder = new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
-    liveLogPlaceholder->Enable(false);
+    recentActiveLiveLog = GetInitPhaseDummyLiveLog();
 
     currentTap_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Connect with"));
     currentTap_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
@@ -193,7 +199,7 @@ void MainFrame::Init_Layout()
         liveLogSizer = new wxBoxSizer(wxHORIZONTAL);
         rootSizer->Add(liveLogSizer, 1, wxEXPAND);
         liveLogSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
-        liveLogSizer->Add(liveLogPlaceholder, 1, wxEXPAND);
+        liveLogSizer->Add(recentActiveLiveLog.get(), 1, wxEXPAND);
         liveLogSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
 
         ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);

@@ -267,3 +267,8 @@ void Resource_SRV::wxWidgets::wxButtonDeleter(wxButton* obj)
 {
     obj->Destroy();
 }
+
+void Resource_SRV::wxWidgets::wxTextCtrlDeleter(wxTextCtrl* obj)
+{
+    obj->Destroy();
+}

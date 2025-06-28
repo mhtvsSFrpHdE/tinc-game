@@ -29,6 +29,7 @@ namespace Resource_SRV
 
     namespace wxWidgets {
         void wxButtonDeleter(wxButton* obj);
+        void wxTextCtrlDeleter(wxTextCtrl* obj);
     }
 
     namespace Program {

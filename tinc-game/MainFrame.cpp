@@ -33,10 +33,10 @@ void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
     auto& rawData = currentNetwork_ComboBox_RawData[selection];
 
     {
-        liveLogPlaceholder->Hide();
-        liveLogSizer->Replace(liveLogPlaceholder, rawData.liveLog);
+        recentActiveLiveLog->Hide();
+        liveLogSizer->Replace(recentActiveLiveLog.get(), rawData.liveLog.get());
         rawData.liveLog->Show();
-        liveLogPlaceholder = rawData.liveLog;
+        recentActiveLiveLog = rawData.liveLog;
 
         liveLogSizer->Layout();
     }

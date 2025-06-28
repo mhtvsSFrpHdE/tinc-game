@@ -26,10 +26,10 @@ struct PerNetworkData {
     WindowsAPI_SRV::GetAdaptersAddressesResult* tap = nullptr;
     int tapSelection = wxNOT_FOUND;
     std::shared_ptr<boost::process::child> tincProcess;
-    std::shared_ptr<wxButton> connectButton = nullptr;
-    std::shared_ptr<wxButton> disconnectButton = nullptr;
+    std::shared_ptr<wxButton> connectButton;
+    std::shared_ptr<wxButton> disconnectButton;
     bool connected = false;
-    tincTextCtrl* liveLog = nullptr;
+    std::shared_ptr<tincTextCtrl> liveLog;
 };
 
 class MainFrame : public wxFrame
@@ -70,17 +70,17 @@ private:
     std::vector<int> autoStartNetworkRawDataIndex_submitted;
     void ReloadCurrentTap();
 
-    std::shared_ptr<wxButton> recentActiveConnectButton = nullptr;
+    std::shared_ptr<wxButton> recentActiveConnectButton;
     std::shared_ptr<wxButton> GetInitPhaseDummyConnectButton();
     void OnConnectButtonClick_Internal();
     void OnConnectButtonClick(wxCommandEvent& evt);
-    std::shared_ptr<wxButton> recentActiveDisconnectButton = nullptr;
+    std::shared_ptr<wxButton> recentActiveDisconnectButton;
     std::shared_ptr<wxButton> GetInitPhaseDummyDisconnectButton();
     void OnDisconnectButtonClick(wxCommandEvent& evt);
+    std::shared_ptr<tincTextCtrl> recentActiveLiveLog;
+    std::shared_ptr<tincTextCtrl> GetInitPhaseDummyLiveLog();
 
     wxBoxSizer* networkControlSizer = nullptr;
-
-    tincTextCtrl* liveLogPlaceholder = nullptr;
     wxBoxSizer* liveLogSizer = nullptr;
 
     wxButton* optimizeMtuButton = nullptr;
