@@ -202,7 +202,13 @@ void MainFrame::OnOptimizeMtuFrameCloseCallback()
 
 void MainFrame::OnManageTapButton(wxCommandEvent& evt)
 {
-    ManageTapFrame* manageTapDeviceFrame = new ManageTapFrame(this);
+    bool allAllowEdit = AllowMakeChange();
+    if (allAllowEdit == false) {
+        return;
+    }
+
+    std::function<void()> redirectCallback = std::bind(&MainFrame::OnManageTapButtonCloseCallback, this);
+    ManageTapFrame* manageTapDeviceFrame = new ManageTapFrame(this, redirectCallback);
     manageTapDeviceFrame->Center();
     manageTapDeviceFrame->Show();
 }

@@ -32,7 +32,7 @@ struct UninstallTapResult {
 class ManageTapFrame : public wxFrame
 {
 public:
-    ManageTapFrame(wxFrame* parentFrame);
+    ManageTapFrame(wxFrame* parentFrame, std::function<void()> onCloseCallback);
 
     // UI to SRV
     static ReturnValue<InstallTapResult> API_SRV_InstallTap();
@@ -41,6 +41,9 @@ public:
     void OnHelpFrameOpenDeviceManagerButtonClick(wxCommandEvent& evt);
 
 private:
+    wxFrame* _parentFrame;
+    std::function<void()> _onCloseCallback;
+
     wxWindowDisabler makeModal;
 
     wxPanel* rootPanel = nullptr;

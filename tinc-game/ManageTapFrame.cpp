@@ -6,8 +6,11 @@
 #include <sstream>
 #include "HelpFrame.h"
 
-ManageTapFrame::ManageTapFrame(wxFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Manage virtual network adapter"))
+ManageTapFrame::ManageTapFrame(wxFrame* parentFrame, std::function<void()> onCloseCallback) : wxFrame(parentFrame, wxID_ANY, _("Manage virtual network adapter"))
 {
+    _parentFrame = parentFrame;
+    _onCloseCallback = onCloseCallback;
+
     TapDevice_SRV::ReloadAdapterList();
 
     Init_CreateControls();
@@ -103,6 +106,9 @@ void ManageTapFrame::OnClose(wxCloseEvent& event)
     if (allowCloseFrame == false) {
         return;
     }
+
+    _onCloseCallback();
+    _parentFrame->Raise();
 
     event.Skip();
 }
