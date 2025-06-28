@@ -112,12 +112,14 @@ void MainFrame::OnMenuNetworksReload_Internal()
     ReloadCurrentNetwork();
 
     std::vector<std::wstring> newNetworks;
-    bool exactSameList = true;
-    for (size_t i = 0; i < currentNetwork_ComboBox_RawData.size(); i++)
-    {
-        auto& existNetworkName = existNetworks[i];
-        auto& newNetworkName = currentNetwork_ComboBox_RawData[i].network.networkName;
-        exactSameList = exactSameList && existNetworkName == newNetworkName;
+    bool exactSameList = existNetworks.size() == currentNetwork_ComboBox_RawData.size();
+    if (exactSameList) {
+        for (size_t i = 0; i < currentNetwork_ComboBox_RawData.size(); i++)
+        {
+            auto& existNetworkName = existNetworks[i];
+            auto& newNetworkName = currentNetwork_ComboBox_RawData[i].network.networkName;
+            exactSameList = exactSameList && existNetworkName == newNetworkName;
+        }
     }
     if (exactSameList) {
         currentNetwork_ComboBox->SetSelection(recentUsedNetworkSelection);
@@ -166,4 +168,6 @@ void MainFrame::OnMenuNetworksAdvancedDelete(wxCommandEvent& event)
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
     wxFileName::Rmdir(networkRawData.network.GetFullPath(), wxDIR_DIRS);
+
+    OnMenuNetworksReload_Internal();
 }
