@@ -216,6 +216,8 @@ void MainFrame::API_SRV_PostLayout()
         CallAfter([this]() {
             currentNetwork_ComboBox->SetSelection(recentUsedNetworkSelection);
             currentNetwork_ComboBox->SendSelectionChangedEvent(wxEVT_COMBOBOX);
+            Enable(true);
+            SetFocus();
             });
     }
 }
