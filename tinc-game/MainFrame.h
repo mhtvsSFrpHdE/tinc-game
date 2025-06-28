@@ -107,6 +107,7 @@ private:
     void OnJoinNetworkFrameCloseCallback();
     const int wxIdMenuNetworksRename = wxWindow::NewControlId();
     void OnMenuNetworksRename(wxCommandEvent& event);
+    void OnRenameNetworkFrameCloseCallback();
     const int wxIdMenuNetworksImportAndExport = wxWindow::NewControlId();
     void OnMenuNetworksImportAndExport(wxCommandEvent& event);
     const int wxIdMenuNetworksReload = wxWindow::NewControlId();

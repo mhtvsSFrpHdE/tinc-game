@@ -56,6 +56,11 @@ void MainFrame::OnMenuNetworksJoin(wxCommandEvent& event)
     joinNetworkFrame->Show();
 }
 
+void MainFrame::OnRenameNetworkFrameCloseCallback()
+{
+    OnMenuNetworksReload_Internal();
+}
+
 void MainFrame::OnMenuNetworksRename(wxCommandEvent& event)
 {
     bool allAllowEdit = AllowMakeChange();
@@ -66,7 +71,8 @@ void MainFrame::OnMenuNetworksRename(wxCommandEvent& event)
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
 
-    auto renameNetworkFrame = new RenameNetworkFrame(this, &networkRawData.network);
+    std::function<void()> redirectCallback = std::bind(&MainFrame::OnRenameNetworkFrameCloseCallback, this);
+    auto renameNetworkFrame = new RenameNetworkFrame(this, &networkRawData.network, redirectCallback);
     renameNetworkFrame->Center();
     renameNetworkFrame->Show();
 }

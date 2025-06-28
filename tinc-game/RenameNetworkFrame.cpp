@@ -3,9 +3,11 @@
 #include "Layout_SRV.h"
 #include "Resource_SRV.h"
 
-RenameNetworkFrame::RenameNetworkFrame(wxFrame* parentFrame, Networks_SRV::GetNetworksResult* network) : wxFrame(parentFrame, wxID_ANY, _("Rename:") + String_SRV::space + network->networkName)
+RenameNetworkFrame::RenameNetworkFrame(wxFrame* parentFrame, Networks_SRV::GetNetworksResult* network, std::function<void()> onCloseCallback) : wxFrame(parentFrame, wxID_ANY, _("Rename:") + String_SRV::space + network->networkName)
 {
+    _parentFrame = parentFrame;
     _network = network;
+    _onCloseCallback = onCloseCallback;
 
     Init_CreateControls();
     Init_Layout();
@@ -24,6 +26,8 @@ void RenameNetworkFrame::Init_CreateControls()
     confirmButton->Bind(wxEVT_BUTTON, &RenameNetworkFrame::OnConfirmButtonClick, this);
     cancelButton = new wxButton(rootPanel, wxID_ANY, _("Cancel"));
     cancelButton->Bind(wxEVT_BUTTON, &RenameNetworkFrame::OnCancelButtonClick, this);
+
+    Bind(wxEVT_CLOSE_WINDOW, &RenameNetworkFrame::OnClose, this);
 }
 
 void RenameNetworkFrame::Init_Layout()
@@ -98,4 +102,12 @@ void RenameNetworkFrame::OnConfirmButtonClick(wxCommandEvent& event)
 void RenameNetworkFrame::OnCancelButtonClick(wxCommandEvent& event)
 {
     Close();
+}
+
+void RenameNetworkFrame::OnClose(wxCloseEvent& event)
+{
+    _onCloseCallback();
+    _parentFrame->Raise();
+
+    event.Skip();
 }

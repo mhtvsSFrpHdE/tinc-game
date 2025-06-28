@@ -5,10 +5,12 @@
 class RenameNetworkFrame : public wxFrame
 {
 public:
-    RenameNetworkFrame(wxFrame* parentFrame, Networks_SRV::GetNetworksResult* network);
+    RenameNetworkFrame(wxFrame* parentFrame, Networks_SRV::GetNetworksResult* network, std::function<void()> onCloseCallback);
 
 private:
+    wxFrame* _parentFrame;
     Networks_SRV::GetNetworksResult* _network = nullptr;
+    std::function<void()> _onCloseCallback;
 
     wxWindowDisabler makeModal;
 
@@ -24,4 +26,6 @@ private:
     void OnConfirmButtonClick(wxCommandEvent& event);
     wxButton* cancelButton = nullptr;
     void OnCancelButtonClick(wxCommandEvent& event);
+
+    void OnClose(wxCloseEvent& event);
 };
