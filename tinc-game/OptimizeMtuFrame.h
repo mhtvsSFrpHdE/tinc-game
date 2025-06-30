@@ -28,6 +28,7 @@ public:
 
     wxButton* helpButton = nullptr;
 private:
+    wxFrame* _parentFrame;
     std::function<void()> _onCloseCallback = nullptr;
 
     wxPanel* rootPanel = nullptr;

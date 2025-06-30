@@ -3,6 +3,7 @@
 
 HelpFrame::HelpFrame(wxFrame* parentFrame, wxString title, std::function<void()> onCloseCallback, bool defaultInit) : wxFrame(parentFrame, wxID_ANY, title)
 {
+    _parentFrame = parentFrame;
     _onCloseCallback = onCloseCallback;
 
     Init_CreateControls(defaultInit);
@@ -44,6 +45,7 @@ void HelpFrame::Init_Layout(bool defaultInit)
 void HelpFrame::OnClose(wxCloseEvent& event)
 {
     _onCloseCallback();
+    _parentFrame->Raise();
 
     event.Skip();
 }

@@ -12,6 +12,8 @@ public:
     wxBoxSizer* rootSizer = nullptr;
 
 private:
+    wxFrame* _parentFrame;
+
     void Init_CreateControls(bool defaultInit);
     void Init_Layout(bool defaultInit);
 

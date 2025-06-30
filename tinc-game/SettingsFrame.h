@@ -7,6 +7,8 @@ class SettingsFrame : public wxFrame
 public:
     SettingsFrame(wxFrame* parentFrame);
 private:
+    wxFrame* _parentFrame;
+
     wxWindowDisabler makeModal;
 
     wxPanel* rootPanel = nullptr;
@@ -26,4 +28,6 @@ private:
 
     void OnConfirmButtonClick(wxCommandEvent& event);
     void OnCancelButtonClick(wxCommandEvent& event);
+
+    void OnClose(wxCloseEvent& event);
 };

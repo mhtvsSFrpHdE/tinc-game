@@ -29,6 +29,8 @@ public:
     static std::wstring API_SRV_GetNetshCommand(std::wstring adapterName, int mtu_IPv4, int mtu_IPv6);
 
 private:
+    wxFrame* _parentFrame;
+
     int _mtuValue_IPv4 = 0;
     int _mtuValue_IPv6 = 0;
 
@@ -56,4 +58,6 @@ private:
     void OnCopyButton(wxCommandEvent& evt);
     void OnConfirmButton(wxCommandEvent& evt);
     void OnCancelButton(wxCommandEvent& evt);
+
+    void OnClose(wxCloseEvent& event);
 };

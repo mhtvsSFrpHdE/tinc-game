@@ -10,6 +10,8 @@
 
 SettingsFrame::SettingsFrame(wxFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Settings"))
 {
+    _parentFrame = parentFrame;
+
     Init_CreateControls();
     Init_Layout();
 }
@@ -57,6 +59,8 @@ void SettingsFrame::Init_CreateControls()
     confirmButton->Bind(wxEVT_BUTTON, &SettingsFrame::OnConfirmButtonClick, this);
     cancelButton = new wxButton(rootPanel, wxID_ANY, _("Cancel"));
     cancelButton->Bind(wxEVT_BUTTON, &SettingsFrame::OnCancelButtonClick, this);
+
+    Bind(wxEVT_CLOSE_WINDOW, &SettingsFrame::OnClose, this);
 }
 
 void SettingsFrame::Init_Layout()
@@ -118,4 +122,11 @@ void SettingsFrame::OnConfirmButtonClick(wxCommandEvent& event)
 void SettingsFrame::OnCancelButtonClick(wxCommandEvent& event)
 {
     Close();
+}
+
+void SettingsFrame::OnClose(wxCloseEvent& event)
+{
+    _parentFrame->Raise();
+
+    event.Skip();
 }

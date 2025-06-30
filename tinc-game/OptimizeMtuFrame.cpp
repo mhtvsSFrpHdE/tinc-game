@@ -13,7 +13,9 @@
 #include "Settings_SRV.h"
 
 OptimizeMtuFrame::OptimizeMtuFrame(wxFrame* parentFrame, std::function<void()> onCloseCallback) : wxFrame(parentFrame, wxID_ANY, _("Optimize MTU")) {
+    _parentFrame = parentFrame;
     _onCloseCallback = onCloseCallback;
+
     Init_CreateControls();
     Init_Layout();
 }
@@ -153,6 +155,8 @@ void OptimizeMtuFrame::OnClose(wxCloseEvent& event)
     }
 
     _onCloseCallback();
+    _parentFrame->Raise();
+
     event.Skip();
 }
 

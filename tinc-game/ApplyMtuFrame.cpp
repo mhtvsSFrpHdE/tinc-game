@@ -5,6 +5,7 @@
 
 ApplyMtuFrame::ApplyMtuFrame(OptimizeMtuFrame* parentFrame, int mtuValue_IPv4, int mtuValue_IPv6) : wxFrame(parentFrame, wxID_ANY, _("Apply MTU"))
 {
+    _parentFrame = parentFrame;
     _mtuValue_IPv4 = mtuValue_IPv4;
     _mtuValue_IPv6 = mtuValue_IPv6;
 
@@ -48,6 +49,8 @@ void ApplyMtuFrame::Init_CreateControls()
     navigate_ApplyButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnConfirmButton, this);
     navigate_CancelButton = new wxButton(rootPanel, wxID_ANY, _("Cancel"));
     navigate_CancelButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnCancelButton, this);
+
+    Bind(wxEVT_CLOSE_WINDOW, &ApplyMtuFrame::OnClose, this);
 }
 
 void ApplyMtuFrame::Init_Layout()
@@ -96,6 +99,13 @@ void ApplyMtuFrame::Init_Layout()
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
     this->Fit();
+}
+
+void ApplyMtuFrame::OnClose(wxCloseEvent& event)
+{
+    _parentFrame->Raise();
+
+    event.Skip();
 }
 
 void ApplyMtuFrame::OnHelpMeDecideButton(wxCommandEvent& evt)
