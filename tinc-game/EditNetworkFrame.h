@@ -8,6 +8,7 @@ public:
     EditNetworkFrame(wxFrame* parentFrame, Networks_SRV::GetNetworksResult* network);
 
 private:
+    wxFrame* _parentFrame;
     Networks_SRV::GetNetworksResult* _network = nullptr;
 
     wxWindowDisabler makeModal;
@@ -33,4 +34,6 @@ private:
 
     void Init_CreateControls();
     void Init_Layout();
+
+    void OnClose(wxCloseEvent& event);
 };

@@ -7,6 +7,7 @@
 
 EditNetworkFrame::EditNetworkFrame(wxFrame* parentFrame, Networks_SRV::GetNetworksResult* network) : wxFrame(parentFrame, wxID_ANY, _("Edit:") + String_SRV::space + network->networkName)
 {
+    _parentFrame = parentFrame;
     _network = network;
 
     Init_CreateControls();
@@ -58,6 +59,8 @@ void EditNetworkFrame::Init_CreateControls()
     confirmButton->Bind(wxEVT_BUTTON, &EditNetworkFrame::OnConfirmButtonClick, this);
     cancelButton = new wxButton(rootPanel, wxID_ANY, _("Cancel"));
     cancelButton->Bind(wxEVT_BUTTON, &EditNetworkFrame::OnCancelButtonClick, this);
+
+    Bind(wxEVT_CLOSE_WINDOW, &EditNetworkFrame::OnClose, this);
 }
 
 void EditNetworkFrame::Init_Layout()
@@ -101,6 +104,13 @@ void EditNetworkFrame::Init_Layout()
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
     this->Fit();
+}
+
+void EditNetworkFrame::OnClose(wxCloseEvent& event)
+{
+    _parentFrame->Raise();
+
+    event.Skip();
 }
 
 void EditNetworkFrame::OnHelpButtonClick(wxCommandEvent& event)
