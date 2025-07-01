@@ -199,28 +199,17 @@ void MainFrame::OnOptimizeMtuButton(wxCommandEvent& evt)
     optimizeMtuframe->Show();
 }
 
-void MainFrame::OnOptimizeMtuFrameCloseCallback()
-{
-    openedFrameCount--;
-    optimizeMtuButton->Enable(true);
-}
-
 void MainFrame::OnIntegrityCheckButton(wxCommandEvent& evt)
 {
     integrityCheckButton->Enable(false);
 
     auto checkResult = Resource_SRV::IntegrityCheck();
 
-    std::function<void()> redirectCallback = std::bind(&MainFrame::OnIntegrityCheckFrameCloseCallback, this);
+    std::function<void()> redirectCallback = std::bind(&MainFrame::OnTroubleshootFrameCloseCallback, this);
     HelpFrame* optimizeMtuFrame_HelpFrame = new HelpFrame(this, _("Troubleshoot"), redirectCallback);
     optimizeMtuFrame_HelpFrame->SetHelpText(checkResult);
     optimizeMtuFrame_HelpFrame->Center();
     optimizeMtuFrame_HelpFrame->Show();
-}
-
-void MainFrame::OnIntegrityCheckFrameCloseCallback()
-{
-    integrityCheckButton->Enable(true);
 }
 
 void OnSettingsButton_OpenSettingsFrame(MainFrame* mainFrame)

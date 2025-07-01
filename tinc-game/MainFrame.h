@@ -88,7 +88,6 @@ private:
     void OnOptimizeMtuFrameCloseCallback();
     wxButton* integrityCheckButton = nullptr;
     void OnIntegrityCheckButton(wxCommandEvent& evt);
-    void OnIntegrityCheckFrameCloseCallback();
     wxButton* settingsButton = nullptr;
     void OnSettingsButton(wxCommandEvent& evt);
 
@@ -120,6 +119,15 @@ private:
     const int wxIdMenuToolsManageTap = wxWindow::NewControlId();
     void OnMenuToolsManageTap(wxCommandEvent& event);
     void OnManageTapFrameCloseCallback();
+    const int wxIdMenuToolsSettings = wxWindow::NewControlId();
+    void OnMenuToolsSettings(wxCommandEvent& event);
+
+    wxMenu* toolsAdvancedMenu = nullptr;
+    const int wxIdMenuToolsAdvancedOptimizeMtu = wxWindow::NewControlId();
+    void OnMenuToolsAdvancedOptimizeMtu(wxCommandEvent& event);
+    const int wxIdMenuToolsAdvancedTroubleshoot = wxWindow::NewControlId();
+    void OnMenuToolsAdvancedTroubleshoot(wxCommandEvent& event);
+    void OnTroubleshootFrameCloseCallback();
 
     void Init_CreateControls();
     void Init_Layout();

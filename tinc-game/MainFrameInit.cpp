@@ -136,6 +136,17 @@ void MainFrame::Init_CreateControls()
         toolsMenu = new wxMenu();
         toolsMenu->Append(wxIdMenuToolsManageTap, _T("&Manage virtual network adapter"));
         Bind(wxEVT_MENU, &MainFrame::OnMenuToolsManageTap, this, wxIdMenuToolsManageTap);
+        toolsMenu->Append(wxIdMenuToolsSettings, _T("&Settings"));
+        Bind(wxEVT_MENU, &MainFrame::OnMenuToolsSettings, this, wxIdMenuToolsSettings);
+
+        toolsMenu->AppendSeparator();
+
+        toolsAdvancedMenu = new wxMenu();
+        toolsAdvancedMenu->Append(wxIdMenuToolsAdvancedOptimizeMtu, _T("&Optimize MTU"));
+        Bind(wxEVT_MENU, &MainFrame::OnMenuToolsAdvancedOptimizeMtu, this, wxIdMenuToolsAdvancedOptimizeMtu);
+        toolsAdvancedMenu->Append(wxIdMenuToolsAdvancedTroubleshoot, _T("&Troubleshoot"));
+        Bind(wxEVT_MENU, &MainFrame::OnMenuToolsAdvancedTroubleshoot, this, wxIdMenuToolsAdvancedTroubleshoot);
+        toolsMenu->Append(wxID_ANY, _T("&Advanced"), toolsAdvancedMenu);
 
         menuBar->Append(toolsMenu, _T("&Tools"));
     }

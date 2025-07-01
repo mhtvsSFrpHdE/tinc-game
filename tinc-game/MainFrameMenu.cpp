@@ -9,6 +9,9 @@
 #include "RenameNetworkFrame.h"
 #include "Resource_SRV.h"
 #include "ManageTapFrame.h"
+#include "SettingsFrame.h"
+#include "OptimizeMtuFrame.h"
+#include "HelpFrame.h"
 
 bool MainFrame::AllowMakeChange(bool showDialog) {
     bool allAllowMakeChange = true;
@@ -195,4 +198,66 @@ void MainFrame::OnMenuToolsManageTap(wxCommandEvent& event)
     ManageTapFrame* manageTapDeviceFrame = new ManageTapFrame(this, redirectCallback);
     manageTapDeviceFrame->Center();
     manageTapDeviceFrame->Show();
+}
+
+void OnSettingsMenu_OpenSettingsFrame(MainFrame* mainFrame)
+{
+    SettingsFrame* settingsframe = new SettingsFrame(mainFrame);
+    settingsframe->Center();
+    settingsframe->Show();
+}
+
+void OnSettingsMenu_OtherWindowExists(MainFrame* mainFrame)
+{
+    wxString buttonHint = _("Close all windows before enter setting interface.");
+    wxString title = _("hint");
+    wxMessageDialog* dial = new wxMessageDialog(NULL,
+        buttonHint, title, wxOK);
+    dial->ShowModal();
+}
+
+void MainFrame::OnMenuToolsSettings(wxCommandEvent& event)
+{
+    if (openedFrameCount == 0)
+    {
+        OnSettingsMenu_OpenSettingsFrame(this);
+    }
+    else {
+        OnSettingsMenu_OtherWindowExists(this);
+    }
+}
+
+void MainFrame::OnOptimizeMtuFrameCloseCallback()
+{
+    openedFrameCount--;
+    toolsAdvancedMenu->Enable(wxIdMenuToolsAdvancedOptimizeMtu, true);
+}
+
+void MainFrame::OnMenuToolsAdvancedOptimizeMtu(wxCommandEvent& event)
+{
+    toolsAdvancedMenu->Enable(wxIdMenuToolsAdvancedOptimizeMtu, false);
+    openedFrameCount++;
+
+    std::function<void()> redirectCallback = std::bind(&MainFrame::OnOptimizeMtuFrameCloseCallback, this);
+    OptimizeMtuFrame* optimizeMtuframe = new OptimizeMtuFrame(this, redirectCallback);
+    optimizeMtuframe->Center();
+    optimizeMtuframe->Show();
+}
+
+void MainFrame::OnTroubleshootFrameCloseCallback()
+{
+    toolsAdvancedMenu->Enable(wxIdMenuToolsAdvancedTroubleshoot, true);
+}
+
+void MainFrame::OnMenuToolsAdvancedTroubleshoot(wxCommandEvent& event)
+{
+    toolsAdvancedMenu->Enable(wxIdMenuToolsAdvancedTroubleshoot, false);
+
+    auto checkResult = Resource_SRV::IntegrityCheck();
+
+    std::function<void()> redirectCallback = std::bind(&MainFrame::OnTroubleshootFrameCloseCallback, this);
+    HelpFrame* optimizeMtuFrame_HelpFrame = new HelpFrame(this, _("Troubleshoot"), redirectCallback);
+    optimizeMtuFrame_HelpFrame->SetHelpText(checkResult);
+    optimizeMtuFrame_HelpFrame->Center();
+    optimizeMtuFrame_HelpFrame->Show();
 }
