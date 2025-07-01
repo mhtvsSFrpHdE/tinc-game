@@ -122,4 +122,7 @@ private:
     void Init_CreateControls();
     void Init_Layout();
     void Init_PostLayout();
+
+    bool allowCloseFrame = true;
+    void OnClose(wxCloseEvent& event);
 };

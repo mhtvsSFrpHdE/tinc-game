@@ -58,5 +58,6 @@ private:
     void Init_CreateControls();
     void Init_Layout();
 
+    bool allowCloseFrame = true;
     void OnClose(wxCloseEvent& event);
 };

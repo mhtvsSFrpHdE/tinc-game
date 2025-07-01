@@ -48,6 +48,7 @@ private:
     void Init_CreateControls();
     void Init_Layout();
 
+    bool allowCloseFrame = true;
     void OnClose(wxCloseEvent& event);
     void OnHelpButtonClick(wxCommandEvent& event);
     void OnHelpFrameCloseCallback();
@@ -61,8 +62,6 @@ private:
     int reportMtuCount_IPv4 = 0;
     int mtuValue_IPv6 = 0;
     int reportMtuCount_IPv6 = 0;
-
-    bool allowCloseFrame = true;
 };
 
 class OptimizeMtuFrameTest {

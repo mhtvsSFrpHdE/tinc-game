@@ -103,10 +103,6 @@ void ManageTapFrame::Init_Layout()
 
 void ManageTapFrame::OnClose(wxCloseEvent& event)
 {
-    if (allowCloseFrame == false) {
-        return;
-    }
-
     _onCloseCallback();
     _parentFrame->Raise();
 
@@ -218,14 +214,12 @@ void ManageTapFrame::OnInstalledTapRefreshButtonClick(wxCommandEvent& evt)
 
 void ManageTapFrame::OnInstallTapButtonClick(wxCommandEvent& evt)
 {
-    allowCloseFrame = false;
     installTap_Button->Enable(false);
 
     if (hasFirstTap) {
         auto askResult = wxMessageBox(_("Detected exist virtual network adapter") + String_SRV::newLine + _("Install another one?"), wxEmptyString, wxYES_NO, this);
         if (askResult == wxNO)
         {
-            allowCloseFrame = true;
             installTap_Button->Enable(true);
             return;
         }
@@ -235,7 +229,6 @@ void ManageTapFrame::OnInstallTapButtonClick(wxCommandEvent& evt)
         wxMessageDialog(this, _("Suggest read help before install first virtual network adapter")).ShowModal();
         OnHelpButtonClick_Internal();
         suggestReadHelp = false;
-        allowCloseFrame = true;
         installTap_Button->Enable(true);
         return;
     }
@@ -276,13 +269,11 @@ void ManageTapFrame::OnInstallTapButtonClick(wxCommandEvent& evt)
     }
 
     Reload();
-    allowCloseFrame = true;
     installTap_Button->Enable(true);
 }
 
 void ManageTapFrame::OnUninstallTapButtonClick(wxCommandEvent& evt)
 {
-    allowCloseFrame = false;
     uninstallTapButton->Enable(false);
 
     auto selectedIndex = installedTap_ComboBox->GetSelection();
@@ -293,7 +284,6 @@ void ManageTapFrame::OnUninstallTapButtonClick(wxCommandEvent& evt)
         auto askResult = wxMessageBox(_("Uninstalling last virtual network adapter") + String_SRV::newLine + _("Confirm?"), wxEmptyString, wxYES_NO, this);
         if (askResult == wxNO)
         {
-            allowCloseFrame = true;
             uninstallTapButton->Enable(true);
             return;
         }
@@ -331,7 +321,6 @@ void ManageTapFrame::OnUninstallTapButtonClick(wxCommandEvent& evt)
     }
 
     Reload();
-    allowCloseFrame = true;
 }
 
 void ManageTapFrame::OnCloseButtonClick(wxCommandEvent& evt)

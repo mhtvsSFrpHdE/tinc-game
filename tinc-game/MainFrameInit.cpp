@@ -153,6 +153,8 @@ void MainFrame::Init_CreateControls()
     integrityCheckButton->Bind(wxEVT_BUTTON, &MainFrame::OnIntegrityCheckButton, this);
     settingsButton = new wxButton(rootPanel, wxID_ANY, _("Settings"));
     settingsButton->Bind(wxEVT_BUTTON, &MainFrame::OnSettingsButton, this);
+
+    Bind(wxEVT_CLOSE_WINDOW, &MainFrame::OnClose, this);
 }
 
 void MainFrame::Init_Layout()

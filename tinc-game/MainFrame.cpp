@@ -103,8 +103,11 @@ void MainFrame::OnConnectButtonClick_Internal()
 
     auto tapSelection = currentTap_ComboBox->GetSelection();
     if (tapSelection == wxNOT_FOUND) {
+        // TODO: Add a hint
         return;
     }
+
+    allowCloseFrame = false;
 
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
@@ -159,6 +162,7 @@ void MainFrame::OnConnectButtonClick_Internal()
         wxMessageDialog(this, _("Selected virtual network adapter already connected to another network")).ShowModal();
         networkRawData.connectButton->Enable(true);
         networkRawData.connected = false;
+        allowCloseFrame = true;
     }
 }
 
@@ -177,10 +181,12 @@ void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)
     if (disconnectResult.success == false) {
         wxMessageDialog(this, _("Failed to disconnect, tinc.exe may not exist")).ShowModal();
         networkRawData.disconnectButton->Enable(true);
+        allowCloseFrame = true;
         return;
     }
     networkRawData.connectButton->Enable(true);
     networkRawData.connected = false;
+    allowCloseFrame = true;
 }
 
 void MainFrame::OnOptimizeMtuButton(wxCommandEvent& evt)
@@ -261,4 +267,14 @@ void MainFrame::OnSettingsButton(wxCommandEvent& evt)
     else {
         OnSettingsButton_OtherWindowExists(this);
     }
+}
+
+void MainFrame::OnClose(wxCloseEvent& event)
+{
+    if (allowCloseFrame == false) {
+        wxMessageDialog(this, _("Stop ALL running tasks before close program")).ShowModal();
+        return;
+    }
+
+    event.Skip();
 }

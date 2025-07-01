@@ -207,6 +207,7 @@
   <ItemGroup>
     <None Include="getTapHwid.bat" />
     <None Include="installTap.bat" />
+    <None Include="KnownBug.md" />
     <None Include="netsh437.bat" />
     <None Include="netsh437_start.bat" />
     <None Include="ping437.bat">

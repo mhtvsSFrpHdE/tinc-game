@@ -94,6 +94,8 @@ void MainFrame::OnMenuNetworksImportAndExport(wxCommandEvent& event)
 
 void MainFrame::OnMenuNetworksReload_Internal()
 {
+    allowCloseFrame = false;
+
     auto dummyConnectButton = GetInitPhaseDummyConnectButton();
     networkControlSizer->Replace(recentActiveConnectButton.get(), dummyConnectButton.get());
     recentActiveConnectButton = dummyConnectButton;
@@ -125,6 +127,8 @@ void MainFrame::OnMenuNetworksReload_Internal()
         currentNetwork_ComboBox->SetSelection(recentUsedNetworkSelection);
         currentNetwork_ComboBox->SendSelectionChangedEvent(wxEVT_COMBOBOX);
     }
+
+    allowCloseFrame = true;
 }
 
 void MainFrame::OnMenuNetworksReload(wxCommandEvent& event)
@@ -164,6 +168,8 @@ void MainFrame::OnMenuNetworksAdvancedDelete(wxCommandEvent& event)
     {
         return;
     }
+
+    allowCloseFrame = false;
 
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];

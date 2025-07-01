@@ -85,6 +85,4 @@ private:
     void Reload_installedTap_ComboBox();
     void Reload_firstTapValue_TextCtrl();
     void Reload();
-
-    bool allowCloseFrame = true;
 };

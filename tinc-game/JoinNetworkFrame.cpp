@@ -43,6 +43,8 @@ void JoinNetworkFrame::API_UI_EndJoinNetworkByInviteCode(ReturnValue<JoinNetwork
     joinBy_ComboBox->Enable(true);
     saveAs_ComboBox->Enable(true);
     inviteCode_TextCtrl->Enable(true);
+
+    allowCloseFrame = true;
 }
 
 void JoinNetworkFrame::OnInviteCodeChanged(wxCommandEvent& event)
@@ -106,6 +108,7 @@ void JoinNetworkFrame::OnConfirmButtonClick(wxCommandEvent& event)
         return;
     }
 
+    allowCloseFrame = false;
     auto inviteCode = inviteCode_TextCtrl->GetValue();
     std::thread t1(&JoinNetworkFrame::API_SRV_JoinNetworkByInviteCode, this, networkName.ToStdWstring(), inviteCode.ToStdWstring());
     t1.detach();
@@ -198,6 +201,10 @@ void JoinNetworkFrame::Init_Layout()
 
 void JoinNetworkFrame::OnClose(wxCloseEvent& event)
 {
+    if (allowCloseFrame == false) {
+        return;
+    }
+
     _onCloseCallback();
     _parentFrame->Raise();
 
