@@ -29,28 +29,28 @@ private:
 
     wxWindowDisabler makeModal;
 
-    wxPanel* rootPanel = nullptr;
-    wxPanel* joinByRegisterPanel = nullptr;
-    wxPanel* joinByInviteCodePanel = nullptr;
-    wxPanel* joinByImportPanel = nullptr;
+    wxPanel* rootPanel;
+    wxPanel* joinByRegisterPanel;
+    wxPanel* joinByInviteCodePanel;
+    wxPanel* joinByImportPanel;
 
-    wxStaticText* joinBy_StaticText = nullptr;
-    wxComboBox* joinBy_ComboBox = nullptr;
+    wxStaticText* joinBy_StaticText;
+    wxComboBox* joinBy_ComboBox;
     enum class JoinBy {
         InviteCode = 0
     };
     JoinBy joinBy = JoinBy::InviteCode;
 
-    wxStaticText* saveAs_StaticText = nullptr;
-    wxComboBox* saveAs_ComboBox = nullptr;
+    wxStaticText* saveAs_StaticText;
+    wxComboBox* saveAs_ComboBox;
 
-    wxStaticText* inviteCode_StaticText = nullptr;
-    wxTextCtrl* inviteCode_TextCtrl = nullptr;
+    wxStaticText* inviteCode_StaticText;
+    wxTextCtrl* inviteCode_TextCtrl;
     void OnInviteCodeChanged(wxCommandEvent& event);
 
-    wxButton* confirmButton = nullptr;
+    wxButton* confirmButton;
     void OnConfirmButtonClick(wxCommandEvent& event);
-    wxButton* cancelButton = nullptr;
+    wxButton* cancelButton;
     void OnCancelButtonClick(wxCommandEvent& event);
 
     void Init_CreateControls();

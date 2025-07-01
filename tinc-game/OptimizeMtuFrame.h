@@ -24,24 +24,24 @@ public:
     void API_UI_ReportMTU_IPv6(int mtu);
     void API_UI_EndMeasureMTU(bool success, std::wstring reason);
 
-    wxButton* helpButton = nullptr;
+    wxButton* helpButton;
 private:
     wxFrame* _parentFrame;
-    std::function<void()> _onCloseCallback = nullptr;
+    std::function<void()> _onCloseCallback;
 
-    wxPanel* rootPanel = nullptr;
+    wxPanel* rootPanel;
 
-    wxStaticText* chooseAddress_StaticText = nullptr;
-    wxComboBox* chooseAddress_ComboBox = nullptr;
-    wxButton* startButton = nullptr;
-    wxButton* applyButton = nullptr;
-    wxButton* closeButton = nullptr;
-    wxStaticText* mtu_IPv4_StaticText = nullptr;
-    wxStaticText* mtuValue_IPv4_StaticText = nullptr;
-    wxStaticText* mtu_IPv6_StaticText = nullptr;
-    wxStaticText* mtuValue_IPv6_StaticText = nullptr;
+    wxStaticText* chooseAddress_StaticText;
+    wxComboBox* chooseAddress_ComboBox;
+    wxButton* startButton;
+    wxButton* applyButton;
+    wxButton* closeButton;
+    wxStaticText* mtu_IPv4_StaticText;
+    wxStaticText* mtuValue_IPv4_StaticText;
+    wxStaticText* mtu_IPv6_StaticText;
+    wxStaticText* mtuValue_IPv6_StaticText;
     const wxString mtuValue_DefaultText = _("Waiting for value...");
-    wxTextCtrl* liveLog = nullptr;
+    wxTextCtrl* liveLog;
 
     void Init_CreateControls();
     void Init_Layout();

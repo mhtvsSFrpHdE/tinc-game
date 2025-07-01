@@ -115,8 +115,8 @@ ReturnValue<wxArrayString> Settings_SRV::ReadArray(wxString settingKey, wxString
     return result;
 }
 
-std::shared_ptr<wxFileConfig> Settings_SRV::programConfig = nullptr;
-std::shared_ptr<wxFileConfig> Settings_SRV::networksConfig = nullptr;
+std::shared_ptr<wxFileConfig> Settings_SRV::programConfig;
+std::shared_ptr<wxFileConfig> Settings_SRV::networksConfig;
 
 wxString SettingKeys_Networks::network(wxString networkName)
 {

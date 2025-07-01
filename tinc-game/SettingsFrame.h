@@ -11,17 +11,17 @@ private:
 
     wxWindowDisabler makeModal;
 
-    wxPanel* rootPanel = nullptr;
+    wxPanel* rootPanel;
 
-    wxStaticText* chooseLanguage_StaticText = nullptr;
-    wxComboBox* chooseLanguage_ComboBox = nullptr;
+    wxStaticText* chooseLanguage_StaticText;
+    wxComboBox* chooseLanguage_ComboBox;
     std::unordered_map<int, Language_SRV::KnownLanguage> chooseLanguage_ComboBox_RawData;
 
-    wxStaticText* chooseGameMode_StaticText = nullptr;
-    wxComboBox* chooseGameMode_ComboBox = nullptr;
+    wxStaticText* chooseGameMode_StaticText;
+    wxComboBox* chooseGameMode_ComboBox;
 
-    wxButton* confirmButton = nullptr;
-    wxButton* cancelButton = nullptr;
+    wxButton* confirmButton;
+    wxButton* cancelButton;
 
     void Init_CreateControls();
     void Init_Layout();

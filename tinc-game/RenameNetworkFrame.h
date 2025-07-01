@@ -9,7 +9,7 @@ public:
 
 private:
     wxFrame* _parentFrame;
-    Networks_SRV::GetNetworksResult* _network = nullptr;
+    Networks_SRV::GetNetworksResult* _network;
     std::function<void()> _onCloseCallback;
 
     wxWindowDisabler makeModal;
@@ -17,14 +17,14 @@ private:
     void Init_CreateControls();
     void Init_Layout();
 
-    wxPanel* rootPanel = nullptr;
+    wxPanel* rootPanel;
 
-    wxStaticText* newName_StaticText = nullptr;
-    wxComboBox* newName_ComboBox = nullptr;
+    wxStaticText* newName_StaticText;
+    wxComboBox* newName_ComboBox;
 
-    wxButton* confirmButton = nullptr;
+    wxButton* confirmButton;
     void OnConfirmButtonClick(wxCommandEvent& event);
-    wxButton* cancelButton = nullptr;
+    wxButton* cancelButton;
     void OnCancelButtonClick(wxCommandEvent& event);
 
     void OnClose(wxCloseEvent& event);

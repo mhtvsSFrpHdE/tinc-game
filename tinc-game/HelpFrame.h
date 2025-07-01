@@ -7,9 +7,9 @@ public:
     HelpFrame(wxFrame* parentFrame, wxString title, std::function<void()> onCloseCallback, bool defaultInit = true);
     void SetHelpText(wxString helpText);
 
-    wxPanel* rootPanel = nullptr;
-    wxTextCtrl* helpText_TextCtrl = nullptr;
-    wxBoxSizer* rootSizer = nullptr;
+    wxPanel* rootPanel;
+    wxTextCtrl* helpText_TextCtrl;
+    wxBoxSizer* rootSizer;
 
 private:
     wxFrame* _parentFrame;

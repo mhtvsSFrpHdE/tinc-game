@@ -45,27 +45,27 @@ private:
 
     wxWindowDisabler makeModal;
 
-    wxPanel* rootPanel = nullptr;
+    wxPanel* rootPanel;
 
-    wxButton* helpButton = nullptr;
-    wxStaticText* firstTap_StaticText = nullptr;
-    wxTextCtrl* firstTapValue_TextCtrl = nullptr;
+    wxButton* helpButton;
+    wxStaticText* firstTap_StaticText;
+    wxTextCtrl* firstTapValue_TextCtrl;
     wxString firstTapValue_NoneText = _("None");
     bool hasFirstTap = false;
 
     bool suggestReadHelp = true;
 
-    wxStaticText* manageTap_StaticText = nullptr;
-    wxButton* installTap_Button = nullptr;
-    wxButton* uninstallTapButton = nullptr;
+    wxStaticText* manageTap_StaticText;
+    wxButton* installTap_Button;
+    wxButton* uninstallTapButton;
 
-    wxComboBox* installedTap_ComboBox = nullptr;
+    wxComboBox* installedTap_ComboBox;
     std::unordered_map<int, WindowsAPI_SRV::GetAdaptersAddressesResult> installedTap_ComboBox_RawData;
-    wxButton* openDeviceManagerButton = nullptr;
-    wxButton* installedTapHelpMeDecide_Button = nullptr;
-    wxButton* installedTapRefresh_Button = nullptr;
+    wxButton* openDeviceManagerButton;
+    wxButton* installedTapHelpMeDecide_Button;
+    wxButton* installedTapRefresh_Button;
 
-    wxButton* closeButton = nullptr;
+    wxButton* closeButton;
 
     void Init_CreateControls();
     void Init_Layout();

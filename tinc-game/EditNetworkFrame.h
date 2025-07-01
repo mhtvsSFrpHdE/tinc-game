@@ -9,27 +9,27 @@ public:
 
 private:
     wxFrame* _parentFrame;
-    Networks_SRV::GetNetworksResult* _network = nullptr;
+    Networks_SRV::GetNetworksResult* _network;
 
     wxWindowDisabler makeModal;
 
-    wxPanel* rootPanel = nullptr;
+    wxPanel* rootPanel;
 
-    wxButton* helpButton = nullptr;
+    wxButton* helpButton;
     void OnHelpButtonClick(wxCommandEvent& event);
     void OnHelpFrameCloseCallback();
 
-    wxCheckBox* gameModeCheckBox = nullptr;
+    wxCheckBox* gameModeCheckBox;
     void OnGameModeCheckBoxClick(wxCommandEvent& event);
-    wxCheckBox* autoConnectOnStartCheckBox = nullptr;
-    wxCheckBox* showDetailedLiveLogCheckBox = nullptr;
-    wxCheckBox* setMetricCheckBox = nullptr;
-    wxStaticText* portNumber_StaticText = nullptr;
-    wxComboBox* portNumber_ComboBox = nullptr;
+    wxCheckBox* autoConnectOnStartCheckBox;
+    wxCheckBox* showDetailedLiveLogCheckBox;
+    wxCheckBox* setMetricCheckBox;
+    wxStaticText* portNumber_StaticText;
+    wxComboBox* portNumber_ComboBox;
 
-    wxButton* confirmButton = nullptr;
+    wxButton* confirmButton;
     void OnConfirmButtonClick(wxCommandEvent& event);
-    wxButton* cancelButton = nullptr;
+    wxButton* cancelButton;
     void OnCancelButtonClick(wxCommandEvent& event);
 
     void Init_CreateControls();

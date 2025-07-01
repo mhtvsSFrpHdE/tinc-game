@@ -23,7 +23,7 @@ struct ConnectToNetworkResult {
 
 struct PerNetworkData {
     Networks_SRV::GetNetworksResult network;
-    WindowsAPI_SRV::GetAdaptersAddressesResult* tap = nullptr;
+    WindowsAPI_SRV::GetAdaptersAddressesResult* tap;
     int tapSelection = wxNOT_FOUND;
     std::shared_ptr<boost::process::child> tincProcess;
     std::shared_ptr<wxButton> connectButton;
@@ -52,15 +52,15 @@ private:
 
     wxPanel* rootPanel;
 
-    wxStaticText* currentNetwork_StaticText = nullptr;
-    wxComboBox* currentNetwork_ComboBox = nullptr;
+    wxStaticText* currentNetwork_StaticText;
+    wxComboBox* currentNetwork_ComboBox;
     std::unordered_map<int, PerNetworkData> currentNetwork_ComboBox_RawData;
     void OnCurrentNetworkChange(wxCommandEvent& evt);
     int recentUsedNetworkSelection = wxNOT_FOUND;
     void ReloadCurrentNetwork();
 
-    wxStaticText* currentTap_StaticText = nullptr;
-    wxComboBox* currentTap_ComboBox = nullptr;
+    wxStaticText* currentTap_StaticText;
+    wxComboBox* currentTap_ComboBox;
     std::unordered_map<int, WindowsAPI_SRV::GetAdaptersAddressesResult> currentTap_ComboBox_RawData;
     wxString GetCurrentTapDisplayText(WindowsAPI_SRV::GetAdaptersAddressesResult tap);
     void UpdateCurrentTapItemDisplayText(WindowsAPI_SRV::GetAdaptersAddressesResult tap, int insertAt);
@@ -78,12 +78,12 @@ private:
     std::shared_ptr<tincTextCtrl> recentActiveLiveLog;
     std::shared_ptr<tincTextCtrl> GetInitPhaseDummyLiveLog();
 
-    wxBoxSizer* networkControlSizer = nullptr;
-    wxBoxSizer* liveLogSizer = nullptr;
+    wxBoxSizer* networkControlSizer;
+    wxBoxSizer* liveLogSizer;
 
-    wxMenuBar* menuBar = nullptr;
+    wxMenuBar* menuBar;
 
-    wxMenu* networksMenu = nullptr;
+    wxMenu* networksMenu;
     const int wxIdMenuNetworksEdit = wxWindow::NewControlId();
     void OnMenuNetworksEdit(wxCommandEvent& event);
     const int wxIdMenuNetworksJoin = wxWindow::NewControlId();
@@ -99,11 +99,11 @@ private:
     void OnMenuNetworksReload(wxCommandEvent& event);
     bool AllowMakeChange(bool showDialog = true);
 
-    wxMenu* networksAdvancedMenu = nullptr;
+    wxMenu* networksAdvancedMenu;
     const int wxIdMenuNetworksAdvancedDelete = wxWindow::NewControlId();
     void OnMenuNetworksAdvancedDelete(wxCommandEvent& event);
 
-    wxMenu* toolsMenu = nullptr;
+    wxMenu* toolsMenu;
     const int wxIdMenuToolsManageTap = wxWindow::NewControlId();
     void OnMenuToolsManageTap(wxCommandEvent& event);
     void OnManageTapFrameCloseCallback();
@@ -111,7 +111,7 @@ private:
     void OnMenuToolsSettings(wxCommandEvent& event);
     int openedFrameCount = 0;
 
-    wxMenu* toolsAdvancedMenu = nullptr;
+    wxMenu* toolsAdvancedMenu;
     const int wxIdMenuToolsAdvancedOptimizeMtu = wxWindow::NewControlId();
     void OnMenuToolsAdvancedOptimizeMtu(wxCommandEvent& event);
     void OnOptimizeMtuFrameCloseCallback();

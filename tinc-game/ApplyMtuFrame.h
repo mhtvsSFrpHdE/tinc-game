@@ -35,19 +35,19 @@ private:
 
     wxWindowDisabler makeModal;
 
-    wxPanel* rootPanel = nullptr;
+    wxPanel* rootPanel;
 
-    wxStaticText* chooseAdapter_StaticText = nullptr;
-    wxComboBox* chooseAdapter_ComboBox = nullptr;
+    wxStaticText* chooseAdapter_StaticText;
+    wxComboBox* chooseAdapter_ComboBox;
     std::unordered_map<int, WindowsAPI_SRV::GetAdaptersAddressesResult> chooseAdapter_ComboBox_RawData;
-    wxButton* chooseAdapter_HelpMeDecideButton = nullptr;
-    wxStaticText* displayMtu_IPv4 = nullptr;
-    wxStaticText* displayMtu_IPv6 = nullptr;
-    wxStaticText* yourCommand_StaticText = nullptr;
-    wxTextCtrl* yourCommand_TextCtrl = nullptr;
-    wxButton* yourCommand_CopyButton = nullptr;
-    wxButton* navigate_ApplyButton = nullptr;
-    wxButton* navigate_CancelButton = nullptr;
+    wxButton* chooseAdapter_HelpMeDecideButton;
+    wxStaticText* displayMtu_IPv4;
+    wxStaticText* displayMtu_IPv6;
+    wxStaticText* yourCommand_StaticText;
+    wxTextCtrl* yourCommand_TextCtrl;
+    wxButton* yourCommand_CopyButton;
+    wxButton* navigate_ApplyButton;
+    wxButton* navigate_CancelButton;
 
     void Init_CreateControls();
     void Init_Layout();
