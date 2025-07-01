@@ -88,7 +88,6 @@ private:
     void OnOptimizeMtuFrameCloseCallback();
     wxButton* manageTapDeviceButton = nullptr;
     void OnManageTapButton(wxCommandEvent& evt);
-    void OnManageTapButtonCloseCallback();
     wxButton* integrityCheckButton = nullptr;
     void OnIntegrityCheckButton(wxCommandEvent& evt);
     void OnIntegrityCheckFrameCloseCallback();
@@ -118,6 +117,11 @@ private:
     wxMenu* networksAdvancedMenu = nullptr;
     const int wxIdMenuNetworksAdvancedDelete = wxWindow::NewControlId();
     void OnMenuNetworksAdvancedDelete(wxCommandEvent& event);
+
+    wxMenu* toolsMenu = nullptr;
+    const int wxIdMenuToolsManageTap = wxWindow::NewControlId();
+    void OnMenuToolsManageTap(wxCommandEvent& event);
+    void OnManageTapFrameCloseCallback();
 
     void Init_CreateControls();
     void Init_Layout();

@@ -8,6 +8,7 @@
 #include <wx/dir.h>
 #include "RenameNetworkFrame.h"
 #include "Resource_SRV.h"
+#include "ManageTapFrame.h"
 
 bool MainFrame::AllowMakeChange(bool showDialog) {
     bool allAllowMakeChange = true;
@@ -176,4 +177,22 @@ void MainFrame::OnMenuNetworksAdvancedDelete(wxCommandEvent& event)
     wxFileName::Rmdir(networkRawData.network.GetFullPath(), wxDIR_DIRS);
 
     OnMenuNetworksReload_Internal();
+}
+
+void MainFrame::OnManageTapFrameCloseCallback()
+{
+    OnMenuNetworksReload_Internal();
+}
+
+void MainFrame::OnMenuToolsManageTap(wxCommandEvent& event)
+{
+    bool allAllowEdit = AllowMakeChange();
+    if (allAllowEdit == false) {
+        return;
+    }
+
+    std::function<void()> redirectCallback = std::bind(&MainFrame::OnManageTapFrameCloseCallback, this);
+    ManageTapFrame* manageTapDeviceFrame = new ManageTapFrame(this, redirectCallback);
+    manageTapDeviceFrame->Center();
+    manageTapDeviceFrame->Show();
 }

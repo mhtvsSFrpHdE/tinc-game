@@ -109,26 +109,37 @@ void MainFrame::Init_CreateControls()
 
     menuBar = new wxMenuBar();
 
-    networksMenu = new wxMenu();
-    networksMenu->Append(wxIdMenuNetworksEdit, _T("&Edit"));
-    Bind(wxEVT_MENU, &MainFrame::OnMenuNetworksEdit, this, wxIdMenuNetworksEdit);
-    networksMenu->Append(wxIdMenuNetworksRename, _T("&Rename"));
-    Bind(wxEVT_MENU, &MainFrame::OnMenuNetworksRename, this, wxIdMenuNetworksRename);
-    networksMenu->Append(wxIdMenuNetworksJoin, _T("&Join network"));
-    Bind(wxEVT_MENU, &MainFrame::OnMenuNetworksJoin, this, wxIdMenuNetworksJoin);
-    networksMenu->Append(wxIdMenuNetworksImportAndExport, _T("&Import and Export"));
-    Bind(wxEVT_MENU, &MainFrame::OnMenuNetworksImportAndExport, this, wxIdMenuNetworksImportAndExport);
-    networksMenu->Append(wxIdMenuNetworksReload, _T("&Reload"));
-    Bind(wxEVT_MENU, &MainFrame::OnMenuNetworksReload, this, wxIdMenuNetworksReload);
+    {
+        networksMenu = new wxMenu();
+        networksMenu->Append(wxIdMenuNetworksEdit, _T("&Edit"));
+        Bind(wxEVT_MENU, &MainFrame::OnMenuNetworksEdit, this, wxIdMenuNetworksEdit);
+        networksMenu->Append(wxIdMenuNetworksRename, _T("&Rename"));
+        Bind(wxEVT_MENU, &MainFrame::OnMenuNetworksRename, this, wxIdMenuNetworksRename);
+        networksMenu->Append(wxIdMenuNetworksJoin, _T("&Join network"));
+        Bind(wxEVT_MENU, &MainFrame::OnMenuNetworksJoin, this, wxIdMenuNetworksJoin);
+        networksMenu->Append(wxIdMenuNetworksImportAndExport, _T("&Import and Export"));
+        Bind(wxEVT_MENU, &MainFrame::OnMenuNetworksImportAndExport, this, wxIdMenuNetworksImportAndExport);
+        networksMenu->Append(wxIdMenuNetworksReload, _T("&Reload"));
+        Bind(wxEVT_MENU, &MainFrame::OnMenuNetworksReload, this, wxIdMenuNetworksReload);
 
-    networksMenu->AppendSeparator();
+        networksMenu->AppendSeparator();
 
-    networksAdvancedMenu = new wxMenu();
-    networksAdvancedMenu->Append(wxIdMenuNetworksAdvancedDelete, _T("&Delete"));
-    Bind(wxEVT_MENU, &MainFrame::OnMenuNetworksAdvancedDelete, this, wxIdMenuNetworksAdvancedDelete);
-    networksMenu->Append(wxID_ANY, _T("&Advanced"), networksAdvancedMenu);
+        networksAdvancedMenu = new wxMenu();
+        networksAdvancedMenu->Append(wxIdMenuNetworksAdvancedDelete, _T("&Delete"));
+        Bind(wxEVT_MENU, &MainFrame::OnMenuNetworksAdvancedDelete, this, wxIdMenuNetworksAdvancedDelete);
+        networksMenu->Append(wxID_ANY, _T("&Advanced"), networksAdvancedMenu);
 
-    menuBar->Append(networksMenu, _T("&Networks"));
+        menuBar->Append(networksMenu, _T("&Networks"));
+    }
+
+    {
+        toolsMenu = new wxMenu();
+        toolsMenu->Append(wxIdMenuToolsManageTap, _T("&Manage virtual network adapter"));
+        Bind(wxEVT_MENU, &MainFrame::OnMenuToolsManageTap, this, wxIdMenuToolsManageTap);
+
+        menuBar->Append(toolsMenu, _T("&Tools"));
+    }
+
     SetMenuBar(menuBar);
 
     rootPanel = new wxPanel(this);

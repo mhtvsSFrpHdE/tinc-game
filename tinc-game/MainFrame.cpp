@@ -103,7 +103,7 @@ void MainFrame::OnConnectButtonClick_Internal()
 
     auto tapSelection = currentTap_ComboBox->GetSelection();
     if (tapSelection == wxNOT_FOUND) {
-        // TODO: Add a hint
+        wxMessageDialog(this, _("You need a virtual network adapter to connect network\nOpen Tools - Manage virtual network adapter to install one")).ShowModal();
         return;
     }
 
@@ -213,15 +213,10 @@ void MainFrame::OnManageTapButton(wxCommandEvent& evt)
         return;
     }
 
-    std::function<void()> redirectCallback = std::bind(&MainFrame::OnManageTapButtonCloseCallback, this);
+    std::function<void()> redirectCallback = std::bind(&MainFrame::OnManageTapFrameCloseCallback, this);
     ManageTapFrame* manageTapDeviceFrame = new ManageTapFrame(this, redirectCallback);
     manageTapDeviceFrame->Center();
     manageTapDeviceFrame->Show();
-}
-
-void MainFrame::OnManageTapButtonCloseCallback()
-{
-    OnMenuNetworksReload_Internal();
 }
 
 void MainFrame::OnIntegrityCheckButton(wxCommandEvent& evt)
