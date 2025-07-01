@@ -23,7 +23,7 @@ struct ConnectToNetworkResult {
 
 struct PerNetworkData {
     Networks_SRV::GetNetworksResult network;
-    WindowsAPI_SRV::GetAdaptersAddressesResult* tap;
+    WindowsAPI_SRV::GetAdaptersAddressesResult* tap = nullptr;
     int tapSelection = wxNOT_FOUND;
     std::shared_ptr<boost::process::child> tincProcess;
     std::shared_ptr<wxButton> connectButton;

@@ -59,7 +59,7 @@ void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
         {
             auto& adapter = currentTap_ComboBox_RawData[i];
 
-            if (rawData.tap) {
+            if (rawData.tap != nullptr) {
                 if (adapter.friendlyName == rawData.tap->friendlyName) {
                     currentTap_ComboBox->SetSelection(i);
                     return;
