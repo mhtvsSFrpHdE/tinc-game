@@ -218,6 +218,11 @@ void OnSettingsMenu_OtherWindowExists(MainFrame* mainFrame)
 
 void MainFrame::OnMenuToolsSettings(wxCommandEvent& event)
 {
+    bool allAllowEdit = AllowMakeChange();
+    if (allAllowEdit == false) {
+        return;
+    }
+
     if (openedFrameCount == 0)
     {
         OnSettingsMenu_OpenSettingsFrame(this);
