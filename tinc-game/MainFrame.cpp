@@ -188,57 +188,6 @@ void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)
     allowCloseFrame = true;
 }
 
-void MainFrame::OnOptimizeMtuButton(wxCommandEvent& evt)
-{
-    optimizeMtuButton->Enable(false);
-    openedFrameCount++;
-
-    std::function<void()> redirectCallback = std::bind(&MainFrame::OnOptimizeMtuFrameCloseCallback, this);
-    OptimizeMtuFrame* optimizeMtuframe = new OptimizeMtuFrame(this, redirectCallback);
-    optimizeMtuframe->Center();
-    optimizeMtuframe->Show();
-}
-
-void MainFrame::OnIntegrityCheckButton(wxCommandEvent& evt)
-{
-    integrityCheckButton->Enable(false);
-
-    auto checkResult = Resource_SRV::IntegrityCheck();
-
-    std::function<void()> redirectCallback = std::bind(&MainFrame::OnTroubleshootFrameCloseCallback, this);
-    HelpFrame* optimizeMtuFrame_HelpFrame = new HelpFrame(this, _("Troubleshoot"), redirectCallback);
-    optimizeMtuFrame_HelpFrame->SetHelpText(checkResult);
-    optimizeMtuFrame_HelpFrame->Center();
-    optimizeMtuFrame_HelpFrame->Show();
-}
-
-void OnSettingsButton_OpenSettingsFrame(MainFrame* mainFrame)
-{
-    SettingsFrame* settingsframe = new SettingsFrame(mainFrame);
-    settingsframe->Center();
-    settingsframe->Show();
-}
-
-void OnSettingsButton_OtherWindowExists(MainFrame* mainFrame)
-{
-    wxString buttonHint = _("Close all windows before enter setting interface.");
-    wxString title = _("hint");
-    wxMessageDialog* dial = new wxMessageDialog(NULL,
-        buttonHint, title, wxOK);
-    dial->ShowModal();
-}
-
-void MainFrame::OnSettingsButton(wxCommandEvent& evt)
-{
-    if (openedFrameCount == 0)
-    {
-        OnSettingsButton_OpenSettingsFrame(this);
-    }
-    else {
-        OnSettingsButton_OtherWindowExists(this);
-    }
-}
-
 void MainFrame::OnClose(wxCloseEvent& event)
 {
     if (allowCloseFrame == false) {

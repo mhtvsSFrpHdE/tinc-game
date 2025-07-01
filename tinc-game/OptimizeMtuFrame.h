@@ -16,11 +16,9 @@ class OptimizeMtuFrame : public wxFrame
 public:
     OptimizeMtuFrame(wxFrame* parentFrame, std::function<void()> onCloseCallback);
 
-    // UI to SRV
     static ReturnValue<CheckAddressFormatResult::Enum> API_SRV_CheckAddressFormat(std::wstring ipAddress);
     void API_SRV_StartMeasureMTU(std::wstring ipAddress);
 
-    // SRV to UI
     void API_UI_ReportStatus(std::wstring status);
     void API_UI_ReportMTU_IPv4(int mtu);
     void API_UI_ReportMTU_IPv6(int mtu);

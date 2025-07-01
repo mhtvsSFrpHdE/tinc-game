@@ -23,10 +23,8 @@ private:
     wxFrame* _parentFrame;
     std::function<void()> _onCloseCallback;
 
-    // UI to SRV
     void API_SRV_JoinNetworkByInviteCode(std::wstring networkName, std::wstring inviteCode);
 
-    // SRV to UI
     void API_UI_EndJoinNetworkByInviteCode(ReturnValue<JoinNetworkResult> result);
 
     wxWindowDisabler makeModal;

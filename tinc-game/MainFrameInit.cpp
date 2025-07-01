@@ -167,13 +167,6 @@ void MainFrame::Init_CreateControls()
     currentNetwork_ComboBox->Bind(wxEVT_COMBOBOX, &MainFrame::OnCurrentNetworkChange, this);
     ReloadCurrentNetwork();
 
-    optimizeMtuButton = new wxButton(rootPanel, wxID_ANY, _("Optimize MTU"));
-    optimizeMtuButton->Bind(wxEVT_BUTTON, &MainFrame::OnOptimizeMtuButton, this);
-    integrityCheckButton = new wxButton(rootPanel, wxID_ANY, _("Troubleshoot"));
-    integrityCheckButton->Bind(wxEVT_BUTTON, &MainFrame::OnIntegrityCheckButton, this);
-    settingsButton = new wxButton(rootPanel, wxID_ANY, _("Settings"));
-    settingsButton->Bind(wxEVT_BUTTON, &MainFrame::OnSettingsButton, this);
-
     Bind(wxEVT_CLOSE_WINDOW, &MainFrame::OnClose, this);
 }
 
@@ -223,43 +216,9 @@ void MainFrame::Init_Layout()
         liveLogSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
         liveLogSizer->Add(recentActiveLiveLog.get(), 1, wxEXPAND);
         liveLogSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
-
-        ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
     }
 
-    ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
-
-    {
-        wxBoxSizer* buttonRootSizer = new wxBoxSizer(wxHORIZONTAL);
-        rootSizer->Add(buttonRootSizer, 0, wxEXPAND);
-        wxBoxSizer* buttonLeftSizer = new wxBoxSizer(wxVERTICAL);
-        buttonRootSizer->Add(buttonLeftSizer, 1, wxEXPAND);
-        wxBoxSizer* buttonRightSizer = new wxBoxSizer(wxVERTICAL);
-        buttonRootSizer->Add(buttonRightSizer, 2, wxEXPAND);
-        wxPanel* rightSizerPanel = new wxPanel(rootPanel);
-        buttonRootSizer->Add(rightSizerPanel, 2, wxEXPAND);
-
-        wxBoxSizer* optimizeMtuSizer = new wxBoxSizer(wxHORIZONTAL);
-        optimizeMtuSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
-        optimizeMtuSizer->Add(optimizeMtuButton, 1, wxEXPAND);
-        optimizeMtuSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
-        buttonLeftSizer->Add(optimizeMtuSizer, 1, wxEXPAND);
-        ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, buttonLeftSizer);
-
-        wxBoxSizer* integrityCheckSizer = new wxBoxSizer(wxHORIZONTAL);
-        integrityCheckSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
-        integrityCheckSizer->Add(integrityCheckButton, 1, wxEXPAND);
-        integrityCheckSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
-        buttonLeftSizer->Add(integrityCheckSizer, 1, wxEXPAND);
-        ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, buttonLeftSizer);
-
-        wxBoxSizer* settingsSizer = new wxBoxSizer(wxHORIZONTAL);
-        settingsSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
-        settingsSizer->Add(settingsButton, 1, wxEXPAND);
-        settingsSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
-        buttonLeftSizer->Add(settingsSizer, 1, wxEXPAND);
-        ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, buttonLeftSizer);
-    }
+    ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
     this->Fit();
 }

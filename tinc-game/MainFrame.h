@@ -41,12 +41,10 @@ private:
     std::mutex uiMutex;
     std::condition_variable uiCb;
 
-    // UI to SRV
     void API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData);
     ReturnValue<std::wstring> API_SRV_DisconnectNetwork(PerNetworkData* perNetworkData);
     void API_SRV_PostLayout();
 
-    // SRV to UI
     void API_UI_SetDisconnectButtonEnable(bool enable, wxButton* disconnectButton);
     void API_UI_SetEditButtonEnable(bool enable, wxButton* editButton);
     void API_UI_ReportStatus(std::wstring status, tincTextCtrl* liveLog);
@@ -83,16 +81,6 @@ private:
     wxBoxSizer* networkControlSizer = nullptr;
     wxBoxSizer* liveLogSizer = nullptr;
 
-    wxButton* optimizeMtuButton = nullptr;
-    void OnOptimizeMtuButton(wxCommandEvent& evt);
-    void OnOptimizeMtuFrameCloseCallback();
-    wxButton* integrityCheckButton = nullptr;
-    void OnIntegrityCheckButton(wxCommandEvent& evt);
-    wxButton* settingsButton = nullptr;
-    void OnSettingsButton(wxCommandEvent& evt);
-
-    int openedFrameCount = 0;
-
     wxMenuBar* menuBar = nullptr;
 
     wxMenu* networksMenu = nullptr;
@@ -121,10 +109,12 @@ private:
     void OnManageTapFrameCloseCallback();
     const int wxIdMenuToolsSettings = wxWindow::NewControlId();
     void OnMenuToolsSettings(wxCommandEvent& event);
+    int openedFrameCount = 0;
 
     wxMenu* toolsAdvancedMenu = nullptr;
     const int wxIdMenuToolsAdvancedOptimizeMtu = wxWindow::NewControlId();
     void OnMenuToolsAdvancedOptimizeMtu(wxCommandEvent& event);
+    void OnOptimizeMtuFrameCloseCallback();
     const int wxIdMenuToolsAdvancedTroubleshoot = wxWindow::NewControlId();
     void OnMenuToolsAdvancedTroubleshoot(wxCommandEvent& event);
     void OnTroubleshootFrameCloseCallback();

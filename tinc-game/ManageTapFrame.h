@@ -34,7 +34,6 @@ class ManageTapFrame : public wxFrame
 public:
     ManageTapFrame(wxFrame* parentFrame, std::function<void()> onCloseCallback);
 
-    // UI to SRV
     static ReturnValue<InstallTapResult> API_SRV_InstallTap();
     static ReturnValue<UninstallTapResult> API_SRV_UninstallTap(WindowsAPI_SRV::GetAdaptersAddressesResult adapter);
 

@@ -23,7 +23,6 @@ class ApplyMtuFrame : public wxFrame
 public:
     ApplyMtuFrame(OptimizeMtuFrame* parentFrame, int mtuValue_IPv4, int mtuValue_IPv6);
 
-    // UI to SRV
     static ReturnValue<ApplyMtuResult> API_SRV_ApplyMtu(int mtu_IPv4, int mtu_IPv6, std::wstring adapterName);
     static void API_SRV_OpenCommandPrompt();
     static std::wstring API_SRV_GetNetshCommand(std::wstring adapterName, int mtu_IPv4, int mtu_IPv6);
