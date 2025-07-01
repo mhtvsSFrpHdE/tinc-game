@@ -60,6 +60,13 @@ void Settings_SRV::LoadConfigFile()
     namespace ls = Language_SRV;
 
     {
+        auto networksDir = Resource_SRV::Networks::GetNetworksDir();
+        if (networksDir.DirExists() == false) {
+            networksDir.Mkdir();
+        }
+    }
+
+    {
         auto iniType = GetIniFilePathBy::Program;
         namespace sk = SettingKeys_Program;
 
