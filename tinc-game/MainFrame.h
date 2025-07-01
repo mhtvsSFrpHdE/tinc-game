@@ -86,8 +86,6 @@ private:
     wxButton* optimizeMtuButton = nullptr;
     void OnOptimizeMtuButton(wxCommandEvent& evt);
     void OnOptimizeMtuFrameCloseCallback();
-    wxButton* manageTapDeviceButton = nullptr;
-    void OnManageTapButton(wxCommandEvent& evt);
     wxButton* integrityCheckButton = nullptr;
     void OnIntegrityCheckButton(wxCommandEvent& evt);
     void OnIntegrityCheckFrameCloseCallback();

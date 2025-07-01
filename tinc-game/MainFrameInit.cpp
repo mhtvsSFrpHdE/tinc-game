@@ -158,8 +158,6 @@ void MainFrame::Init_CreateControls()
 
     optimizeMtuButton = new wxButton(rootPanel, wxID_ANY, _("Optimize MTU"));
     optimizeMtuButton->Bind(wxEVT_BUTTON, &MainFrame::OnOptimizeMtuButton, this);
-    manageTapDeviceButton = new wxButton(rootPanel, wxID_ANY, _("Manage virtual network adapter"));
-    manageTapDeviceButton->Bind(wxEVT_BUTTON, &MainFrame::OnManageTapButton, this);
     integrityCheckButton = new wxButton(rootPanel, wxID_ANY, _("Troubleshoot"));
     integrityCheckButton->Bind(wxEVT_BUTTON, &MainFrame::OnIntegrityCheckButton, this);
     settingsButton = new wxButton(rootPanel, wxID_ANY, _("Settings"));
@@ -235,13 +233,6 @@ void MainFrame::Init_Layout()
         optimizeMtuSizer->Add(optimizeMtuButton, 1, wxEXPAND);
         optimizeMtuSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
         buttonLeftSizer->Add(optimizeMtuSizer, 1, wxEXPAND);
-        ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, buttonLeftSizer);
-
-        wxBoxSizer* manageTapDeviceSizer = new wxBoxSizer(wxHORIZONTAL);
-        manageTapDeviceSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
-        manageTapDeviceSizer->Add(manageTapDeviceButton, 1, wxEXPAND);
-        manageTapDeviceSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
-        buttonLeftSizer->Add(manageTapDeviceSizer, 1, wxEXPAND);
         ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, buttonLeftSizer);
 
         wxBoxSizer* integrityCheckSizer = new wxBoxSizer(wxHORIZONTAL);

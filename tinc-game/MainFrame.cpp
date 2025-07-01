@@ -3,7 +3,6 @@
 #include "OptimizeMtuFrame.h"
 #include "SettingsFrame.h"
 #include <wx/dialog.h>
-#include "ManageTapFrame.h"
 #include "Resource_SRV.h"
 #include <sstream>
 #include "String_SRV.h"
@@ -204,19 +203,6 @@ void MainFrame::OnOptimizeMtuFrameCloseCallback()
 {
     openedFrameCount--;
     optimizeMtuButton->Enable(true);
-}
-
-void MainFrame::OnManageTapButton(wxCommandEvent& evt)
-{
-    bool allAllowEdit = AllowMakeChange();
-    if (allAllowEdit == false) {
-        return;
-    }
-
-    std::function<void()> redirectCallback = std::bind(&MainFrame::OnManageTapFrameCloseCallback, this);
-    ManageTapFrame* manageTapDeviceFrame = new ManageTapFrame(this, redirectCallback);
-    manageTapDeviceFrame->Center();
-    manageTapDeviceFrame->Show();
 }
 
 void MainFrame::OnIntegrityCheckButton(wxCommandEvent& evt)
