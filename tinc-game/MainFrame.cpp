@@ -99,6 +99,7 @@ void MainFrame::UpdateCurrentTapItemDisplayText(WindowsAPI_SRV::GetAdaptersAddre
 void MainFrame::OnConnectButtonClick_Internal()
 {
     namespace ss = Settings_SRV;
+    namespace sdn = SettingDefaultValue_Networks;
 
     auto tapSelection = currentTap_ComboBox->GetSelection();
     if (tapSelection == wxNOT_FOUND) {
@@ -127,27 +128,27 @@ void MainFrame::OnConnectButtonClick_Internal()
         auto verboseSettingsKey = SettingKeys_Networks::network_verbose(networkRawData.network.networkName);
         bool verboseExists = ss::networksConfig->HasEntry(verboseSettingsKey);
         if (verboseExists == false) {
-            ss::networksConfig->Write(verboseSettingsKey, true);
+            ss::networksConfig->Write(verboseSettingsKey, sdn::verbose);
         }
         auto gameModeSettingsKey = SettingKeys_Networks::network_gameMode(networkRawData.network.networkName);
         auto gameModeExists = ss::networksConfig->HasEntry(gameModeSettingsKey);
         if (gameModeExists == false) {
-            ss::networksConfig->Write(gameModeSettingsKey, false);
+            ss::networksConfig->Write(gameModeSettingsKey, sdn::gameMode);
         }
         auto autoStartSettingsKey = SettingKeys_Networks::network_autoStart(networkRawData.network.networkName);
         auto autoStartExists = ss::networksConfig->HasEntry(gameModeSettingsKey);
         if (autoStartExists == false) {
-            ss::networksConfig->Write(autoStartSettingsKey, false);
+            ss::networksConfig->Write(autoStartSettingsKey, sdn::autoStart);
         }
         auto portSettingsKey = SettingKeys_Networks::network_port(networkRawData.network.networkName);
         auto portExists = ss::networksConfig->HasEntry(portSettingsKey);
         if (portExists == false) {
-            ss::networksConfig->Write(portSettingsKey, 0);
+            ss::networksConfig->Write(portSettingsKey, sdn::port);
         }
         auto setMetricSettingsKey = SettingKeys_Networks::network_setMetric(networkRawData.network.networkName);
         auto setMetricExists = ss::networksConfig->HasEntry(setMetricSettingsKey);
         if (setMetricExists == false) {
-            ss::networksConfig->Write(setMetricSettingsKey, true);
+            ss::networksConfig->Write(setMetricSettingsKey, sdn::setMetric);
         }
 
         ss::networksConfig->Flush();

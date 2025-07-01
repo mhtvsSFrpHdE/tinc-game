@@ -55,3 +55,11 @@ namespace SettingKeys_Networks {
     wxString network_port(wxString networkName);
     wxString network_setMetric(wxString networkName);
 };
+
+namespace SettingDefaultValue_Networks {
+    const bool gameMode = false;
+    const bool autoStart = false;
+    const bool verbose = true;
+    const bool setMetric = true;
+    const int port = 0;
+}

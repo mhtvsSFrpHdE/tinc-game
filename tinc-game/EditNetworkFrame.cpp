@@ -17,6 +17,7 @@ EditNetworkFrame::EditNetworkFrame(wxFrame* parentFrame, Networks_SRV::GetNetwor
 void EditNetworkFrame::Init_CreateControls()
 {
     namespace ss = Settings_SRV;
+    namespace sdn = SettingDefaultValue_Networks;
 
     rootPanel = new wxPanel(this);
     helpButton = new wxButton(rootPanel, wxID_ANY, _("Help"));
@@ -25,35 +26,39 @@ void EditNetworkFrame::Init_CreateControls()
     gameModeCheckBox->Bind(wxEVT_CHECKBOX, &EditNetworkFrame::OnGameModeCheckBoxClick, this);
     {
         auto gameModeSettingsKey = SettingKeys_Networks::network_gameMode(_network->networkName);
-        auto gameMode = ss::networksConfig->ReadBool(gameModeSettingsKey, false);
+        auto gameMode = ss::networksConfig->ReadBool(gameModeSettingsKey, sdn::gameMode);
         gameModeCheckBox->SetValue(gameMode);
     }
     autoConnectOnStartCheckBox = new wxCheckBox(rootPanel, wxID_ANY, _("Auto connect on start"));
     {
         auto autoStartSettingsKey = SettingKeys_Networks::network_autoStart(_network->networkName);
-        auto autoStart = ss::networksConfig->ReadBool(autoStartSettingsKey, false);
+        auto autoStart = ss::networksConfig->ReadBool(autoStartSettingsKey, sdn::autoStart);
         autoConnectOnStartCheckBox->SetValue(autoStart);
     }
     showDetailedLiveLogCheckBox = new wxCheckBox(rootPanel, wxID_ANY, _("Show detailed live log"));
     {
         auto verboseSettingsKey = SettingKeys_Networks::network_verbose(_network->networkName);
-        auto verbose = ss::networksConfig->ReadBool(verboseSettingsKey, true);
+        auto verbose = ss::networksConfig->ReadBool(verboseSettingsKey, sdn::verbose);
         showDetailedLiveLogCheckBox->SetValue(verbose);
     }
     setMetricCheckBox = new wxCheckBox(rootPanel, wxID_ANY, _("Set metric before connect"));
     {
         auto setMetricSettingsKey = SettingKeys_Networks::network_setMetric(_network->networkName);
-        auto setMetric = ss::networksConfig->ReadBool(setMetricSettingsKey, true);
+        auto setMetric = ss::networksConfig->ReadBool(setMetricSettingsKey, sdn::setMetric);
         setMetricCheckBox->SetValue(setMetric);
     }
     portNumber_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Port (0-65535):"));
     portNumber_ComboBox = new wxComboBox(rootPanel, wxID_ANY);
     {
-        portNumber_ComboBox->Append(_("0"));
+        const auto defaultPort = wxString(std::to_wstring(sdn::port));
+        portNumber_ComboBox->Append(defaultPort);
 
         auto portSettingsKey = SettingKeys_Networks::network_port(_network->networkName);
         auto port = ss::networksConfig->Read(portSettingsKey);
         portNumber_ComboBox->SetValue(port);
+        if (port.empty()) {
+            portNumber_ComboBox->SetValue(defaultPort);
+        }
     }
     confirmButton = new wxButton(rootPanel, wxID_ANY, _("Confirm"));
     confirmButton->Bind(wxEVT_BUTTON, &EditNetworkFrame::OnConfirmButtonClick, this);
@@ -137,7 +142,9 @@ void EditNetworkFrame::OnHelpButtonClick(wxCommandEvent& event)
         << ss::newLine << ss::newLine
         << _("Port")
         << ss::newLine
-        << _("If you don't have open port and just a regular player, set to 0 to use random port to increase UDP hole punching success rate. If you have dedicated public IPv4 address and open port, you can set your port forwarding information here, let other people connect to you in direct path to minimize lantancy, this WILL ALSO allow other people do UDP hole punching between each other by using your network to swap information, or even forward traffic through your network when UDP hole punching failed. tinc didn't provide an option to turn off \"help other people\", so you can't have open port but refuse to serve others at same time, consider to limit your upload speed to prevent your upload traffic goes wild by using tools like NetLimiter on Windows, nftables on Linux");
+        << _("If you don't have open port and just a regular player, set to 0 to use random port to increase UDP hole punching success rate. If you have dedicated public IPv4 address and open port, you can set your port forwarding information here, let other people connect to you in direct path to minimize lantancy, this WILL ALSO allow other people do UDP hole punching between each other by using your network to swap information, or even forward traffic through your network when UDP hole punching failed. tinc didn't provide an option to turn off \"help other people\", so you can't have open port but refuse to serve others at same time, consider to limit your upload speed to prevent your upload traffic goes wild by using tools like NetLimiter on Windows, nftables on Linux")
+        << ss::newLine
+        << _("When Game Mode is enabled, port must set to 0 to make it actually work, prevent other people from connect you via direct path");
 
     std::function<void()> redirectCallback = std::bind(&EditNetworkFrame::OnHelpFrameCloseCallback, this);
     HelpFrame* helpFrame = new HelpFrame(this, _("About network settings"), redirectCallback);
