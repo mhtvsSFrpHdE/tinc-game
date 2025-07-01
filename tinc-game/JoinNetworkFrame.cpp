@@ -16,6 +16,7 @@ JoinNetworkFrame::JoinNetworkFrame(wxFrame* parentFrame, std::function<void()> o
 void JoinNetworkFrame::API_UI_EndJoinNetworkByInviteCode(ReturnValue<JoinNetworkResult> result)
 {
     if (result.success) {
+        allowCloseFrame = true;
         wxMessageDialog(this, _("Successfully joined network")).ShowModal();
         Close();
     }
