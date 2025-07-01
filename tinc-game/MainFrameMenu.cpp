@@ -200,22 +200,6 @@ void MainFrame::OnMenuToolsManageTap(wxCommandEvent& event)
     manageTapDeviceFrame->Show();
 }
 
-void OnSettingsMenu_OpenSettingsFrame(MainFrame* mainFrame)
-{
-    SettingsFrame* settingsframe = new SettingsFrame(mainFrame);
-    settingsframe->Center();
-    settingsframe->Show();
-}
-
-void OnSettingsMenu_OtherWindowExists(MainFrame* mainFrame)
-{
-    wxString buttonHint = _("Close all windows before enter setting interface.");
-    wxString title = _("hint");
-    wxMessageDialog* dial = new wxMessageDialog(NULL,
-        buttonHint, title, wxOK);
-    dial->ShowModal();
-}
-
 void MainFrame::OnMenuToolsSettings(wxCommandEvent& event)
 {
     bool allAllowEdit = AllowMakeChange();
@@ -225,10 +209,12 @@ void MainFrame::OnMenuToolsSettings(wxCommandEvent& event)
 
     if (openedFrameCount == 0)
     {
-        OnSettingsMenu_OpenSettingsFrame(this);
+        SettingsFrame* settingsframe = new SettingsFrame(this);
+        settingsframe->Center();
+        settingsframe->Show();
     }
     else {
-        OnSettingsMenu_OtherWindowExists(this);
+        wxMessageDialog(this, _("Close all windows before enter setting interface")).ShowModal();
     }
 }
 
