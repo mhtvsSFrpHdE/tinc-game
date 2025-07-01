@@ -175,6 +175,7 @@ void EditNetworkFrame::OnGameModeCheckBoxClick(wxCommandEvent& event)
             gameModeCheckBox->SetValue(false);
             return;
         }
+        portNumber_ComboBox->SetValue(wxT("0"));
     }
 }
 
@@ -184,18 +185,24 @@ void EditNetworkFrame::OnConfirmButtonClick(wxCommandEvent& event)
 
     auto portSettingsKey = SettingKeys_Networks::network_port(_network->networkName);
     auto port = portNumber_ComboBox->GetValue();
+    auto gameMode = gameModeCheckBox->GetValue();
     {
-        auto portHint = _("Invalid port number");
+        auto invalidPortHint = _("Invalid port number");
         try {
             auto portInt = std::stoi(port.ToStdWstring());
             auto validPort = portInt >= 0 && portInt <= 65535;
             if (validPort == false) {
-                wxMessageDialog(this, portHint).ShowModal();
+                wxMessageDialog(this, invalidPortHint).ShowModal();
+                return;
+            }
+            if (gameMode && portInt != 0)
+            {
+                wxMessageDialog(this, _("Game Mode has enabled, port must set to 0")).ShowModal();
                 return;
             }
         }
         catch (...) {
-            wxMessageDialog(this, portHint).ShowModal();
+            wxMessageDialog(this, invalidPortHint).ShowModal();
             return;
         }
     }
@@ -210,7 +217,6 @@ void EditNetworkFrame::OnConfirmButtonClick(wxCommandEvent& event)
     ss::networksConfig->Write(setMetricSettingsKey, setMetric);
 
     auto gameModeSettingsKey = SettingKeys_Networks::network_gameMode(_network->networkName);
-    auto gameMode = gameModeCheckBox->GetValue();
     ss::networksConfig->Write(gameModeSettingsKey, gameMode);
 
     auto autoStartSettingsKey = SettingKeys_Networks::network_autoStart(_network->networkName);
