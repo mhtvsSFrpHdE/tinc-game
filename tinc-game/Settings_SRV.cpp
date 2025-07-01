@@ -76,8 +76,8 @@ void Settings_SRV::LoadConfigFile()
             programConfig->Write(sk::metadata_configVersion, 0);
             programConfig->Write(sk::settings_language, static_cast<int>(ls::KnownLanguage::Unknown));
             programConfig->Write(sk::settings_gameMode, wxT("GameApp.exe"));
-            programConfig->Write(sk::lists_mtuTestIp, wxT("1.1.1.1, 8.8.8.8, 10.255.60.1"));
-            programConfig->Write(sk::lists_gameModeGames, wxT("GameApp.exe, javaw.exe"));
+            programConfig->Write(sk::lists_mtuTestIp, wxT("1.1.1.1,8.8.8.8"));
+            programConfig->Write(sk::lists_gameModeGames, wxT("GameApp.exe,javaw.exe"));
             programConfig->Flush();
         }
     }
