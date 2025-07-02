@@ -175,6 +175,8 @@ void MainFrame::API_SRV_PostLayout()
                 CallAfter([this, autoStartIndex] {
                     currentNetwork_ComboBox->SetSelection(autoStartIndex);
                     currentNetwork_ComboBox->SendSelectionChangedEvent(wxEVT_COMBOBOX);
+                    });
+                CallAfter([this] {
                     Lock_SRV::Notify(uiMutex, uiCb);
                     });
                 Lock_SRV::Wait(uiMutex, uiCb);

@@ -11,3 +11,14 @@ void Lock_SRV::Wait(std::mutex& mutex, std::condition_variable& cb)
     std::unique_lock<std::mutex> ulock(mutex);
     cb.wait(ulock);
 }
+
+Lock_SRV::ByReferenceTest::ByReferenceTest()
+{
+}
+
+void Lock_SRV::ByRefTest(ByReferenceTest& byRef)
+{
+    // Known information
+
+    // C++ 11: "[this] {}", access anything is by reference
+}
