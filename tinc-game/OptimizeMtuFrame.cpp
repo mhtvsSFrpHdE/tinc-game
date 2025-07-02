@@ -99,7 +99,7 @@ void OptimizeMtuFrame::Init_Layout()
 {
     namespace ls = Layout_SRV;
 
-    this->SetSizeHints(640, 480);
+    SetSizeHints(640, 480);
 
     wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
     rootPanel->SetSizer(rootSizer);
@@ -145,7 +145,7 @@ void OptimizeMtuFrame::Init_Layout()
 
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
-    this->Fit();
+    Fit();
 }
 
 void OptimizeMtuFrame::OnClose(wxCloseEvent& event)

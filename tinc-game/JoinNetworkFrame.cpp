@@ -186,7 +186,7 @@ void JoinNetworkFrame::Init_Layout()
 {
     namespace ls = Layout_SRV;
 
-    this->SetSizeHints(640, 480);
+    SetSizeHints(480, 320);
 
     rootSizer = new wxBoxSizer(wxVERTICAL);
     rootPanel->SetSizer(rootSizer);
@@ -249,7 +249,7 @@ void JoinNetworkFrame::Init_Layout()
 
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
-    this->Fit();
+    Fit();
 }
 
 void JoinNetworkFrame::OnClose(wxCloseEvent& event)

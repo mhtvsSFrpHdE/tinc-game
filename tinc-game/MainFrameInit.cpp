@@ -174,8 +174,7 @@ void MainFrame::Init_Layout()
 {
     namespace ls = Layout_SRV;
 
-    wxSize minSize(640, 480);
-    this->SetSizeHints(minSize);
+    SetSizeHints(640, 480);
 
     wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
     rootPanel->SetSizer(rootSizer);
@@ -220,7 +219,7 @@ void MainFrame::Init_Layout()
 
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
-    this->Fit();
+    Fit();
 }
 
 void MainFrame::Init_PostLayout()

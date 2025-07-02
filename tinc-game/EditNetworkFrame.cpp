@@ -72,7 +72,7 @@ void EditNetworkFrame::Init_Layout()
 {
     namespace ls = Layout_SRV;
 
-    this->SetSizeHints(290, 250);
+    SetSizeHints(290, 250);
 
     wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
     rootPanel->SetSizer(rootSizer);
@@ -108,7 +108,7 @@ void EditNetworkFrame::Init_Layout()
 
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
-    this->Fit();
+    Fit();
 }
 
 void EditNetworkFrame::OnClose(wxCloseEvent& event)

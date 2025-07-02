@@ -67,7 +67,7 @@ void SettingsFrame::Init_Layout()
 {
     namespace ls = Layout_SRV;
 
-    this->SetSizeHints(320, 230);
+    SetSizeHints(320, 230);
 
     wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
     rootPanel->SetSizer(rootSizer);
@@ -92,7 +92,7 @@ void SettingsFrame::Init_Layout()
 
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
-    this->Fit();
+    Fit();
 }
 
 void SettingsFrame::OnConfirmButtonClick(wxCommandEvent& event)

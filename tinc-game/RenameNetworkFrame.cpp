@@ -34,7 +34,7 @@ void RenameNetworkFrame::Init_Layout()
 {
     namespace ls = Layout_SRV;
 
-    this->SetSizeHints(290, 250);
+    SetSizeHints(280, 165);
 
     wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
     rootPanel->SetSizer(rootSizer);
@@ -42,7 +42,13 @@ void RenameNetworkFrame::Init_Layout()
 
     rootSizer->Add(newName_StaticText, 0, wxLEFT, ls::SpaceToFrameBorder);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
-    rootSizer->Add(newName_ComboBox, 0, wxLEFT, ls::SpaceToFrameBorder);
+
+
+    wxBoxSizer* newNameSizer = new wxBoxSizer(wxHORIZONTAL);
+    rootSizer->Add(newNameSizer, 1, wxEXPAND);
+    newNameSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
+    newNameSizer->Add(newName_ComboBox, 1, wxEXPAND);
+    newNameSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
     rootSizer->Add(0, 0, ls::TakeAllSpace, wxEXPAND);
@@ -53,6 +59,8 @@ void RenameNetworkFrame::Init_Layout()
     navigateSizer->Add(cancelButton, 1, wxRIGHT, ls::SpaceToFrameBorder);
 
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
+
+    Fit();
 }
 
 void RenameNetworkFrame::OnConfirmButtonClick(wxCommandEvent& event)

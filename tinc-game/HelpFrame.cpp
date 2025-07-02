@@ -30,7 +30,7 @@ void HelpFrame::Init_Layout(bool defaultInit)
 {
     namespace ls = Layout_SRV;
 
-    this->SetSizeHints(640, 480);
+    SetSizeHints(640, 480);
 
     rootSizer = new wxBoxSizer(wxVERTICAL);
     rootPanel->SetSizer(rootSizer);
@@ -39,7 +39,7 @@ void HelpFrame::Init_Layout(bool defaultInit)
         rootSizer->Add(helpText_TextCtrl, 1, wxEXPAND | wxALL, ls::SpaceToFrameBorder);
     }
 
-    this->Fit();
+    Fit();
 }
 
 void HelpFrame::OnClose(wxCloseEvent& event)

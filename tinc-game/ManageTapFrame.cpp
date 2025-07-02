@@ -50,7 +50,7 @@ void ManageTapFrame::Init_Layout()
 {
     namespace ls = Layout_SRV;
 
-    this->SetSizeHints(405, 310);
+    SetSizeHints(405, 310);
 
     wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
     rootPanel->SetSizer(rootSizer);
@@ -98,7 +98,7 @@ void ManageTapFrame::Init_Layout()
 
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
-    this->Fit();
+    Fit();
 }
 
 void ManageTapFrame::OnClose(wxCloseEvent& event)
