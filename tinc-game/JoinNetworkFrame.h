@@ -30,9 +30,7 @@ private:
     wxWindowDisabler makeModal;
 
     wxPanel* rootPanel;
-    wxPanel* joinByRegisterPanel;
-    wxPanel* joinByInviteCodePanel;
-    wxPanel* joinByImportPanel;
+    wxBoxSizer* rootSizer;
 
     wxStaticText* joinBy_StaticText;
     wxComboBox* joinBy_ComboBox;
@@ -44,14 +42,26 @@ private:
     wxStaticText* saveAs_StaticText;
     wxComboBox* saveAs_ComboBox;
 
+    wxBoxSizer* navigateSizer;
+    wxButton* confirmButton;
+    void OnConfirmButtonClick(wxCommandEvent& event);
+    wxButton* retryButton;
+    void OnRetryButtonClick(wxCommandEvent& event);
+    wxButton* cancelButton;
+    void OnCancelButtonClick(wxCommandEvent& event);
+
+    wxPanel* joinByInviteCodePanel;
+
     wxStaticText* inviteCode_StaticText;
     wxTextCtrl* inviteCode_TextCtrl;
     void OnInviteCodeChanged(wxCommandEvent& event);
 
-    wxButton* confirmButton;
-    void OnConfirmButtonClick(wxCommandEvent& event);
-    wxButton* cancelButton;
-    void OnCancelButtonClick(wxCommandEvent& event);
+    wxPanel* retryPanel;
+
+    wxStaticText* liveLog_StaticText;
+    wxTextCtrl* liveLog_TextCtrl;
+
+    wxPanel* joinByRegisterPanel;
 
     void Init_CreateControls();
     void Init_Layout();

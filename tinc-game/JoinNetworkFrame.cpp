@@ -39,7 +39,16 @@ void JoinNetworkFrame::API_UI_EndJoinNetworkByInviteCode(ReturnValue<JoinNetwork
         }
     }
 
+    joinByInviteCodePanel->Hide();
+    retryPanel->Show();
+    rootSizer->Layout();
+
     confirmButton->Enable(true);
+    confirmButton->Hide();
+    navigateSizer->Replace(confirmButton, retryButton);
+    retryButton->Show();
+    navigateSizer->Layout();
+
     cancelButton->Enable(true);
     joinBy_ComboBox->Enable(true);
     saveAs_ComboBox->Enable(true);
@@ -120,10 +129,13 @@ void JoinNetworkFrame::OnCancelButtonClick(wxCommandEvent& event)
     Close();
 }
 
+void JoinNetworkFrame::OnRetryButtonClick(wxCommandEvent& event)
+{
+}
+
 void JoinNetworkFrame::Init_CreateControls()
 {
     rootPanel = new wxPanel(this);
-    joinByInviteCodePanel = new wxPanel(rootPanel);
     joinBy_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Join by"));
     joinBy_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
     joinBy_ComboBox->Append(_("Invite code"));
@@ -132,14 +144,24 @@ void JoinNetworkFrame::Init_CreateControls()
     saveAs_ComboBox = new wxComboBox(rootPanel, wxID_ANY);
     saveAs_ComboBox->Append(L"Default");
 
+    joinByInviteCodePanel = new wxPanel(rootPanel);
     {
-        inviteCode_StaticText = new wxStaticText(joinByInviteCodePanel, wxID_ANY, _("Invite code"));
+        inviteCode_StaticText = new wxStaticText(joinByInviteCodePanel, wxID_ANY, _("Type invite code:"));
         inviteCode_TextCtrl = new wxTextCtrl(joinByInviteCodePanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
         inviteCode_TextCtrl->Bind(wxEVT_TEXT, &JoinNetworkFrame::OnInviteCodeChanged, this);
     }
+    retryPanel = new wxPanel(rootPanel);
+    {
+        liveLog_StaticText = new wxStaticText(retryPanel, wxID_ANY, _("Error log:"));
+        liveLog_TextCtrl = new wxTextCtrl(retryPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
+    }
+    retryPanel->Hide();
 
     confirmButton = new wxButton(rootPanel, wxID_ANY, _("Join"));
     confirmButton->Bind(wxEVT_BUTTON, &JoinNetworkFrame::OnConfirmButtonClick, this);
+    retryButton = new wxButton(rootPanel, wxID_ANY, _("Retry"));
+    retryButton->Bind(wxEVT_BUTTON, &JoinNetworkFrame::OnRetryButtonClick, this);
+    retryButton->Hide();
     cancelButton = new wxButton(rootPanel, wxID_ANY, _("Cancel"));
     cancelButton->Bind(wxEVT_BUTTON, &JoinNetworkFrame::OnCancelButtonClick, this);
 
@@ -152,7 +174,7 @@ void JoinNetworkFrame::Init_Layout()
 
     this->SetSizeHints(640, 480);
 
-    wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
+    rootSizer = new wxBoxSizer(wxVERTICAL);
     rootPanel->SetSizer(rootSizer);
     ls::AddFixedSpacer(wxTOP, ls::SpaceToFrameBorder, rootSizer);
 
@@ -189,7 +211,23 @@ void JoinNetworkFrame::Init_Layout()
         rootSizer->Add(joinByInviteCodePanel, 1, wxEXPAND);
     }
 
-    wxBoxSizer* navigateSizer = new wxBoxSizer(wxHORIZONTAL);
+    {
+        wxBoxSizer* retrySizer = new wxBoxSizer(wxVERTICAL);
+        retryPanel->SetSizer(retrySizer);
+        retrySizer->Add(liveLog_StaticText, 0, wxLEFT, ls::SpaceToFrameBorder);
+        ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, retrySizer);
+
+        wxBoxSizer* liveLogTextCtrlSizer = new wxBoxSizer(wxHORIZONTAL);
+        retrySizer->Add(liveLogTextCtrlSizer, 1, wxEXPAND);
+        liveLogTextCtrlSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
+        liveLogTextCtrlSizer->Add(liveLog_TextCtrl, ls::TakeAllSpace, wxEXPAND);
+        liveLogTextCtrlSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
+        ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, retrySizer);
+
+        rootSizer->Add(retryPanel, 1, wxEXPAND);
+    }
+
+    navigateSizer = new wxBoxSizer(wxHORIZONTAL);
     rootSizer->Add(navigateSizer);
     navigateSizer->AddStretchSpacer(ls::TakeAllSpace);
     navigateSizer->Add(confirmButton, 1, wxRIGHT, ls::SpaceBetweenControl);
