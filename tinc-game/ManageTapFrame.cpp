@@ -50,7 +50,7 @@ void ManageTapFrame::Init_Layout()
 {
     namespace ls = Layout_SRV;
 
-    SetSizeHints(405, 310);
+    SetSizeHints(480, 310);
 
     wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
     rootPanel->SetSizer(rootSizer);

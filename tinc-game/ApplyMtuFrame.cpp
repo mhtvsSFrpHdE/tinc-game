@@ -57,7 +57,7 @@ void ApplyMtuFrame::Init_Layout()
 {
     namespace ls = Layout_SRV;
 
-    SetSizeHints(320, 290);
+    SetSizeHints(480, 290);
 
     wxBoxSizer* rootSizer = new wxBoxSizer(wxVERTICAL);
     rootPanel->SetSizer(rootSizer);
