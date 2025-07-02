@@ -25,6 +25,7 @@ private:
 
     void API_SRV_JoinNetworkByInviteCode(std::wstring networkName, std::wstring inviteCode);
 
+    void API_UI_ReportErrorMessage(ReturnValue<JoinNetworkResult> result);
     void API_UI_EndJoinNetworkByInviteCode(ReturnValue<JoinNetworkResult> result);
 
     wxWindowDisabler makeModal;

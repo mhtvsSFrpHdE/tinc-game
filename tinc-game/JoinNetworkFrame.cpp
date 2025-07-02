@@ -13,6 +13,12 @@ JoinNetworkFrame::JoinNetworkFrame(wxFrame* parentFrame, std::function<void()> o
     Init_Layout();
 }
 
+void JoinNetworkFrame::API_UI_ReportErrorMessage(ReturnValue<JoinNetworkResult> result)
+{
+    liveLog_TextCtrl->Clear();
+    liveLog_TextCtrl->AppendText(result.returnBody.messageString);
+}
+
 void JoinNetworkFrame::API_UI_EndJoinNetworkByInviteCode(ReturnValue<JoinNetworkResult> result)
 {
     if (result.success) {
@@ -131,6 +137,14 @@ void JoinNetworkFrame::OnCancelButtonClick(wxCommandEvent& event)
 
 void JoinNetworkFrame::OnRetryButtonClick(wxCommandEvent& event)
 {
+    retryPanel->Hide();
+    joinByInviteCodePanel->Show();
+    rootSizer->Layout();
+
+    retryButton->Hide();
+    navigateSizer->Replace(retryButton, confirmButton);
+    confirmButton->Show();
+    navigateSizer->Layout();
 }
 
 void JoinNetworkFrame::Init_CreateControls()
@@ -153,7 +167,7 @@ void JoinNetworkFrame::Init_CreateControls()
     retryPanel = new wxPanel(rootPanel);
     {
         liveLog_StaticText = new wxStaticText(retryPanel, wxID_ANY, _("Error log:"));
-        liveLog_TextCtrl = new wxTextCtrl(retryPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
+        liveLog_TextCtrl = new wxTextCtrl(retryPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE);
     }
     retryPanel->Hide();
 

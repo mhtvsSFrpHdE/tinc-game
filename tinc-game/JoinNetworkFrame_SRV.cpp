@@ -96,11 +96,12 @@ ReturnValue<JoinNetworkResult> JoinByInviteCode(std::wstring& tincBin, std::wstr
     }
 
     if (result.success == false) {
+        result.returnBody.messageString = lines.str();
+
         if (connected) {
             result.returnBody.messageEnum = JoinNetworkResult::Enum::AuthenticateFailed;
         }
         if (result.returnBody.messageEnum == JoinNetworkResult::Enum::Other) {
-            result.returnBody.messageString = lines.str();
             if (connected == false) {
                 result.returnBody.messageString = L"Could not connect" + String_SRV::newLine + result.returnBody.messageString;
             }
@@ -186,5 +187,6 @@ void JoinNetworkFrame::API_SRV_JoinNetworkByInviteCode(std::wstring networkName,
 
     wxRemoveFile(tincGameModeBinPath);
 
+    CallAfter(&JoinNetworkFrame::API_UI_ReportErrorMessage, joinOrSetResult);
     CallAfter(&JoinNetworkFrame::API_UI_EndJoinNetworkByInviteCode, joinOrSetResult);
 }
