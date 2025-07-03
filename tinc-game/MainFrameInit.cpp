@@ -250,7 +250,6 @@ void MainFrame::Init_Layout()
         networkControlIpSizer->Add(ipStaticText, 0, wxLEFT | wxALIGN_CENTER_VERTICAL, ls::BoxSizerVhhOffset);
         ls::AddFixedSpacer(wxLEFT, ls::SpaceBetweenControl, networkControlIpSizer);
         networkControlIpSizer->Add(recentActiveIpTextCtrl.get(), ls::TakeAllSpace, wxRIGHT, ls::SpaceBetweenControl);
-        recentActiveIpCopyAndRefreshButton->SetSize(80, wxDefaultSize.y);
         networkControlIpSizer->Add(recentActiveIpCopyAndRefreshButton.get(), 0, wxRIGHT, ls::SpaceToFrameBorder);
 
         ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
