@@ -18,4 +18,5 @@ namespace WindowsAPI_SRV
     };
 
     void GetAdaptersAddresses(std::vector<GetAdaptersAddressesResult>* result);
+    void GetAdaptersInfo(std::string windows_LUID, std::vector<std::string>* result);
 };

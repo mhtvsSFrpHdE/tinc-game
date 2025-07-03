@@ -248,12 +248,33 @@ void PerNetworkData::IpReportThread()
         if (sleeped > totalSleepTimeSec) {
             break;
         }
+        if (sleeped % secondInMs != 0) {
+            continue;
+        }
 
-        if (sleeped % secondInMs == 0) {
-            auto ipTextCtrlW = std::weak_ptr<wxTextCtrl>(ipTextCtrl);
-            if (auto ipTextCtrlL = ipTextCtrlW.lock()) {
-                ipTextCtrlL->SetLabel(std::to_wstring(sleeped));
+        std::vector<std::string> result;
+        WindowsAPI_SRV::GetAdaptersInfo(tap->windows_LUID, &result);
+
+        // result.size() == 1: "192.168.1.1"
+        // result.size() == 3: "192.168.1.1, 192.168.1.2, 192.168.1.3"
+        auto resultSize = result.size();
+        std::stringstream wss;
+        if (resultSize > 0) {
+            wss << result[0];
+            if (resultSize > 1) {
+                const std::string delimiter = ", ";
+                for (size_t i = 1; i < result.size(); i++)
+                {
+                    wss << delimiter << result[i];
+                }
             }
+        }
+
+        auto ipTextCtrlW = std::weak_ptr<wxTextCtrl>(ipTextCtrl);
+        if (auto ipTextCtrlL = ipTextCtrlW.lock()) {
+            auto assignedIPs = wss.str();
+            ipTextCtrlL->SetLabel(assignedIPs);
+            ipTextCtrlL->SetInsertionPointEnd();
         }
     }
 }

@@ -188,6 +188,71 @@ void WindowsAPI_SRV::GetAdaptersAddresses(std::vector<GetAdaptersAddressesResult
     }
 }
 
+void WindowsAPI_SRV::GetAdaptersInfo(std::string windows_LUID, std::vector<std::string>* result)
+{
+    IP_ADAPTER_INFO* pAdapterInfo;
+    ULONG            ulOutBufLen;
+    DWORD            dwRetVal;
+
+    pAdapterInfo = (IP_ADAPTER_INFO*)malloc(sizeof(IP_ADAPTER_INFO));
+    ulOutBufLen = sizeof(IP_ADAPTER_INFO);
+
+    if (GetAdaptersInfo(pAdapterInfo, &ulOutBufLen) != ERROR_SUCCESS) {
+        free(pAdapterInfo);
+        pAdapterInfo = (IP_ADAPTER_INFO*)malloc(ulOutBufLen);
+    }
+
+    if ((dwRetVal = GetAdaptersInfo(pAdapterInfo, &ulOutBufLen)) != ERROR_SUCCESS) {
+        //printf("GetAdaptersInfo call failed with %d\n", dwRetVal);
+    }
+
+    PIP_ADAPTER_INFO pAdapter = pAdapterInfo;
+    while (pAdapter) {
+        //printf("Adapter Name: %s\n", pAdapter->AdapterName);
+        //printf("Adapter Desc: %s\n", pAdapter->Description);
+        //printf("\tAdapter Addr: \t");
+        //for (UINT i = 0; i < pAdapter->AddressLength; i++) {
+        //    if (i == (pAdapter->AddressLength - 1))
+        //        printf("%.2X\n", (int)pAdapter->Address[i]);
+        //    else
+        //        printf("%.2X-", (int)pAdapter->Address[i]);
+        //}
+        //printf("IP Address: %s\n", pAdapter->IpAddressList.IpAddress.String);
+
+        //// Iterate through the IP addresses
+        //PIP_ADDR_STRING pAddress = &(pAdapter->IpAddressList);
+        //while (pAddress) {
+        //    std::string address(pAddress->IpAddress.String);
+        //    pAddress = pAddress->Next;
+        //}
+
+        //printf("IP Mask: %s\n", pAdapter->IpAddressList.IpMask.String);
+        //printf("\tGateway: \t%s\n", pAdapter->GatewayList.IpAddress.String);
+        //printf("\t***\n");
+        //if (pAdapter->DhcpEnabled) {
+        //    printf("\tDHCP Enabled: Yes\n");
+        //    printf("\t\tDHCP Server: \t%s\n", pAdapter->DhcpServer.IpAddress.String);
+        //}
+        //else
+        //    printf("\tDHCP Enabled: No\n");
+
+        if (windows_LUID == pAdapter->AdapterName) {
+            PIP_ADDR_STRING pAddress = &(pAdapter->IpAddressList);
+            while (pAddress) {
+                result->push_back(pAddress->IpAddress.String);
+                pAddress = pAddress->Next;
+            }
+
+            break;
+        }
+
+        pAdapter = pAdapter->Next;
+    }
+
+    if (pAdapterInfo)
+        free(pAdapterInfo);
+}
+
 bool WindowsAPI_SRV::GetAdaptersAddressesResult::IsLoopback()
 {
     auto isLoopback = this->modelName.find(L"Software Loopback") != std::wstring::npos;
