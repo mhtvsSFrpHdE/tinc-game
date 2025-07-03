@@ -15,9 +15,13 @@ void HelpFrame::OnClose(wxCloseEvent& event)
 ```
 
 ## wxWidgets `3.1.5`, `Windows 11` 
-VerticalBoxSizer - HorizontalBoxSizer - VerticalBoxSizer - ControlA
-VerticalBoxSizer - HorizontalBoxSizer - HorizontalBoxSizer - ControlB
-ControlB will position at x axis -5 compared to ControlA for unknown reason
-Add 5 offset wxLEFT to fix that
+Const BoxSizerVhhOffset already intergrated to Layout_SRV
 
-Const int 5 already intergrated to Layout_SRV
+VerticalBoxSizer - HorizontalBoxSizer - VerticalBoxSizer - ControlA  
+VerticalBoxSizer - HorizontalBoxSizer - HorizontalBoxSizer - ControlB  
+ControlB will position at x axis -<BoxSizerVhhOffset> compared to ControlA for unknown reason  
+Add BoxSizerVhhOffset offset wxLEFT or fixed spacer to fix that
+
+If that still doesn't work
+- Check if your content total GetMinSize exceeds sizer limit
+- Explicitly SetMinSize for each control especially TextCtrl (like wxTE_READONLY)

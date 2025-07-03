@@ -34,6 +34,11 @@ std::shared_ptr<tincTextCtrl> MainFrame::GetInitPhaseDummyLiveLog()
 std::shared_ptr<wxTextCtrl> MainFrame::GetInitPhaseDummyIpTextCtrl()
 {
     auto textCtrl = std::shared_ptr<wxTextCtrl>(new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY), Resource_SRV::wxWidgets::wxTextCtrlDeleter);
+    {
+        auto minSize = wxDefaultSize;
+        minSize.x = 10;
+        textCtrl->SetMinSize(minSize);
+    }
     textCtrl->SetBackgroundColour(*wxWHITE);
     return textCtrl;
 }
@@ -79,6 +84,11 @@ void MainFrame::ReloadCurrentNetwork()
             perNetworkData->disconnectButton->Enable(false);
             perNetworkData->disconnectButton->Hide();
             perNetworkData->ipTextCtrl = std::shared_ptr<wxTextCtrl>(new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY), rsx::wxTextCtrlDeleter);
+            {
+                auto minSize = wxDefaultSize;
+                minSize.x = 10;
+                perNetworkData->ipTextCtrl->SetMinSize(minSize);
+            }
             perNetworkData->ipTextCtrl->SetBackgroundColour(*wxWHITE);
             perNetworkData->ipTextCtrl->Hide();
             perNetworkData->ipCopyAndRefreshButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Copy Refresh")), rsx::wxButtonDeleter);
@@ -243,14 +253,16 @@ void MainFrame::Init_Layout()
         networkControlRootSizer->Add(networkControlNavigateSizer, 1);
         networkControlNavigateSizer->Add(recentActiveConnectButton.get(), 1, wxLEFT, ls::SpaceToFrameBorder);
         networkControlNavigateSizer->Add(recentActiveDisconnectButton.get(), 1, wxLEFT, ls::SpaceBetweenControl);
-        ls::AddFixedSpacer(wxRIGHT, 50 + ls::SpaceBetweenControl, networkControlNavigateSizer);
+        ls::AddFixedSpacer(wxLEFT, 70, networkControlNavigateSizer);
 
         networkControlIpSizer = new wxBoxSizer(wxHORIZONTAL);
         networkControlRootSizer->Add(networkControlIpSizer, 1);
-        networkControlIpSizer->Add(ipStaticText, 0, wxLEFT | wxALIGN_CENTER_VERTICAL, ls::BoxSizerVhhOffset);
+        ls::AddFixedSpacer(wxLEFT, ls::BoxSizerVhhOffset, networkControlIpSizer);
+        networkControlIpSizer->Add(ipStaticText, 0, wxALIGN_CENTER_VERTICAL);
         ls::AddFixedSpacer(wxLEFT, ls::SpaceBetweenControl, networkControlIpSizer);
         networkControlIpSizer->Add(recentActiveIpTextCtrl.get(), ls::TakeAllSpace, wxRIGHT, ls::SpaceBetweenControl);
         networkControlIpSizer->Add(recentActiveIpCopyAndRefreshButton.get(), 0, wxRIGHT, ls::SpaceToFrameBorder);
+        auto what = networkControlIpSizer->GetMinSize();
 
         ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
     }
