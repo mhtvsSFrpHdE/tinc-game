@@ -53,7 +53,7 @@ private:
     ReturnValue<std::wstring> API_SRV_DisconnectNetwork(PerNetworkData* perNetworkData);
     void API_SRV_PostLayout();
 
-    void API_UI_SetDisconnectButtonEnable(bool enable, wxButton* disconnectButton);
+    void API_UI_SetDisconnectStatus(bool enable, PerNetworkData* perNetworkData);
     void API_UI_SetEditButtonEnable(bool enable, wxButton* editButton);
     void API_UI_ReportStatus(std::wstring status, tincTextCtrl* liveLog);
     void API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> result, PerNetworkData* perNetworkData);

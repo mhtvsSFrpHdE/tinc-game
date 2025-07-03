@@ -81,7 +81,7 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
     boost::circular_buffer<std::string> cb(10);
     try {
         perNetworkData->tincProcess = std::shared_ptr<bp::child>(new bp::child(command, bp::std_err > is, bp::windows::hide));
-        CallAfter(&MainFrame::API_UI_SetDisconnectButtonEnable, true, perNetworkData->disconnectButton.get());
+        CallAfter(&MainFrame::API_UI_SetDisconnectStatus, true, perNetworkData);
 
         std::string line;
         while (std::getline(is, line)) {
@@ -99,14 +99,14 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
         perNetworkData->tincProcess->wait();
     }
     catch (...) {
-        CallAfter(&MainFrame::API_UI_SetDisconnectButtonEnable, false, perNetworkData->disconnectButton.get());
+        CallAfter(&MainFrame::API_UI_SetDisconnectStatus, false, perNetworkData);
 
         result.returnBody.messageEnum = ConnectToNetworkResult::Enum::TincNotExist;
         CallAfter(&MainFrame::API_UI_EndConnectToNetwork, result, perNetworkData);
 
         return;
     }
-    CallAfter(&MainFrame::API_UI_SetDisconnectButtonEnable, false, perNetworkData->disconnectButton.get());
+    CallAfter(&MainFrame::API_UI_SetDisconnectStatus, false, perNetworkData);
 
     if (result.success == false) {
         std::wstringstream messageStringStream;

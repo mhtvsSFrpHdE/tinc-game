@@ -1,19 +1,20 @@
 ﻿#include "MainFrame.h"
 #include <wx/spinctrl.h>
-#include "OptimizeMtuFrame.h"
-#include "SettingsFrame.h"
 #include <wx/dialog.h>
 #include "Resource_SRV.h"
 #include <sstream>
 #include "String_SRV.h"
-#include "HelpFrame.h"
 #include "Settings_SRV.h"
 #include "Networks_SRV.h"
 #include "TapDevice_SRV.h"
 
-void MainFrame::API_UI_SetDisconnectButtonEnable(bool enable, wxButton* disconnectButton)
+void MainFrame::API_UI_SetDisconnectStatus(bool enable, PerNetworkData* perNetworkData)
 {
-    disconnectButton->Enable(enable);
+    perNetworkData->disconnectButton->Enable(enable);
+    perNetworkData->ipCopyAndRefreshButton->Enable(enable);
+    if (enable == false) {
+        perNetworkData->ipTextCtrl->Clear();
+    }
 }
 
 void MainFrame::API_UI_SetEditButtonEnable(bool enable, wxButton* editButton)
