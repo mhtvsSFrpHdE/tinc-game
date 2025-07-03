@@ -36,6 +36,8 @@ struct PerNetworkData {
     PerNetworkData() {};
     PerNetworkData(const PerNetworkData&) = delete; // Delete copy constructor
     PerNetworkData& operator=(const PerNetworkData&) = delete; // Delete copy assignment operator
+
+    void IpReportThread();
 };
 
 class MainFrame : public wxFrame
@@ -74,6 +76,7 @@ private:
     std::vector<int> autoStartNetworkRawDataIndex_submitted;
     void ReloadCurrentTap();
 
+    wxBoxSizer* networkControlNavigateSizer;
     std::shared_ptr<wxButton> recentActiveConnectButton;
     std::shared_ptr<wxButton> GetInitPhaseDummyConnectButton();
     void OnConnectButtonClick_Internal();
@@ -83,15 +86,17 @@ private:
     std::shared_ptr<wxButton> GetInitPhaseDummyDisconnectButton();
     void OnDisconnectButtonClick(wxCommandEvent& evt);
     void OnNetworkDisconnected(PerNetworkData* perNetworkData);
+
+    wxBoxSizer* networkControlIpSizer;
     wxStaticText* ipStaticText;
     std::shared_ptr<wxTextCtrl> recentActiveIpTextCtrl;
     std::shared_ptr<wxTextCtrl> GetInitPhaseDummyIpTextCtrl();
     std::shared_ptr<wxButton> recentActiveIpCopyAndRefreshButton;
     std::shared_ptr<wxButton> GetInitPhaseDummyIpCopyAndRefreshButton();
+    void OnIpCopyAndRefreshButtonClick(wxCommandEvent& evt);
     std::shared_ptr<tincTextCtrl> recentActiveLiveLog;
     std::shared_ptr<tincTextCtrl> GetInitPhaseDummyLiveLog();
 
-    wxBoxSizer* networkControlSizer;
     wxBoxSizer* liveLogSizer;
 
     wxMenuBar* menuBar;

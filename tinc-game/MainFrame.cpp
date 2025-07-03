@@ -42,16 +42,30 @@ void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
 
     {
         recentActiveConnectButton->Hide();
-        networkControlSizer->Replace(recentActiveConnectButton.get(), rawData->connectButton.get());
+        networkControlNavigateSizer->Replace(recentActiveConnectButton.get(), rawData->connectButton.get());
         rawData->connectButton->Show();
         recentActiveConnectButton = rawData->connectButton;
 
         recentActiveDisconnectButton->Hide();
-        networkControlSizer->Replace(recentActiveDisconnectButton.get(), rawData->disconnectButton.get());
+        networkControlNavigateSizer->Replace(recentActiveDisconnectButton.get(), rawData->disconnectButton.get());
         rawData->disconnectButton->Show();
         recentActiveDisconnectButton = rawData->disconnectButton;
 
-        networkControlSizer->Layout();
+        networkControlNavigateSizer->Layout();
+    }
+
+    {
+        recentActiveIpCopyAndRefreshButton->Hide();
+        networkControlIpSizer->Replace(recentActiveIpCopyAndRefreshButton.get(), rawData->ipCopyAndRefreshButton.get());
+        rawData->ipCopyAndRefreshButton->Show();
+        recentActiveIpCopyAndRefreshButton = rawData->ipCopyAndRefreshButton;
+
+        recentActiveIpTextCtrl->Hide();
+        networkControlIpSizer->Replace(recentActiveIpTextCtrl.get(), rawData->ipTextCtrl.get());
+        rawData->ipTextCtrl->Show();
+        recentActiveIpTextCtrl = rawData->ipTextCtrl;
+
+        networkControlIpSizer->Layout();
     }
 
     {
@@ -182,11 +196,22 @@ void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)
     OnNetworkDisconnected(networkRawData.get());
 }
 
+void MainFrame::OnIpCopyAndRefreshButtonClick(wxCommandEvent& evt)
+{
+    auto networkSelection = currentNetwork_ComboBox->GetSelection();
+    auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
+
+    wxMessageDialog(this, _(networkRawData->network.networkName)).ShowModal();
+}
+
 void MainFrame::OnNetworkConnected(PerNetworkData* perNetworkData)
 {
     allowCloseFrame = false;
     perNetworkData->connectButton->Enable(false);
     perNetworkData->connected = true;
+
+    std::thread t1(&PerNetworkData::IpReportThread, perNetworkData);
+    t1.detach();
 }
 
 void MainFrame::OnNetworkDisconnected(PerNetworkData* perNetworkData)
@@ -204,4 +229,30 @@ void MainFrame::OnClose(wxCloseEvent& event)
     }
 
     event.Skip();
+}
+
+void PerNetworkData::IpReportThread()
+{
+    const long long sleepStepMs = 200;
+    const long long secondInMs = sleepStepMs * 5;
+    const long long totalSleepTimeSec = secondInMs * 10;
+    long long sleeped = 0;
+
+    while (connected) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(sleepStepMs));
+        sleeped = sleeped + sleepStepMs;
+        if (connected == false) {
+            break;
+        }
+        if (sleeped > totalSleepTimeSec) {
+            break;
+        }
+
+        if (sleeped % secondInMs == 0) {
+            auto ipTextCtrlW = std::weak_ptr<wxTextCtrl>(ipTextCtrl);
+            if (auto ipTextCtrlL = ipTextCtrlW.lock()) {
+                ipTextCtrlL->SetLabel(std::to_wstring(sleeped));
+            }
+        }
+    }
 }

@@ -101,12 +101,20 @@ void MainFrame::OnMenuNetworksReload_Internal()
     allowCloseFrame = false;
 
     auto dummyConnectButton = GetInitPhaseDummyConnectButton();
-    networkControlSizer->Replace(recentActiveConnectButton.get(), dummyConnectButton.get());
+    networkControlNavigateSizer->Replace(recentActiveConnectButton.get(), dummyConnectButton.get());
     recentActiveConnectButton = dummyConnectButton;
     auto dummyDisconnectButton = GetInitPhaseDummyDisconnectButton();
-    networkControlSizer->Replace(recentActiveDisconnectButton.get(), dummyDisconnectButton.get());
+    networkControlNavigateSizer->Replace(recentActiveDisconnectButton.get(), dummyDisconnectButton.get());
     recentActiveDisconnectButton = dummyDisconnectButton;
-    networkControlSizer->Layout();
+    networkControlNavigateSizer->Layout();
+
+    auto dummyIpTextCtrl = GetInitPhaseDummyIpTextCtrl();
+    networkControlIpSizer->Replace(recentActiveIpTextCtrl.get(), dummyIpTextCtrl.get());
+    recentActiveIpTextCtrl = dummyIpTextCtrl;
+    auto dummyIpCopyAndRefreshButton = GetInitPhaseDummyIpCopyAndRefreshButton();
+    networkControlIpSizer->Replace(recentActiveIpCopyAndRefreshButton.get(), dummyIpCopyAndRefreshButton.get());
+    recentActiveIpCopyAndRefreshButton = dummyIpCopyAndRefreshButton;
+    networkControlIpSizer->Layout();
 
     std::vector<std::wstring> existNetworks;
     for (size_t i = 0; i < currentNetwork_ComboBox_RawData.size(); i++)
