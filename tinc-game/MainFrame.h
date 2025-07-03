@@ -28,6 +28,8 @@ struct PerNetworkData {
     std::shared_ptr<boost::process::child> tincProcess;
     std::shared_ptr<wxButton> connectButton;
     std::shared_ptr<wxButton> disconnectButton;
+    std::shared_ptr<wxTextCtrl> ipTextCtrl;
+    std::shared_ptr<wxButton> ipCopyAndRefreshButton;
     bool connected = false;
     std::shared_ptr<tincTextCtrl> liveLog;
 };
@@ -75,6 +77,11 @@ private:
     std::shared_ptr<wxButton> recentActiveDisconnectButton;
     std::shared_ptr<wxButton> GetInitPhaseDummyDisconnectButton();
     void OnDisconnectButtonClick(wxCommandEvent& evt);
+    wxStaticText* ipStaticText;
+    std::shared_ptr<wxTextCtrl> recentActiveIpTextCtrl;
+    std::shared_ptr<wxTextCtrl> GetInitPhaseDummyIpTextCtrl();
+    std::shared_ptr<wxButton> recentActiveIpCopyAndRefreshButton;
+    std::shared_ptr<wxButton> GetInitPhaseDummyIpCopyAndRefreshButton();
     std::shared_ptr<tincTextCtrl> recentActiveLiveLog;
     std::shared_ptr<tincTextCtrl> GetInitPhaseDummyLiveLog();
 

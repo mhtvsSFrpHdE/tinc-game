@@ -31,10 +31,25 @@ std::shared_ptr<tincTextCtrl> MainFrame::GetInitPhaseDummyLiveLog()
     return textCtrl;
 }
 
+std::shared_ptr<wxTextCtrl> MainFrame::GetInitPhaseDummyIpTextCtrl()
+{
+    auto textCtrl = std::shared_ptr<wxTextCtrl>(new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY), Resource_SRV::wxWidgets::wxTextCtrlDeleter);
+    textCtrl->SetBackgroundColour(*wxWHITE);
+    return textCtrl;
+}
+
+std::shared_ptr<wxButton> MainFrame::GetInitPhaseDummyIpCopyAndRefreshButton()
+{
+    auto button = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Copy")), Resource_SRV::wxWidgets::wxButtonDeleter);
+    button->Enable(false);
+    return button;
+}
+
 void MainFrame::ReloadCurrentNetwork()
 {
     namespace ss = Settings_SRV;
     namespace ns = Networks_SRV;
+    namespace rsx = Resource_SRV::wxWidgets;
 
     auto getNetworks = ns::GetNetworks();
     if (getNetworks.success) {
@@ -51,13 +66,18 @@ void MainFrame::ReloadCurrentNetwork()
             perNetworkData.liveLog = std::shared_ptr<tincTextCtrl>(new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE));
             perNetworkData.liveLog->tincSetMaxLines(100);
             perNetworkData.liveLog->Hide();
-            perNetworkData.connectButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Connect")), Resource_SRV::wxWidgets::wxButtonDeleter);
+            perNetworkData.connectButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Connect")), rsx::wxButtonDeleter);
             perNetworkData.connectButton->Bind(wxEVT_BUTTON, &MainFrame::OnConnectButtonClick, this);
             perNetworkData.connectButton->Hide();
-            perNetworkData.disconnectButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Disconnect")), Resource_SRV::wxWidgets::wxButtonDeleter);
+            perNetworkData.disconnectButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Disconnect")), rsx::wxButtonDeleter);
             perNetworkData.disconnectButton->Bind(wxEVT_BUTTON, &MainFrame::OnDisconnectButtonClick, this);
             perNetworkData.disconnectButton->Enable(false);
             perNetworkData.disconnectButton->Hide();
+            perNetworkData.ipTextCtrl = std::shared_ptr<wxTextCtrl>(new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY), rsx::wxTextCtrlDeleter);
+            perNetworkData.ipTextCtrl->Hide();
+            perNetworkData.ipCopyAndRefreshButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Copy")), rsx::wxButtonDeleter);
+            perNetworkData.ipCopyAndRefreshButton->Enable(false);
+            perNetworkData.ipCopyAndRefreshButton->Hide();
 
             if (perNetworkData.network.networkName == recentUsedNetwork) {
                 recentUsedNetworkSelection = mapIndex;
@@ -156,6 +176,9 @@ void MainFrame::Init_CreateControls()
     rootPanel = new wxPanel(this);
     recentActiveConnectButton = GetInitPhaseDummyConnectButton();
     recentActiveDisconnectButton = GetInitPhaseDummyDisconnectButton();
+    ipStaticText = new wxStaticText(rootPanel, wxID_ANY, _("Assigned IP"));
+    recentActiveIpTextCtrl = GetInitPhaseDummyIpTextCtrl();
+    recentActiveIpCopyAndRefreshButton = GetInitPhaseDummyIpCopyAndRefreshButton();
     recentActiveLiveLog = GetInitPhaseDummyLiveLog();
 
     currentTap_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Connect with"));
@@ -201,10 +224,21 @@ void MainFrame::Init_Layout()
     }
 
     {
+        wxBoxSizer* networkControlRootSizer = new wxBoxSizer(wxHORIZONTAL);
+        rootSizer->Add(networkControlRootSizer, 0, wxEXPAND);
+
         networkControlSizer = new wxBoxSizer(wxHORIZONTAL);
-        rootSizer->Add(networkControlSizer);
+        networkControlRootSizer->Add(networkControlSizer, 1);
         networkControlSizer->Add(recentActiveConnectButton.get(), 1, wxLEFT, ls::SpaceToFrameBorder);
         networkControlSizer->Add(recentActiveDisconnectButton.get(), 1, wxLEFT, ls::SpaceBetweenControl);
+        ls::AddFixedSpacer(wxRIGHT, 50 + ls::SpaceBetweenControl, networkControlSizer);
+
+        wxBoxSizer* ipSizer = new wxBoxSizer(wxHORIZONTAL);
+        networkControlRootSizer->Add(ipSizer, 1);
+        ipSizer->Add(ipStaticText, 0, wxLEFT | wxALIGN_CENTER_VERTICAL, ls::BoxSizerVhhOffset);
+        ls::AddFixedSpacer(wxLEFT, ls::SpaceBetweenControl, ipSizer);
+        ipSizer->Add(recentActiveIpTextCtrl.get(), ls::TakeAllSpace, wxRIGHT, ls::SpaceBetweenControl);
+        ipSizer->Add(recentActiveIpCopyAndRefreshButton.get(), 0, wxRIGHT, ls::SpaceToFrameBorder);
 
         ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
     }
