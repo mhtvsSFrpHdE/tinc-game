@@ -202,7 +202,9 @@ void MainFrame::OnIpCopyAndRefreshButtonClick(wxCommandEvent& evt)
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
 
-    wxMessageDialog(this, _(networkRawData->network.networkName)).ShowModal();
+    networkRawData->ipTextCtrl->SelectAll();
+    networkRawData->ipTextCtrl->Copy();
+    networkRawData->ipTextCtrl->SelectNone();
 }
 
 void MainFrame::OnNetworkConnected(PerNetworkData* perNetworkData)
