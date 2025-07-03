@@ -74,9 +74,11 @@ private:
     std::shared_ptr<wxButton> GetInitPhaseDummyConnectButton();
     void OnConnectButtonClick_Internal();
     void OnConnectButtonClick(wxCommandEvent& evt);
+    void OnNetworkConnected(PerNetworkData& perNetworkData);
     std::shared_ptr<wxButton> recentActiveDisconnectButton;
     std::shared_ptr<wxButton> GetInitPhaseDummyDisconnectButton();
     void OnDisconnectButtonClick(wxCommandEvent& evt);
+    void OnNetworkDisconnected(PerNetworkData& perNetworkData);
     wxStaticText* ipStaticText;
     std::shared_ptr<wxTextCtrl> recentActiveIpTextCtrl;
     std::shared_ptr<wxTextCtrl> GetInitPhaseDummyIpTextCtrl();

@@ -250,11 +250,11 @@ void MainFrame::API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> r
         perNetworkData->tap->Disconnect();
         UpdateCurrentTapItemDisplayText(*perNetworkData->tap, perNetworkData->tapSelection);
         perNetworkData->disconnectButton->Enable(true);
+        allowCloseFrame = true;
         return;
     }
 
     perNetworkData->tap->Disconnect();
     UpdateCurrentTapItemDisplayText(*perNetworkData->tap, perNetworkData->tapSelection);
-    perNetworkData->connectButton->Enable(true);
-    perNetworkData->connected = false;
+    OnNetworkDisconnected(*perNetworkData);
 }

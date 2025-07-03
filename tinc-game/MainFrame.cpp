@@ -107,12 +107,9 @@ void MainFrame::OnConnectButtonClick_Internal()
         return;
     }
 
-    allowCloseFrame = false;
-
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
-    networkRawData.connectButton->Enable(false);
-    networkRawData.connected = true;
+    OnNetworkConnected(networkRawData);
 
     auto& tapRawData = currentTap_ComboBox_RawData[tapSelection];
     if (tapRawData.Available()) {
@@ -160,9 +157,7 @@ void MainFrame::OnConnectButtonClick_Internal()
     }
     else {
         wxMessageDialog(this, _("Selected virtual network adapter already connected to another network")).ShowModal();
-        networkRawData.connectButton->Enable(true);
-        networkRawData.connected = false;
-        allowCloseFrame = true;
+        OnNetworkDisconnected(networkRawData);
     }
 }
 
@@ -184,8 +179,20 @@ void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)
         allowCloseFrame = true;
         return;
     }
-    networkRawData.connectButton->Enable(true);
-    networkRawData.connected = false;
+    OnNetworkDisconnected(networkRawData);
+}
+
+void MainFrame::OnNetworkConnected(PerNetworkData& perNetworkData)
+{
+    allowCloseFrame = false;
+    perNetworkData.connectButton->Enable(false);
+    perNetworkData.connected = true;
+}
+
+void MainFrame::OnNetworkDisconnected(PerNetworkData& perNetworkData)
+{
+    perNetworkData.connectButton->Enable(true);
+    perNetworkData.connected = false;
     allowCloseFrame = true;
 }
 
