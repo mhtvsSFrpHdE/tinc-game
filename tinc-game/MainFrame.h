@@ -32,6 +32,10 @@ struct PerNetworkData {
     std::shared_ptr<wxButton> ipCopyAndRefreshButton;
     bool connected = false;
     std::shared_ptr<tincTextCtrl> liveLog;
+
+    PerNetworkData() {};
+    PerNetworkData(const PerNetworkData&) = delete; // Delete copy constructor
+    PerNetworkData& operator=(const PerNetworkData&) = delete; // Delete copy assignment operator
 };
 
 class MainFrame : public wxFrame
@@ -56,7 +60,7 @@ private:
 
     wxStaticText* currentNetwork_StaticText;
     wxComboBox* currentNetwork_ComboBox;
-    std::unordered_map<int, PerNetworkData> currentNetwork_ComboBox_RawData;
+    std::unordered_map<int, std::shared_ptr<PerNetworkData>> currentNetwork_ComboBox_RawData;
     void OnCurrentNetworkChange(wxCommandEvent& evt);
     int recentUsedNetworkSelection = wxNOT_FOUND;
     void ReloadCurrentNetwork();
@@ -74,11 +78,11 @@ private:
     std::shared_ptr<wxButton> GetInitPhaseDummyConnectButton();
     void OnConnectButtonClick_Internal();
     void OnConnectButtonClick(wxCommandEvent& evt);
-    void OnNetworkConnected(PerNetworkData& perNetworkData);
+    void OnNetworkConnected(PerNetworkData* perNetworkData);
     std::shared_ptr<wxButton> recentActiveDisconnectButton;
     std::shared_ptr<wxButton> GetInitPhaseDummyDisconnectButton();
     void OnDisconnectButtonClick(wxCommandEvent& evt);
-    void OnNetworkDisconnected(PerNetworkData& perNetworkData);
+    void OnNetworkDisconnected(PerNetworkData* perNetworkData);
     wxStaticText* ipStaticText;
     std::shared_ptr<wxTextCtrl> recentActiveIpTextCtrl;
     std::shared_ptr<wxTextCtrl> GetInitPhaseDummyIpTextCtrl();

@@ -33,23 +33,23 @@ void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
 
     {
         recentActiveLiveLog->Hide();
-        liveLogSizer->Replace(recentActiveLiveLog.get(), rawData.liveLog.get());
-        rawData.liveLog->Show();
-        recentActiveLiveLog = rawData.liveLog;
+        liveLogSizer->Replace(recentActiveLiveLog.get(), rawData->liveLog.get());
+        rawData->liveLog->Show();
+        recentActiveLiveLog = rawData->liveLog;
 
         liveLogSizer->Layout();
     }
 
     {
         recentActiveConnectButton->Hide();
-        networkControlSizer->Replace(recentActiveConnectButton.get(), rawData.connectButton.get());
-        rawData.connectButton->Show();
-        recentActiveConnectButton = rawData.connectButton;
+        networkControlSizer->Replace(recentActiveConnectButton.get(), rawData->connectButton.get());
+        rawData->connectButton->Show();
+        recentActiveConnectButton = rawData->connectButton;
 
         recentActiveDisconnectButton->Hide();
-        networkControlSizer->Replace(recentActiveDisconnectButton.get(), rawData.disconnectButton.get());
-        rawData.disconnectButton->Show();
-        recentActiveDisconnectButton = rawData.disconnectButton;
+        networkControlSizer->Replace(recentActiveDisconnectButton.get(), rawData->disconnectButton.get());
+        rawData->disconnectButton->Show();
+        recentActiveDisconnectButton = rawData->disconnectButton;
 
         networkControlSizer->Layout();
     }
@@ -59,14 +59,14 @@ void MainFrame::OnCurrentNetworkChange(wxCommandEvent& evt)
         {
             auto& adapter = currentTap_ComboBox_RawData[i];
 
-            if (rawData.tap != nullptr) {
-                if (adapter.friendlyName == rawData.tap->friendlyName) {
+            if (rawData->tap != nullptr) {
+                if (adapter.friendlyName == rawData->tap->friendlyName) {
                     currentTap_ComboBox->SetSelection(i);
                     return;
                 }
             }
 
-            if (adapter.Available() && adapter.friendlyName == rawData.network.recentUsedTapName) {
+            if (adapter.Available() && adapter.friendlyName == rawData->network.recentUsedTapName) {
                 currentTap_ComboBox->SetSelection(i);
                 return;
             }
@@ -109,40 +109,40 @@ void MainFrame::OnConnectButtonClick_Internal()
 
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
-    OnNetworkConnected(networkRawData);
+    OnNetworkConnected(networkRawData.get());
 
     auto& tapRawData = currentTap_ComboBox_RawData[tapSelection];
     if (tapRawData.Available()) {
         tapRawData.Connect();
         UpdateCurrentTapItemDisplayText(tapRawData, tapSelection);
 
-        auto tapSettingsKey = SettingKeys_Networks::network_tap(networkRawData.network.networkName);
+        auto tapSettingsKey = SettingKeys_Networks::network_tap(networkRawData->network.networkName);
         ss::networksConfig->Write(tapSettingsKey, wxString(tapRawData.friendlyName));
 
         auto recentUsedNetworkSettingsKey = SettingKeys_Networks::default_recentUsedNetwork;
-        ss::networksConfig->Write(recentUsedNetworkSettingsKey, wxString(networkRawData.network.networkName));
+        ss::networksConfig->Write(recentUsedNetworkSettingsKey, wxString(networkRawData->network.networkName));
 
-        auto verboseSettingsKey = SettingKeys_Networks::network_verbose(networkRawData.network.networkName);
+        auto verboseSettingsKey = SettingKeys_Networks::network_verbose(networkRawData->network.networkName);
         bool verboseExists = ss::networksConfig->HasEntry(verboseSettingsKey);
         if (verboseExists == false) {
             ss::networksConfig->Write(verboseSettingsKey, sdn::verbose);
         }
-        auto gameModeSettingsKey = SettingKeys_Networks::network_gameMode(networkRawData.network.networkName);
+        auto gameModeSettingsKey = SettingKeys_Networks::network_gameMode(networkRawData->network.networkName);
         auto gameModeExists = ss::networksConfig->HasEntry(gameModeSettingsKey);
         if (gameModeExists == false) {
             ss::networksConfig->Write(gameModeSettingsKey, sdn::gameMode);
         }
-        auto autoStartSettingsKey = SettingKeys_Networks::network_autoStart(networkRawData.network.networkName);
+        auto autoStartSettingsKey = SettingKeys_Networks::network_autoStart(networkRawData->network.networkName);
         auto autoStartExists = ss::networksConfig->HasEntry(gameModeSettingsKey);
         if (autoStartExists == false) {
             ss::networksConfig->Write(autoStartSettingsKey, sdn::autoStart);
         }
-        auto portSettingsKey = SettingKeys_Networks::network_port(networkRawData.network.networkName);
+        auto portSettingsKey = SettingKeys_Networks::network_port(networkRawData->network.networkName);
         auto portExists = ss::networksConfig->HasEntry(portSettingsKey);
         if (portExists == false) {
             ss::networksConfig->Write(portSettingsKey, sdn::port);
         }
-        auto setMetricSettingsKey = SettingKeys_Networks::network_setMetric(networkRawData.network.networkName);
+        auto setMetricSettingsKey = SettingKeys_Networks::network_setMetric(networkRawData->network.networkName);
         auto setMetricExists = ss::networksConfig->HasEntry(setMetricSettingsKey);
         if (setMetricExists == false) {
             ss::networksConfig->Write(setMetricSettingsKey, sdn::setMetric);
@@ -150,14 +150,14 @@ void MainFrame::OnConnectButtonClick_Internal()
 
         ss::networksConfig->Flush();
 
-        networkRawData.tap = &tapRawData;
-        networkRawData.tapSelection = tapSelection;
-        std::thread t1(&MainFrame::API_SRV_ConnectToNetwork, this, &networkRawData);
+        networkRawData->tap = &tapRawData;
+        networkRawData->tapSelection = tapSelection;
+        std::thread t1(&MainFrame::API_SRV_ConnectToNetwork, this, networkRawData.get());
         t1.detach();
     }
     else {
         wxMessageDialog(this, _("Selected virtual network adapter already connected to another network")).ShowModal();
-        OnNetworkDisconnected(networkRawData);
+        OnNetworkDisconnected(networkRawData.get());
     }
 }
 
@@ -171,28 +171,28 @@ void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
 
-    networkRawData.disconnectButton->Enable(false);
-    auto disconnectResult = API_SRV_DisconnectNetwork(&networkRawData);
+    networkRawData->disconnectButton->Enable(false);
+    auto disconnectResult = API_SRV_DisconnectNetwork(networkRawData.get());
     if (disconnectResult.success == false) {
         wxMessageDialog(this, _("Failed to disconnect, tinc.exe may not exist")).ShowModal();
-        networkRawData.disconnectButton->Enable(true);
+        networkRawData->disconnectButton->Enable(true);
         allowCloseFrame = true;
         return;
     }
-    OnNetworkDisconnected(networkRawData);
+    OnNetworkDisconnected(networkRawData.get());
 }
 
-void MainFrame::OnNetworkConnected(PerNetworkData& perNetworkData)
+void MainFrame::OnNetworkConnected(PerNetworkData* perNetworkData)
 {
     allowCloseFrame = false;
-    perNetworkData.connectButton->Enable(false);
-    perNetworkData.connected = true;
+    perNetworkData->connectButton->Enable(false);
+    perNetworkData->connected = true;
 }
 
-void MainFrame::OnNetworkDisconnected(PerNetworkData& perNetworkData)
+void MainFrame::OnNetworkDisconnected(PerNetworkData* perNetworkData)
 {
-    perNetworkData.connectButton->Enable(true);
-    perNetworkData.connected = false;
+    perNetworkData->connectButton->Enable(true);
+    perNetworkData->connected = false;
     allowCloseFrame = true;
 }
 

@@ -17,7 +17,7 @@ bool MainFrame::AllowMakeChange(bool showDialog) {
     bool allAllowMakeChange = true;
 
     for (const auto& pair : currentNetwork_ComboBox_RawData) {
-        allAllowMakeChange = allAllowMakeChange && pair.second.connected == false;
+        allAllowMakeChange = allAllowMakeChange && pair.second->connected == false;
     }
 
     if (allAllowMakeChange == false && showDialog) {
@@ -32,12 +32,12 @@ void MainFrame::OnMenuNetworksEdit(wxCommandEvent& event)
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
 
-    if (networkRawData.connected) {
-        wxMessageDialog(this, _("Disconnect network before edit: ") + networkRawData.network.networkName).ShowModal();
+    if (networkRawData->connected) {
+        wxMessageDialog(this, _("Disconnect network before edit: ") + networkRawData->network.networkName).ShowModal();
         return;
     }
 
-    auto editNetworkFrame = new EditNetworkFrame(this, &networkRawData.network);
+    auto editNetworkFrame = new EditNetworkFrame(this, &networkRawData->network);
     editNetworkFrame->Center();
     editNetworkFrame->Show();
 }
@@ -76,7 +76,7 @@ void MainFrame::OnMenuNetworksRename(wxCommandEvent& event)
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
 
     std::function<void()> redirectCallback = std::bind(&MainFrame::OnRenameNetworkFrameCloseCallback, this);
-    auto renameNetworkFrame = new RenameNetworkFrame(this, &networkRawData.network, redirectCallback);
+    auto renameNetworkFrame = new RenameNetworkFrame(this, &networkRawData->network, redirectCallback);
     renameNetworkFrame->Center();
     renameNetworkFrame->Show();
 }
@@ -111,7 +111,7 @@ void MainFrame::OnMenuNetworksReload_Internal()
     std::vector<std::wstring> existNetworks;
     for (size_t i = 0; i < currentNetwork_ComboBox_RawData.size(); i++)
     {
-        existNetworks.push_back(currentNetwork_ComboBox_RawData[i].network.networkName);
+        existNetworks.push_back(currentNetwork_ComboBox_RawData[i]->network.networkName);
     }
 
     ReloadCurrentTap();
@@ -123,7 +123,7 @@ void MainFrame::OnMenuNetworksReload_Internal()
         for (size_t i = 0; i < currentNetwork_ComboBox_RawData.size(); i++)
         {
             auto& existNetworkName = existNetworks[i];
-            auto& newNetworkName = currentNetwork_ComboBox_RawData[i].network.networkName;
+            auto& newNetworkName = currentNetwork_ComboBox_RawData[i]->network.networkName;
             exactSameList = exactSameList && existNetworkName == newNetworkName;
         }
     }
@@ -177,7 +177,7 @@ void MainFrame::OnMenuNetworksAdvancedDelete(wxCommandEvent& event)
 
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
-    wxFileName::Rmdir(networkRawData.network.GetFullPath(), wxDIR_DIRS);
+    wxFileName::Rmdir(networkRawData->network.GetFullPath(), wxDIR_DIRS);
 
     OnMenuNetworksReload_Internal();
 }

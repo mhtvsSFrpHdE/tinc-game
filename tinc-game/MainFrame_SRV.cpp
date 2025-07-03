@@ -183,7 +183,7 @@ void MainFrame::API_SRV_PostLayout()
 
                 auto tapSelection = currentTap_ComboBox->GetSelection();
                 if (tapSelection == wxNOT_FOUND) {
-                    auto hint = _("Network ") + perNetworkData.network.networkName + _(" was set to auto connect on start")
+                    auto hint = _("Network ") + perNetworkData->network.networkName + _(" was set to auto connect on start")
                         + ss::newLine + _("but there is no available virtual network adapter");
                     wxMessageDialog(this, hint).ShowModal();
                     continue;
@@ -200,7 +200,7 @@ void MainFrame::API_SRV_PostLayout()
             {
                 auto submittedAutoStartIndex = autoStartNetworkRawDataIndex_submitted[i];
                 auto& perNetworkData = currentNetwork_ComboBox_RawData[submittedAutoStartIndex];
-                submittedNetworkSstream << perNetworkData.network.networkName << ss::newLine;
+                submittedNetworkSstream << perNetworkData->network.networkName << ss::newLine;
             }
             auto submittedNetworks = submittedNetworkSstream.str();
             submittedNetworks = submittedNetworks.substr(0, submittedNetworks.length() - 1);
@@ -256,5 +256,5 @@ void MainFrame::API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> r
 
     perNetworkData->tap->Disconnect();
     UpdateCurrentTapItemDisplayText(*perNetworkData->tap, perNetworkData->tapSelection);
-    OnNetworkDisconnected(*perNetworkData);
+    OnNetworkDisconnected(perNetworkData);
 }

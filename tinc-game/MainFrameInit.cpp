@@ -61,32 +61,32 @@ void MainFrame::ReloadCurrentNetwork()
         int mapIndex = 0;
         for (size_t networkIndex = 0; networkIndex < getNetworks.returnBody.size(); networkIndex++)
         {
-            PerNetworkData perNetworkData;
-            perNetworkData.network = getNetworks.returnBody[networkIndex];
-            perNetworkData.liveLog = std::shared_ptr<tincTextCtrl>(new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE));
-            perNetworkData.liveLog->tincSetMaxLines(100);
-            perNetworkData.liveLog->Hide();
-            perNetworkData.connectButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Connect")), rsx::wxButtonDeleter);
-            perNetworkData.connectButton->Bind(wxEVT_BUTTON, &MainFrame::OnConnectButtonClick, this);
-            perNetworkData.connectButton->Hide();
-            perNetworkData.disconnectButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Disconnect")), rsx::wxButtonDeleter);
-            perNetworkData.disconnectButton->Bind(wxEVT_BUTTON, &MainFrame::OnDisconnectButtonClick, this);
-            perNetworkData.disconnectButton->Enable(false);
-            perNetworkData.disconnectButton->Hide();
-            perNetworkData.ipTextCtrl = std::shared_ptr<wxTextCtrl>(new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY), rsx::wxTextCtrlDeleter);
-            perNetworkData.ipTextCtrl->Hide();
-            perNetworkData.ipCopyAndRefreshButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Copy")), rsx::wxButtonDeleter);
-            perNetworkData.ipCopyAndRefreshButton->Enable(false);
-            perNetworkData.ipCopyAndRefreshButton->Hide();
+            std::shared_ptr<PerNetworkData> perNetworkData(new PerNetworkData());
+            perNetworkData->network = getNetworks.returnBody[networkIndex];
+            perNetworkData->liveLog = std::shared_ptr<tincTextCtrl>(new tincTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY | wxTE_MULTILINE));
+            perNetworkData->liveLog->tincSetMaxLines(100);
+            perNetworkData->liveLog->Hide();
+            perNetworkData->connectButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Connect")), rsx::wxButtonDeleter);
+            perNetworkData->connectButton->Bind(wxEVT_BUTTON, &MainFrame::OnConnectButtonClick, this);
+            perNetworkData->connectButton->Hide();
+            perNetworkData->disconnectButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Disconnect")), rsx::wxButtonDeleter);
+            perNetworkData->disconnectButton->Bind(wxEVT_BUTTON, &MainFrame::OnDisconnectButtonClick, this);
+            perNetworkData->disconnectButton->Enable(false);
+            perNetworkData->disconnectButton->Hide();
+            perNetworkData->ipTextCtrl = std::shared_ptr<wxTextCtrl>(new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY), rsx::wxTextCtrlDeleter);
+            perNetworkData->ipTextCtrl->Hide();
+            perNetworkData->ipCopyAndRefreshButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Copy")), rsx::wxButtonDeleter);
+            perNetworkData->ipCopyAndRefreshButton->Enable(false);
+            perNetworkData->ipCopyAndRefreshButton->Hide();
 
-            if (perNetworkData.network.networkName == recentUsedNetwork) {
+            if (perNetworkData->network.networkName == recentUsedNetwork) {
                 recentUsedNetworkSelection = mapIndex;
             }
 
             currentNetwork_ComboBox_RawData.insert({ mapIndex, perNetworkData });
-            currentNetwork_ComboBox->Append(perNetworkData.network.networkName);
+            currentNetwork_ComboBox->Append(perNetworkData->network.networkName);
 
-            auto autoStartSettingsKey = SettingKeys_Networks::network_autoStart(perNetworkData.network.networkName);
+            auto autoStartSettingsKey = SettingKeys_Networks::network_autoStart(perNetworkData->network.networkName);
             bool autoStart = ss::networksConfig->ReadBool(autoStartSettingsKey, false);
             if (autoStart) {
                 autoStartNetworkRawDataIndex_pending.push_back(mapIndex);
