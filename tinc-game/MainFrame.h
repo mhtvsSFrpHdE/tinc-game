@@ -37,7 +37,9 @@ struct PerNetworkData {
     PerNetworkData(const PerNetworkData&) = delete; // Delete copy constructor
     PerNetworkData& operator=(const PerNetworkData&) = delete; // Delete copy assignment operator
 
+    bool requestIpReportThreadStop = false;
     void IpReportThread();
+    std::shared_ptr<std::thread> ipReportThread;
 };
 
 class MainFrame : public wxFrame

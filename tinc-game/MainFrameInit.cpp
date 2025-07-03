@@ -40,7 +40,7 @@ std::shared_ptr<wxTextCtrl> MainFrame::GetInitPhaseDummyIpTextCtrl()
 
 std::shared_ptr<wxButton> MainFrame::GetInitPhaseDummyIpCopyAndRefreshButton()
 {
-    auto button = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Copy")), Resource_SRV::wxWidgets::wxButtonDeleter);
+    auto button = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Copy Refresh")), Resource_SRV::wxWidgets::wxButtonDeleter);
     button->Enable(false);
     return button;
 }
@@ -76,7 +76,7 @@ void MainFrame::ReloadCurrentNetwork()
             perNetworkData->ipTextCtrl = std::shared_ptr<wxTextCtrl>(new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY), rsx::wxTextCtrlDeleter);
             perNetworkData->ipTextCtrl->SetBackgroundColour(*wxWHITE);
             perNetworkData->ipTextCtrl->Hide();
-            perNetworkData->ipCopyAndRefreshButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Copy")), rsx::wxButtonDeleter);
+            perNetworkData->ipCopyAndRefreshButton = std::shared_ptr<wxButton>(new wxButton(rootPanel, wxID_ANY, _("Copy Refresh")), rsx::wxButtonDeleter);
             perNetworkData->ipCopyAndRefreshButton->Bind(wxEVT_BUTTON, &MainFrame::OnIpCopyAndRefreshButtonClick, this);
             perNetworkData->ipCopyAndRefreshButton->Enable(false);
             perNetworkData->ipCopyAndRefreshButton->Hide();

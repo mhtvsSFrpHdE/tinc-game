@@ -183,6 +183,10 @@ void MainFrame::OnConnectButtonClick(wxCommandEvent& evt)
 
 void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)
 {
+    // Beware, part of disconnect GUI logic are threaded
+    // API_UI_EndConnectToNetwork
+    // Disconect button only tell disconnect, but will not handle result
+
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
 
@@ -194,7 +198,6 @@ void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)
         allowCloseFrame = true;
         return;
     }
-    OnNetworkDisconnected(networkRawData.get());
 }
 
 void MainFrame::OnIpCopyAndRefreshButtonClick(wxCommandEvent& evt)
@@ -205,6 +208,15 @@ void MainFrame::OnIpCopyAndRefreshButtonClick(wxCommandEvent& evt)
     networkRawData->ipTextCtrl->SelectAll();
     networkRawData->ipTextCtrl->Copy();
     networkRawData->ipTextCtrl->SelectNone();
+
+    auto ipReportThreadW = std::weak_ptr<std::thread>(networkRawData->ipReportThread);
+    if (auto ipReportThreadL = ipReportThreadW.lock()) {
+        networkRawData->requestIpReportThreadStop = true;
+        ipReportThreadL->join();
+        networkRawData->requestIpReportThreadStop = false;
+        networkRawData->ipReportThread.reset();
+    }
+    networkRawData->ipReportThread = std::shared_ptr<std::thread>(new std::thread(&PerNetworkData::IpReportThread, networkRawData));
 }
 
 void MainFrame::OnNetworkConnected(PerNetworkData* perNetworkData)
@@ -213,12 +225,26 @@ void MainFrame::OnNetworkConnected(PerNetworkData* perNetworkData)
     perNetworkData->connectButton->Enable(false);
     perNetworkData->connected = true;
 
-    std::thread t1(&PerNetworkData::IpReportThread, perNetworkData);
-    t1.detach();
+    auto ipReportThreadW = std::weak_ptr<std::thread>(perNetworkData->ipReportThread);
+    if (auto ipReportThreadL = ipReportThreadW.lock()) {
+        perNetworkData->requestIpReportThreadStop = true;
+        ipReportThreadL->join();
+        perNetworkData->requestIpReportThreadStop = false;
+        perNetworkData->ipReportThread.reset();
+    }
+    perNetworkData->ipReportThread = std::shared_ptr<std::thread>(new std::thread(&PerNetworkData::IpReportThread, perNetworkData));
 }
 
 void MainFrame::OnNetworkDisconnected(PerNetworkData* perNetworkData)
 {
+    auto ipReportThreadW = std::weak_ptr<std::thread>(perNetworkData->ipReportThread);
+    if (auto ipReportThreadL = ipReportThreadW.lock()) {
+        perNetworkData->requestIpReportThreadStop = true;
+        ipReportThreadL->join();
+        perNetworkData->requestIpReportThreadStop = false;
+        perNetworkData->ipReportThread.reset();
+    }
+
     perNetworkData->connectButton->Enable(true);
     perNetworkData->connected = false;
     allowCloseFrame = true;
@@ -238,17 +264,20 @@ void PerNetworkData::IpReportThread()
 {
     const long long sleepStepMs = 200;
     const long long secondInMs = sleepStepMs * 5;
-    const long long totalSleepTimeSec = secondInMs * 10;
+    const long long totalSleepTimeSec = secondInMs * 20;
     long long sleeped = 0;
 
     while (connected) {
         std::this_thread::sleep_for(std::chrono::milliseconds(sleepStepMs));
         sleeped = sleeped + sleepStepMs;
+        if (requestIpReportThreadStop) {
+            return;
+        }
         if (connected == false) {
-            break;
+            return;
         }
         if (sleeped > totalSleepTimeSec) {
-            break;
+            return;
         }
         if (sleeped % secondInMs != 0) {
             continue;
