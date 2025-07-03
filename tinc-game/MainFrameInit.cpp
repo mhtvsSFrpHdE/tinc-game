@@ -4,7 +4,10 @@
 #include "Resource_SRV.h"
 
 MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
+    PerNetworkData::parentFrame = this;
+
     Enable(false);
+
     Init_CreateControls();
     Init_Layout();
     Init_PostLayout();

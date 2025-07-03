@@ -354,13 +354,13 @@ void ManageTapFrame::Reload_firstTapValue_TextCtrl()
 {
     auto getFirstTap = TapDevice_SRV::GetFirstTap();
     if (getFirstTap.success) {
-        firstTapValue_TextCtrl->SetLabel(getFirstTap.returnBody.friendlyName);
+        firstTapValue_TextCtrl->SetValue(getFirstTap.returnBody.friendlyName);
         firstTapValue_TextCtrl->SetBackgroundColour(Style_SRV::passed_green);
         hasFirstTap = true;
         suggestReadHelp = false;
     }
     else {
-        firstTapValue_TextCtrl->SetLabel(firstTapValue_NoneText);
+        firstTapValue_TextCtrl->SetValue(firstTapValue_NoneText);
         firstTapValue_TextCtrl->SetBackgroundColour(Style_SRV::denied_red);
         hasFirstTap = false;
     }

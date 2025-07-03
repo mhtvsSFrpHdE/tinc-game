@@ -22,6 +22,7 @@ struct ConnectToNetworkResult {
 };
 
 struct PerNetworkData {
+    static wxFrame* parentFrame;
     Networks_SRV::GetNetworksResult network;
     WindowsAPI_SRV::GetAdaptersAddressesResult* tap = nullptr;
     int tapSelection = wxNOT_FOUND;

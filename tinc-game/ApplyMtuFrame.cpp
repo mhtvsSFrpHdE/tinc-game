@@ -122,7 +122,7 @@ void ApplyMtuFrame::OnChooseTargetInterfaceChange(wxCommandEvent& evt)
     auto adapter = chooseAdapter_ComboBox_RawData[selectedIndex];
 
     auto netshCommand = API_SRV_GetNetshCommand(adapter.friendlyName, _mtuValue_IPv4, _mtuValue_IPv6);
-    yourCommand_TextCtrl->SetLabel(netshCommand);
+    yourCommand_TextCtrl->SetValue(netshCommand);
     yourCommand_CopyButton->Enable(true);
 }
 

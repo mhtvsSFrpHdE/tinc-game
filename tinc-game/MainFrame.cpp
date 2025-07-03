@@ -300,12 +300,16 @@ void PerNetworkData::IpReportThread()
                 }
             }
         }
+        auto assignedIPs = wss.str();
 
-        auto ipTextCtrlW = std::weak_ptr<wxTextCtrl>(ipTextCtrl);
-        if (auto ipTextCtrlL = ipTextCtrlW.lock()) {
-            auto assignedIPs = wss.str();
-            ipTextCtrlL->SetLabel(assignedIPs);
-            ipTextCtrlL->SetInsertionPointEnd();
-        }
+        parentFrame->CallAfter([this, assignedIPs] {
+            auto ipTextCtrlW = std::weak_ptr<wxTextCtrl>(ipTextCtrl);
+            if (auto ipTextCtrlL = ipTextCtrlW.lock()) {
+                ipTextCtrlL->SetValue(assignedIPs);
+                ipTextCtrlL->SetInsertionPointEnd();
+            }
+            });
     }
 }
+
+wxFrame* PerNetworkData::parentFrame;
