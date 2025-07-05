@@ -10,6 +10,7 @@ void HelpFrame::OnClose(wxCloseEvent& event)
 {
     _parentFrame->Raise();
 
+    // Allow frame close
     event.Skip();
 }
 ```
@@ -19,7 +20,7 @@ Const BoxSizerVhhOffset already intergrated to Layout_SRV
 
 VerticalBoxSizer - HorizontalBoxSizer - VerticalBoxSizer - ControlA  
 VerticalBoxSizer - HorizontalBoxSizer - HorizontalBoxSizer - ControlB  
-ControlB will position at x axis -<BoxSizerVhhOffset> compared to ControlA for unknown reason  
+ControlB will position at x axis `-<BoxSizerVhhOffset>` compared to ControlA for unknown reason  
 Add BoxSizerVhhOffset offset wxLEFT or fixed spacer to fix that
 
 If that still doesn't work
