@@ -62,7 +62,7 @@ private:
     wxComboBox* installedTap_ComboBox;
     std::unordered_map<int, WindowsAPI_SRV::GetAdaptersAddressesResult> installedTap_ComboBox_RawData;
     wxButton* openDeviceManagerButton;
-    wxButton* installedTapHelpMeDecide_Button;
+    wxButton* installedTapRename_Button;
     wxButton* installedTapRefresh_Button;
 
     wxButton* closeButton;
@@ -75,7 +75,7 @@ private:
     void OnHelpButtonClick(wxCommandEvent& evt);
     void OnHelpFrameCloseCallback();
     void OnInstalledTapComboBoxChange(wxCommandEvent& evt);
-    void OnInstalledTapHelpMeDecideButtonClick(wxCommandEvent& evt);
+    void OnInstalledTapRenameButtonClick(wxCommandEvent& evt);
     void OnInstalledTapRefreshButtonClick(wxCommandEvent& evt);
     void OnInstallTapButtonClick(wxCommandEvent& evt);
     void OnUninstallTapButtonClick(wxCommandEvent& evt);

@@ -36,8 +36,8 @@ void ManageTapFrame::Init_CreateControls()
     installedTap_ComboBox->Bind(wxEVT_COMBOBOX, &ManageTapFrame::OnInstalledTapComboBoxChange, this);
     openDeviceManagerButton = new wxButton(rootPanel, wxID_ANY, _("Open device manager"));
     openDeviceManagerButton->Bind(wxEVT_BUTTON, &ManageTapFrame::OnHelpFrameOpenDeviceManagerButtonClick, this);
-    installedTapHelpMeDecide_Button = new wxButton(rootPanel, wxID_ANY, _("Help me decide"));
-    installedTapHelpMeDecide_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnInstalledTapHelpMeDecideButtonClick, this);
+    installedTapRename_Button = new wxButton(rootPanel, wxID_ANY, _("Rename"));
+    installedTapRename_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnInstalledTapRenameButtonClick, this);
     installedTapRefresh_Button = new wxButton(rootPanel, wxID_ANY, _("Refresh"));
     installedTapRefresh_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnInstalledTapRefreshButtonClick, this);
     closeButton = new wxButton(rootPanel, wxID_ANY, _("Close"));
@@ -86,7 +86,7 @@ void ManageTapFrame::Init_Layout()
     wxBoxSizer* deviceManagerSizer = new wxBoxSizer(wxHORIZONTAL);
     rootSizer->Add(deviceManagerSizer);
     deviceManagerSizer->Add(openDeviceManagerButton, 0, wxLEFT, ls::SpaceToFrameBorder);
-    deviceManagerSizer->Add(installedTapHelpMeDecide_Button, 0, wxLEFT, ls::SpaceBetweenControl);
+    deviceManagerSizer->Add(installedTapRename_Button, 0, wxLEFT, ls::SpaceBetweenControl);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
     rootSizer->AddStretchSpacer(ls::TakeAllSpace);
@@ -191,8 +191,10 @@ void ManageTapFrame::OnHelpFrameCloseCallback()
     helpButton->Enable(true);
 }
 
-void ManageTapFrame::OnInstalledTapHelpMeDecideButtonClick(wxCommandEvent& evt)
+void ManageTapFrame::OnInstalledTapRenameButtonClick(wxCommandEvent& evt)
 {
+    wxMessageDialog(this, _("Select network adapter in opened window, press F2 to rename\nClick on Refresh button after you are done")).ShowModal();
+
     auto openNetworkControlPanel = TapDevice_SRV::API_SRV_OpenNetworkControlPanel();
     if (openNetworkControlPanel == false) {
         wxMessageDialog(this, TapDevice_SRV::openNetworkControlPanelFailedMessage).ShowModal();
