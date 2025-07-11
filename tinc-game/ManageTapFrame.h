@@ -57,6 +57,7 @@ private:
 
     wxStaticText* manageTap_StaticText;
     wxButton* installTap_Button;
+    wxButton* setMetric_Button;
     wxButton* uninstallTapButton;
 
     wxComboBox* installedTap_ComboBox;
@@ -77,6 +78,7 @@ private:
     void OnInstalledTapComboBoxChange(wxCommandEvent& evt);
     void OnInstalledTapRenameButtonClick(wxCommandEvent& evt);
     void OnInstalledTapRefreshButtonClick(wxCommandEvent& evt);
+    void OnSetMetricButtonclick(wxCommandEvent& evt);
     void OnInstallTapButtonClick(wxCommandEvent& evt);
     void OnUninstallTapButtonClick(wxCommandEvent& evt);
     void OnCloseButtonClick(wxCommandEvent& evt);

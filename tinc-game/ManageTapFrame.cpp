@@ -1,3 +1,5 @@
+#include "boost/process.hpp"
+#include <boost/process/windows.hpp>
 #include "ManageTapFrame.h"
 #include "TapDevice_SRV.h"
 #include "Layout_SRV.h"
@@ -5,6 +7,7 @@
 #include "String_SRV.h"
 #include <sstream>
 #include "HelpFrame.h"
+#include "Resource_SRV.h"
 
 ManageTapFrame::ManageTapFrame(wxFrame* parentFrame, std::function<void()> onCloseCallback) : wxFrame(parentFrame, wxID_ANY, _("Manage virtual network adapter"))
 {
@@ -28,6 +31,9 @@ void ManageTapFrame::Init_CreateControls()
     manageTap_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Manage virtual network adapter"));
     installTap_Button = new wxButton(rootPanel, wxID_ANY, _("Install new"));
     installTap_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnInstallTapButtonClick, this);
+    setMetric_Button = new wxButton(rootPanel, wxID_ANY, _("Set metric"));
+    setMetric_Button->Enable(false);
+    setMetric_Button->Bind(wxEVT_BUTTON, &ManageTapFrame::OnSetMetricButtonclick, this);
     uninstallTapButton = new wxButton(rootPanel, wxID_ANY, _("Uninstall"));
     uninstallTapButton->Enable(false);
     uninstallTapButton->Bind(wxEVT_BUTTON, &ManageTapFrame::OnUninstallTapButtonClick, this);
@@ -80,6 +86,7 @@ void ManageTapFrame::Init_Layout()
     wxBoxSizer* manageTapSizer = new wxBoxSizer(wxHORIZONTAL);
     rootSizer->Add(manageTapSizer);
     manageTapSizer->Add(installTap_Button, 0, wxLEFT, ls::SpaceToFrameBorder);
+    manageTapSizer->Add(setMetric_Button, 0, wxLEFT, ls::SpaceBetweenControl);
     manageTapSizer->Add(uninstallTapButton, 0, wxLEFT, ls::SpaceBetweenControl);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
@@ -184,6 +191,7 @@ void ManageTapFrame::OnInstalledTapComboBoxChange(wxCommandEvent& evt)
 {
     auto hasValue = installedTap_ComboBox->GetSelection() >= 0;
     uninstallTapButton->Enable(hasValue);
+    setMetric_Button->Enable(hasValue);
 }
 
 void ManageTapFrame::OnHelpFrameCloseCallback()
@@ -212,6 +220,25 @@ void ManageTapFrame::OnHelpFrameOpenDeviceManagerButtonClick(wxCommandEvent& evt
 void ManageTapFrame::OnInstalledTapRefreshButtonClick(wxCommandEvent& evt)
 {
     Reload();
+}
+
+void ManageTapFrame::OnSetMetricButtonclick(wxCommandEvent& evt)
+{
+    setMetric_Button->Enable(false);
+
+    namespace bp = boost::process;
+    namespace rsb = Resource_SRV::Bat;
+
+    auto selectedIndex = installedTap_ComboBox->GetSelection();
+    auto selectedRawData = installedTap_ComboBox_RawData[selectedIndex];
+    auto friendlyName = selectedRawData.friendlyName;
+
+    bp::system(bp::shell(), bp::args({ rsb::cmdRumCommand, rsb::netsh, L"interface", rsb::netshArgV4, L"set", L"interface",friendlyName, L"metric=1" ,L"store=persistent" }), bp::windows::hide);
+    bp::system(bp::shell(), bp::args({ rsb::cmdRumCommand, rsb::netsh, L"interface", rsb::netshArgV6, L"set", L"interface", friendlyName, L"metric=1"  ,L"store=persistent" }), bp::windows::hide);
+
+    wxMessageDialog(this, _("Metric has set")).ShowModal();
+
+    setMetric_Button->Enable(true);
 }
 
 void ManageTapFrame::OnInstallTapButtonClick(wxCommandEvent& evt)
