@@ -95,6 +95,11 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
             if (line == "Ready\r") {
                 result.success = true;
             }
+
+            // No Windows tap device found!
+            if (line.find(std::string("No Windows tap")) != std::wstring::npos) {
+                result.returnBody.messageEnum = ConnectToNetworkResult::Enum::TapNotFound;
+            }
         }
         perNetworkData->tincProcess->wait();
     }
@@ -109,6 +114,11 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
     CallAfter(&MainFrame::API_UI_SetDisconnectStatus, false, perNetworkData);
 
     if (result.success == false) {
+        if (result.returnBody.messageEnum == ConnectToNetworkResult::Enum::TapNotFound) {
+            CallAfter(&MainFrame::API_UI_EndConnectToNetwork, result, perNetworkData);
+            return;
+        }
+
         std::wstringstream messageStringStream;
         for (auto& line : cb) {
             messageStringStream << line;
@@ -244,14 +254,11 @@ void MainFrame::API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> r
             errorMessage << _("Unknown error:") << std::endl
                 << result.returnBody.messageString;
         }
+        if (result.returnBody.messageEnum == ConnectToNetworkResult::Enum::TapNotFound) {
+            errorMessage << _("Selected virtual network adapter not exist, may be rename or uninstalled\rRun Networks - Reload to update virtual network adapter list") << std::endl;
+        }
 
         wxMessageDialog(this, errorMessage.str()).ShowModal();
-
-        perNetworkData->tap->Disconnect();
-        UpdateCurrentTapItemDisplayText(*perNetworkData->tap, perNetworkData->tapSelection);
-        perNetworkData->disconnectButton->Enable(true);
-        allowCloseFrame = true;
-        return;
     }
 
     perNetworkData->tap->Disconnect();

@@ -13,6 +13,7 @@ struct ConnectToNetworkResult {
         TapUnavailable,
         RefusedByTinc,
         TincNotExist,
+        TapNotFound,
         Other
     };
     Enum messageEnum = Enum::Other;
