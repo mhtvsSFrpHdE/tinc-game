@@ -92,8 +92,8 @@ void ManageTapFrame::Init_Layout()
 
     wxBoxSizer* deviceManagerSizer = new wxBoxSizer(wxHORIZONTAL);
     rootSizer->Add(deviceManagerSizer);
-    deviceManagerSizer->Add(installedTapRename_Button, 0, wxLEFT, ls::SpaceBetweenControl);
-    deviceManagerSizer->Add(openDeviceManagerButton, 0, wxLEFT, ls::SpaceToFrameBorder);
+    deviceManagerSizer->Add(installedTapRename_Button, 0, wxLEFT, ls::SpaceToFrameBorder);
+    deviceManagerSizer->Add(openDeviceManagerButton, 0, wxLEFT, ls::SpaceBetweenControl);
     ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, rootSizer);
 
     rootSizer->AddStretchSpacer(ls::TakeAllSpace);
