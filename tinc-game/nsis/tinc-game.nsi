@@ -27,6 +27,11 @@ Section
     # create a shortcut in the start menu programs directory
     CreateDirectory "$SMPROGRAMS\${PRODUCT_NAME}"
     CreateShortcut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk" "$InstDir\uninstall.exe"
+
+    # add windows control panel uninstall entry
+    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${UninstId}" "DisplayName" "${PRODUCT_NAME}"
+    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${UninstId}" "UninstallString" '"$InstDir\uninstall.exe"'
+    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${UninstId}" "QuietUninstallString" '"$InstDir\uninstall.exe" /S'
 SectionEnd
 
 # uninstall section
@@ -42,4 +47,6 @@ Section "uninstall"
     # delete install dir
     RMDir "$InstDir"
 
+    # remove windows control panel uninstall entry
+    DeleteRegKey HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${UninstId}"
 SectionEnd
