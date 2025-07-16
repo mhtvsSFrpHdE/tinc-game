@@ -6,14 +6,11 @@
 !define TINCGAME_UNINSTALL_ID "tinc-game-T0MBcLcnSX8S"
 
 # detect exist install
+Var uninstallString
 !include LogicLib.nsh
 
 Function .onInit
-ReadRegStr $0 HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${UninstId}" "UninstallString"
-${If} $0 != ""
-    MessageBox MB_OK "Uninstall exist version first"
-	Abort
-${EndIf}
+ReadRegStr $uninstallString HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${TINCGAME_UNINSTALL_ID}" "UninstallString"
 FunctionEnd
 
 # define name of installer
@@ -31,6 +28,11 @@ InstallDir "$PROGRAMFILES\${TINCGAME_INSTALL_DIR}"
 Section
     # set the installation directory
     SetOutPath $InstDir
+
+    ${If} $uninstallString != ""
+        MessageBox MB_OK "Uninstall exist version first"
+        Abort
+    ${EndIf}
 
     # create the uninstaller
     WriteUninstaller "$InstDir\uninstall.exe"
