@@ -32,10 +32,16 @@
 *.app
 
 # Visual Studio
-/client/tinc-game/.vs
+/client/.vs
 /client/tinc-game/Debug
-/client/tinc-game/x64
 /client/tinc-game/Release
+/client/tinc-game/x64
+/client/updater/Debug
+/client/updater/Release
+/client/updater/x64
+/client/Debug
+/client/Release
+/client/x64
 
 # wxWidgets translate middle file
 *.mo
