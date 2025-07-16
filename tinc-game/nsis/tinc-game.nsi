@@ -3,7 +3,7 @@
 !define PRODUCT_VERSION "1.0"
 
 !define TINCGAME_DIR "tinc-game"
-!define UninstId "tinc-game-T0MBcLcnSX8S"
+!define TINCGAME_UNINSTALL_ID "tinc-game-T0MBcLcnSX8S"
 
 # detect exist install
 !include LogicLib.nsh
@@ -25,7 +25,7 @@ Page Directory
 Page InstFiles
 
 # define installation directory
-InstallDir "$PROGRAMFILES\${TINCGAME_DIR}"
+InstallDir "$PROGRAMFILES\${TINCGAME_INSTALL_DIR}"
 
 # install section
 Section
@@ -40,9 +40,9 @@ Section
     CreateShortcut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk" "$InstDir\uninstall.exe"
 
     # add windows control panel uninstall entry
-    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${UninstId}" "DisplayName" "${PRODUCT_NAME}"
-    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${UninstId}" "UninstallString" '"$InstDir\uninstall.exe"'
-    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${UninstId}" "QuietUninstallString" '"$InstDir\uninstall.exe" /S'
+    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${TINCGAME_UNINSTALL_ID}" "DisplayName" "${PRODUCT_NAME}"
+    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${TINCGAME_UNINSTALL_ID}" "UninstallString" '"$InstDir\uninstall.exe"'
+    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${TINCGAME_UNINSTALL_ID}" "QuietUninstallString" '"$InstDir\uninstall.exe" /S'
 SectionEnd
 
 # uninstall section
@@ -59,5 +59,5 @@ Section "uninstall"
     RMDir "$InstDir"
 
     # remove windows control panel uninstall entry
-    DeleteRegKey HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${UninstId}"
+    DeleteRegKey HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${TINCGAME_UNINSTALL_ID}"
 SectionEnd
