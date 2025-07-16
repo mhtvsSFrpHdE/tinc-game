@@ -196,6 +196,5 @@
     <None Include="uninstallTap.bat">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="KnownBug.md" />
   </ItemGroup>
 </Project>
