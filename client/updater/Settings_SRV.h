@@ -22,3 +22,7 @@ namespace SettingKeys_Updater {
     const wxString metadata = wxT("Metadata/");
     const wxString metadata_installedVersion = metadata + wxT("InstalledVersion");
 };
+
+namespace SettingDefaultValue_Updater {
+    const long installedVersion = 0;
+}
