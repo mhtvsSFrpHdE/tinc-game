@@ -21,12 +21,27 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Resource_SRV.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="String_SRV.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ReturnValue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="resource.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource_SRV.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="String_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -39,6 +39,9 @@
 /client/updater/Debug
 /client/updater/Release
 /client/updater/x64
+/client/resource/Debug
+/client/resource/Release
+/client/resource/x64
 /client/Debug
 /client/Release
 /client/x64

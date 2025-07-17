@@ -142,11 +142,18 @@
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="MainFrame.h" />
+    <ClInclude Include="Settings_SRV.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="MainFrame.cpp" />
     <ClCompile Include="MainFrame_SRV.cpp" />
+    <ClCompile Include="Settings_SRV.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\resource\resource.vcxproj">
+      <Project>{ad43b445-416c-4655-ba97-7d5b5605f0cb}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
