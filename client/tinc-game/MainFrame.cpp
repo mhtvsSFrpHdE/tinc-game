@@ -1,9 +1,9 @@
 ﻿#include "MainFrame.h"
 #include <wx/spinctrl.h>
 #include <wx/dialog.h>
-#include "Resource_SRV.h"
+#include "..\resource\Resource_SRV.h"
 #include <sstream>
-#include "String_SRV.h"
+#include "..\resource\String_SRV.h"
 #include "Settings_SRV.h"
 #include "Networks_SRV.h"
 #include "TapDevice_SRV.h"

@@ -151,19 +151,15 @@
     <ClInclude Include="EditNetworkFrame.h" />
     <ClInclude Include="JoinNetworkFrame.h" />
     <ClInclude Include="Language_SRV.h" />
-    <ClInclude Include="Layout_SRV.h" />
     <ClInclude Include="Lock_SRV.h" />
     <ClInclude Include="MainFrame.h" />
     <ClInclude Include="HelpFrame.h" />
     <ClInclude Include="ManageTapFrame.h" />
     <ClInclude Include="Networks_SRV.h" />
     <ClInclude Include="RenameNetworkFrame.h" />
-    <ClInclude Include="Resource_SRV.h" />
-    <ClInclude Include="ReturnValue.h" />
     <ClInclude Include="SettingsFrame.h" />
     <ClInclude Include="Settings_SRV.h" />
     <ClInclude Include="OptimizeMtuFrame.h" />
-    <ClInclude Include="String_SRV.h" />
     <ClInclude Include="Style_SRV.h" />
     <ClInclude Include="TapDevice_SRV.h" />
     <ClInclude Include="tincTextCtrl.h" />
@@ -177,7 +173,6 @@
     <ClCompile Include="JoinNetworkFrame.cpp" />
     <ClCompile Include="JoinNetworkFrame_SRV.cpp" />
     <ClCompile Include="Language_SRV.cpp" />
-    <ClCompile Include="Layout_SRV.cpp" />
     <ClCompile Include="Lock_SRV.cpp" />
     <ClCompile Include="MainFrame.cpp" />
     <ClCompile Include="HelpFrame.cpp" />
@@ -188,14 +183,11 @@
     <ClCompile Include="ManageTapFrame_SRV.cpp" />
     <ClCompile Include="Networks_SRV.cpp" />
     <ClCompile Include="RenameNetworkFrame.cpp" />
-    <ClCompile Include="Resource_SRV.cpp" />
     <ClCompile Include="SettingsFrame.cpp" />
     <ClCompile Include="Settings_SRV.cpp" />
     <ClCompile Include="OptimizeMtuFrame.cpp" />
     <ClCompile Include="OptimizeMtuFrame_SRV.cpp" />
     <ClCompile Include="OptimizeMtuFrame_Test.cpp" />
-    <ClCompile Include="String_SRV.cpp" />
-    <ClCompile Include="Style_SRV.cpp" />
     <ClCompile Include="TapDevice_SRV.cpp" />
     <ClCompile Include="tincTextCtrl.cpp" />
     <ClCompile Include="WindowsAPI_SRV.cpp" />
@@ -211,6 +203,11 @@
     <None Include="GenerateTranslatePot.bat" />
     <None Include="ping437_start.bat" />
     <None Include="uninstallTap.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\resource\resource.vcxproj">
+      <Project>{ad43b445-416c-4655-ba97-7d5b5605f0cb}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

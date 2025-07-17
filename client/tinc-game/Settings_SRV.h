@@ -1,7 +1,7 @@
 #pragma once
 #include <wx/wx.h>
 #include <wx/fileconf.h>
-#include "ReturnValue.h"
+#include "..\resource\Resource_SRV.h"
 #include "Language_SRV.h"
 
 enum class GetIniFilePathBy {

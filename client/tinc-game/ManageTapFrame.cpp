@@ -2,12 +2,12 @@
 #include <boost/process/windows.hpp>
 #include "ManageTapFrame.h"
 #include "TapDevice_SRV.h"
-#include "Layout_SRV.h"
+#include "..\resource\Layout_SRV.h"
 #include "Style_SRV.h"
-#include "String_SRV.h"
+#include "..\resource\String_SRV.h"
 #include <sstream>
 #include "HelpFrame.h"
-#include "Resource_SRV.h"
+#include "..\resource\Resource_SRV.h"
 
 ManageTapFrame::ManageTapFrame(wxFrame* parentFrame, std::function<void()> onCloseCallback) : wxFrame(parentFrame, wxID_ANY, _("Manage virtual network adapter"))
 {

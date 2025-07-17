@@ -6,7 +6,7 @@
 #include "Networks_SRV.h"
 #include "tincTextCtrl.h"
 #include "boost/optional.hpp"
-#include "ReturnValue.h"
+#include "..\resource\ReturnValue.h"
 
 struct ConnectToNetworkResult {
     enum class Enum {

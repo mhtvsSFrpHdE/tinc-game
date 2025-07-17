@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Layout_SRV.h"
 
 void Layout_SRV::AddFixedSpacer(wxDirection direction, int value, wxSizer* sizer)

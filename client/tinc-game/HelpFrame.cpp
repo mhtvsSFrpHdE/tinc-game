@@ -1,5 +1,5 @@
 #include "HelpFrame.h"
-#include "Layout_SRV.h"
+#include "..\resource\Layout_SRV.h"
 
 HelpFrame::HelpFrame(wxFrame* parentFrame, wxString title, std::function<void()> onCloseCallback, bool defaultInit) : wxFrame(parentFrame, wxID_ANY, title)
 {

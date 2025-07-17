@@ -1,6 +1,6 @@
 #pragma once
 #include <wx/wx.h>
-#include "ReturnValue.h"
+#include "..\resource\ReturnValue.h"
 
 struct JoinNetworkResult {
     enum class Enum {

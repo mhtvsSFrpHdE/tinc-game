@@ -24,22 +24,10 @@
     <ClInclude Include="OptimizeMtuFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ReturnValue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SettingsFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Settings_SRV.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ApplyMtuFrame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="String_SRV.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Layout_SRV.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HelpFrame.h">
@@ -66,9 +54,6 @@
     <ClInclude Include="tincTextCtrl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Resource_SRV.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EditNetworkFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -79,6 +64,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RenameNetworkFrame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings_SRV.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -110,12 +98,6 @@
     <ClCompile Include="ApplyMtuFrame_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="String_SRV.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Layout_SRV.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HelpFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -131,9 +113,6 @@
     <ClCompile Include="TapDevice_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Style_SRV.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ManageTapFrame_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -144,9 +123,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="tincTextCtrl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Resource_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EditNetworkFrame.cpp">

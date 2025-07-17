@@ -1,7 +1,7 @@
 #include "RenameNetworkFrame.h"
-#include "String_SRV.h"
-#include "Layout_SRV.h"
-#include "Resource_SRV.h"
+#include "..\resource\String_SRV.h"
+#include "..\resource\Layout_SRV.h"
+#include "..\resource\Resource_SRV.h"
 
 RenameNetworkFrame::RenameNetworkFrame(wxFrame* parentFrame, Networks_SRV::GetNetworksResult* network, std::function<void()> onCloseCallback) : wxFrame(parentFrame, wxID_ANY, _("Rename:") + String_SRV::space + network->networkName)
 {

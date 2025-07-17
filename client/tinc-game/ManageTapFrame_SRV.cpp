@@ -1,8 +1,8 @@
 #include <boost/process.hpp>
 #include <boost/process/windows.hpp>
 #include "ManageTapFrame.h"
-#include "String_SRV.h"
-#include "Resource_SRV.h"
+#include "..\resource\String_SRV.h"
+#include "..\resource\Resource_SRV.h"
 #include <sstream>
 #include <unordered_map>
 

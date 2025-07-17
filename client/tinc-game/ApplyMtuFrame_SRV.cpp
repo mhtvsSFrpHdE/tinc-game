@@ -1,13 +1,13 @@
 #include <boost/process.hpp>
 #include <boost/process/windows.hpp>
 #include "ApplyMtuFrame.h"
-#include "String_SRV.h"
+#include "..\resource\String_SRV.h"
 #include <codecvt>
 #include <sstream>
 #include <thread>
 #include <vector>
 #include <string>
-#include "Resource_SRV.h"
+#include "..\resource\Resource_SRV.h"
 
 ReturnValue<ApplyMtuResult> ApplyMtuFrame::API_SRV_ApplyMtu(int mtu_IPv4, int mtu_IPv6, std::wstring adapterName)
 {

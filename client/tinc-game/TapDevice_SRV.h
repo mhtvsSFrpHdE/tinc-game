@@ -3,7 +3,7 @@
 #include <vector>
 #include "WindowsAPI_SRV.h"
 #include <string>
-#include "ReturnValue.h"
+#include "..\resource\ReturnValue.h"
 
 namespace TapDevice_SRV
 {

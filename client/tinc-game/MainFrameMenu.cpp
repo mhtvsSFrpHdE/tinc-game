@@ -3,11 +3,11 @@
 #include "MainFrame.h"
 #include "EditNetworkFrame.h"
 #include "JoinNetworkFrame.h"
-#include "String_SRV.h"
+#include "..\resource\String_SRV.h"
 #include <wx/filename.h>
 #include <wx/dir.h>
 #include "RenameNetworkFrame.h"
-#include "Resource_SRV.h"
+#include "..\resource\Resource_SRV.h"
 #include "ManageTapFrame.h"
 #include "SettingsFrame.h"
 #include "OptimizeMtuFrame.h"

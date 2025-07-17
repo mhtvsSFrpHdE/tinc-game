@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <wx/wx.h>
 #include <thread>
-#include "ReturnValue.h"
+#include "..\resource\ReturnValue.h"
 
 struct CheckAddressFormatResult {
     enum class Enum {

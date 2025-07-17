@@ -1,10 +1,10 @@
 #include <boost/process.hpp>
 #include <boost/process/windows.hpp>
 #include "MainFrame.h"
-#include "String_SRV.h"
+#include "..\resource\String_SRV.h"
 #include <sstream>
 #include <boost/circular_buffer.hpp>
-#include "Resource_SRV.h"
+#include "..\resource\Resource_SRV.h"
 #include "Settings_SRV.h"
 #include "Lock_SRV.h"
 
@@ -28,7 +28,7 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
 
     bp::ipstream is;
 
-    auto pid = rst::GetTincdPid(perNetworkData->network);
+    auto pid = rst::GetTincdPid(perNetworkData->network.GetFullPath());
     if (pid.Exists()) {
         auto disconnectResult = API_SRV_DisconnectNetwork(perNetworkData);
         if (disconnectResult.success == false) {

@@ -1,6 +1,6 @@
 #include "EditNetworkFrame.h"
-#include "String_SRV.h"
-#include "Layout_SRV.h"
+#include "..\resource\String_SRV.h"
+#include "..\resource\Layout_SRV.h"
 #include "Settings_SRV.h"
 #include <sstream>
 #include "HelpFrame.h"

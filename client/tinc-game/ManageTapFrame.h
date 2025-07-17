@@ -1,7 +1,7 @@
 #pragma once
 #include <wx/wx.h>
 #include <unordered_map>
-#include "ReturnValue.h"
+#include "..\resource\ReturnValue.h"
 #include "WindowsAPI_SRV.h"
 #include <string>
 

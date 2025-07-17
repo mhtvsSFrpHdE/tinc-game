@@ -1,7 +1,7 @@
 #include "MainFrame.h"
 #include "Settings_SRV.h"
-#include "Layout_SRV.h"
-#include "Resource_SRV.h"
+#include "..\resource\Layout_SRV.h"
+#include "..\resource\Resource_SRV.h"
 
 MainFrame::MainFrame() : wxFrame(nullptr, wxID_ANY, _("Tinc Game Mode")) {
     PerNetworkData::parentFrame = this;

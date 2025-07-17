@@ -3,8 +3,8 @@
 #include "OptimizeMtuFrame.h"
 #include <sstream>
 #include <thread>
-#include "String_SRV.h"
-#include "Resource_SRV.h"
+#include "..\resource\String_SRV.h"
+#include "..\resource\Resource_SRV.h"
 
 struct MeasureMtuResult {
     enum class Enum {

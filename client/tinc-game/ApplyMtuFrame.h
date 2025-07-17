@@ -1,6 +1,6 @@
 #pragma once
 #include <wx/wx.h>
-#include "ReturnValue.h"
+#include "..\resource\ReturnValue.h"
 #include <vector>
 #include <string>
 #include "OptimizeMtuFrame.h"

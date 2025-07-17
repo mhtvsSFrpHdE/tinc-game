@@ -6,10 +6,10 @@
 #include <thread>
 #include <codecvt>
 #include "ApplyMtuFrame.h"
-#include "Layout_SRV.h"
+#include "..\resource\Layout_SRV.h"
 #include "HelpFrame.h"
 #include <sstream>
-#include "String_SRV.h"
+#include "..\resource\String_SRV.h"
 #include "Settings_SRV.h"
 
 OptimizeMtuFrame::OptimizeMtuFrame(wxFrame* parentFrame, std::function<void()> onCloseCallback) : wxFrame(parentFrame, wxID_ANY, _("Optimize MTU")) {

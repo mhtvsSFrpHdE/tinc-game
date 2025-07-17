@@ -5,8 +5,8 @@
 #include <wx/fileconf.h>
 #include <wx/config.h>
 #include "Settings_SRV.h"
-#include "Layout_SRV.h"
-#include "String_SRV.h"
+#include "..\resource\Layout_SRV.h"
+#include "..\resource\String_SRV.h"
 
 SettingsFrame::SettingsFrame(wxFrame* parentFrame) : wxFrame(parentFrame, wxID_ANY, _("Settings"))
 {

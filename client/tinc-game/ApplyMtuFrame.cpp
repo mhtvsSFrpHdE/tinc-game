@@ -1,6 +1,6 @@
 #include "ApplyMtuFrame.h"
-#include "String_SRV.h"
-#include "Layout_SRV.h"
+#include "..\resource\String_SRV.h"
+#include "..\resource\Layout_SRV.h"
 #include "TapDevice_SRV.h"
 
 ApplyMtuFrame::ApplyMtuFrame(OptimizeMtuFrame* parentFrame, int mtuValue_IPv4, int mtuValue_IPv6) : wxFrame(parentFrame, wxID_ANY, _("Apply MTU"))
