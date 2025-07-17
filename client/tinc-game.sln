@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tinc-game", "tinc-game\tinc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "updater", "updater\updater.vcxproj", "{5AB536F3-FE99-493B-A16B-563D9E894FBE}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "resource", "resource\resource.vcxproj", "{AD43B445-416C-4655-BA97-7D5B5605F0CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{5AB536F3-FE99-493B-A16B-563D9E894FBE}.Release|x64.Build.0 = Release|x64
 		{5AB536F3-FE99-493B-A16B-563D9E894FBE}.Release|x86.ActiveCfg = Release|Win32
 		{5AB536F3-FE99-493B-A16B-563D9E894FBE}.Release|x86.Build.0 = Release|Win32
+		{AD43B445-416C-4655-BA97-7D5B5605F0CB}.Debug|x64.ActiveCfg = Debug|x64
+		{AD43B445-416C-4655-BA97-7D5B5605F0CB}.Debug|x64.Build.0 = Debug|x64
+		{AD43B445-416C-4655-BA97-7D5B5605F0CB}.Debug|x86.ActiveCfg = Debug|Win32
+		{AD43B445-416C-4655-BA97-7D5B5605F0CB}.Debug|x86.Build.0 = Debug|Win32
+		{AD43B445-416C-4655-BA97-7D5B5605F0CB}.Release|x64.ActiveCfg = Release|x64
+		{AD43B445-416C-4655-BA97-7D5B5605F0CB}.Release|x64.Build.0 = Release|x64
+		{AD43B445-416C-4655-BA97-7D5B5605F0CB}.Release|x86.ActiveCfg = Release|Win32
+		{AD43B445-416C-4655-BA97-7D5B5605F0CB}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
