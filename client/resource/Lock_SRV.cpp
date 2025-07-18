@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Lock_SRV.h"
 
 void Lock_SRV::Notify(std::mutex& mutex, std::condition_variable& cb)

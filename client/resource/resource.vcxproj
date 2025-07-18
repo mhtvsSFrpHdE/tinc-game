@@ -159,6 +159,7 @@
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="Layout_SRV.h" />
+    <ClInclude Include="Lock_SRV.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource_SRV.h" />
     <ClInclude Include="ReturnValue.h" />
@@ -166,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Layout_SRV.cpp" />
+    <ClCompile Include="Lock_SRV.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

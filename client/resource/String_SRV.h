@@ -10,7 +10,6 @@ namespace String_SRV
     /// <param name="input"></param>
     /// <returns></returns>
     std::wstring ForceToWstring(std::string input);
-    bool IsCp437(std::wstring input);
 
     const std::wstring doubleQuotes = L"\"";
     const std::wstring newLine = L"\n";

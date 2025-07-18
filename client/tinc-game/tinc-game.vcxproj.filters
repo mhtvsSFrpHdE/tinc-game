@@ -57,9 +57,6 @@
     <ClInclude Include="EditNetworkFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Lock_SRV.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="JoinNetworkFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -126,9 +123,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EditNetworkFrame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Lock_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="JoinNetworkFrame.cpp">

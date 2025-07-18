@@ -151,7 +151,6 @@
     <ClInclude Include="EditNetworkFrame.h" />
     <ClInclude Include="JoinNetworkFrame.h" />
     <ClInclude Include="Language_SRV.h" />
-    <ClInclude Include="Lock_SRV.h" />
     <ClInclude Include="MainFrame.h" />
     <ClInclude Include="HelpFrame.h" />
     <ClInclude Include="ManageTapFrame.h" />
@@ -173,7 +172,6 @@
     <ClCompile Include="JoinNetworkFrame.cpp" />
     <ClCompile Include="JoinNetworkFrame_SRV.cpp" />
     <ClCompile Include="Language_SRV.cpp" />
-    <ClCompile Include="Lock_SRV.cpp" />
     <ClCompile Include="MainFrame.cpp" />
     <ClCompile Include="HelpFrame.cpp" />
     <ClCompile Include="MainFrameInit.cpp" />

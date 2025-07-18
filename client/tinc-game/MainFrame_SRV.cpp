@@ -6,7 +6,7 @@
 #include <boost/circular_buffer.hpp>
 #include "..\resource\Resource_SRV.h"
 #include "Settings_SRV.h"
-#include "Lock_SRV.h"
+#include "..\resource\Lock_SRV.h"
 
 void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
 {
