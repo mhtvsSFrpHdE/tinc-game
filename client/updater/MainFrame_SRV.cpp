@@ -70,6 +70,10 @@ void tRenameFile(wxFileName& srcfile, wxFileName& destfile) {
     wxLogMessage(wxString(logMessage.str()));
 }
 
+std::wstring wxFileNameToString(wxFileName& file) {
+    return file.GetName().ToStdWstring();
+}
+
 void MainFrame::API_SRV_PostLayout()
 {
     namespace ss = Settings_SRV;
@@ -165,6 +169,16 @@ void MainFrame::API_SRV_PostLayout()
         }
 
         installedVersion = GetInstalledVersion();
+    }
+
+    auto joinString = String_SRV::JoinVectorNonStringObject<wxFileName>(oldFiles, ss::arrayDelimiter1.ToStdWstring(), &wxFileNameToString);
+    if (joinString.success) {
+        ss::updaterConfig->Write(sk::files_old, wxString(joinString.returnBody));
+        ss::updaterConfig->Flush();
+    }
+    else {
+        ss::updaterConfig->Write(sk::files_old, wxEmptyString);
+        ss::updaterConfig->Flush();
     }
 
     CallAfter([this]() {
