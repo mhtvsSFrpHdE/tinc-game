@@ -46,7 +46,7 @@ void SettingsFrame::Init_CreateControls()
     chooseGameMode_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Game mode"));
     chooseGameMode_ComboBox = new wxComboBox(rootPanel, wxID_ANY);
     {
-        auto getComboBoxItems = ss::ReadArray(SettingKeys_Program::lists_gameModeGames);
+        auto getComboBoxItems = ss::ReadArray(ss::programConfig.get(), SettingKeys_Program::lists_gameModeGames);
         if (getComboBoxItems.success) {
             chooseGameMode_ComboBox->Set(getComboBoxItems.returnBody);
         }

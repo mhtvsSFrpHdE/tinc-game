@@ -65,6 +65,8 @@ void OptimizeMtuFrame::API_UI_EndMeasureMTU(bool success, std::wstring reason)
 
 void OptimizeMtuFrame::Init_CreateControls()
 {
+    namespace ss = Settings_SRV;
+
     rootPanel = new wxPanel(this);
     chooseAddress_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Type in target address"));
     helpButton = new wxButton(rootPanel, wxID_ANY, _("Help"));
@@ -72,7 +74,7 @@ void OptimizeMtuFrame::Init_CreateControls()
 
     chooseAddress_ComboBox = new wxComboBox(rootPanel, wxID_ANY);
     {
-        auto getComboBoxItems = Settings_SRV::ReadArray(SettingKeys_Program::lists_mtuTestIp);
+        auto getComboBoxItems = ss::ReadArray(ss::programConfig.get(), SettingKeys_Program::lists_mtuTestIp);
         if (getComboBoxItems.success) {
             chooseAddress_ComboBox->Set(getComboBoxItems.returnBody);
             chooseAddress_ComboBox->SetSelection(0);

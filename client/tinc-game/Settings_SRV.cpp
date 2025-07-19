@@ -98,12 +98,12 @@ void Settings_SRV::LoadConfigFile()
     ls::Init();
 }
 
-ReturnValue<wxArrayString> Settings_SRV::ReadArray(wxString settingKey, wxString delimiter)
+ReturnValue<wxArrayString> Settings_SRV::ReadArray(wxFileConfig* config, wxString settingKey, wxString delimiter)
 {
     auto result = ReturnValue<wxArrayString>();
 
     wxString readConfig;
-    bool readConfigSuccess = programConfig->Read(settingKey, &readConfig);
+    bool readConfigSuccess = config->Read(settingKey, &readConfig);
     if (readConfigSuccess == false) {
         return result;
     }

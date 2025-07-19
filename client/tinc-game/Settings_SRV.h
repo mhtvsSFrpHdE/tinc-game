@@ -21,7 +21,7 @@ namespace Settings_SRV
     const wxString arrayDelimiter1 = wxT(",");
     const wxString arrayDelimiter2 = wxT("|");
     const wxString emptyPlaceholder1 = wxT("|");
-    ReturnValue<wxArrayString> ReadArray(wxString settingKey, wxString delimiter = arrayDelimiter1);
+    ReturnValue<wxArrayString> ReadArray(wxFileConfig* config, wxString settingKey, wxString delimiter = arrayDelimiter1);
 
     extern std::shared_ptr<wxFileConfig> programConfig;
     extern std::shared_ptr<wxFileConfig> networksConfig;
