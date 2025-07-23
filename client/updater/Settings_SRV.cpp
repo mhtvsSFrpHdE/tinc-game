@@ -51,4 +51,26 @@ void Settings_SRV::LoadConfigFile()
     }
 }
 
+ReturnValue<wxArrayString> Settings_SRV::ReadArray(wxFileConfig* config, wxString settingKey, wxString delimiter)
+{
+    auto result = ReturnValue<wxArrayString>();
+
+    wxString readConfig;
+    bool readConfigSuccess = config->Read(settingKey, &readConfig);
+    if (readConfigSuccess == false) {
+        return result;
+    }
+
+    wxArrayString split = wxSplit(readConfig, Settings_SRV::arrayDelimiter1[0]);
+    result.returnBody = split;
+    result.success = true;
+
+    return result;
+}
+
+void Settings_SRV::WriteArray(wxString settingKey, wxString delimiter)
+{
+
+}
+
 std::shared_ptr<wxFileConfig> Settings_SRV::updaterConfig;

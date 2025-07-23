@@ -22,21 +22,17 @@ std::string tSuccess(bool result) {
     }
 }
 
-void tRemoveFile(wxFileName& file) {
-    namespace ss = String_SRV;
-
-    auto fullPath = file.GetFullPath();
-
-    bool result = wxRemoveFile(fullPath);
-
-    std::ostringstream logMessage;
-    logMessage << "Remove" << ss::space
-        << ss::doubleQuotes << fullPath << ss::doubleQuotes << ss::space
-        << tSuccess(result);
-    wxLogMessage(wxString(logMessage.str()));
+void MainFrame::API_SRV_Update_EndLogToFile()
+{
+    CallAfter([this]() {
+        wxLog::FlushActive();
+        wxLog::SetActiveTarget(nullptr);
+        Lock_SRV::Notify(uiMutex, uiCb);
+        });
+    Lock_SRV::Wait(uiMutex, uiCb);
 }
 
-void tCopyFile(wxFileName& srcfile, wxFileName& destfile) {
+bool tCopyFile(wxFileName& srcfile, wxFileName& destfile) {
     namespace ss = String_SRV;
 
     auto srcFullPath = srcfile.GetFullPath();
@@ -51,9 +47,27 @@ void tCopyFile(wxFileName& srcfile, wxFileName& destfile) {
         << ss::doubleQuotes << destFullPath << ss::doubleQuotes << ss::space
         << tSuccess(result);
     wxLogMessage(wxString(logMessage.str()));
+
+    return result;
 }
 
-void tRenameFile(wxFileName& srcfile, wxFileName& destfile) {
+void MainFrame::API_SRV_Update_OnCopyFail(ReturnValue<UpdateResult>& result, wxFileName& srcfile, wxFileName& destfile)
+{
+    result.returnBody.messageEnum = UpdateResult::Enum::Copy;
+    result.returnBody.messageString = srcfile.GetFullPath() + " to " + destfile.GetFullPath();
+    API_SRV_Update_EndLogToFile();
+    CallAfter([this, result]() {
+        API_UI_ReportUpdateResult(result);
+        });
+}
+
+/// <summary>
+/// If dest file exist, will be overwrite
+/// </summary>
+/// <param name="srcfile"></param>
+/// <param name="destfile"></param>
+/// <returns></returns>
+bool tRenameFile(wxFileName& srcfile, wxFileName& destfile) {
     namespace ss = String_SRV;
 
     auto srcFullPath = srcfile.GetFullPath();
@@ -68,37 +82,72 @@ void tRenameFile(wxFileName& srcfile, wxFileName& destfile) {
         << ss::doubleQuotes << destFullPath << ss::doubleQuotes << ss::space
         << tSuccess(result);
     wxLogMessage(wxString(logMessage.str()));
+
+    return result;
+}
+
+void MainFrame::API_SRV_Update_OnRenameFail(ReturnValue<UpdateResult>& result, wxFileName& srcfile, wxFileName& destfile)
+{
+    result.returnBody.messageEnum = UpdateResult::Enum::Rename;
+    result.returnBody.messageString = srcfile.GetFullPath() + " to " + destfile.GetFullPath();
+    API_SRV_Update_EndLogToFile();
+    CallAfter([this, result]() {
+        API_UI_ReportUpdateResult(result);
+        });
+}
+
+bool tRemoveFile(wxFileName& file) {
+    namespace ss = String_SRV;
+
+    auto fullPath = file.GetFullPath();
+
+    bool result = wxRemoveFile(fullPath);
+
+    std::ostringstream logMessage;
+    logMessage << "Remove" << ss::space
+        << ss::doubleQuotes << fullPath << ss::doubleQuotes << ss::space
+        << tSuccess(result);
+    wxLogMessage(wxString(logMessage.str()));
+
+    return result;
+}
+
+void MainFrame::API_SRV_Update_OnRemoveFail(ReturnValue<UpdateResult>& result, wxFileName& file)
+{
+    result.returnBody.messageEnum = UpdateResult::Enum::Remove;
+    result.returnBody.messageString = file.GetFullPath();
+    API_SRV_Update_EndLogToFile();
+    CallAfter([this, result]() {
+        API_UI_ReportUpdateResult(result);
+        });
 }
 
 std::wstring wxFileNameToString(wxFileName& file) {
     return file.GetName().ToStdWstring();
 }
 
-void MainFrame::API_SRV_PostLayout()
+void MainFrame::API_SRV_Update()
 {
+    ReturnValue<UpdateResult> result;
+
     namespace ss = Settings_SRV;
     namespace sk = SettingKeys_Updater;
     namespace sdn = SettingDefaultValue_Updater;
     namespace rs = Resource_SRV;
 
-    std::ofstream outFile("application.log");
-    std::shared_ptr<wxLogStream> logTarget;
+    std::ofstream outFile(rs::Program::updaterLog);
+    auto logTarget = std::unique_ptr<wxLogStream>(new wxLogStream(&outFile));
     if (outFile.is_open())
     {
-        logTarget = std::shared_ptr<wxLogStream>(new wxLogStream(&outFile));
-
-        CallAfter([this, &logTarget]() {
-            wxLog::SetActiveTarget(logTarget.get());
-            Lock_SRV::Notify(uiMutex, uiCb);
-            });
-        Lock_SRV::Wait(uiMutex, uiCb);
+        wxLog::SetActiveTarget(logTarget.get());
     }
     else
     {
-        CallAfter([this]() {
-            wxMessageDialog(this, "Failed to open log file!").ShowModal();
-            Close();
+        result.returnBody.messageEnum = UpdateResult::Enum::NoLogFile;
+        CallAfter([this, result]() {
+            API_UI_ReportUpdateResult(result);
             });
+        return;
     }
 
     const long targetVersion = 2;
@@ -112,7 +161,11 @@ void MainFrame::API_SRV_PostLayout()
             for (auto& file : oldFiles)
             {
                 if (file.Exists()) {
-                    tRemoveFile(file);
+                    bool removeResult = tRemoveFile(file);
+                    if (removeResult == false) {
+                        API_SRV_Update_OnRemoveFail(result, file);
+                        return;
+                    }
                 }
             }
             oldFiles.clear();
@@ -128,18 +181,34 @@ void MainFrame::API_SRV_PostLayout()
             if (ini.Exists()) {
                 targetIni.SetName("1.ini" + oldExtensionName);
                 if (targetIni.Exists()) {
-                    tRemoveFile(targetIni);
+                    bool removeResult = tRemoveFile(targetIni);
+                    if (removeResult == false) {
+                        API_SRV_Update_OnRemoveFail(result, targetIni);
+                        return;
+                    }
                 }
-                tCopyFile(ini, targetIni);
+                bool copyResult = tCopyFile(ini, targetIni);
+                if (copyResult == false) {
+                    API_SRV_Update_OnCopyFail(result, ini, targetIni);
+                    return;
+                }
                 oldFiles.push_back(targetIni);
 
                 targetIni.SetName("1_.ini");
-                tRenameFile(ini, targetIni);
+                bool renameResult = tRenameFile(ini, targetIni);
+                if (renameResult == false) {
+                    API_SRV_Update_OnRenameFail(result, ini, targetIni);
+                    return;
+                }
             }
 
             ini.SetName("2.ini");
             if (ini.Exists()) {
-                tRemoveFile(ini);
+                bool removeResult = tRemoveFile(ini);
+                if (removeResult == false) {
+                    API_SRV_Update_OnRemoveFail(result, ini);
+                    return;
+                }
             }
 
             ss::updaterConfig->Write(sk::metadata_installedVersion, 1);
@@ -155,13 +224,25 @@ void MainFrame::API_SRV_PostLayout()
             if (ini.Exists()) {
                 targetIni.SetName("1_.ini" + oldExtensionName);
                 if (targetIni.Exists()) {
-                    tRemoveFile(targetIni);
+                    bool removeResult = tRemoveFile(targetIni);
+                    if (removeResult == false) {
+                        API_SRV_Update_OnRemoveFail(result, targetIni);
+                        return;
+                    }
                 }
-                tCopyFile(ini, targetIni);
+                bool copyResult = tCopyFile(ini, targetIni);
+                if (copyResult == false) {
+                    API_SRV_Update_OnCopyFail(result, ini, targetIni);
+                    return;
+                }
                 oldFiles.push_back(targetIni);
 
                 targetIni.SetName("1_1.ini");
-                tRenameFile(ini, targetIni);
+                bool renameResult = tRenameFile(ini, targetIni);
+                if (renameResult == false) {
+                    API_SRV_Update_OnRenameFail(result, ini, targetIni);
+                    return;
+                }
             }
 
             ss::updaterConfig->Write(sk::metadata_installedVersion, 2);
@@ -170,6 +251,7 @@ void MainFrame::API_SRV_PostLayout()
 
         installedVersion = GetInstalledVersion();
     }
+    wxLogMessage("Update finished");
 
     auto joinString = String_SRV::JoinVectorNonStringObject<wxFileName>(oldFiles, ss::arrayDelimiter1.ToStdWstring(), &wxFileNameToString);
     if (joinString.success) {
@@ -181,13 +263,13 @@ void MainFrame::API_SRV_PostLayout()
         ss::updaterConfig->Flush();
     }
 
-    CallAfter([this]() {
+    result.success = true;
+    CallAfter([this, result]() {
+        wxLog::FlushActive();
         wxLog::SetActiveTarget(nullptr);
         Lock_SRV::Notify(uiMutex, uiCb);
 
-        Enable(true);
-        Raise();
-        Close();
+        API_UI_ReportUpdateResult(result);
         });
     Lock_SRV::Wait(uiMutex, uiCb);
 }

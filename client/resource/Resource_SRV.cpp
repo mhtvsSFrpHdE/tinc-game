@@ -247,11 +247,11 @@ wxFileName Resource_SRV::Networks::GetNetworksDir()
     return file;
 }
 
-boost::optional<wxFileName> nullableIniDir;
-wxFileName Resource_SRV::Program::GetIniDir()
+boost::optional<wxFileName> nullableProgramDir;
+wxFileName Resource_SRV::Program::GetProgramDir()
 {
-    if (nullableIniDir) {
-        return nullableIniDir.get();
+    if (nullableProgramDir) {
+        return nullableProgramDir.get();
     }
 
     auto exePath = wxStandardPaths::Get().GetExecutablePath();
@@ -259,8 +259,13 @@ wxFileName Resource_SRV::Program::GetIniDir()
     file.ClearExt();
     file.SetName(wxEmptyString);
 
-    nullableIniDir = file;
+    nullableProgramDir = file;
     return file;
+}
+
+wxFileName Resource_SRV::Program::GetIniDir()
+{
+    return GetProgramDir();
 }
 
 void Resource_SRV::wxWidgets::wxButtonDeleter(wxButton* obj)

@@ -32,10 +32,12 @@ namespace Resource_SRV
     }
 
     namespace Program {
+        wxFileName GetProgramDir();
         wxFileName GetIniDir();
         const wxString programIni = wxT("tinc-game.ini");
         const wxString networksIni = wxT("tinc-game-networks.ini");
         const wxString updaterIni = wxT("updater.ini");
+        const std::wstring updaterLog = L"tinc-game-updater.log";
     }
 
     namespace TincBin {

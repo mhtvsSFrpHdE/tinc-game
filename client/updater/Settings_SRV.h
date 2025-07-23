@@ -17,6 +17,9 @@ namespace Settings_SRV
     void LoadConfigFile();
 
     const wxString arrayDelimiter1 = wxT(",");
+    ReturnValue<wxArrayString> ReadArray(wxFileConfig* config, wxString settingKey, wxString delimiter = arrayDelimiter1);
+    void WriteArray(wxString settingKey, wxString delimiter = arrayDelimiter1);
+
     extern std::shared_ptr<wxFileConfig> updaterConfig;
 };
 
