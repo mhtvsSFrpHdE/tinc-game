@@ -15,6 +15,8 @@ void HelpFrame::OnClose(wxCloseEvent& event)
 }
 ```
 
+It is irrelevant to not calling wxApp::Init base function or not calling SetTopWindow
+
 ## wxWidgets `3.1.5`, `Windows 11`
 Const BoxSizerVhhOffset already intergrated to Layout_SRV
 

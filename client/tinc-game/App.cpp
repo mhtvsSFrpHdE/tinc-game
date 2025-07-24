@@ -11,6 +11,14 @@ wxIMPLEMENT_APP(App);
 bool App::OnInit() {
     namespace ss = Settings_SRV;
 
+    // https://docs.wxwidgets.org/trunk/classwx_app_console.html
+    if (!wxApp::OnInit()) {
+        // The most likely reason for the error here is that incorrect
+        // command line arguments have been specified, so just exit:
+        // error message has already been given.
+        return false;
+    }
+
     // Config file
     ss::LoadConfigFile();
 
