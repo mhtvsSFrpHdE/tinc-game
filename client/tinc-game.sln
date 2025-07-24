@@ -9,6 +9,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "updater", "updater\updater.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "resource", "resource\resource.vcxproj", "{AD43B445-416C-4655-BA97-7D5B5605F0CB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{62BF303F-5384-4553-AA93-40BE2F9CA6D1}"
+	ProjectSection(SolutionItems) = preProject
+		KnownBug.md = KnownBug.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

@@ -20,6 +20,8 @@ class MainFrame : public wxFrame
 {
 public:
     MainFrame();
+    static bool command_prepareUpdate;
+    static bool command_uninstall;
 
 private:
     std::mutex uiMutex;

@@ -4,7 +4,7 @@
 class App : public wxApp
 {
 public:
-    bool OnInit();
+    bool OnInit() override;
 
 private:
     std::shared_ptr<wxLocale> locale;

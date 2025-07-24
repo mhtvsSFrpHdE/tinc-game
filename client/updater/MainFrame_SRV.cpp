@@ -128,6 +128,7 @@ std::wstring wxFileNameToString(wxFileName& file) {
 
 void MainFrame::API_SRV_Update()
 {
+    auto what = command_prepareUpdate;
     ReturnValue<UpdateResult> result;
 
     namespace ss = Settings_SRV;

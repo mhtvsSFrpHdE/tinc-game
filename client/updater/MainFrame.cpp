@@ -89,3 +89,6 @@ void MainFrame::API_UI_ReportUpdateResult(ReturnValue<UpdateResult> result)
         Close();
     }
 }
+
+bool MainFrame::command_prepareUpdate;
+bool MainFrame::command_uninstall;
