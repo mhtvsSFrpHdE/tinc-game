@@ -34,6 +34,9 @@ namespace Resource_SRV
     namespace Program {
         wxFileName GetProgramDir();
         wxFileName GetIniDir();
+        const wxString binDir = wxT("bin");
+        wxFileName GetBinDir();
+        const wxString programExe = wxT("tinc-game.exe");
         const wxString programIni = wxT("tinc-game.ini");
         const wxString networksIni = wxT("tinc-game-networks.ini");
         const wxString updaterIni = wxT("updater.ini");
@@ -41,10 +44,9 @@ namespace Resource_SRV
     }
 
     namespace TincBin {
-        const wxString binDir = wxT("bin");
-        wxFileName GetTincBinDir();
         const wxString tincBinDir = wxT("tinc");
         const wxString tincBin = wxT("tinc.exe");
+        wxFileName GetTincBinDir();
         wxString GetTincBinAsWxStr();
         const wxString tincdBin = wxT("tincd.exe");
         wxString GetTincdBinAsWxStr();
@@ -67,9 +69,14 @@ namespace Resource_SRV
         const std::wstring uninstallTap = L"uninstallTap.bat";
         const std::wstring netsh = L"netsh.exe";
         const std::wstring netsh437 = L"netsh437.bat";
+        const std::wstring netsh437Start = L"netsh437_start.bat";
+        const std::wstring netsh437Result = L"netsh437_result.txt";
         const std::wstring netshArgV4 = L"ipv4";
         const std::wstring netshArgV6 = L"ipv6";
         const std::wstring ping437 = L"ping437.bat";
+        const std::wstring ping437Start = L"ping437_start.bat";
+        const std::wstring ping437Result = L"ping437_result.txt";
+        const std::wstring tincShell = L"tincShell.bat";
         const std::wstring controlPanel = L"control.exe ncpa.cpl";
         const std::wstring deviceManager = L"start devmgmt.msc";
     }

@@ -123,6 +123,20 @@ ReturnValue<wxString> Resource_SRV::IsValidFileOrDir(wxString& name)
     return result;
 }
 
+boost::optional<wxFileName> nullableBinDir;
+wxFileName Resource_SRV::Program::GetBinDir()
+{
+    if (nullableBinDir) {
+        return nullableBinDir.get();
+    }
+
+    wxFileName file;
+    file.AppendDir(binDir);
+
+    nullableBinDir = file;
+    return file;
+}
+
 boost::optional<wxFileName> nullableTapInstallerDir;
 wxFileName Resource_SRV::TincBin::GetTapInstallerDir()
 {
@@ -131,7 +145,7 @@ wxFileName Resource_SRV::TincBin::GetTapInstallerDir()
     }
 
     wxFileName file;
-    file.AppendDir(binDir);
+    file.AppendDir(Program::binDir);
     file.AppendDir(tincBinDir);
     file.AppendDir(tapInstallerDir);
 
@@ -147,7 +161,7 @@ wxFileName Resource_SRV::TincBin::GetTincBinDir()
     }
 
     wxFileName file;
-    file.AppendDir(binDir);
+    file.AppendDir(Program::binDir);
     file.AppendDir(tincBinDir);
 
     nullableTincBinDir = file;
@@ -162,7 +176,7 @@ wxString Resource_SRV::TincBin::GetTincBinAsWxStr()
     }
 
     wxFileName file;
-    file.AppendDir(binDir);
+    file.AppendDir(Program::binDir);
     file.AppendDir(tincBinDir);
     file.SetName(tincBin);
 
@@ -178,7 +192,7 @@ wxString Resource_SRV::TincBin::GetTincdBinAsWxStr()
     }
 
     wxFileName file;
-    file.AppendDir(binDir);
+    file.AppendDir(Program::binDir);
     file.AppendDir(tincBinDir);
     file.SetName(tincdBin);
 
@@ -194,7 +208,7 @@ wxFileName Resource_SRV::TincBin::GetTincdBin()
     }
 
     wxFileName file;
-    file.AppendDir(binDir);
+    file.AppendDir(Program::binDir);
     file.AppendDir(tincBinDir);
     file.SetName(tincdBin);
 
@@ -205,7 +219,7 @@ wxFileName Resource_SRV::TincBin::GetTincdBin()
 wxFileName Resource_SRV::TincBin::GetTincdGameModeBin(wxString gameModeValue)
 {
     wxFileName file;
-    file.AppendDir(binDir);
+    file.AppendDir(Program::binDir);
     file.AppendDir(tincBinDir);
     file.SetName(gameModeValue);
 
