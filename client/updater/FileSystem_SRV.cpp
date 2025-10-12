@@ -1,6 +1,6 @@
-#include "File_SRV.h"
+#include "FileSystem_SRV.h"
 
-std::string File_SRV::tSuccess(bool result) {
+std::string FileSystem_SRV::tActionResult(bool result) {
     if (result) {
         return std::string("Success");
     }
@@ -9,7 +9,7 @@ std::string File_SRV::tSuccess(bool result) {
     }
 }
 
-bool File_SRV::tCopyFile(wxFileName& srcfile, wxFileName& destfile) {
+bool FileSystem_SRV::tCopyFile(wxFileName& srcfile, wxFileName& destfile) {
     namespace ss = String_SRV;
 
     auto srcFullPath = srcfile.GetFullPath();
@@ -22,7 +22,7 @@ bool File_SRV::tCopyFile(wxFileName& srcfile, wxFileName& destfile) {
         << ss::doubleQuotes << srcFullPath << ss::doubleQuotes << ss::space
         << "to" << ss::space
         << ss::doubleQuotes << destFullPath << ss::doubleQuotes << ss::space
-        << tSuccess(result);
+        << tActionResult(result);
     wxLogMessage(wxString(logMessage.str()));
 
     return result;
@@ -34,7 +34,7 @@ bool File_SRV::tCopyFile(wxFileName& srcfile, wxFileName& destfile) {
 /// <param name="srcfile"></param>
 /// <param name="destfile"></param>
 /// <returns></returns>
-bool File_SRV::tRenameFile(wxFileName& srcfile, wxFileName& destfile) {
+bool FileSystem_SRV::tRenameFile(wxFileName& srcfile, wxFileName& destfile) {
     namespace ss = String_SRV;
 
     auto srcFullPath = srcfile.GetFullPath();
@@ -47,13 +47,13 @@ bool File_SRV::tRenameFile(wxFileName& srcfile, wxFileName& destfile) {
         << ss::doubleQuotes << srcFullPath << ss::doubleQuotes << ss::space
         << "to" << ss::space
         << ss::doubleQuotes << destFullPath << ss::doubleQuotes << ss::space
-        << tSuccess(result);
+        << tActionResult(result);
     wxLogMessage(wxString(logMessage.str()));
 
     return result;
 }
 
-bool File_SRV::tRemoveFile(wxFileName& file) {
+bool FileSystem_SRV::tRemoveFile(wxFileName& file) {
     namespace ss = String_SRV;
 
     auto fullPath = file.GetFullPath();
@@ -63,7 +63,24 @@ bool File_SRV::tRemoveFile(wxFileName& file) {
     std::ostringstream logMessage;
     logMessage << "Remove" << ss::space
         << ss::doubleQuotes << fullPath << ss::doubleQuotes << ss::space
-        << tSuccess(result);
+        << tActionResult(result);
+    wxLogMessage(wxString(logMessage.str()));
+
+    return result;
+}
+
+bool FileSystem_SRV::tRemoveDir(wxFileName& dir)
+{
+    namespace ss = String_SRV;
+
+    auto fullPath = dir.GetFullPath();
+
+    bool result = dir.Rmdir(wxPATH_RMDIR_RECURSIVE);
+    
+    std::ostringstream logMessage;
+    logMessage << "Remove directory" << ss::space
+        << ss::doubleQuotes << fullPath << ss::doubleQuotes << ss::space
+        << tActionResult(result);
     wxLogMessage(wxString(logMessage.str()));
 
     return result;

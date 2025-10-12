@@ -144,13 +144,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
-    <ClInclude Include="File_SRV.h" />
+    <ClInclude Include="FileSystem_SRV.h" />
     <ClInclude Include="MainFrame.h" />
     <ClInclude Include="Settings_SRV.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
-    <ClCompile Include="File_SRV.cpp" />
+    <ClCompile Include="FileSystem_SRV.cpp" />
     <ClCompile Include="MainFrame.cpp" />
     <ClCompile Include="MainFrame_SRV.cpp" />
     <ClCompile Include="MainFrame_SRV_Update.cpp" />

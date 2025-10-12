@@ -4,9 +4,14 @@
 #include <sstream>
 #include "wx/log.h"
 
-namespace File_SRV
+/// <summary>
+/// Function begin with "t" stands for "tinc"
+/// Means this function is designed for tinc project
+/// has non standard behavior usually bundle with GUI stuff
+/// </summary>
+namespace FileSystem_SRV
 {
-    std::string tSuccess(bool result);
+    std::string tActionResult(bool result);
 
     bool tCopyFile(wxFileName& srcfile, wxFileName& destfile);
 
@@ -19,4 +24,6 @@ namespace File_SRV
     bool tRenameFile(wxFileName& srcfile, wxFileName& destfile);
 
     bool tRemoveFile(wxFileName& file);
+
+    bool tRemoveDir(wxFileName& dir);
 };

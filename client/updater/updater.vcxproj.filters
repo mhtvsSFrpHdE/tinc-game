@@ -24,7 +24,7 @@
     <ClInclude Include="Settings_SRV.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="File_SRV.h">
+    <ClInclude Include="FileSystem_SRV.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,7 +44,7 @@
     <ClCompile Include="MainFrame_SRV_Update.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="File_SRV.cpp">
+    <ClCompile Include="FileSystem_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

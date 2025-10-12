@@ -2,7 +2,7 @@
 #include "Settings_SRV.h"
 #include "../resource/Resource_SRV.h"
 #include <fstream>
-#include "File_SRV.h"
+#include "FileSystem_SRV.h"
 
 long GetInstalledVersion() {
     namespace ss = Settings_SRV;
@@ -64,7 +64,7 @@ void MainFrame::API_SRV_Update()
     namespace sk = SettingKeys_Updater;
     namespace sdn = SettingDefaultValue_Updater;
     namespace rs = Resource_SRV;
-    namespace fs = File_SRV;
+    namespace fs = FileSystem_SRV;
 
     std::ofstream outFile(rs::Program::updaterLog);
     auto logTarget = std::unique_ptr<wxLogStream>(new wxLogStream(&outFile));
