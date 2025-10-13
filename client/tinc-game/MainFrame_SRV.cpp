@@ -4,7 +4,8 @@
 #include "..\resource\String_SRV.h"
 #include <sstream>
 #include <boost/circular_buffer.hpp>
-#include "..\resource\Resource_SRV.h"
+#include "..\resource\Resource_SRV_TincBin.h"
+#include "..\resource\Resource_SRV_Bat.h"
 #include "Settings_SRV.h"
 #include "..\resource\Lock_SRV.h"
 

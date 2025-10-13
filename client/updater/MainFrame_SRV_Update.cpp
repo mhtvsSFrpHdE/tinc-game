@@ -1,6 +1,6 @@
 #include "MainFrame.h"
 #include "Settings_SRV.h"
-#include "../resource/Resource_SRV.h"
+#include "../resource/Resource_SRV_Program.h"
 #include <fstream>
 #include "FileSystem_SRV.h"
 

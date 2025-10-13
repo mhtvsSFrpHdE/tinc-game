@@ -2,7 +2,8 @@
 #include <boost/process/windows.hpp>
 #include "MainFrame.h"
 #include "FileSystem_SRV.h"
-#include "../resource/Resource_SRV.h"
+#include "../resource/Resource_SRV_Program.h"
+#include "../resource/Resource_SRV_Bat.h"
 #include <fstream>
 
 void MainFrame::API_SRV_PrepareUpdate_EndLogToFile()

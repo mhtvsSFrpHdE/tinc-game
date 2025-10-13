@@ -8,6 +8,8 @@
 #include <wx/dir.h>
 #include "RenameNetworkFrame.h"
 #include "..\resource\Resource_SRV.h"
+#include "..\resource\Resource_SRV_Bat.h"
+#include "..\resource\Resource_SRV_Networks.h"
 #include "ManageTapFrame.h"
 #include "SettingsFrame.h"
 #include "OptimizeMtuFrame.h"

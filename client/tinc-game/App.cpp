@@ -4,7 +4,6 @@
 #include <wx/fileconf.h>
 #include <wx/config.h>
 #include "Settings_SRV.h"
-#include "..\resource\Resource_SRV.h"
 
 wxIMPLEMENT_APP(App);
 

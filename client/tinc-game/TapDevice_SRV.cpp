@@ -1,7 +1,7 @@
 #include <boost/process.hpp>
 #include <boost/process/windows.hpp>
 #include "TapDevice_SRV.h"
-#include "..\resource\Resource_SRV.h"
+#include "..\resource\Resource_SRV_Bat.h"
 
 void TapDevice_SRV::ReloadAdapterList()
 {

@@ -36,6 +36,21 @@
     <ClInclude Include="Lock_SRV.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Resource_SRV_Program.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource_SRV_Bat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource_SRV_TincBin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource_SRV_Networks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource_SRV_wxWidgets.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="resource.cpp">

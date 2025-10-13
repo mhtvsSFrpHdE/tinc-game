@@ -163,6 +163,11 @@
     <ClInclude Include="Lock_SRV.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource_SRV.h" />
+    <ClInclude Include="Resource_SRV_Bat.h" />
+    <ClInclude Include="Resource_SRV_Networks.h" />
+    <ClInclude Include="Resource_SRV_Program.h" />
+    <ClInclude Include="Resource_SRV_TincBin.h" />
+    <ClInclude Include="Resource_SRV_wxWidgets.h" />
     <ClInclude Include="ReturnValue.h" />
     <ClInclude Include="String_SRV.h" />
   </ItemGroup>

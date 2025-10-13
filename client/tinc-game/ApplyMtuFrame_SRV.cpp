@@ -7,7 +7,7 @@
 #include <thread>
 #include <vector>
 #include <string>
-#include "..\resource\Resource_SRV.h"
+#include "..\resource\Resource_SRV_Bat.h"
 
 ReturnValue<ApplyMtuResult> ApplyMtuFrame::API_SRV_ApplyMtu(int mtu_IPv4, int mtu_IPv6, std::wstring adapterName)
 {

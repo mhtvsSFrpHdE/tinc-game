@@ -1,5 +1,10 @@
 #include "pch.h"
 #include "Resource_SRV.h"
+#include "Resource_SRV_Bat.h"
+#include "Resource_SRV_Networks.h"
+#include "Resource_SRV_Program.h"
+#include "Resource_SRV_TincBin.h"
+#include "Resource_SRV_wxWidgets.h"
 #include "String_SRV.h"
 #include <sstream>
 #include "boost/optional.hpp"

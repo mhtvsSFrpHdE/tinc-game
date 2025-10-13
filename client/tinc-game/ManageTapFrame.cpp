@@ -7,7 +7,7 @@
 #include "..\resource\String_SRV.h"
 #include <sstream>
 #include "HelpFrame.h"
-#include "..\resource\Resource_SRV.h"
+#include "..\resource\Resource_SRV_Bat.h"
 
 ManageTapFrame::ManageTapFrame(wxFrame* parentFrame, std::function<void()> onCloseCallback) : wxFrame(parentFrame, wxID_ANY, _("Manage virtual network adapter"))
 {

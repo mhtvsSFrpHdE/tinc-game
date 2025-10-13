@@ -1,6 +1,6 @@
 #include "Networks_SRV.h"
 #include "Settings_SRV.h"
-#include "..\resource\Resource_SRV.h"
+#include "..\resource\Resource_SRV_Networks.h"
 
 ReturnValue<std::vector<Networks_SRV::GetNetworksResult>> Networks_SRV::GetNetworks()
 {

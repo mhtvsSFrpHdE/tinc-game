@@ -1,5 +1,5 @@
 #include "Settings_SRV.h"
-#include "..\resource\Resource_SRV.h"
+#include "..\resource\Resource_SRV_Program.h"
 
 wxString Settings_SRV::GetIniFilePath(GetIniFilePathBy by)
 {

@@ -2,7 +2,8 @@
 #include <boost/process/windows.hpp>
 #include "MainFrame.h"
 #include <thread>
-#include "../resource/Resource_SRV.h"
+#include "../resource/Resource_SRV_Program.h"
+#include "../resource/Resource_SRV_Bat.h"
 #include "../resource/String_SRV.h"
 #include <sstream>
 

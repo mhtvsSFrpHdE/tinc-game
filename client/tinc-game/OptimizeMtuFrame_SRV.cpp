@@ -4,7 +4,7 @@
 #include <sstream>
 #include <thread>
 #include "..\resource\String_SRV.h"
-#include "..\resource\Resource_SRV.h"
+#include "..\resource\Resource_SRV_Bat.h"
 
 struct MeasureMtuResult {
     enum class Enum {

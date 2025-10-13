@@ -1,7 +1,6 @@
 ﻿#include "MainFrame.h"
 #include <wx/spinctrl.h>
 #include <wx/dialog.h>
-#include "..\resource\Resource_SRV.h"
 #include <sstream>
 #include "..\resource\String_SRV.h"
 #include "Settings_SRV.h"

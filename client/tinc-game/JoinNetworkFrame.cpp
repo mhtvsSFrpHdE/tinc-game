@@ -2,6 +2,7 @@
 #include "..\resource\Layout_SRV.h"
 #include "..\resource\String_SRV.h"
 #include "..\resource\Resource_SRV.h"
+#include "..\resource\Resource_SRV_Networks.h"
 #include <thread>
 
 JoinNetworkFrame::JoinNetworkFrame(wxFrame* parentFrame, std::function<void()> onCloseCallback) : wxFrame(parentFrame, wxID_ANY, _("Join network"))
