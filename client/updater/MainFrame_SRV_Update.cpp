@@ -203,4 +203,7 @@ void MainFrame::API_SRV_Update()
         API_UI_ReportUpdateResult(result);
         });
     Lock_SRV::Wait(uiMutex, uiCb);
+
+    std::thread t1(&MainFrame::API_SRV_ProcessAdditionalArgument, this);
+    t1.detach();
 }

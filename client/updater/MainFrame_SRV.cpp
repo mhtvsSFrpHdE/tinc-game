@@ -1,3 +1,5 @@
+#include <boost/process.hpp>
+#include <boost/process/windows.hpp>
 #include "MainFrame.h"
 #include "FileSystem_SRV.h"
 #include "../resource/Resource_SRV.h"
@@ -43,7 +45,7 @@ void MainFrame::API_SRV_PrepareUpdate_OnRemoveFail(ReturnValue<PrepareUpdateResu
         });
 }
 
-void MainFrame::API_SRV_PrepareUpdate()
+bool MainFrame::API_SRV_PrepareUpdate()
 {
     ReturnValue<PrepareUpdateResult> result;
 
@@ -62,7 +64,7 @@ void MainFrame::API_SRV_PrepareUpdate()
         CallAfter([this, result]() {
             API_UI_ReportPrepareUpdateResult(result);
             });
-        return;
+        return false;
     }
 
     {
@@ -70,7 +72,7 @@ void MainFrame::API_SRV_PrepareUpdate()
         bool removeResult = fs::tRemoveDir(binDir);
         if (removeResult == false) {
             API_SRV_PrepareUpdate_OnRemoveFail(result, binDir);
-            return;
+            return false;
         }
     }
 
@@ -81,7 +83,7 @@ void MainFrame::API_SRV_PrepareUpdate()
         bool removeResult = fs::tRemoveFile(batGetTapHwid);
         if (removeResult == false) {
             API_SRV_PrepareUpdate_OnRemoveFail(result, batGetTapHwid);
-            return;
+            return false;
         }
     }
     {
@@ -90,7 +92,7 @@ void MainFrame::API_SRV_PrepareUpdate()
         bool removeResult = fs::tRemoveFile(batInstallTap);
         if (removeResult == false) {
             API_SRV_PrepareUpdate_OnRemoveFail(result, batInstallTap);
-            return;
+            return false;
         }
     }
     {
@@ -99,7 +101,7 @@ void MainFrame::API_SRV_PrepareUpdate()
         bool removeResult = fs::tRemoveFile(batNetsh437);
         if (removeResult == false) {
             API_SRV_PrepareUpdate_OnRemoveFail(result, batNetsh437);
-            return;
+            return false;
         }
     }
     {
@@ -108,7 +110,7 @@ void MainFrame::API_SRV_PrepareUpdate()
         bool removeResult = fs::tRemoveFile(batNetsh437Start);
         if (removeResult == false) {
             API_SRV_PrepareUpdate_OnRemoveFail(result, batNetsh437Start);
-            return;
+            return false;
         }
     }
     {
@@ -122,7 +124,7 @@ void MainFrame::API_SRV_PrepareUpdate()
         bool removeResult = fs::tRemoveFile(batPing437);
         if (removeResult == false) {
             API_SRV_PrepareUpdate_OnRemoveFail(result, batPing437);
-            return;
+            return false;
         }
     }
     {
@@ -131,7 +133,7 @@ void MainFrame::API_SRV_PrepareUpdate()
         bool removeResult = fs::tRemoveFile(batPing437Start);
         if (removeResult == false) {
             API_SRV_PrepareUpdate_OnRemoveFail(result, batPing437Start);
-            return;
+            return false;
         }
     }
     {
@@ -145,7 +147,7 @@ void MainFrame::API_SRV_PrepareUpdate()
         bool removeResult = fs::tRemoveFile(tincGameExe);
         if (removeResult == false) {
             API_SRV_PrepareUpdate_OnRemoveFail(result, tincGameExe);
-            return;
+            return false;
         }
     }
     {
@@ -154,7 +156,7 @@ void MainFrame::API_SRV_PrepareUpdate()
         bool removeResult = fs::tRemoveFile(batTincShell);
         if (removeResult == false) {
             API_SRV_PrepareUpdate_OnRemoveFail(result, batTincShell);
-            return;
+            return false;
         }
     }
     {
@@ -163,19 +165,31 @@ void MainFrame::API_SRV_PrepareUpdate()
         bool removeResult = fs::tRemoveFile(batUninstallTap);
         if (removeResult == false) {
             API_SRV_PrepareUpdate_OnRemoveFail(result, batUninstallTap);
-            return;
+            return false;
         }
     }
+
+    API_SRV_PrepareUpdate_EndLogToFile();
+    return true;
 }
 
 void MainFrame::API_SRV_ProcessAdditionalArgument()
 {
-    if (command_prepareUpdate) {
-        API_SRV_PrepareUpdate();
+    bool allSuccess = true;
+    if (allSuccess && command_prepareUpdate) {
+        allSuccess = API_SRV_PrepareUpdate();
+    }
+    if (allSuccess && command_uninstall) {
+        namespace bp = boost::process;
+        namespace rs = Resource_SRV;
+
+        wxMessageDialog(this, L"Your user data isn't being removed\nclick OK to open user data directory").ShowModal();
+
+        auto programDir = rs::Program::GetProgramDir();
+        bp::system(bp::shell(), bp::args({ rs::Bat::cmdRumCommand, L"explorer.exe", programDir.GetFullPath().ToStdWstring() }), bp::windows::hide);
     }
 
     CallAfter([this]() {
-        Raise();
-        Enable(true);
+        Close();
         });
 }

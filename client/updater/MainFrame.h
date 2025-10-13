@@ -55,7 +55,7 @@ private:
     void API_SRV_PrepareUpdate_OnCopyFail(ReturnValue<PrepareUpdateResult>& result, wxFileName& srcfile, wxFileName& destfile);
     void API_SRV_PrepareUpdate_OnRenameFail(ReturnValue<PrepareUpdateResult>& result, wxFileName& srcfile, wxFileName& destfile);
     void API_SRV_PrepareUpdate_OnRemoveFail(ReturnValue<PrepareUpdateResult>& result, wxFileName& file);
-    void API_SRV_PrepareUpdate();
+    bool API_SRV_PrepareUpdate();
     void API_SRV_ProcessAdditionalArgument();
 
     void Init_CreateControls();
