@@ -104,7 +104,8 @@ Section
 
     # create a shortcut in the start menu programs directory
     CreateDirectory "$SMPROGRAMS\${PRODUCT_NAME}"
-    CreateShortcut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk" "$InstDir\uninstall.exe"
+    CreateShortcut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk" "$InstDir\tinc-game.exe"
+    CreateShortcut "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall ${PRODUCT_NAME}.lnk" "$InstDir\uninstall.exe"
 
     # add windows control panel uninstall entry
     WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${TINCGAME_UNINSTALL_ID}" "DisplayName" "${PRODUCT_NAME}"
@@ -117,6 +118,7 @@ Section "uninstall"
     # remove the link from the start menu
 	# try to remove the Start Menu folder - this will only happen if it is empty
     Delete "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk"
+    Delete "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall ${PRODUCT_NAME}.lnk"
 	RMDir "$SMPROGRAMS\${PRODUCT_NAME}"
 
     # delete the uninstaller
