@@ -81,7 +81,7 @@ void MainFrame::API_SRV_Update()
         return;
     }
 
-    const long targetVersion = 2;
+    const long targetVersion = 0;
     const std::wstring oldExtensionName = L".old";
     std::vector<wxFileName> oldFiles;
 
@@ -103,96 +103,86 @@ void MainFrame::API_SRV_Update()
         }
 
         if (installedVersion == 0) {
-            wxLogMessage("Update from version 0 to 1");
+            //wxLogMessage("Update from version 0 to 1");
 
-            auto ini = rs::Program::GetIniDir();
-            auto targetIni = ini;
+            //auto ini = rs::Program::GetIniDir();
+            //auto targetIni = ini;
 
-            ini.SetName("1.ini");
-            if (ini.Exists()) {
-                targetIni.SetName("1.ini" + oldExtensionName);
-                if (targetIni.Exists()) {
-                    bool removeResult = fs::tRemoveFile(targetIni);
-                    if (removeResult == false) {
-                        API_SRV_Update_OnRemoveFail(result, targetIni);
-                        return;
-                    }
-                }
-                bool copyResult = fs::tCopyFile(ini, targetIni);
-                if (copyResult == false) {
-                    API_SRV_Update_OnCopyFail(result, ini, targetIni);
-                    return;
-                }
-                oldFiles.push_back(targetIni);
+            //ini.SetName("1.ini");
+            //if (ini.Exists()) {
+            //    targetIni.SetName("1.ini" + oldExtensionName);
+            //    if (targetIni.Exists()) {
+            //        bool removeResult = fs::tRemoveFile(targetIni);
+            //        if (removeResult == false) {
+            //            API_SRV_Update_OnRemoveFail(result, targetIni);
+            //            return;
+            //        }
+            //    }
+            //    bool copyResult = fs::tCopyFile(ini, targetIni);
+            //    if (copyResult == false) {
+            //        API_SRV_Update_OnCopyFail(result, ini, targetIni);
+            //        return;
+            //    }
+            //    oldFiles.push_back(targetIni);
 
-                targetIni.SetName("1_.ini");
-                bool renameResult = fs::tRenameFile(ini, targetIni);
-                if (renameResult == false) {
-                    API_SRV_Update_OnRenameFail(result, ini, targetIni);
-                    return;
-                }
-            }
+            //    targetIni.SetName("1_.ini");
+            //    bool renameResult = fs::tRenameFile(ini, targetIni);
+            //    if (renameResult == false) {
+            //        API_SRV_Update_OnRenameFail(result, ini, targetIni);
+            //        return;
+            //    }
+            //}
 
-            ini.SetName("2.ini");
-            if (ini.Exists()) {
-                bool removeResult = fs::tRemoveFile(ini);
-                if (removeResult == false) {
-                    API_SRV_Update_OnRemoveFail(result, ini);
-                    return;
-                }
-            }
+            //ini.SetName("2.ini");
+            //if (ini.Exists()) {
+            //    bool removeResult = fs::tRemoveFile(ini);
+            //    if (removeResult == false) {
+            //        API_SRV_Update_OnRemoveFail(result, ini);
+            //        return;
+            //    }
+            //}
 
-            ss::updaterConfig->Write(sk::metadata_installedVersion, 1);
-            ss::updaterConfig->Flush();
+            //ss::updaterConfig->Write(sk::metadata_installedVersion, 1);
+            //ss::updaterConfig->Flush();
         }
         if (installedVersion == 1) {
-            wxLogMessage("Update from version 1 to 2");
+            //    wxLogMessage("Update from version 1 to 2");
 
-            auto ini = rs::Program::GetIniDir();
-            auto targetIni = ini;
+            //    auto ini = rs::Program::GetIniDir();
+            //    auto targetIni = ini;
 
-            ini.SetName("1_.ini");
-            if (ini.Exists()) {
-                targetIni.SetName("1_.ini" + oldExtensionName);
-                if (targetIni.Exists()) {
-                    bool removeResult = fs::tRemoveFile(targetIni);
-                    if (removeResult == false) {
-                        API_SRV_Update_OnRemoveFail(result, targetIni);
-                        return;
-                    }
-                }
-                bool copyResult = fs::tCopyFile(ini, targetIni);
-                if (copyResult == false) {
-                    API_SRV_Update_OnCopyFail(result, ini, targetIni);
-                    return;
-                }
-                oldFiles.push_back(targetIni);
+            //    ini.SetName("1_.ini");
+            //    if (ini.Exists()) {
+            //        targetIni.SetName("1_.ini" + oldExtensionName);
+            //        if (targetIni.Exists()) {
+            //            bool removeResult = fs::tRemoveFile(targetIni);
+            //            if (removeResult == false) {
+            //                API_SRV_Update_OnRemoveFail(result, targetIni);
+            //                return;
+            //            }
+            //        }
+            //        bool copyResult = fs::tCopyFile(ini, targetIni);
+            //        if (copyResult == false) {
+            //            API_SRV_Update_OnCopyFail(result, ini, targetIni);
+            //            return;
+            //        }
+            //        oldFiles.push_back(targetIni);
 
-                targetIni.SetName("1_1.ini");
-                bool renameResult = fs::tRenameFile(ini, targetIni);
-                if (renameResult == false) {
-                    API_SRV_Update_OnRenameFail(result, ini, targetIni);
-                    return;
-                }
-            }
+            //        targetIni.SetName("1_1.ini");
+            //        bool renameResult = fs::tRenameFile(ini, targetIni);
+            //        if (renameResult == false) {
+            //            API_SRV_Update_OnRenameFail(result, ini, targetIni);
+            //            return;
+            //        }
+            //    }
 
-            ss::updaterConfig->Write(sk::metadata_installedVersion, 2);
-            ss::updaterConfig->Flush();
+            //    ss::updaterConfig->Write(sk::metadata_installedVersion, 2);
+            //    ss::updaterConfig->Flush();
         }
 
         installedVersion = GetInstalledVersion();
     }
     wxLogMessage("Update finished");
-
-    auto joinString = String_SRV::JoinVectorNonStringObject<wxFileName>(oldFiles, ss::arrayDelimiter1.ToStdWstring(), &wxFileNameToString);
-    if (joinString.success) {
-        ss::updaterConfig->Write(sk::files_old, wxString(joinString.returnBody));
-        ss::updaterConfig->Flush();
-    }
-    else {
-        ss::updaterConfig->Write(sk::files_old, wxEmptyString);
-        ss::updaterConfig->Flush();
-    }
 
     result.success = true;
     CallAfter([this, result]() {

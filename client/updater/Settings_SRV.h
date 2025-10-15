@@ -24,9 +24,6 @@ namespace Settings_SRV
 };
 
 namespace SettingKeys_Updater {
-    const wxString files = wxT("Files/");
-    const wxString files_old = files + wxT("Old");
-
     const wxString metadata = wxT("Metadata/");
     const wxString metadata_installedVersion = metadata + wxT("InstalledVersion");
 };
