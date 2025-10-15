@@ -66,7 +66,7 @@ void MainFrame::API_SRV_Update()
     namespace rs = Resource_SRV;
     namespace fs = FileSystem_SRV;
 
-    std::ofstream outFile(rs::Program::updaterLog);
+    std::ofstream outFile(rs::Program::updaterLog, std::ios::app);
     auto logTarget = std::unique_ptr<wxLogStream>(new wxLogStream(&outFile));
     if (outFile.is_open())
     {
