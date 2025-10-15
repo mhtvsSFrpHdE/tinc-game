@@ -34,6 +34,7 @@ public:
     MainFrame();
     static bool command_prepareUpdate;
     static bool command_uninstall;
+    static int returnCode;
 
 private:
     std::mutex uiMutex;

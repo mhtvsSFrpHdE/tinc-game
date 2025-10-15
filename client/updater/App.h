@@ -7,6 +7,7 @@ public:
     bool OnInit() override;
     void OnInitCmdLine(wxCmdLineParser& parser) override;
     bool OnCmdLineParsed(wxCmdLineParser& parser) override;
+    int OnRun() override;
 
     bool command_prepareUpdate;
     bool command_uninstall;

@@ -84,6 +84,7 @@ void MainFrame::API_UI_ReportUpdateResult(ReturnValue<UpdateResult> result)
     auto programDir = rs::Program::GetProgramDir();
     bp::system(bp::shell(), bp::args({ rs::Bat::cmdRumCommand, L"explorer.exe", programDir.GetFullPath().ToStdWstring() }), bp::windows::hide);
 
+    returnCode = 1;
     Close();
 }
 
@@ -137,3 +138,4 @@ void MainFrame::API_UI_ReportPrepareUpdateResult(ReturnValue<PrepareUpdateResult
 
 bool MainFrame::command_prepareUpdate;
 bool MainFrame::command_uninstall;
+int MainFrame::returnCode = 0;

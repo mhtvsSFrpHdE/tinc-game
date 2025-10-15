@@ -45,3 +45,10 @@ bool App::OnCmdLineParsed(wxCmdLineParser& parser)
 
     return true;
 }
+
+int App::OnRun()
+{
+    std::ignore = wxApp::OnRun();
+    int returnCode = MainFrame::returnCode;
+    return returnCode;
+}
