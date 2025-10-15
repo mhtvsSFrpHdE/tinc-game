@@ -13,6 +13,14 @@ Function .onInit
 ReadRegStr $uninstallString HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${TINCGAME_UNINSTALL_ID}" "UninstallString"
 FunctionEnd
 
+# run updater result
+#     == 0: success
+#     < 0: failed, reason defined by installer
+#         -1: updater.exe not exist
+#         -2: after unpack files, updater.exe exit code failed
+#     > 0: failed, reason defined by updater.exe exit code
+Var updaterResult
+
 # define name of installer
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 OutFile "tinc-game-setup.exe"
@@ -33,11 +41,6 @@ Section
         # set the new working directory
         SetOutPath "$InstDir"
 
-        # run updater result
-        #     == 0: success
-        #     < 0: failed, reason defined by installer (for example, updater.exe not exist)
-        #     > 0: failed, reason defined by updater.exe exit code
-        Var /GLOBAL updaterResult
         # check updater exist
         #     if exist, continue to run updater
         #     if not exist, skip run and make dummy result
@@ -79,6 +82,22 @@ Section
     # install tinc bin
     SetOutPath "$InstDir\bin\tinc"
     File /r "C:\Program Files\tinc\"
+
+    # update config files with updater after unpack files
+
+    # save the current $OUTDIR
+    Push $OUTDIR
+    # set the new working directory
+    SetOutPath "$InstDir"
+    # run updater and store exit code
+    ExecWait '"$InstDir\updater.exe"' $updaterResult
+    # restore the original $OUTDIR
+    Pop $OUTDIR
+
+    ${If} $updaterResult != 0
+        MessageBox MB_OK "Install failed: $updaterResult"
+        Abort
+    ${EndIf}
 
     # create the uninstaller
     WriteUninstaller "$InstDir\uninstall.exe"
