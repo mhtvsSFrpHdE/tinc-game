@@ -26,9 +26,41 @@ InstallDir "$PROGRAMFILES\${TINCGAME_INSTALL_DIR}"
 
 # install section
 Section
+    # has exist install, try to update
     ${If} $uninstallString != ""
-        MessageBox MB_OK "Uninstall exist version first"
-        Abort
+        # save the current $OUTDIR
+        Push $OUTDIR
+        # set the new working directory
+        SetOutPath "$InstDir"
+
+        # run updater result
+        #     == 0: success
+        #     < 0: failed, reason defined by installer (for example, updater.exe not exist)
+        #     > 0: failed, reason defined by updater.exe exit code
+        Var /GLOBAL updaterResult
+        # check updater exist
+        #     if exist, continue to run updater
+        #     if not exist, skip run and make dummy result
+        IfFileExists $InstDir\updater.exe 0 updater_not_exist
+        # run prepare update command and store exit code
+        ExecWait '"$InstDir\updater.exe" -p' $updaterResult
+        Goto has_result
+        # dummy result if updater not exist
+        updater_not_exist:
+        StrCpy $updaterResult -1
+
+        has_result:
+        # restore the original $OUTDIR
+        Pop $OUTDIR
+
+        # if updater failed, terminate installer
+        ${If} $updaterResult < 0
+            MessageBox MB_OK "Update failed: $updaterResult"
+            Abort
+        ${EndIf}
+        ${If} $updaterResult > 0
+            Abort
+        ${EndIf}
     ${EndIf}
 
     # install root installation directory
