@@ -6,6 +6,7 @@
 
 struct UpdateResult {
     enum class Enum {
+        UnknownVersion,
         NoLogFile,
         Copy,
         Rename,

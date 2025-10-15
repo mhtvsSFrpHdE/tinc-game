@@ -86,6 +86,21 @@ void MainFrame::API_SRV_Update()
     std::vector<wxFileName> oldFiles;
 
     long installedVersion = GetInstalledVersion();
+    bool unknownVersionNumber = installedVersion > targetVersion || installedVersion < 0;
+    if (unknownVersionNumber) {
+        result.returnBody.messageEnum = UpdateResult::Enum::UnknownVersion;
+        result.returnBody.messageString = std::to_wstring(installedVersion);
+        CallAfter([this, result]() {
+            wxLog::FlushActive();
+            wxLog::SetActiveTarget(nullptr);
+            Lock_SRV::Notify(uiMutex, uiCb);
+
+            API_UI_ReportUpdateResult(result);
+            });
+        Lock_SRV::Wait(uiMutex, uiCb);
+        return;
+    }
+
     while (installedVersion != targetVersion) {
         if (oldFiles.size() > 0) {
             wxLogMessage("Clean old files before update");

@@ -50,6 +50,13 @@ void MainFrame::API_UI_ReportUpdateResult(ReturnValue<UpdateResult> result)
     namespace ss = String_SRV;
 
     std::wstringstream errorMessageStream;
+    if (result.returnBody.messageEnum == UpdateResult::Enum::UnknownVersion) {
+        errorMessageStream << "Unknown version " << result.returnBody.messageString
+            << ss::newLine << ss::newLine
+            << "Your installation seems corrupted"
+            << ss::newLine
+            << "Or you may trying to install old version on exist new version";
+    }
     if (result.returnBody.messageEnum == UpdateResult::Enum::NoLogFile) {
         errorMessageStream << "Failed to create log file";
     }
