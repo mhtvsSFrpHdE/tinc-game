@@ -2,7 +2,7 @@
 !define PRODUCT_NAME "tinc game"
 !define PRODUCT_VERSION "1.0"
 
-!define TINCGAME_DIR "tinc-game"
+!define TINCGAME_INSTALL_DIR "tinc-game"
 !define TINCGAME_UNINSTALL_ID "tinc-game-T0MBcLcnSX8S"
 
 # detect exist install
@@ -26,13 +26,27 @@ InstallDir "$PROGRAMFILES\${TINCGAME_INSTALL_DIR}"
 
 # install section
 Section
-    # set the installation directory
-    SetOutPath $InstDir
-
     ${If} $uninstallString != ""
         MessageBox MB_OK "Uninstall exist version first"
         Abort
     ${EndIf}
+
+    # install root installation directory
+    SetOutPath $InstDir
+    # specify program files
+    File "..\Release\tinc-game.exe"
+    File "..\Release\updater.exe"
+    File "..\tinc-game\getTapHwid.bat"
+    File "..\tinc-game\installTap.bat"
+    File "..\tinc-game\netsh437.bat"
+    File "..\tinc-game\netsh437_start.bat"
+    File "..\tinc-game\ping437.bat"
+    File "..\tinc-game\ping437_start.bat"
+    File "..\tinc-game\tincShell.bat"
+    File "..\tinc-game\uninstallTap.bat"
+    # install tinc bin
+    SetOutPath "$InstDir\bin\tinc"
+    File /r "C:\Program Files\tinc\"
 
     # create the uninstaller
     WriteUninstaller "$InstDir\uninstall.exe"
