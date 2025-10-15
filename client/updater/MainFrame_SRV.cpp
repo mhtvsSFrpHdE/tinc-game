@@ -68,6 +68,8 @@ bool MainFrame::API_SRV_PrepareUpdate()
         return false;
     }
 
+    wxLogMessage("==== Start Prepare update");
+
     {
         auto binDir = rs::Program::GetBinDir();
         bool removeResult = fs::tRemoveDir(binDir);
@@ -169,6 +171,8 @@ bool MainFrame::API_SRV_PrepareUpdate()
             return false;
         }
     }
+
+    wxLogMessage("End Prepare update");
 
     API_SRV_PrepareUpdate_EndLogToFile();
     return true;

@@ -81,6 +81,8 @@ void MainFrame::API_SRV_Update()
         return;
     }
 
+    wxLogMessage("==== Start Update");
+
     const long targetVersion = 0;
     const std::wstring oldExtensionName = L".old";
     std::vector<wxFileName> oldFiles;
@@ -88,6 +90,7 @@ void MainFrame::API_SRV_Update()
     long installedVersion = GetInstalledVersion();
     bool unknownVersionNumber = installedVersion > targetVersion || installedVersion < 0;
     if (unknownVersionNumber) {
+        wxLogMessage("Unknown version number");
         result.returnBody.messageEnum = UpdateResult::Enum::UnknownVersion;
         result.returnBody.messageString = std::to_wstring(installedVersion);
         CallAfter([this, result]() {
@@ -197,7 +200,7 @@ void MainFrame::API_SRV_Update()
 
         installedVersion = GetInstalledVersion();
     }
-    wxLogMessage("Update finished");
+    wxLogMessage("End Update");
 
     result.success = true;
     CallAfter([this, result]() {
