@@ -188,7 +188,7 @@ void MainFrame::API_SRV_ProcessAdditionalArgument()
         namespace bp = boost::process;
         namespace rs = Resource_SRV;
 
-        wxMessageDialog(this, L"Your user data isn't being removed\nclick OK to open user data directory").ShowModal();
+        wxMessageDialog(this, L"Click OK to open user data directory\n\You can delete tinc-game directory after you're done with your data").ShowModal();
 
         auto programDir = rs::Program::GetProgramDir();
         bp::system(bp::shell(), bp::args({ rs::Bat::cmdRumCommand, L"explorer.exe", programDir.GetFullPath().ToStdWstring() }), bp::windows::hide);

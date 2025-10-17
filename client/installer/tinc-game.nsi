@@ -115,6 +115,35 @@ SectionEnd
 
 # uninstall section
 Section "uninstall"
+        # save the current $OUTDIR
+        Push $OUTDIR
+        # set the new working directory
+        SetOutPath "$InstDir"
+
+        # check updater exist
+        #     if exist, continue to run updater
+        #     if not exist, skip run and make dummy result
+        IfFileExists $InstDir\updater.exe 0 updater_not_exist
+        # run prepare update command and store exit code
+        ExecWait '"$InstDir\updater.exe" -p -u' $updaterResult
+        Goto has_result
+        # dummy result if updater not exist
+        updater_not_exist:
+        StrCpy $updaterResult -1
+
+        has_result:
+        # restore the original $OUTDIR
+        Pop $OUTDIR
+
+        # if updater failed, terminate installer
+        ${If} $updaterResult < 0
+            MessageBox MB_OK "Uninstall failed: $updaterResult"
+            Abort
+        ${EndIf}
+        ${If} $updaterResult > 0
+            Abort
+        ${EndIf}
+
     # remove the link from the start menu
 	# try to remove the Start Menu folder - this will only happen if it is empty
     Delete "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk"
@@ -122,6 +151,7 @@ Section "uninstall"
 	RMDir "$SMPROGRAMS\${PRODUCT_NAME}"
 
     # delete the uninstaller
+    Delete "$InstDir\updater.exe"
     Delete "$InstDir\uninstall.exe"
 
     # delete install dir
