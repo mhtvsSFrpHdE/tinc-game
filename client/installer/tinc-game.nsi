@@ -81,7 +81,8 @@ Section
     File "..\tinc-game\uninstallTap.bat"
     # install tinc bin
     SetOutPath "$InstDir\bin\tinc"
-    File /r "C:\Program Files\tinc\"
+    File /r /x "Uninstall.exe" "C:\Program Files\tinc\"
+    SetOutPath $InstDir
 
     # update config files with updater after unpack files
 
