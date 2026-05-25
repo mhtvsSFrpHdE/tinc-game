@@ -1,0 +1,62 @@
+# Basic system
+FROM debian:12-slim
+
+# tinc server argument
+ENV NETWORK_NAME="docker"
+ENV LISTEN_PORT="655"
+ENV PMTU_DISCOVERY="yes"
+ENV IPV4_SUBNET_RANGE_BEGIN="10.77.1.1"
+ENV IPV4_SUBNET_RANGE_END="10.77.255.255"
+ENV IPV4_SUBNET_PREFIX="24"
+ENV IPV4_SUBNET_MASK="255.255.0.0"
+
+# Copy things to
+WORKDIR /home/root
+
+# apt proxy if proxy is set in terminal that run docker build
+ENV aptProxyConfig="/etc/apt/apt.conf.d/proxy"
+RUN touch $aptProxyConfig
+RUN if [ -n "$HTTP_PROXY" ]; then echo "Acquire::http::Proxy \"$HTTP_PROXY\";" >> $aptProxyConfig; fi
+RUN if [ -n "$HTTPS_PROXY" ]; then echo "Acquire::http::Proxy \"$HTTPS_PROXY\";" >> $aptProxyConfig; fi
+RUN cat $aptProxyConfig
+
+# Install compiler, run apt update and apt install in same command to prevent cache miss
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libncurses5-dev \
+    libreadline6-dev \
+    libzlcore-dev \
+    zlib1g-dev \
+    liblzo2-dev \
+    libssl-dev
+# Copy tinc source code
+COPY Downloads/tinc-1.1pre18.tar.gz /home/root/
+RUN tar xvf tinc-1.1pre18.tar.gz
+# cd source code dir and build
+WORKDIR tinc-1.1pre18
+RUN ./configure
+RUN make
+RUN make install
+
+# Init tinc server
+RUN mkdir -p /usr/local/var/run
+RUN tinc -n $NETWORK_NAME init server
+RUN tinc -n $NETWORK_NAME set Mode switch
+RUN tinc -n $NETWORK_NAME set ListenAddress 0.0.0.0 $LISTEN_PORT
+RUN tinc -n $NETWORK_NAME add ListenAddress :: $LISTEN_PORT
+RUN tinc -n $NETWORK_NAME set PMTUDiscovery $PMTU_DISCOVERY
+# tinc interface script
+ENV tincUpScript="/usr/local/etc/tinc/$NETWORK_NAME/tinc-up"
+RUN touch $tincUpScript
+RUN echo "#!/bin/sh" > $tincUpScript
+RUN echo "" >> $tincUpScript
+RUN echo "ip addr add $IPV4_SUBNET_RANGE_BEGIN/$IPV4_SUBNET_PREFIX dev \$INTERFACE" >> $tincUpScript
+RUN echo "# Necessary to do interface up here otherwise cause Can't write to Linux tun/tap device (tun mode) /dev/net/tun: Input/output error" >> $tincUpScript
+RUN echo "ip link set $INTERFACE up" >> $tincUpScript
+RUN echo "systemctl restart dnsmasq_$NETWORK_NAME" >> $tincUpScript
+RUN echo "" >> $tincUpScript
+RUN echo "#echo 'Unconfigured tinc-up script, please edit '$0'!'" >> $tincUpScript
+RUN echo "" >> $tincUpScript
+RUN echo "#ifconfig $INTERFACE <your vpn IP address> netmask <netmask of whole VPN>" >> $tincUpScript
+RUN echo "" >> $tincUpScript
+RUN cat $tincUpScript
