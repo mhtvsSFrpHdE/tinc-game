@@ -43,22 +43,21 @@ RUN make install
 WORKDIR /home/root
 
 # tinc server argument
-ENV NETWORK_NAME="tinc_docker"
-ENV LISTEN_PORT="655"
 ENV PMTU_DISCOVERY="yes"
+ENV LISTEN_PORT="655"
+ENV EXTERNAL_ADDRESS="localhost"
 ENV IPV4_SERVER_ADDRESS="10.77.1.1"
 ENV IPV4_SUBNET_RANGE_BEGIN="10.77.1.2"
 ENV IPV4_SUBNET_RANGE_END="10.77.255.254"
 ENV IPV4_SUBNET_PREFIX="24"
 ENV IPV4_SUBNET_MASK="255.255.0.0"
 ENV DHCP_EXPIRE="12h"
+ENV NETWORK_NAME="tinc_docker"
 
 # Init tinc server
 RUN mkdir -p /usr/local/var/run
 RUN tinc -n $NETWORK_NAME init server
 RUN tinc -n $NETWORK_NAME set Mode switch
-RUN tinc -n $NETWORK_NAME set ListenAddress 0.0.0.0 $LISTEN_PORT
-RUN tinc -n $NETWORK_NAME add ListenAddress :: $LISTEN_PORT
 RUN tinc -n $NETWORK_NAME set PMTUDiscovery $PMTU_DISCOVERY
 # tinc interface script
 ENV tincUpScript="/usr/local/etc/tinc/$NETWORK_NAME/tinc-up"
@@ -94,15 +93,20 @@ COPY Downloads/spring-boot-project-0.0.1-SNAPSHOT.jar /home/root/
 ENV startScript="/home/root/start.sh"
 RUN echo "#!/bin/bash" > $startScript
 RUN echo "" >> $startScript
+# Update tinc settings from environment variable on start
+RUN echo "tinc -n \$NETWORK_NAME set ListenAddress 0.0.0.0 \$LISTEN_PORT" >> $startScript
+RUN echo "tinc -n \$NETWORK_NAME add ListenAddress :: \$LISTEN_PORT" >> $startScript
+RUN echo "tinc -n \$NETWORK_NAME set Address \$EXTERNAL_ADDRESS \$LISTEN_PORT" >> $startScript
+RUN echo "" >> $startScript
+# Send stop signal to process listen on known port
 RUN echo "cleanup() {" >> $startScript
-# Send Ctrl+C to process has port 8080
 RUN echo "    tincPid=\$(lsof -t -i:\$LISTEN_PORT)" >> $startScript
 RUN echo "    springBootPid=\$(lsof -t -i:8080)" >> $startScript
 RUN echo "    kill -15 \$springBootPid" >> $startScript
 RUN echo "    wait \$springBootPid" >> $startScript
 RUN echo "    tinc -n $NETWORK_NAME stop" >> $startScript
 RUN echo "    tail --pid=\$tincPid -f /dev/null" >> $startScript
-RUN echo '    echo "Safe shutdown"' >> $startScript
+RUN echo '    echo "Safe shutdown success"' >> $startScript
 RUN echo "}" >> $startScript
 RUN echo "" >> $startScript
 RUN echo "trap 'cleanup' SIGTERM" >> $startScript
