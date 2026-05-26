@@ -75,23 +75,23 @@ RUN echo "#ifconfig $INTERFACE <your vpn IP address> netmask <netmask of whole V
 RUN echo "" >> $tincUpScript
 RUN cat $tincUpScript
 
-# DHCP config
-# dnsmasq is started by using tinc-up interface up script
-ENV dnsmasqConfig="/etc/dnsmasq.conf"
-RUN echo "port=0" > $dnsmasqConfig
-RUN echo "interface=$NETWORK_NAME" >> $dnsmasqConfig
-RUN echo "dhcp-range=$IPV4_SUBNET_RANGE_BEGIN,$IPV4_SUBNET_RANGE_END,$IPV4_SUBNET_MASK,$DHCP_EXPIRE" >> $dnsmasqConfig
-RUN echo "dhcp-option=option:router" >> $dnsmasqConfig
-RUN echo "dhcp-option=option:dns-server" >> $dnsmasqConfig
-RUN echo "" >> $dnsmasqConfig
-RUN cat $dnsmasqConfig
-
 # Copy tinc management tool
 COPY Downloads/spring-boot-project-0.0.1-SNAPSHOT.jar /home/root/
 
 # Make start script
 ENV startScript="/home/root/start.sh"
 RUN echo "#!/bin/bash" > $startScript
+RUN echo "" >> $startScript
+# DHCP config, dnsmasq is started by using tinc-up interface up script
+ENV dnsmasqConfig="/etc/dnsmasq.conf"
+RUN echo "echo \"DHCP settings:\"" >> $startScript
+RUN echo "echo \"port=0\" > \$dnsmasqConfig" >> $startScript
+RUN echo "echo \"interface=$NETWORK_NAME\" >> \$dnsmasqConfig" >> $startScript
+RUN echo "echo \"dhcp-range=\$IPV4_SUBNET_RANGE_BEGIN,\$IPV4_SUBNET_RANGE_END,\$IPV4_SUBNET_MASK,\$DHCP_EXPIRE\" >> \$dnsmasqConfig" >> $startScript
+RUN echo "echo \"dhcp-option=option:router\" >> \$dnsmasqConfig" >> $startScript
+RUN echo "echo \"dhcp-option=option:dns-server\" >> \$dnsmasqConfig" >> $startScript
+RUN echo "cat \"\$dnsmasqConfig\"" >> $startScript
+RUN echo "echo \"\"" >> $startScript
 RUN echo "" >> $startScript
 # Update tinc settings from environment variable on start
 RUN echo "tinc -n \$NETWORK_NAME set ListenAddress 0.0.0.0 \$LISTEN_PORT" >> $startScript
@@ -124,13 +124,13 @@ RUN cat $startScript
 # Make diagnostic script
 ENV diagScript="/home/root/diagnostic.sh"
 RUN echo "#!/bin/bash" > $diagScript
-RUN echo "" >> $diagScript
+RUN echo "echo \"\"" >> $diagScript
 RUN echo 'echo "tincUpScript:"' >> $diagScript
 RUN echo "cat \"$tincUpScript\"" >> $diagScript
-RUN echo "" >> $diagScript
+RUN echo "echo \"\"" >> $diagScript
 RUN echo 'echo "dnsmasqConfig:"' >> $diagScript
 RUN echo "cat \"$dnsmasqConfig\"" >> $diagScript
-RUN echo "" >> $diagScript
+RUN echo "echo \"\"" >> $diagScript
 RUN echo 'echo "startScript:"' >> $diagScript
 RUN echo "cat \"$startScript\"" >> $diagScript
 RUN echo "" >> $diagScript
