@@ -12,7 +12,7 @@
 ## docker
 - Docker Desktop (Windows) `v4.74.0`
 - Run docker engine in Hyper-V mode instead of WSL2, may not work right now
-- Copy `tinc-1.1pre18.tar.gz` to `docker/Downloads/` directory
+- Copy [tinc-1.1pre18.tar.gz](https://tinc-vpn.org/download/) to `docker/Downloads/` directory
 - Copy `spring-boot-project-0.0.1-SNAPSHOT.jar` to `docker/Downloads/` directory
 - Edit `buildShell.bat`, change necessary environment values
 - Edit `installDockerImage.bat`, change necessary environment values,  
