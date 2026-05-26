@@ -58,7 +58,6 @@ ENV NETWORK_NAME="tinc_docker"
 RUN mkdir -p /usr/local/var/run
 RUN tinc -n $NETWORK_NAME init server
 RUN tinc -n $NETWORK_NAME set Mode switch
-RUN tinc -n $NETWORK_NAME set PMTUDiscovery $PMTU_DISCOVERY
 # tinc interface script
 ENV tincUpScript="/usr/local/etc/tinc/$NETWORK_NAME/tinc-up"
 RUN touch $tincUpScript
@@ -97,6 +96,7 @@ RUN echo "" >> $startScript
 RUN echo "tinc -n \$NETWORK_NAME set ListenAddress 0.0.0.0 \$LISTEN_PORT" >> $startScript
 RUN echo "tinc -n \$NETWORK_NAME add ListenAddress :: \$LISTEN_PORT" >> $startScript
 RUN echo "tinc -n \$NETWORK_NAME set Address \$EXTERNAL_ADDRESS \$LISTEN_PORT" >> $startScript
+RUN echo "tinc -n \$NETWORK_NAME set PMTUDiscovery \$PMTU_DISCOVERY" >> $startScript
 RUN echo "" >> $startScript
 # Send stop signal to process listen on known port
 RUN echo "cleanup() {" >> $startScript
