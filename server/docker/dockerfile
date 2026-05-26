@@ -3,13 +3,17 @@ FROM debian:12-slim
 
 # Put apt related things at very top of dockerfile for cache as much as possible
 # apt proxy if proxy is set in terminal that run docker build
-ENV aptProxyConfig="/etc/apt/apt.conf.d/docker_build"
+# Unless necessary, don't change proxy variable after apt install success
+ARG aptProxyConfig="/etc/apt/apt.conf.d/docker_build"
 RUN touch $aptProxyConfig
 RUN if [ -n "$HTTP_PROXY" ]; then echo "Acquire::http::Proxy \"$HTTP_PROXY\";" >> $aptProxyConfig; fi
 RUN if [ -n "$HTTPS_PROXY" ]; then echo "Acquire::http::Proxy \"$HTTPS_PROXY\";" >> $aptProxyConfig; fi
+
 # Try limit apt multi thread download connection count in weak network
-RUN echo 'Acquire::Queue-Mode "access";' >> $aptProxyConfig
+# RUN echo 'Acquire::Queue-Mode "access";' >> $aptProxyConfig
+
 # More retry on connection lost, default seems 3
+# Still doesn't work sometimes on proxy service is very dead, need Ctrl+C manually to break
 RUN echo 'Acquire::Retries "300";' >> $aptProxyConfig
 RUN cat $aptProxyConfig
 
