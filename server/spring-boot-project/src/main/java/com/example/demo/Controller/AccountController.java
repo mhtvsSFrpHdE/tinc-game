@@ -15,10 +15,12 @@ public class AccountController {
 	@Autowired
 	private ApplicationContext context;
 
+	private String tincNetworkName = System.getenv("NETWORK_NAME");
+
 	@GetMapping("/invite")
-	public BasicJsonResponse index() {
+	public BasicJsonResponse invite() {
 		var accountService = context.getBean(AccountService.class);
-		var result = accountService.Invite("Test");
+		var result = accountService.Invite(tincNetworkName);
 		return result;
 	}
 }
