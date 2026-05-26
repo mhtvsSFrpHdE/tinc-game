@@ -140,4 +140,12 @@ RUN echo "cat \"$startScript\"" >> $diagScript
 RUN echo "" >> $diagScript
 RUN chmod +x "$diagScript"
 
+# Clean build only files: Won't reduce docker image size, ignored
+#RUN apt purge -y \
+#    build-essential \
+#    --autoremove &&  \
+#    apt clean
+#RUN rm -rf tinc-1.1pre18.tar.gz tinc-1.1pre18
+
+# Start whole system
 CMD ["/home/root/start.sh"]
