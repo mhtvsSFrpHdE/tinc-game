@@ -1,0 +1,1 @@
+buildDockerImage.bat && installDockerImage.bat
