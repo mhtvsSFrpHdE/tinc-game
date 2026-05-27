@@ -15,155 +15,155 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="App.h">
+    <ClInclude Include="src\App.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MainFrame.h">
+    <ClInclude Include="src\Frame\OptimizeMtu\OptimizeMtuFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OptimizeMtuFrame.h">
+    <ClInclude Include="src\Frame\Settings\SettingsFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SettingsFrame.h">
+    <ClInclude Include="src\Frame\ApplyMtu\ApplyMtuFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ApplyMtuFrame.h">
+    <ClInclude Include="src\Frame\Help\HelpFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HelpFrame.h">
+    <ClInclude Include="src\Service\Language_SRV.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Language_SRV.h">
+    <ClInclude Include="src\Service\WindowsAPI_SRV.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WindowsAPI_SRV.h">
+    <ClInclude Include="src\Frame\ManageTap\ManageTapFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ManageTapFrame.h">
+    <ClInclude Include="src\Service\TapDevice_SRV.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TapDevice_SRV.h">
+    <ClInclude Include="src\Service\Style_SRV.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Style_SRV.h">
+    <ClInclude Include="src\Service\Networks_SRV.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Networks_SRV.h">
+    <ClInclude Include="src\Widget\tincTextCtrl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tincTextCtrl.h">
+    <ClInclude Include="src\Frame\EditNetwork\EditNetworkFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EditNetworkFrame.h">
+    <ClInclude Include="src\Frame\JoinNetwork\JoinNetworkFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="JoinNetworkFrame.h">
+    <ClInclude Include="src\Frame\RenameNetwork\RenameNetworkFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RenameNetworkFrame.h">
+    <ClInclude Include="src\Service\Settings_SRV.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Settings_SRV.h">
+    <ClInclude Include="src\Frame\Main\MainFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="App.cpp">
+    <ClCompile Include="src\App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MainFrame.cpp">
+    <ClCompile Include="src\Frame\OptimizeMtu\OptimizeMtuFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OptimizeMtuFrame.cpp">
+    <ClCompile Include="src\Frame\OptimizeMtu\OptimizeMtuFrame_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OptimizeMtuFrame_SRV.cpp">
+    <ClCompile Include="src\Frame\OptimizeMtu\OptimizeMtuFrame_Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OptimizeMtuFrame_Test.cpp">
+    <ClCompile Include="src\Frame\Settings\SettingsFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SettingsFrame.cpp">
+    <ClCompile Include="src\Service\Settings_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Settings_SRV.cpp">
+    <ClCompile Include="src\Frame\ApplyMtu\ApplyMtuFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplyMtuFrame.cpp">
+    <ClCompile Include="src\Frame\ApplyMtu\ApplyMtuFrame_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ApplyMtuFrame_SRV.cpp">
+    <ClCompile Include="src\Frame\Help\HelpFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HelpFrame.cpp">
+    <ClCompile Include="src\Service\Language_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Language_SRV.cpp">
+    <ClCompile Include="src\Service\WindowsAPI_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WindowsAPI_SRV.cpp">
+    <ClCompile Include="src\Frame\ManageTap\ManageTapFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ManageTapFrame.cpp">
+    <ClCompile Include="src\Service\TapDevice_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TapDevice_SRV.cpp">
+    <ClCompile Include="src\Frame\ManageTap\ManageTapFrame_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ManageTapFrame_SRV.cpp">
+    <ClCompile Include="src\Service\Networks_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Networks_SRV.cpp">
+    <ClCompile Include="src\Widget\tincTextCtrl.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MainFrame_SRV.cpp">
+    <ClCompile Include="src\Frame\EditNetwork\EditNetworkFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tincTextCtrl.cpp">
+    <ClCompile Include="src\Frame\JoinNetwork\JoinNetworkFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EditNetworkFrame.cpp">
+    <ClCompile Include="src\Frame\JoinNetwork\JoinNetworkFrame_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="JoinNetworkFrame.cpp">
+    <ClCompile Include="src\Frame\RenameNetwork\RenameNetworkFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="JoinNetworkFrame_SRV.cpp">
+    <ClCompile Include="src\Frame\Main\MainFrame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MainFrameMenu.cpp">
+    <ClCompile Include="src\Frame\Main\MainFrame_SRV.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MainFrameInit.cpp">
+    <ClCompile Include="src\Frame\Main\MainFrameInit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RenameNetworkFrame.cpp">
+    <ClCompile Include="src\Frame\Main\MainFrameMenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ping437.bat">
+    <None Include="src\ShellScript\Windows\ping437.bat">
       <Filter>Source Files</Filter>
     </None>
     <None Include="GenerateTranslatePot.bat">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="netsh437.bat">
+    <None Include="src\ShellScript\Windows\netsh437.bat">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="ping437_start.bat">
+    <None Include="src\ShellScript\Windows\ping437_start.bat">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="netsh437_start.bat">
+    <None Include="src\ShellScript\Windows\netsh437_start.bat">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="installTap.bat">
+    <None Include="src\ShellScript\Windows\installTap.bat">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="getTapHwid.bat">
+    <None Include="src\ShellScript\Windows\getTapHwid.bat">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="uninstallTap.bat">
+    <None Include="src\ShellScript\Windows\uninstallTap.bat">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

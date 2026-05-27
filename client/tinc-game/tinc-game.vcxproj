@@ -68,11 +68,15 @@
     <Import Project="..\props\boost.props" />
     <Import Project="..\props\static_Release.props" />
     <Import Project="..\props\RunAsAdmin.props" />
+    <Import Project="..\props\includeProjectInSameSolution.props" />
+    <Import Project="..\props\buildWithMultiThread.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="..\props\wxwdigets_x64.props" />
     <Import Project="..\props\boost_x64.props" />
+    <Import Project="..\props\buildWithMultiThread.props" />
+    <Import Project="..\props\includeProjectInSameSolution.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -146,61 +150,61 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="App.h" />
-    <ClInclude Include="ApplyMtuFrame.h" />
-    <ClInclude Include="EditNetworkFrame.h" />
-    <ClInclude Include="JoinNetworkFrame.h" />
-    <ClInclude Include="Language_SRV.h" />
-    <ClInclude Include="MainFrame.h" />
-    <ClInclude Include="HelpFrame.h" />
-    <ClInclude Include="ManageTapFrame.h" />
-    <ClInclude Include="Networks_SRV.h" />
-    <ClInclude Include="RenameNetworkFrame.h" />
-    <ClInclude Include="SettingsFrame.h" />
-    <ClInclude Include="Settings_SRV.h" />
-    <ClInclude Include="OptimizeMtuFrame.h" />
-    <ClInclude Include="Style_SRV.h" />
-    <ClInclude Include="TapDevice_SRV.h" />
-    <ClInclude Include="tincTextCtrl.h" />
-    <ClInclude Include="WindowsAPI_SRV.h" />
+    <ClInclude Include="src\App.h" />
+    <ClInclude Include="src\Frame\ApplyMtu\ApplyMtuFrame.h" />
+    <ClInclude Include="src\Frame\EditNetwork\EditNetworkFrame.h" />
+    <ClInclude Include="src\Frame\JoinNetwork\JoinNetworkFrame.h" />
+    <ClInclude Include="src\Service\Language_SRV.h" />
+    <ClInclude Include="src\Frame\Main\MainFrame.h" />
+    <ClInclude Include="src\Frame\Help\HelpFrame.h" />
+    <ClInclude Include="src\Frame\ManageTap\ManageTapFrame.h" />
+    <ClInclude Include="src\Service\Networks_SRV.h" />
+    <ClInclude Include="src\Frame\RenameNetwork\RenameNetworkFrame.h" />
+    <ClInclude Include="src\Frame\Settings\SettingsFrame.h" />
+    <ClInclude Include="src\Service\Settings_SRV.h" />
+    <ClInclude Include="src\Frame\OptimizeMtu\OptimizeMtuFrame.h" />
+    <ClInclude Include="src\Service\Style_SRV.h" />
+    <ClInclude Include="src\Service\TapDevice_SRV.h" />
+    <ClInclude Include="src\Widget\tincTextCtrl.h" />
+    <ClInclude Include="src\Service\WindowsAPI_SRV.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="App.cpp" />
-    <ClCompile Include="ApplyMtuFrame.cpp" />
-    <ClCompile Include="ApplyMtuFrame_SRV.cpp" />
-    <ClCompile Include="EditNetworkFrame.cpp" />
-    <ClCompile Include="JoinNetworkFrame.cpp" />
-    <ClCompile Include="JoinNetworkFrame_SRV.cpp" />
-    <ClCompile Include="Language_SRV.cpp" />
-    <ClCompile Include="MainFrame.cpp" />
-    <ClCompile Include="HelpFrame.cpp" />
-    <ClCompile Include="MainFrameInit.cpp" />
-    <ClCompile Include="MainFrameMenu.cpp" />
-    <ClCompile Include="MainFrame_SRV.cpp" />
-    <ClCompile Include="ManageTapFrame.cpp" />
-    <ClCompile Include="ManageTapFrame_SRV.cpp" />
-    <ClCompile Include="Networks_SRV.cpp" />
-    <ClCompile Include="RenameNetworkFrame.cpp" />
-    <ClCompile Include="SettingsFrame.cpp" />
-    <ClCompile Include="Settings_SRV.cpp" />
-    <ClCompile Include="OptimizeMtuFrame.cpp" />
-    <ClCompile Include="OptimizeMtuFrame_SRV.cpp" />
-    <ClCompile Include="OptimizeMtuFrame_Test.cpp" />
-    <ClCompile Include="TapDevice_SRV.cpp" />
-    <ClCompile Include="tincTextCtrl.cpp" />
-    <ClCompile Include="WindowsAPI_SRV.cpp" />
+    <ClCompile Include="src\App.cpp" />
+    <ClCompile Include="src\Frame\ApplyMtu\ApplyMtuFrame.cpp" />
+    <ClCompile Include="src\Frame\ApplyMtu\ApplyMtuFrame_SRV.cpp" />
+    <ClCompile Include="src\Frame\EditNetwork\EditNetworkFrame.cpp" />
+    <ClCompile Include="src\Frame\JoinNetwork\JoinNetworkFrame.cpp" />
+    <ClCompile Include="src\Frame\JoinNetwork\JoinNetworkFrame_SRV.cpp" />
+    <ClCompile Include="src\Service\Language_SRV.cpp" />
+    <ClCompile Include="src\Frame\Main\MainFrame.cpp" />
+    <ClCompile Include="src\Frame\Help\HelpFrame.cpp" />
+    <ClCompile Include="src\Frame\Main\MainFrameInit.cpp" />
+    <ClCompile Include="src\Frame\Main\MainFrameMenu.cpp" />
+    <ClCompile Include="src\Frame\Main\MainFrame_SRV.cpp" />
+    <ClCompile Include="src\Frame\ManageTap\ManageTapFrame.cpp" />
+    <ClCompile Include="src\Frame\ManageTap\ManageTapFrame_SRV.cpp" />
+    <ClCompile Include="src\Service\Networks_SRV.cpp" />
+    <ClCompile Include="src\Frame\RenameNetwork\RenameNetworkFrame.cpp" />
+    <ClCompile Include="src\Frame\Settings\SettingsFrame.cpp" />
+    <ClCompile Include="src\Service\Settings_SRV.cpp" />
+    <ClCompile Include="src\Frame\OptimizeMtu\OptimizeMtuFrame.cpp" />
+    <ClCompile Include="src\Frame\OptimizeMtu\OptimizeMtuFrame_SRV.cpp" />
+    <ClCompile Include="src\Frame\OptimizeMtu\OptimizeMtuFrame_Test.cpp" />
+    <ClCompile Include="src\Service\TapDevice_SRV.cpp" />
+    <ClCompile Include="src\Widget\tincTextCtrl.cpp" />
+    <ClCompile Include="src\Service\WindowsAPI_SRV.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="getTapHwid.bat" />
-    <None Include="installTap.bat" />
-    <None Include="netsh437.bat" />
-    <None Include="netsh437_start.bat" />
-    <None Include="ping437.bat">
+    <None Include="src\ShellScript\Windows\getTapHwid.bat" />
+    <None Include="src\ShellScript\Windows\installTap.bat" />
+    <None Include="src\ShellScript\Windows\netsh437.bat" />
+    <None Include="src\ShellScript\Windows\netsh437_start.bat" />
+    <None Include="src\ShellScript\Windows\ping437.bat">
       <DeploymentContent>false</DeploymentContent>
     </None>
     <None Include="GenerateTranslatePot.bat" />
-    <None Include="ping437_start.bat" />
-    <None Include="uninstallTap.bat" />
+    <None Include="src\ShellScript\Windows\ping437_start.bat" />
+    <None Include="src\ShellScript\Windows\uninstallTap.bat" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\resource\resource.vcxproj">
