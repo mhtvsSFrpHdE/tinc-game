@@ -4,11 +4,13 @@
 #include "resource/Resource_SRV.h"
 #include "resource/Resource_SRV_Networks.h"
 #include <thread>
+#include "../../Service/Settings_SRV.h"
 
 JoinNetworkFrame::JoinNetworkFrame(wxFrame* parentFrame, std::function<void()> onCloseCallback) : wxFrame(parentFrame, wxID_ANY, _("Join network"))
 {
     _parentFrame = parentFrame;
     _onCloseCallback = onCloseCallback;
+    new wxLogWindow(this, "Application Log");
 
     Init_CreateControls();
     Init_Layout();
@@ -74,6 +76,27 @@ void JoinNetworkFrame::OnInviteCodeChanged(wxCommandEvent& event)
         text.Replace(ss::space, wxEmptyString);
         inviteCode_TextCtrl->SetValue(text);
         inviteCode_TextCtrl->SetInsertionPointEnd();
+    }
+}
+
+void JoinNetworkFrame::OnServerAddressAndPortChanged(wxCommandEvent& event)
+{
+    auto what = serverAddressAndPort_ComboBox->GetValue();
+    wxLogDebug(what);
+}
+
+void JoinNetworkFrame::OnJoinByComboBoxSelect(wxCommandEvent& event)
+{
+    joinBy = static_cast<JoinBy>(joinBy_ComboBox->GetSelection());
+    if (joinBy == JoinBy::Register) {
+        joinByInviteCodePanel->Hide();
+        joinByRegisterPanel->Show();
+        rootSizer->Layout();
+    }
+    if (joinBy == JoinBy::InviteCode) {
+        joinByInviteCodePanel->Show();
+        joinByRegisterPanel->Hide();
+        rootSizer->Layout();
     }
 }
 
@@ -150,11 +173,15 @@ void JoinNetworkFrame::OnRetryButtonClick(wxCommandEvent& event)
 
 void JoinNetworkFrame::Init_CreateControls()
 {
+    namespace ss = Settings_SRV;
+
     rootPanel = new wxPanel(this);
     joinBy_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Join by"));
     joinBy_ComboBox = new wxComboBox(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, NULL, wxCB_READONLY);
+    joinBy_ComboBox->Append(_("Register on server"));
     joinBy_ComboBox->Append(_("Invite code"));
-    joinBy_ComboBox->SetSelection(static_cast<int>(JoinBy::InviteCode));
+    joinBy_ComboBox->SetSelection(static_cast<int>(JoinBy::Register));
+    joinBy_ComboBox->Bind(wxEVT_COMBOBOX, &JoinNetworkFrame::OnJoinByComboBoxSelect, this);
     saveAs_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Save as (network name)"));
     saveAs_ComboBox = new wxComboBox(rootPanel, wxID_ANY);
     saveAs_ComboBox->Append(L"Default");
@@ -164,6 +191,20 @@ void JoinNetworkFrame::Init_CreateControls()
         inviteCode_StaticText = new wxStaticText(joinByInviteCodePanel, wxID_ANY, _("Type invite code:"));
         inviteCode_TextCtrl = new wxTextCtrl(joinByInviteCodePanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
         inviteCode_TextCtrl->Bind(wxEVT_TEXT, &JoinNetworkFrame::OnInviteCodeChanged, this);
+    }
+    joinByInviteCodePanel->Hide();
+    joinByRegisterPanel = new wxPanel(rootPanel);
+    {
+        serverAddressAndPort_StaticText = new wxStaticText(joinByRegisterPanel, wxID_ANY, _("Server address and port:"));
+        serverAddressAndPort_ComboBox = new wxComboBox(joinByRegisterPanel, wxID_ANY);
+        {
+            auto getComboBoxItems = ss::ReadArray(ss::programConfig.get(), SettingKeys_Program::lists_registerServer);
+            if (getComboBoxItems.success) {
+                serverAddressAndPort_ComboBox->Set(getComboBoxItems.returnBody);
+                serverAddressAndPort_ComboBox->SetSelection(0);
+            }
+        }
+        serverAddressAndPort_ComboBox->Bind(wxEVT_TEXT, &JoinNetworkFrame::OnServerAddressAndPortChanged, this);
     }
     retryPanel = new wxPanel(rootPanel);
     {
@@ -224,6 +265,22 @@ void JoinNetworkFrame::Init_Layout()
         ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, joinByInviteCodeSizer);
 
         rootSizer->Add(joinByInviteCodePanel, 1, wxEXPAND);
+    }
+
+    {
+        wxBoxSizer* joinByRegisterSizer = new wxBoxSizer(wxVERTICAL);
+        joinByRegisterPanel->SetSizer(joinByRegisterSizer);
+        joinByRegisterSizer->Add(serverAddressAndPort_StaticText, 0, wxLEFT, ls::SpaceToFrameBorder);
+        ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, joinByRegisterSizer);
+
+        wxBoxSizer* serverAddressAndPortComboBoxSizer = new wxBoxSizer(wxHORIZONTAL);
+        joinByRegisterSizer->Add(serverAddressAndPortComboBoxSizer, 1, wxEXPAND);
+        serverAddressAndPortComboBoxSizer->Add(0, 0, 0, wxLEFT, ls::SpaceToFrameBorder);
+        serverAddressAndPortComboBoxSizer->Add(serverAddressAndPort_ComboBox, ls::TakeAllSpace);
+        serverAddressAndPortComboBoxSizer->Add(0, 0, 0, wxRIGHT, ls::SpaceToFrameBorder);
+        ls::AddFixedSpacer(wxTOP, ls::SpaceBetweenControl, joinByRegisterSizer);
+
+        rootSizer->Add(joinByRegisterPanel, 1, wxEXPAND);
     }
 
     {

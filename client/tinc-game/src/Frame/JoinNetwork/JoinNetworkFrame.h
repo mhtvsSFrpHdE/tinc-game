@@ -36,9 +36,11 @@ private:
     wxStaticText* joinBy_StaticText;
     wxComboBox* joinBy_ComboBox;
     enum class JoinBy {
-        InviteCode = 0
+        Register = 0,
+        InviteCode = 1
     };
     JoinBy joinBy = JoinBy::InviteCode;
+    void OnJoinByComboBoxSelect(wxCommandEvent& event);
 
     wxStaticText* saveAs_StaticText;
     wxComboBox* saveAs_ComboBox;
@@ -57,12 +59,17 @@ private:
     wxTextCtrl* inviteCode_TextCtrl;
     void OnInviteCodeChanged(wxCommandEvent& event);
 
+    wxPanel* joinByRegisterPanel;
+
+    wxStaticText* serverAddressAndPort_StaticText;
+    wxComboBox* serverAddressAndPort_ComboBox;
+    void OnServerAddressAndPortChanged(wxCommandEvent& event);
+
     wxPanel* retryPanel;
 
     wxStaticText* liveLog_StaticText;
     wxTextCtrl* liveLog_TextCtrl;
 
-    wxPanel* joinByRegisterPanel;
 
     void Init_CreateControls();
     void Init_Layout();

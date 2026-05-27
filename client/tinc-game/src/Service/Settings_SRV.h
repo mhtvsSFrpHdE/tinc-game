@@ -35,6 +35,7 @@ namespace SettingKeys_Program {
     const wxString lists = wxT("Lists/");
     const wxString lists_mtuTestIp = lists + wxT("MtuTestIp");
     const wxString lists_gameModeGames = lists + wxT("GameModeGames");
+    const wxString lists_registerServer = lists + wxT("RegisterServer");
 
     const wxString metadata = wxT("Metadata/");
     const wxString metadata_configVersion = metadata + wxT("ConfigVersion");
