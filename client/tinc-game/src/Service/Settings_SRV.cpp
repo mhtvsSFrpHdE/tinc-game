@@ -56,7 +56,7 @@ bool Settings_SRV::CheckIniExists(GetIniFilePathBy by)
     return exists;
 }
 
-void Settings_SRV::LoadConfigFile()
+bool Settings_SRV::LoadConfigFile()
 {
     namespace ls = Language_SRV;
 
@@ -74,12 +74,26 @@ void Settings_SRV::LoadConfigFile()
         bool checkIni = Settings_SRV::CheckIniExists(iniType);
         programConfig = std::shared_ptr<wxFileConfig>(new wxFileConfig(wxEmptyString, wxEmptyString, Settings_SRV::GetIniFilePath(iniType)));
         if (!checkIni) {
-            programConfig->Write(sk::metadata_configVersion, 0);
+            programConfig->Write(sk::metadata_configVersion, 1);
             programConfig->Write(sk::settings_language, static_cast<int>(ls::KnownLanguage::Unknown));
             programConfig->Write(sk::settings_gameMode, wxT("GameApp.exe"));
             programConfig->Write(sk::lists_mtuTestIp, wxT("1.1.1.1,8.8.8.8"));
             programConfig->Write(sk::lists_gameModeGames, wxT("GameApp.exe,javaw.exe"));
+            programConfig->Write(sk::lists_registerServer, wxT("api1://localhost:8080/api/account/invite,api1://127.0.0.1:8080/api/account/invite"));
             programConfig->Flush();
+        }
+
+        int configVersion;
+        if (programConfig->Read(sk::metadata_configVersion, &configVersion)) {
+            if (configVersion == 0) {
+                programConfig->Write(sk::lists_registerServer, wxT("api1://localhost:8080/api/account/invite,api1://127.0.0.1:8080/api/account/invite"));
+                programConfig->Write(sk::metadata_configVersion, 1);
+                programConfig->Flush();
+            }
+        }
+        else {
+            wxLogMessage("tinc-game.ini, [Metadata], ConfigVersion, Bad value");
+            return false;
         }
     }
 
@@ -97,6 +111,8 @@ void Settings_SRV::LoadConfigFile()
     }
 
     ls::Init();
+
+    return true;
 }
 
 ReturnValue<wxArrayString> Settings_SRV::ReadArray(wxFileConfig* config, wxString settingKey, wxString delimiter)

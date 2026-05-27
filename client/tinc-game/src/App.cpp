@@ -19,7 +19,10 @@ bool App::OnInit() {
     }
 
     // Config file
-    ss::LoadConfigFile();
+    bool loadConfigFile = ss::LoadConfigFile();
+    if (loadConfigFile == false) {
+        return false;
+    }
 
     // Language
     wxLanguage language = ss::ReadLanguage();

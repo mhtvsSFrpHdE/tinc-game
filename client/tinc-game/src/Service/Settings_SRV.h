@@ -16,7 +16,7 @@ namespace Settings_SRV
     void WriteLanguage(Language_SRV::KnownLanguage language);
     wxLanguage ReadLanguage();
     bool CheckIniExists(GetIniFilePathBy by = GetIniFilePathBy::Program);
-    void LoadConfigFile();
+    bool LoadConfigFile();
 
     const wxString arrayDelimiter1 = wxT(",");
     const wxString arrayDelimiter2 = wxT("|");
