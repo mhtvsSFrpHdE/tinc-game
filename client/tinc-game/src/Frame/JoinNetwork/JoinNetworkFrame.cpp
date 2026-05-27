@@ -79,12 +79,6 @@ void JoinNetworkFrame::OnInviteCodeChanged(wxCommandEvent& event)
     }
 }
 
-void JoinNetworkFrame::OnServerAddressAndPortChanged(wxCommandEvent& event)
-{
-    auto what = serverAddressAndPort_ComboBox->GetValue();
-    wxLogDebug(what);
-}
-
 void JoinNetworkFrame::OnJoinByComboBoxSelect(wxCommandEvent& event)
 {
     joinBy = static_cast<JoinBy>(joinBy_ComboBox->GetSelection());
@@ -100,7 +94,52 @@ void JoinNetworkFrame::OnJoinByComboBoxSelect(wxCommandEvent& event)
     }
 }
 
-void JoinNetworkFrame::OnConfirmButtonClick(wxCommandEvent& event)
+std::unordered_map<wxString, RegisterApiVersion> registerApiVersionMap = {
+    { wxT("1"), RegisterApiVersion::v1 }
+};
+
+void JoinNetworkFrame::OnConfirmButtonClick_JoinByRegister_UiEnable(bool enable)
+{
+    confirmButton->Enable(enable);
+    cancelButton->Enable(enable);
+    joinBy_ComboBox->Enable(enable);
+    saveAs_ComboBox->Enable(enable);
+    serverAddressAndPort_ComboBox->Enable(enable);
+}
+
+void JoinNetworkFrame::OnConfirmButtonClick_JoinByRegister()
+{
+    OnConfirmButtonClick_JoinByRegister_UiEnable(false);
+
+    const wxString UrlPartApi = wxT("api");
+    auto serverString = serverAddressAndPort_ComboBox->GetValue();
+    if (serverString.StartsWith(UrlPartApi) == false) {
+        wxMessageDialog(this, _("Server information should start with \"api\"")).ShowModal();
+        OnConfirmButtonClick_JoinByRegister_UiEnable(true);
+        return;
+    }
+
+    const wxString UrlDelimiterSlash2 = wxT("//");
+    const wxString UrlDelimiterColen = wxT(":");
+    const wxString UrlDelimiterSlash = wxT("/");
+    auto urlPartWithoutApi = serverString.Mid(UrlPartApi.Length());
+    auto slash2Position = urlPartWithoutApi.find(UrlDelimiterSlash2);
+    auto apiVersion = urlPartWithoutApi.SubString(0, slash2Position - 1);
+    if (registerApiVersionMap.count(apiVersion) == 0) {
+        wxMessageDialog(this, _("Unknown api version: ") + apiVersion).ShowModal();
+        OnConfirmButtonClick_JoinByRegister_UiEnable(true);
+        return;
+    }
+
+    auto urlPartWithoutSlash2 = urlPartWithoutApi.Mid(slash2Position + UrlDelimiterSlash2.Length());
+    auto registerRequestUrl = urlPartWithoutSlash2;
+    wxLogDebug("Parsed register request:");
+    wxLogDebug(apiVersion);
+    wxLogDebug(urlPartWithoutSlash2);
+    OnConfirmButtonClick_JoinByRegister_UiEnable(true);
+}
+
+void JoinNetworkFrame::OnConfirmButtonClick_JoinByInviteCode()
 {
     namespace ss = String_SRV;
     namespace rs = Resource_SRV;
@@ -154,6 +193,16 @@ void JoinNetworkFrame::OnConfirmButtonClick(wxCommandEvent& event)
     t1.detach();
 }
 
+void JoinNetworkFrame::OnConfirmButtonClick(wxCommandEvent& event)
+{
+    if (joinBy == JoinBy::Register) {
+        OnConfirmButtonClick_JoinByRegister();
+    }
+    if (joinBy == JoinBy::InviteCode) {
+        OnConfirmButtonClick_JoinByInviteCode();
+    }
+}
+
 void JoinNetworkFrame::OnCancelButtonClick(wxCommandEvent& event)
 {
     Close();
@@ -204,7 +253,6 @@ void JoinNetworkFrame::Init_CreateControls()
                 serverAddressAndPort_ComboBox->SetSelection(0);
             }
         }
-        serverAddressAndPort_ComboBox->Bind(wxEVT_TEXT, &JoinNetworkFrame::OnServerAddressAndPortChanged, this);
     }
     retryPanel = new wxPanel(rootPanel);
     {

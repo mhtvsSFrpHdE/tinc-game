@@ -1,6 +1,7 @@
 #pragma once
 #include <wx/wx.h>
 #include "resource/ReturnValue.h"
+#include <unordered_map>
 
 struct JoinNetworkResult {
     enum class Enum {
@@ -13,6 +14,11 @@ struct JoinNetworkResult {
     Enum messageEnum = Enum::Other;
     std::wstring messageString;
 };
+
+enum class RegisterApiVersion {
+    v1 = 1
+};
+extern std::unordered_map<wxString, RegisterApiVersion> apiVersionList;
 
 class JoinNetworkFrame : public wxFrame
 {
@@ -39,7 +45,7 @@ private:
         Register = 0,
         InviteCode = 1
     };
-    JoinBy joinBy = JoinBy::InviteCode;
+    JoinBy joinBy = JoinBy::Register;
     void OnJoinByComboBoxSelect(wxCommandEvent& event);
 
     wxStaticText* saveAs_StaticText;
@@ -48,6 +54,9 @@ private:
     wxBoxSizer* navigateSizer;
     wxButton* confirmButton;
     void OnConfirmButtonClick(wxCommandEvent& event);
+    void OnConfirmButtonClick_JoinByInviteCode();
+    void OnConfirmButtonClick_JoinByRegister();
+    void OnConfirmButtonClick_JoinByRegister_UiEnable(bool enable);
     wxButton* retryButton;
     void OnRetryButtonClick(wxCommandEvent& event);
     wxButton* cancelButton;
@@ -63,7 +72,6 @@ private:
 
     wxStaticText* serverAddressAndPort_StaticText;
     wxComboBox* serverAddressAndPort_ComboBox;
-    void OnServerAddressAndPortChanged(wxCommandEvent& event);
 
     wxPanel* retryPanel;
 
