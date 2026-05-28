@@ -25,7 +25,8 @@ Also, add root build dir to Windows Security Virus & threat protection Exclusion
 
 ### Static link and single exe
 Build step command may have static link (single exe) version and dynamic link (exe with dll) version,  
-pick one of your prefer instead of run both
+pick one of your prefer instead of run both  
+Static link flags stand for tell cmake to generate project with Code Generation, Runtime Library `/MT`, `MTd`
 
 ### Environment variable
 Create System variables instead of User variables. Sometimes program need to run as admin
@@ -58,7 +59,7 @@ Create System variables instead of User variables. Sometimes program need to run
     - `robocopy "include" "build\include" /E && robocopy "include" "build_x64\include" /E`
   - Environment variable `CPP_DEVEL_WXWIN` as `C:\cpp-devel\wxWidgets-3.1.5`
 - boost `1.75.0`
-  - Unpack to folder like `C:\cpp-devel\boost\boost_1_75_0`, there should be `C:\cpp-devel\boost\boost_1_75_0\b2.exe`
+  - Unpack to folder like `C:\cpp-devel\boost\boost_1_75_0`, there should be `C:\cpp-devel\boost\boost_1_75_0\bootstrap.bat`
   - `cd /d "C:\cpp-devel\boost\boost_1_75_0"`
   - Reuse cmd that build wxwidgets
     - Actually, `bootstrap.bat` seems automatically detect Visual Studio compiler location even without `vcvarsall.bat`,  
