@@ -150,14 +150,19 @@ ReturnValue<JoinNetworkResult> SetSwitchMode(std::wstring& tincBin, std::wstring
     return result;
 }
 
-void JoinNetworkFrame::API_SRV_JoinNetworkByInviteCode(std::wstring networkName, std::wstring inviteCode)
-{
-    namespace bp = boost::process;
-    namespace sr = String_SRV;
-    namespace rst = Resource_SRV::TincBin;
-    namespace rsb = Resource_SRV::Bat;
+wxString API_SRV_JoinNetworkByInviteCode_GetSaveAs(wxString networkName) {
     namespace rsn = Resource_SRV::Networks;
+
+    auto networksDir = rsn::GetNetworksDir();
+    networksDir.AppendDir(networkName);
+    auto saveAs = networksDir.GetFullPath();
+    saveAs.RemoveLast();
+    return saveAs;
+}
+
+wxString API_SRV_JoinNetworkByInviteCode_PrepareBin() {
     namespace ss = Settings_SRV;
+    namespace rst = Resource_SRV::TincBin;
 
     auto& programGameModeSettingsKey = SettingKeys_Program::settings_gameMode;
     auto gameModeValue = ss::programConfig->Read(programGameModeSettingsKey);
@@ -166,16 +171,19 @@ void JoinNetworkFrame::API_SRV_JoinNetworkByInviteCode(std::wstring networkName,
 
     bool gameModeFileExists = wxFileExists(tincGameModeBinPath);
     if (gameModeFileExists) {
-        wxRemoveFile(tincGameModeBinPath);
+        return tincGameModeBinPath;
     }
+
     auto srcTincPath = rst::GetTincBinAsWxStr();
     auto dstTincPath = tincGameModeBin.GetFullPath();
     wxCopyFile(srcTincPath, dstTincPath);
+    return tincGameModeBinPath;
+}
 
-    auto networksDir = rsn::GetNetworksDir();
-    networksDir.AppendDir(networkName);
-    auto saveAs = networksDir.GetFullPath();
-    saveAs.RemoveLast();
+void JoinNetworkFrame::API_SRV_JoinNetworkByInviteCode(std::wstring networkName, std::wstring inviteCode)
+{
+    auto tincGameModeBinPath = API_SRV_JoinNetworkByInviteCode_PrepareBin();
+    auto saveAs = API_SRV_JoinNetworkByInviteCode_GetSaveAs(networkName);
 
     auto wTincGameModeBinPath = tincGameModeBinPath.ToStdWstring();
     auto wSaveAs = saveAs.ToStdWstring();
@@ -190,5 +198,47 @@ void JoinNetworkFrame::API_SRV_JoinNetworkByInviteCode(std::wstring networkName,
     wxRemoveFile(tincGameModeBinPath);
 
     CallAfter(&JoinNetworkFrame::API_UI_ReportErrorMessage, joinOrSetResult);
-    CallAfter(&JoinNetworkFrame::API_UI_EndJoinNetworkByInviteCode, joinOrSetResult);
+    CallAfter(&JoinNetworkFrame::API_UI_EndJoinNetworkByInviteCodeOnError);
+}
+
+void JoinNetworkFrame::API_UI_EndJoinNetworkByRegisterOnError()
+{
+    joinByRegisterPanel->Hide();
+    retryPanel->Show();
+    rootSizer->Layout();
+
+    confirmButton->Enable(true);
+    confirmButton->Hide();
+    navigateSizer->Replace(confirmButton, retryButton);
+    retryButton->Show();
+    navigateSizer->Layout();
+
+    cancelButton->Enable(true);
+    joinBy_ComboBox->Enable(true);
+    saveAs_ComboBox->Enable(true);
+    serverAddressAndPort_ComboBox->Enable(true);
+
+    allowCloseFrame = true;
+}
+
+void JoinNetworkFrame::API_SRV_JoinNetworkByRegister(std::wstring networkName, RegisterApiVersion apiVersion, std::wstring registerRequestUrl)
+{
+    auto tincGameModeBinPath = API_SRV_JoinNetworkByInviteCode_PrepareBin();
+    auto saveAs = API_SRV_JoinNetworkByInviteCode_GetSaveAs(networkName);
+
+    auto wTincGameModeBinPath = tincGameModeBinPath.ToStdWstring();
+    auto wSaveAs = saveAs.ToStdWstring();
+    auto joinOrSetResult = JoinByInviteCode(wTincGameModeBinPath, wSaveAs, wSaveAs);
+    if (joinOrSetResult.success) {
+        auto setResult = SetSwitchMode(wTincGameModeBinPath, wSaveAs);
+        if (setResult.success == false) {
+            joinOrSetResult = setResult;
+        }
+    }
+
+    wxRemoveFile(tincGameModeBinPath);
+
+
+    CallAfter(&JoinNetworkFrame::API_UI_ReportErrorMessage, joinOrSetResult);
+    CallAfter(&JoinNetworkFrame::API_UI_EndJoinNetworkByRegisterOnError);
 }

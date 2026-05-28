@@ -30,9 +30,11 @@ private:
     std::function<void()> _onCloseCallback;
 
     void API_SRV_JoinNetworkByInviteCode(std::wstring networkName, std::wstring inviteCode);
+    void API_SRV_JoinNetworkByRegister(std::wstring networkName, RegisterApiVersion apiVersion, std::wstring registerRequestUrl);
 
     void API_UI_ReportErrorMessage(ReturnValue<JoinNetworkResult> result);
-    void API_UI_EndJoinNetworkByInviteCode(ReturnValue<JoinNetworkResult> result);
+    void API_UI_EndJoinNetworkByInviteCodeOnError();
+    void API_UI_EndJoinNetworkByRegisterOnError();
 
     wxWindowDisabler makeModal;
 
@@ -54,7 +56,9 @@ private:
     wxBoxSizer* navigateSizer;
     wxButton* confirmButton;
     void OnConfirmButtonClick(wxCommandEvent& event);
+    ReturnValue<wxString> OnConfirmButtonClick_GetNetworkName();
     void OnConfirmButtonClick_JoinByInviteCode();
+    void OnConfirmButtonClick_JoinByInviteCode_UiEnable(bool enable);
     void OnConfirmButtonClick_JoinByRegister();
     void OnConfirmButtonClick_JoinByRegister_UiEnable(bool enable);
     wxButton* retryButton;

@@ -20,10 +20,7 @@ void JoinNetworkFrame::API_UI_ReportErrorMessage(ReturnValue<JoinNetworkResult> 
 {
     liveLog_TextCtrl->Clear();
     liveLog_TextCtrl->AppendText(result.returnBody.messageString);
-}
 
-void JoinNetworkFrame::API_UI_EndJoinNetworkByInviteCode(ReturnValue<JoinNetworkResult> result)
-{
     if (result.success) {
         allowCloseFrame = true;
         wxMessageDialog(this, _("Successfully joined network")).ShowModal();
@@ -47,7 +44,10 @@ void JoinNetworkFrame::API_UI_EndJoinNetworkByInviteCode(ReturnValue<JoinNetwork
             wxMessageDialog(this, errorMessage).ShowModal();
         }
     }
+}
 
+void JoinNetworkFrame::API_UI_EndJoinNetworkByInviteCodeOnError()
+{
     joinByInviteCodePanel->Hide();
     retryPanel->Show();
     rootSizer->Layout();
@@ -111,6 +111,13 @@ void JoinNetworkFrame::OnConfirmButtonClick_JoinByRegister()
 {
     OnConfirmButtonClick_JoinByRegister_UiEnable(false);
 
+    auto getNetworkName = OnConfirmButtonClick_GetNetworkName();
+    if (getNetworkName.success == false) {
+        OnConfirmButtonClick_JoinByRegister_UiEnable(true);
+        return;
+    }
+    auto networkName = getNetworkName.returnBody;
+
     const wxString UrlPartApi = wxT("api");
     auto serverString = serverAddressAndPort_ComboBox->GetValue();
     if (serverString.StartsWith(UrlPartApi) == false) {
@@ -124,41 +131,34 @@ void JoinNetworkFrame::OnConfirmButtonClick_JoinByRegister()
     const wxString UrlDelimiterSlash = wxT("/");
     auto urlPartWithoutApi = serverString.Mid(UrlPartApi.Length());
     auto slash2Position = urlPartWithoutApi.find(UrlDelimiterSlash2);
-    auto apiVersion = urlPartWithoutApi.SubString(0, slash2Position - 1);
-    if (registerApiVersionMap.count(apiVersion) == 0) {
-        wxMessageDialog(this, _("Unknown api version: ") + apiVersion).ShowModal();
+
+    auto apiVersionString = urlPartWithoutApi.SubString(0, slash2Position - 1);
+    if (registerApiVersionMap.count(apiVersionString) == 0) {
+        wxMessageDialog(this, _("Unknown api version: ") + apiVersionString).ShowModal();
         OnConfirmButtonClick_JoinByRegister_UiEnable(true);
         return;
     }
+    auto apiVersion = registerApiVersionMap[apiVersionString];
 
     auto urlPartWithoutSlash2 = urlPartWithoutApi.Mid(slash2Position + UrlDelimiterSlash2.Length());
     auto registerRequestUrl = urlPartWithoutSlash2;
-    wxLogDebug("Parsed register request:");
-    wxLogDebug(apiVersion);
-    wxLogDebug(urlPartWithoutSlash2);
-    OnConfirmButtonClick_JoinByRegister_UiEnable(true);
+
+    allowCloseFrame = false;
+    std::thread t1(&JoinNetworkFrame::API_SRV_JoinNetworkByRegister, this, networkName.ToStdWstring(), apiVersion, registerRequestUrl.ToStdWstring());
+    t1.detach();
 }
 
-void JoinNetworkFrame::OnConfirmButtonClick_JoinByInviteCode()
+ReturnValue<wxString> JoinNetworkFrame::OnConfirmButtonClick_GetNetworkName()
 {
     namespace ss = String_SRV;
     namespace rs = Resource_SRV;
 
-    confirmButton->Enable(false);
-    cancelButton->Enable(false);
-    joinBy_ComboBox->Enable(false);
-    saveAs_ComboBox->Enable(false);
-    inviteCode_TextCtrl->Enable(false);
+    auto result = ReturnValue<wxString>();
 
     auto networkName = saveAs_ComboBox->GetValue();
     if (networkName == wxEmptyString) {
         wxMessageDialog(this, _("Network name is required")).ShowModal();
-        confirmButton->Enable(true);
-        cancelButton->Enable(true);
-        joinBy_ComboBox->Enable(true);
-        saveAs_ComboBox->Enable(true);
-        inviteCode_TextCtrl->Enable(true);
-        return;
+        return result;
     }
 
     auto isValidFileOrDir = rs::IsValidFileOrDir(networkName);
@@ -167,25 +167,40 @@ void JoinNetworkFrame::OnConfirmButtonClick_JoinByInviteCode()
             + ss::newLine + _("First discovered invalid character: ")
             + isValidFileOrDir.returnBody;
         wxMessageDialog(this, hint).ShowModal();
-        confirmButton->Enable(true);
-        cancelButton->Enable(true);
-        joinBy_ComboBox->Enable(true);
-        saveAs_ComboBox->Enable(true);
-        inviteCode_TextCtrl->Enable(true);
-        return;
+        return result;
     }
 
     auto networkDir = rs::Networks::GetNetworksDir();
     networkDir.AppendDir(networkName);
     if (networkDir.DirExists()) {
         wxMessageDialog(this, _("Network name already exist, use another one")).ShowModal();
-        confirmButton->Enable(true);
-        cancelButton->Enable(true);
-        joinBy_ComboBox->Enable(true);
-        saveAs_ComboBox->Enable(true);
-        inviteCode_TextCtrl->Enable(true);
+        return result;
+    }
+
+    result.returnBody = networkName;
+    result.success = true;
+    return result;
+}
+
+void JoinNetworkFrame::OnConfirmButtonClick_JoinByInviteCode_UiEnable(bool enable)
+{
+    confirmButton->Enable(enable);
+    cancelButton->Enable(enable);
+    joinBy_ComboBox->Enable(enable);
+    saveAs_ComboBox->Enable(enable);
+    inviteCode_TextCtrl->Enable(enable);
+}
+
+void JoinNetworkFrame::OnConfirmButtonClick_JoinByInviteCode()
+{
+    OnConfirmButtonClick_JoinByInviteCode_UiEnable(false);
+
+    auto getNetworkName = OnConfirmButtonClick_GetNetworkName();
+    if (getNetworkName.success == false) {
+        OnConfirmButtonClick_JoinByInviteCode_UiEnable(true);
         return;
     }
+    auto networkName = getNetworkName.returnBody;
 
     allowCloseFrame = false;
     auto inviteCode = inviteCode_TextCtrl->GetValue();
@@ -210,9 +225,16 @@ void JoinNetworkFrame::OnCancelButtonClick(wxCommandEvent& event)
 
 void JoinNetworkFrame::OnRetryButtonClick(wxCommandEvent& event)
 {
-    retryPanel->Hide();
-    joinByInviteCodePanel->Show();
-    rootSizer->Layout();
+    if (joinBy == JoinBy::Register) {
+        retryPanel->Hide();
+        joinByRegisterPanel->Show();
+        rootSizer->Layout();
+    }
+    if (joinBy == JoinBy::InviteCode) {
+        retryPanel->Hide();
+        joinByInviteCodePanel->Show();
+        rootSizer->Layout();
+    }
 
     retryButton->Hide();
     navigateSizer->Replace(retryButton, confirmButton);
