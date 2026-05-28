@@ -214,8 +214,6 @@ void JoinNetworkFrame::API_UI_EndJoinNetworkByRegisterOnError()
     navigateSizer->Layout();
 
     cancelButton->Enable(true);
-    joinBy_ComboBox->Enable(true);
-    saveAs_ComboBox->Enable(true);
     serverAddressAndPort_ComboBox->Enable(true);
 
     allowCloseFrame = true;

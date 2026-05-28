@@ -59,8 +59,6 @@ void JoinNetworkFrame::API_UI_EndJoinNetworkByInviteCodeOnError()
     navigateSizer->Layout();
 
     cancelButton->Enable(true);
-    joinBy_ComboBox->Enable(true);
-    saveAs_ComboBox->Enable(true);
     inviteCode_TextCtrl->Enable(true);
 
     allowCloseFrame = true;
@@ -225,6 +223,9 @@ void JoinNetworkFrame::OnCancelButtonClick(wxCommandEvent& event)
 
 void JoinNetworkFrame::OnRetryButtonClick(wxCommandEvent& event)
 {
+    joinBy_ComboBox->Enable(true);
+    saveAs_ComboBox->Enable(true);
+
     if (joinBy == JoinBy::Register) {
         retryPanel->Hide();
         joinByRegisterPanel->Show();
