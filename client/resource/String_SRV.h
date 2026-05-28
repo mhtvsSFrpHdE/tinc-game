@@ -11,7 +11,15 @@ namespace String_SRV
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    std::wstring ForceToWstring(std::string input);
+    std::wstring ForceToStdWstring(std::string input);
+
+    /// <summary>
+    /// Convert std::wstring to local ANSI format std::string
+    /// Characters not encoded in local ANSI will lose
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    std::string ForceToStdString(std::wstring input);
 
     const std::wstring doubleQuotes = L"\"";
     const std::wstring newLine = L"\n";

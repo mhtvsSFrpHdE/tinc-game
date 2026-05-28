@@ -87,7 +87,7 @@ void MainFrame::API_SRV_ConnectToNetwork(PerNetworkData* perNetworkData)
         std::string line;
         while (std::getline(is, line)) {
             cb.push_back(line);
-            auto wline = sr::ForceToWstring(line);
+            auto wline = sr::ForceToStdWstring(line);
             CallAfter(&MainFrame::API_UI_ReportStatus, wline, perNetworkData->liveLog.get());
 
             // {3D6DCCE4-F183-4859-9B35-129361209E5F} (Ethernet 2) is not a usable Windows tap device: (31) A device attached to the system is not functioning.

@@ -91,7 +91,7 @@ ReturnValue<InstallTapResult> ManageTapFrame::API_SRV_InstallTap()
         }
         if (deviceNodeCreated == false && installerFailed) {
             result.returnBody.messageEnum = InstallTapResult::Enum::NoPermission;
-            result.returnBody.messageString = ss::ForceToWstring(stdoutSstream.str());
+            result.returnBody.messageString = ss::ForceToStdWstring(stdoutSstream.str());
             return result;
         }
     }
@@ -102,7 +102,7 @@ ReturnValue<InstallTapResult> ManageTapFrame::API_SRV_InstallTap()
     }
 
     result.returnBody.messageEnum = InstallTapResult::Enum::Other;
-    result.returnBody.messageString = ss::ForceToWstring(stdoutSstream.str());
+    result.returnBody.messageString = ss::ForceToStdWstring(stdoutSstream.str());
     return result;
 }
 
@@ -129,7 +129,7 @@ ReturnValue<GetTapHwidResult> GetTapHwid() {
                 auto splitterIndex = line.find(": ");
                 auto lineEndIndex = line.find("\r");
                 auto modelName = line.substr(splitterIndex + 2, lineEndIndex - splitterIndex - 2);
-                auto wModelName = ss::ForceToWstring(modelName);
+                auto wModelName = ss::ForceToStdWstring(modelName);
 
                 result.returnBody.insert({ wModelName, hwid });
             }
@@ -231,6 +231,6 @@ ReturnValue<UninstallTapResult> ManageTapFrame::API_SRV_UninstallTap(WindowsAPI_
     }
 
     result.returnBody.messageEnum = UninstallTapResult::Enum::Other;
-    result.returnBody.messageString = ss::ForceToWstring(stdoutSstream.str());
+    result.returnBody.messageString = ss::ForceToStdWstring(stdoutSstream.str());
     return result;
 }

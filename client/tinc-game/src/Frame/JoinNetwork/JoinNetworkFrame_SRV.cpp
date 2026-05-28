@@ -7,6 +7,7 @@
 #include "resource/Resource_SRV_TincBin.h"
 #include "../../Service/Settings_SRV.h"
 #include <sstream>
+#include <cpr/cpr.h>
 
 void JoinTimeout(boost::process::child* c, int timeoutSec) {
     namespace bp = boost::process;
@@ -53,7 +54,7 @@ ReturnValue<JoinNetworkResult> JoinByInviteCode(std::wstring& tincBin, std::wstr
 
         std::string line;
         while (std::getline(is, line)) {
-            auto wline = sr::ForceToWstring(line);
+            auto wline = sr::ForceToStdWstring(line);
             lines << wline;
 
             // Invalid invitation URL.
@@ -133,7 +134,7 @@ ReturnValue<JoinNetworkResult> SetSwitchMode(std::wstring& tincBin, std::wstring
 
     std::string line;
     while (std::getline(is, line)) {
-        auto wline = sr::ForceToWstring(line);
+        auto wline = sr::ForceToStdWstring(line);
         lines << wline;
 
         // On success program prints nothing
@@ -219,14 +220,31 @@ void JoinNetworkFrame::API_UI_EndJoinNetworkByRegisterOnError()
     allowCloseFrame = true;
 }
 
-void JoinNetworkFrame::API_SRV_JoinNetworkByRegister(std::wstring networkName, RegisterApiVersion apiVersion, std::wstring registerRequestUrl)
+void JoinNetworkFrame::API_SRV_JoinNetworkByRegister(std::wstring networkName, RegisterApiVersion apiVersion, std::wstring wRegisterRequestUrl)
 {
+    namespace ss = String_SRV;
+
+    std::wstring urlBegin;
+    if (apiVersion == RegisterApiVersion::v1) {
+        urlBegin = L"http://";
+    }
+    if (apiVersion == RegisterApiVersion::v1s) {
+        urlBegin = L"https://";
+    }
+    auto cprRequestUrl = urlBegin + ss::ForceToStdString(wRegisterRequestUrl);
+    cpr::Response r = cpr::Get(cpr::Url{ cprRequestUrl });
+    wxLogDebug(wxString(std::to_wstring(r.status_code)));
+    wxLogDebug(wxString(r.header["content-type"]));       // application/json; charset=utf-8
+    wxLogDebug(wxString(r.text));
+
+    std::wstring inviteCode = L"";
+
     auto tincGameModeBinPath = API_SRV_JoinNetworkByInviteCode_PrepareBin();
     auto saveAs = API_SRV_JoinNetworkByInviteCode_GetSaveAs(networkName);
 
     auto wTincGameModeBinPath = tincGameModeBinPath.ToStdWstring();
     auto wSaveAs = saveAs.ToStdWstring();
-    auto joinOrSetResult = JoinByInviteCode(wTincGameModeBinPath, wSaveAs, wSaveAs);
+    auto joinOrSetResult = JoinByInviteCode(wTincGameModeBinPath, wSaveAs, inviteCode);
     if (joinOrSetResult.success) {
         auto setResult = SetSwitchMode(wTincGameModeBinPath, wSaveAs);
         if (setResult.success == false) {
@@ -235,7 +253,6 @@ void JoinNetworkFrame::API_SRV_JoinNetworkByRegister(std::wstring networkName, R
     }
 
     wxRemoveFile(tincGameModeBinPath);
-
 
     CallAfter(&JoinNetworkFrame::API_UI_ReportErrorMessage, joinOrSetResult);
     CallAfter(&JoinNetworkFrame::API_UI_EndJoinNetworkByRegisterOnError);

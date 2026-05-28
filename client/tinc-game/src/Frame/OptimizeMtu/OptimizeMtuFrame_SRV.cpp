@@ -99,20 +99,20 @@ MeasureMtuResult::Enum MeasureMTU(std::wstring ipAddress, int mtu, OptimizeMtuFr
     while (std::getline(is, line)) {
         // "Reply from <ip address>: bytes=..."
         if (line.find(std::string(": b")) != std::string::npos) {
-            auto wline = String_SRV::ForceToWstring(line);
+            auto wline = String_SRV::ForceToStdWstring(line);
             frame->CallAfter(&OptimizeMtuFrame::API_UI_ReportStatus, wline);
             result = MeasureMtuResult::Enum::Pass;
             continue;
         }
         // "Request timed out." || "Reply from <ip address>: Destination host unreachable."
         if (line.length() == 19 || line.find(std::string(": D")) != std::string::npos) {
-            auto wline = String_SRV::ForceToWstring(line);
+            auto wline = String_SRV::ForceToStdWstring(line);
             frame->CallAfter(&OptimizeMtuFrame::API_UI_ReportStatus, wline);
             continue;
         }
         // "Packet needs to be fragmented but DF set."
         if (line.length() == 42 && line[34] == 'D' && line[35] == 'F') {
-            auto wline = String_SRV::ForceToWstring(line);
+            auto wline = String_SRV::ForceToStdWstring(line);
             frame->CallAfter(&OptimizeMtuFrame::API_UI_ReportStatus, wline);
             result = MeasureMtuResult::Enum::DF;
             continue;

@@ -16,7 +16,14 @@ struct JoinNetworkResult {
 };
 
 enum class RegisterApiVersion {
-    v1 = 1
+    /// <summary>
+    /// V1 in HTTP
+    /// </summary>
+    v1 = 1,
+    /// <summary>
+    /// V1 in HTTPS
+    /// </summary>
+    v1s = 2
 };
 extern std::unordered_map<wxString, RegisterApiVersion> apiVersionList;
 
@@ -30,7 +37,7 @@ private:
     std::function<void()> _onCloseCallback;
 
     void API_SRV_JoinNetworkByInviteCode(std::wstring networkName, std::wstring inviteCode);
-    void API_SRV_JoinNetworkByRegister(std::wstring networkName, RegisterApiVersion apiVersion, std::wstring registerRequestUrl);
+    void API_SRV_JoinNetworkByRegister(std::wstring networkName, RegisterApiVersion apiVersion, std::wstring wRegisterRequestUrl);
 
     void API_UI_ReportErrorMessage(ReturnValue<JoinNetworkResult> result);
     void API_UI_EndJoinNetworkByInviteCodeOnError();
