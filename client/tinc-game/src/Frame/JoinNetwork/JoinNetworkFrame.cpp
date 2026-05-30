@@ -96,7 +96,8 @@ void JoinNetworkFrame::OnJoinByComboBoxSelect(wxCommandEvent& event)
 }
 
 std::unordered_map<wxString, RegisterApiVersion> registerApiVersionMap = {
-    { wxT("1"), RegisterApiVersion::v1 }
+    { wxT("1"), RegisterApiVersion::v1 },
+    { wxT("1s"), RegisterApiVersion::v1s }
 };
 
 void JoinNetworkFrame::OnConfirmButtonClick_JoinByRegister_UiEnable(bool enable)
@@ -127,11 +128,11 @@ void JoinNetworkFrame::OnConfirmButtonClick_JoinByRegister()
         return;
     }
 
-    const wxString UrlDelimiterSlash2 = wxT("//");
+    const wxString UrlDelimiterColenSlash2 = wxT("://");
     const wxString UrlDelimiterColen = wxT(":");
     const wxString UrlDelimiterSlash = wxT("/");
     auto urlPartWithoutApi = serverString.Mid(UrlPartApi.Length());
-    auto slash2Position = urlPartWithoutApi.find(UrlDelimiterSlash2);
+    auto slash2Position = urlPartWithoutApi.find(UrlDelimiterColenSlash2);
 
     auto apiVersionString = urlPartWithoutApi.SubString(0, slash2Position - 1);
     if (registerApiVersionMap.count(apiVersionString) == 0) {
@@ -141,7 +142,7 @@ void JoinNetworkFrame::OnConfirmButtonClick_JoinByRegister()
     }
     auto apiVersion = registerApiVersionMap[apiVersionString];
 
-    auto urlPartWithoutSlash2 = urlPartWithoutApi.Mid(slash2Position + UrlDelimiterSlash2.Length());
+    auto urlPartWithoutSlash2 = urlPartWithoutApi.Mid(slash2Position + UrlDelimiterColenSlash2.Length());
     auto registerRequestUrl = urlPartWithoutSlash2;
 
     allowCloseFrame = false;

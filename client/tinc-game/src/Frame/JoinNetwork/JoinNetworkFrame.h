@@ -26,7 +26,7 @@ enum class RegisterApiVersion {
     /// </summary>
     v1s = 2
 };
-extern std::unordered_map<wxString, RegisterApiVersion> apiVersionList;
+extern std::unordered_map<wxString, RegisterApiVersion> registerApiVersionMap;
 
 class JoinNetworkFrame : public wxFrame
 {

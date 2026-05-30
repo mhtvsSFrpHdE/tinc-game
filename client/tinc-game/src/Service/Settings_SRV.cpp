@@ -86,7 +86,7 @@ bool Settings_SRV::LoadConfigFile()
         int configVersion;
         if (programConfig->Read(sk::metadata_configVersion, &configVersion)) {
             if (configVersion == 0) {
-                programConfig->Write(sk::lists_registerServer, wxT("api1://localhost:8080/api/account/invite,api1://127.0.0.1:8080/api/account/invite"));
+                programConfig->Write(sk::lists_registerServer, wxT("api1://localhost:8080/api/account/invite,api1s://127.0.0.1:8443/api/account/invite"));
                 programConfig->Write(sk::metadata_configVersion, 1);
                 programConfig->Flush();
             }

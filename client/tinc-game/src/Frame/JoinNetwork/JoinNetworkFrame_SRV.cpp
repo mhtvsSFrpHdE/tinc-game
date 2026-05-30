@@ -236,10 +236,10 @@ void JoinNetworkFrame::API_SRV_JoinNetworkByRegister(std::wstring networkName, R
     ss::GetConverter_Utf8AndUtf16 utfStringConverter;
     auto cprRequestUrl = ss::utf16ToUtf8(utfStringConverter, urlBegin + wRegisterRequestUrl);
     cpr::Response response = cpr::Get(cpr::Url{ cprRequestUrl });
-    if (response.status_code != 200) {
+    if (response.error) {
         auto result = ReturnValue<JoinNetworkResult>();
         result.returnBody.messageEnum = JoinNetworkResult::Enum::RegisterFailed;
-        result.returnBody.messageString = std::to_wstring(response.status_code) + ss::newLine + ss::utf8ToUtf16(utfStringConverter, response.text);
+        result.returnBody.messageString = ss::utf8ToUtf16(utfStringConverter, response.error.message) + ss::newLine + ss::utf8ToUtf16(utfStringConverter, response.text);
         CallAfter(&JoinNetworkFrame::API_UI_ReportErrorMessage, result);
         CallAfter(&JoinNetworkFrame::API_UI_EndJoinNetworkByRegisterOnError);
         return;
