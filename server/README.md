@@ -19,10 +19,24 @@
 - Edit `buildShell.bat`, change necessary environment values
 - Edit `installDockerImage.bat`, change necessary environment values,  
   mainly `EXTERNAL_ADDRESS` and `LISTEN_PORT`, more see `dockerfile`
+- Edit `pythonEnvironment.bat`, change python install dir
 - Open `buildShell.bat`
+- Optional step if you want HTTPS
+  - Run `installCertReceiver.bat` and `start "cert receiver" startCertReceiver.bat`, this start a HTTP server  
+    allow you use `curl` from where certbot is running to programmatically push HTTPS cert  
+    over LAN network **via unencrypted HTTP connection**  
+    without have to manually copy file physically or via remote control
+  - On pc running certbot, push cert files to `Downloads` folder, command like
+    - `openssl x509 -outform der -in /path/to/fullchain.pem -out /path/to/fullchain.crt`
+    - `openssl pkey -outform der -in /path/to/privkey.pem -out /path/to/privkey.key`
+    - `curl -X POST http://<dev pc LAN IP address>:8000/upload -F "files=@/path/to/fullchain.crt"`
+    - `curl -X POST http://<dev pc LAN IP address>:8000/upload -F "files=@/path/to/privkey.key"`
 - Run `bi`, it's same as `buildDockerImage.bat && installDockerImage.bat`
 - If lucky enough container up and run, browser open `http://localhost:8080/api/account/invite`
 - Confirm your free account is created, use the activation code in your tinc game client :D
+- If you use HTTPS and your cert need to update frequently,  
+  use similar way to push cert into running docker container and restart container  
+  don't expose port `8000` outside LAN
 
 If you behind company proxy to internet, in Docker Desktop
 - Settings, Resources, Proxies, Containers Proxy: Same as host proxy

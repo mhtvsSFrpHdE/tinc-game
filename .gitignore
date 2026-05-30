@@ -56,3 +56,4 @@
 /client/tinc-game/bin
 /client/tinc-game/networks
 /server/docker/Downloads
+/server/docker/.venv
