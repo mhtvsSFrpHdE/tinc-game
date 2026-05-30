@@ -2,20 +2,7 @@
 FROM debian:12-slim
 
 # Put apt related things at very top of dockerfile for cache as much as possible
-# apt proxy if proxy is set in terminal that run docker build
-# Unless necessary, don't change proxy variable after apt install success
-ARG aptProxyConfig="/etc/apt/apt.conf.d/docker_build"
-RUN touch $aptProxyConfig
-RUN if [ -n "$HTTP_PROXY" ]; then echo "Acquire::http::Proxy \"$HTTP_PROXY\";" >> $aptProxyConfig; fi
-RUN if [ -n "$HTTPS_PROXY" ]; then echo "Acquire::http::Proxy \"$HTTPS_PROXY\";" >> $aptProxyConfig; fi
-
-# Try limit apt multi thread download connection count in weak network
-# RUN echo 'Acquire::Queue-Mode "access";' >> $aptProxyConfig
-
-# More retry on connection lost, default seems 3
-# Still doesn't work sometimes on proxy service is very dead, need Ctrl+C manually to break
-RUN echo 'Acquire::Retries "300";' >> $aptProxyConfig
-RUN cat $aptProxyConfig
+# apt will use HTTP_PROXY and HTTPS_PROXY specified in docker build command
 
 # Install compiler to build tinc
 # Install dnsmasq
@@ -30,9 +17,6 @@ RUN apt-get update && apt-get install -y \
     lsof \
     iproute2 iputils-ping
 
-# Delete apt config used during build
-RUN rm "$aptProxyConfig"
-
 # Copy things to
 WORKDIR /home/root
 
@@ -42,7 +26,8 @@ RUN tar xvf tinc-1.1pre18.tar.gz
 # cd source code dir and build
 WORKDIR tinc-1.1pre18
 RUN ./configure
-RUN make -j6
+ARG BUILD_CPU_CORE=1
+RUN make -j$BUILD_CPU_CORE
 RUN make install
 WORKDIR /home/root
 
@@ -139,13 +124,6 @@ RUN echo 'echo "startScript:"' >> $diagScript
 RUN echo "cat \"$startScript\"" >> $diagScript
 RUN echo "" >> $diagScript
 RUN chmod +x "$diagScript"
-
-# Clean build only files: Won't reduce docker image size, ignored
-#RUN apt purge -y \
-#    build-essential \
-#    --autoremove &&  \
-#    apt clean
-#RUN rm -rf tinc-1.1pre18.tar.gz tinc-1.1pre18
 
 # Start whole system
 CMD ["/home/root/start.sh"]
