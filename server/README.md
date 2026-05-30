@@ -4,6 +4,8 @@
 - Eclipse `2026-03 (4.39.0)`, `Spring Tools (aka Spring Tool Suite) 5.1.1` from Eclipse Marketplace
 - Oracle jdk `17.0.19`
 - Apache Maven `3.9.11`
+- Environment variable `NETWORK_NAME` as your tinc service network config folder name
+- Add where `tinc.exe` located path to environment variable `PATH`
 - In Eclipse import as maven project, right click on project name, Run As, Maven build, Goal `package`
 - Get `spring-boot-project-0.0.1-SNAPSHOT.jar` in `target` folder, it contains everything include `application.properties`
 - Run and Debug: Find and open `SpringBootProjectApplication.java` in Eclipse,  
