@@ -8,6 +8,7 @@
 #include "../../Service/Settings_SRV.h"
 #include <sstream>
 #include <cpr/cpr.h>
+#include <boost/json/src.hpp>
 
 void JoinTimeout(boost::process::child* c, int timeoutSec) {
     namespace bp = boost::process;
@@ -231,13 +232,42 @@ void JoinNetworkFrame::API_SRV_JoinNetworkByRegister(std::wstring networkName, R
     if (apiVersion == RegisterApiVersion::v1s) {
         urlBegin = L"https://";
     }
-    auto cprRequestUrl = urlBegin + ss::ForceToStdString(wRegisterRequestUrl);
-    cpr::Response r = cpr::Get(cpr::Url{ cprRequestUrl });
-    wxLogDebug(wxString(std::to_wstring(r.status_code)));
-    wxLogDebug(wxString(r.header["content-type"]));       // application/json; charset=utf-8
-    wxLogDebug(wxString(r.text));
 
-    std::wstring inviteCode = L"";
+    ss::GetConverter_Utf8AndUtf16 utfStringConverter;
+    auto cprRequestUrl = ss::utf16ToUtf8(utfStringConverter, urlBegin + wRegisterRequestUrl);
+    cpr::Response response = cpr::Get(cpr::Url{ cprRequestUrl });
+    if (response.status_code != 200) {
+        auto result = ReturnValue<JoinNetworkResult>();
+        result.returnBody.messageEnum = JoinNetworkResult::Enum::RegisterFailed;
+        result.returnBody.messageString = std::to_wstring(response.status_code) + ss::newLine + ss::utf8ToUtf16(utfStringConverter, response.text);
+        CallAfter(&JoinNetworkFrame::API_UI_ReportErrorMessage, result);
+        CallAfter(&JoinNetworkFrame::API_UI_EndJoinNetworkByRegisterOnError);
+        return;
+    }
+
+    std::wstring inviteCode;
+    try {
+        auto parsedJson = boost::json::parse(response.text);
+        auto responseSuccess = parsedJson.at("success").as_bool();
+        if (responseSuccess) {
+            auto inviteCodeInJson = parsedJson.at("data").at("inviteCode");
+            auto inviteCodeInString = boost::json::value_to<std::string>(inviteCodeInJson);
+            auto inviteCodeInWstring = ss::utf8ToUtf16(utfStringConverter, inviteCodeInString);
+            inviteCode = inviteCodeInWstring;
+        }
+        else {
+            // Yes, how slow can it be, couldn't slower than Electron JavaScript V8
+            throw 1;
+        }
+    }
+    catch (...) {
+        auto result = ReturnValue<JoinNetworkResult>();
+        result.returnBody.messageEnum = JoinNetworkResult::Enum::RegisterFailed;
+        result.returnBody.messageString = _("Failed to parse response json" + ss::newLine + ss::utf8ToUtf16(utfStringConverter, response.text));
+        CallAfter(&JoinNetworkFrame::API_UI_ReportErrorMessage, result);
+        CallAfter(&JoinNetworkFrame::API_UI_EndJoinNetworkByRegisterOnError);
+        return;
+    }
 
     auto tincGameModeBinPath = API_SRV_JoinNetworkByInviteCode_PrepareBin();
     auto saveAs = API_SRV_JoinNetworkByInviteCode_GetSaveAs(networkName);

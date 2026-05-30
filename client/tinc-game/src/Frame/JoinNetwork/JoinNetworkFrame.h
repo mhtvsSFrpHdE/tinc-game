@@ -9,7 +9,8 @@ struct JoinNetworkResult {
         InvalidInviteCode,
         ConnectFailed,
         AuthenticateFailed,
-        TincBinFailed
+        TincBinFailed,
+        RegisterFailed
     };
     Enum messageEnum = Enum::Other;
     std::wstring messageString;

@@ -10,7 +10,6 @@ JoinNetworkFrame::JoinNetworkFrame(wxFrame* parentFrame, std::function<void()> o
 {
     _parentFrame = parentFrame;
     _onCloseCallback = onCloseCallback;
-    new wxLogWindow(this, "Application Log");
 
     Init_CreateControls();
     Init_Layout();
@@ -38,6 +37,10 @@ void JoinNetworkFrame::API_UI_ReportErrorMessage(ReturnValue<JoinNetworkResult> 
         }
         if (result.returnBody.messageEnum == JoinNetworkResult::Enum::AuthenticateFailed) {
             wxMessageDialog(this, _("Server refused your invite code")).ShowModal();
+        }
+        if (result.returnBody.messageEnum == JoinNetworkResult::Enum::RegisterFailed) {
+            auto errorMessage = _("Register failed");
+            wxMessageDialog(this, errorMessage).ShowModal();
         }
         if (result.returnBody.messageEnum == JoinNetworkResult::Enum::Other) {
             auto errorMessage = _("Unknown error") + String_SRV::newLine + result.returnBody.messageString;

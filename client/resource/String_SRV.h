@@ -2,6 +2,7 @@
 #include <string>
 #include "ReturnValue.h"
 #include <vector>
+#include <codecvt>
 
 namespace String_SRV
 {
@@ -21,10 +22,34 @@ namespace String_SRV
     /// <returns></returns>
     std::string ForceToStdString(std::wstring input);
 
+    /// <summary>
+    /// !!! This thing is not safe in multi thread
+    /// Don't share instance between thread
+    /// 
+    /// Mainly for CPR HTTP requests and boost JSON
+    /// 
+    /// Says Boost.JSON does not natively support std::wstring or wchar_t
+    /// because the standard JSON specification (RFC 8259)
+    /// is strictly defined as a sequence of bytes, typically encoded in UTF-8
+    /// 
+    /// Also says CPR and libcurl internally use UTF-8 encoded std::string
+    /// 
+    /// As for Windows, std::wstring refer to UTF-16
+    /// 
+    /// Usage
+    /// 1. `GetConverter_Utf8ToUtf16 urfStringConverter;`, create on stack, don't new
+    /// 2. std::wstring to std::string, call `utf8ToUtf16(urfStringConverter, std::wstring)`
+    /// 2. std::string to std::wstring, call `utf16ToUtf8(urfStringConverter, std::string)`
+    /// </summary>
+    typedef std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> GetConverter_Utf8AndUtf16;
+    std::wstring utf8ToUtf16(GetConverter_Utf8AndUtf16& utfStringConverter, std::string input);
+    std::string utf16ToUtf8(GetConverter_Utf8AndUtf16& utfStringConverter, std::wstring input);
+
     const std::wstring doubleQuotes = L"\"";
     const std::wstring newLine = L"\n";
     const std::wstring space = L" ";
     const std::wstring ellipses = L"...";
+    const std::wstring emptyString = L"";
 
     /// <summary>
     /// This template function join vector objects to single string, like `std::join
