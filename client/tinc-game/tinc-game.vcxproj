@@ -64,7 +64,7 @@
     <Import Project="..\props\build_includeSiblingProject.props" />
     <Import Project="..\props\build_multiThread.props" />
     <Import Project="..\props\build_staticLink_debug.props" />
-    <Import Project="..\props\lib_cpr.props" />
+    <Import Project="..\props\lib_cpr_debug.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -74,6 +74,7 @@
     <Import Project="..\props\build_multiThread.props" />
     <Import Project="..\props\build_staticLink_release.props" />
     <Import Project="..\props\run_asAdmin.props" />
+    <Import Project="..\props\lib_cpr_release.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -82,6 +83,7 @@
     <Import Project="..\props\build_includeSiblingProject.props" />
     <Import Project="..\props\build_multiThread.props" />
     <Import Project="..\props\build_staticLink_debug.props" />
+    <Import Project="..\props\lib_cpr_x64_debug.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
@@ -91,6 +93,7 @@
     <Import Project="..\props\build_multiThread.props" />
     <Import Project="..\props\build_staticLink_release.props" />
     <Import Project="..\props\run_asAdmin.props" />
+    <Import Project="..\props\lib_cpr_x64_release.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
