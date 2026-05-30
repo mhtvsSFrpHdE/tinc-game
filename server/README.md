@@ -29,8 +29,10 @@
   - On pc running certbot, push cert files to `Downloads` folder, command like
     - `openssl x509 -outform der -in /path/to/fullchain.pem -out /path/to/fullchain.crt`
     - `openssl pkey -outform der -in /path/to/privkey.pem -out /path/to/privkey.key`
-    - `curl -X POST http://<dev pc LAN IP address>:8000/upload -F "files=@/path/to/fullchain.crt"`
-    - `curl -X POST http://<dev pc LAN IP address>:8000/upload -F "files=@/path/to/privkey.key"`
+    - `curl -X POST http://<dev pc LAN IP address>:8001/upload -F "files=@/path/to/fullchain.crt"`
+    - `curl -X POST http://<dev pc LAN IP address>:8001/upload -F "files=@/path/to/privkey.key"`
+  - Set environment variable
+    - `set TINC_GAME_SERVER_HTTPS=true`
 - Run `bi`, it's same as `buildDockerImage.bat && installDockerImage.bat`
 - If lucky enough container up and run, browser open `http://localhost:8080/api/account/invite`
 - Confirm your free account is created, use the activation code in your tinc game client :D

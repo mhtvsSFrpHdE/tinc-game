@@ -1,0 +1,11 @@
+FROM tinc-install-cert-receiver:latest
+
+# These package are small put together
+
+# Install dnsmasq
+# Install misc network tools
+# Install start script dependency
+RUN apt-get install -y -o Acquire::Retries=300 \
+    dnsmasq \
+    iproute2 iputils-ping \
+    lsof

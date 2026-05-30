@@ -1,0 +1,12 @@
+# Basic system
+FROM debian:12-slim
+
+# Put apt related things at very top of dockerfile for cache as much as possible
+# apt will use HTTP_PROXY and HTTPS_PROXY specified in docker build command
+
+# Install compiler
+# Install tinc dependencies
+RUN apt-get update \
+    && apt-get install -y -o Acquire::Retries=300 \
+    build-essential \
+    libncurses5-dev libreadline6-dev libzlcore-dev zlib1g-dev liblzo2-dev libssl-dev

@@ -1,21 +1,5 @@
 # Basic system
-FROM debian:12-slim
-
-# Put apt related things at very top of dockerfile for cache as much as possible
-# apt will use HTTP_PROXY and HTTPS_PROXY specified in docker build command
-
-# Install compiler to build tinc
-# Install dnsmasq
-# Install jre 17 for run tinc management tool
-# Install start script tool
-# Install common network tool
-# Run apt update and apt install in same command to prevent cache miss
-RUN apt-get update && apt-get install -y \
-    build-essential libncurses5-dev libreadline6-dev libzlcore-dev zlib1g-dev liblzo2-dev libssl-dev \
-    dnsmasq \
-    openjdk-17-jre \
-    lsof \
-    iproute2 iputils-ping
+FROM tinc-install-other:latest
 
 # Copy things to
 WORKDIR /home/root
@@ -24,7 +8,7 @@ WORKDIR /home/root
 COPY Downloads/tinc-1.1pre18.tar.gz /home/root/
 RUN tar xvf tinc-1.1pre18.tar.gz
 # cd source code dir and build
-WORKDIR tinc-1.1pre18
+WORKDIR /home/root/tinc-1.1pre18
 RUN ./configure
 ARG BUILD_CPU_CORE=1
 RUN make -j$BUILD_CPU_CORE
