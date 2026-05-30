@@ -10,11 +10,9 @@ import org.springframework.stereotype.Component;
 public class BasicJsonResponse {
 	public BasicJsonResponse() {
 		data.put(reasonKeyName, "");
-		data.put(reasonCodeKeyName, 0);
 	}
 
 	private String reasonKeyName = "reason";
-	private String reasonCodeKeyName = "reasonCode";
 
 	Boolean success = false;
 
@@ -43,12 +41,13 @@ public class BasicJsonResponse {
 		this.data.replace(reasonKeyName, reason);
 	}
 
+	int reasonCode = 0;
+
 	public int getReasonCode() {
-		return (int) this.data.get(reasonCodeKeyName);
+		return reasonCode;
 	}
 
 	public void setReasonCode(int reasonCode) {
-		this.data.replace(reasonCodeKeyName, reasonCode);
+		this.reasonCode = reasonCode;
 	}
-
 }
