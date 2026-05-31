@@ -6,7 +6,7 @@ RUN apt-get install -y -o Acquire::Retries=300 \
 
 # Configure venv
 RUN python3 -m venv /home/root/.venv
-ENV PATH /home/root/.venv/bin:$PATH
+ENV PATH=/home/root/.venv/bin:$PATH
 
 # Install cert receiver
 RUN pip3 install uploadserver==6.0.1 --retries 300

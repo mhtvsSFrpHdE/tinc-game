@@ -8,6 +8,8 @@ docker rm %CONTAINER_NAME%
 @REM /udp open udp port
 @REM --name specify fixed container name handy for maintenance
 @REM -d after run (will also start automatically), let container run in background
+@REM --restart unless-stopped on kill 1 happen inside container, restart container instead of stop
+@REM --stop-timeout=45 extend container stop wait time for more
 docker run ^
 -e EXTERNAL_ADDRESS=%EXTERNAL_ADDRESS% ^
 -e LISTEN_PORT="%LISTEN_PORT%" ^
@@ -17,5 +19,7 @@ docker run ^
 -p 8443:8443 ^
 -p 8000:8000 ^
 --cap-add=NET_ADMIN --device /dev/net/tun:/dev/net/tun ^
+--restart unless-stopped ^
+--stop-timeout=45 ^
 -d ^
 --name %CONTAINER_NAME% %CONTAINER_NAME%

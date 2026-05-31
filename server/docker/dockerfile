@@ -80,7 +80,7 @@ RUN echo "cleanup() {" >> $startScript
 RUN echo "    tincPid=\$(lsof -t -i:\$LISTEN_PORT)" >> $startScript
 RUN echo "    springBootPid=\$(lsof -t -i:8080)" >> $startScript
 RUN echo "    kill -15 \$springBootPid" >> $startScript
-RUN echo "    wait \$springBootPid" >> $startScript
+RUN echo "    tail --pid=\$springBootPid -f /dev/null" >> $startScript
 RUN echo "    tinc -n $NETWORK_NAME stop" >> $startScript
 RUN echo "    tail --pid=\$tincPid -f /dev/null" >> $startScript
 RUN echo '    echo "Safe shutdown success"' >> $startScript
@@ -92,8 +92,16 @@ RUN echo "" >> $startScript
 RUN echo "tinc -n $NETWORK_NAME start" >> $startScript
 # Start cert receiver
 RUN echo "python -m uploadserver 8000 --allow-replace &" >> $startScript
+# Watch cert and reboot on cert change
+# First time upload cert do nothing
+# Second time upload cert reboot container
+# 1. Wait file exist `/home/root/privkey.pem`
+# 2. Wait file close_write happen
+# 3. Run `kill 1` trigger container shutdown
+# 4. Actually will reboot, docker run --restart unless-stopped
+RUN echo "bash -c \"if [ \$TINC_GAME_SERVER_HTTPS = \"false\" ]; then exit; fi; until [ -f \"/home/root/privkey.pem\" ]; do sleep 1; done; until inotifywait \"/home/root/privkey.pem\" -e close_write; do kill -15 \\\$(lsof -t -i:8080); done\" &" >> $startScript
 # Start tinc management tool
-RUN echo "bash -c \"until java -jar spring-boot-project-0.0.1-SNAPSHOT.jar; do sleep 1 ; done\" &" >> $startScript
+RUN echo "bash -c \"until java -jar spring-boot-project-0.0.1-SNAPSHOT.jar; do sleep 1; done\" &" >> $startScript
 RUN echo "" >> $startScript
 RUN echo "wait \$!" >> $startScript
 RUN echo "" >> $startScript

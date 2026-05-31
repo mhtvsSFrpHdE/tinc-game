@@ -47,10 +47,11 @@ Optional step if you want HTTPS
   or you can also just set and run `installDockerImage.bat` again
 - Spring boot will fail to start but keep retry on each second
 - On pc running certbot, push cert files to docker container `ip address:8000`, command like
-  - `openssl x509 -outform der -in /path/to/fullchain.pem -out /path/to/fullchain.crt`
-  - `openssl pkey -outform der -in /path/to/privkey.pem -out /path/to/privkey.key`
-  - `curl -X POST http://<docker container LAN IP address>:8000/upload -F "files=@/path/to/fullchain.crt"`
-  - `curl -X POST http://<docker container LAN IP address>:8000/upload -F "files=@/path/to/privkey.key"`
+  - `openssl x509 -outform der -in /path/to/fullchain.pem -out /path/to/fullchain.pem`
+  - `openssl pkey -outform der -in /path/to/privkey.pem -out /path/to/privkey.pem`
+  - `curl -X POST http://<docker container LAN IP address>:8000/upload -F "files=@/path/to/fullchain.pem"`
+  - `curl -X POST http://<docker container LAN IP address>:8000/upload -F "files=@/path/to/privkey.pem"`
+- Upload `fullchain.pem` by first, then `privkey.pem`.  
+  There is a file watcher to reboot spring boot after `privkey.pem` uploaded
 - Once cert exist in container, spring boot service will start listen on `8443` for HTTPS, `8080` for HTTP  
   don't expose port `8000` outside LAN
-- In future cert expire, container may need to restart for spring boot to read new cert I don't know
