@@ -1,6 +1,6 @@
 # define const variables
 !define PRODUCT_NAME "tinc game"
-!define PRODUCT_VERSION "1.0"
+!define PRODUCT_VERSION "2.0"
 
 !define TINCGAME_INSTALL_DIR "tinc-game"
 !define TINCGAME_UNINSTALL_ID "tinc-game-T0MBcLcnSX8S"
@@ -71,14 +71,14 @@ Section
     # specify program files
     File "..\Release\tinc-game.exe"
     File "..\Release\updater.exe"
-    File "..\tinc-game\getTapHwid.bat"
-    File "..\tinc-game\installTap.bat"
-    File "..\tinc-game\netsh437.bat"
-    File "..\tinc-game\netsh437_start.bat"
-    File "..\tinc-game\ping437.bat"
-    File "..\tinc-game\ping437_start.bat"
-    File "..\tinc-game\tincShell.bat"
-    File "..\tinc-game\uninstallTap.bat"
+    File "..\tinc-game\src\ShellScript\Windows\getTapHwid.bat"
+    File "..\tinc-game\src\ShellScript\Windows\installTap.bat"
+    File "..\tinc-game\src\ShellScript\Windows\netsh437.bat"
+    File "..\tinc-game\src\ShellScript\Windows\netsh437_start.bat"
+    File "..\tinc-game\src\ShellScript\Windows\ping437.bat"
+    File "..\tinc-game\src\ShellScript\Windows\ping437_start.bat"
+    File "..\tinc-game\src\ShellScript\Windows\tincShell.bat"
+    File "..\tinc-game\src\ShellScript\Windows\uninstallTap.bat"
     # install tinc bin
     SetOutPath "$InstDir\bin\tinc"
     File /r /x "Uninstall.exe" "C:\Program Files\tinc\"
