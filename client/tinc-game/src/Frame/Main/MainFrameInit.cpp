@@ -123,6 +123,11 @@ void MainFrame::ReloadCurrentNetwork()
             recentUsedNetworkSelection = 0;
         }
     }
+    else {
+        currentNetwork_ComboBox->Clear();
+        currentNetwork_ComboBox_RawData.clear();
+        recentUsedNetworkSelection = wxNOT_FOUND;
+    }
 }
 
 void MainFrame::ReloadCurrentTap()
