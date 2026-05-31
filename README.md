@@ -32,3 +32,5 @@ What have been done:
 Currently there is no contributors host "public server" for everybody to use.  
 And we don't know how to prevent contributors from DDOS attack.  
 A public network also for sure is full of hackers that do MAC Address Spoofing to steal your money and password.
+
+Client (GUI) still need time to support old system like Windows XP.
