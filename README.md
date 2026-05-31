@@ -26,6 +26,7 @@ What have been done:
 - Wait for Assigned IP change to something start with "10..."
 - Click on Copy Refresh button, paste your IP to your friend also use tinc
 - If your network is weak and haven't got IP for a while, click on Copy Refresh to refresh
+- Use Menu bar, Network, Edit to set auto connect network on program start
 
 ## Drawbacks
 Currently there is no contributors host "public server" for everybody to use.  
