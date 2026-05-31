@@ -32,6 +32,11 @@ bool MainFrame::AllowMakeChange(bool showDialog) {
 void MainFrame::OnMenuNetworksEdit(wxCommandEvent& event)
 {
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
+    if (networkSelection == wxNOT_FOUND) {
+        wxMessageDialog(this, _("Not select network")).ShowModal();
+        return;
+    }
+
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
 
     if (networkRawData->connected) {
@@ -75,6 +80,11 @@ void MainFrame::OnMenuNetworksRename(wxCommandEvent& event)
     }
 
     auto networkSelection = currentNetwork_ComboBox->GetSelection();
+    if (networkSelection == wxNOT_FOUND) {
+        wxMessageDialog(this, _("Not select network")).ShowModal();
+        allAllowEdit = true;
+        return;
+    }
     auto& networkRawData = currentNetwork_ComboBox_RawData[networkSelection];
 
     std::function<void()> redirectCallback = std::bind(&MainFrame::OnRenameNetworkFrameCloseCallback, this);
