@@ -30,7 +30,7 @@ namespace Settings_SRV
 namespace SettingKeys_Program {
     const wxString settings = wxT("Settings/");
     const wxString settings_language = settings + wxT("Language");
-    const wxString settings_gameMode = settings + wxT("GameApp.exe");
+    const wxString settings_gameMode = settings + wxT("GameMode");
 
     const wxString lists = wxT("Lists/");
     const wxString lists_mtuTestIp = lists + wxT("MtuTestIp");
