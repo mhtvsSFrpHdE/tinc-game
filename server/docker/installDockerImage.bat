@@ -14,6 +14,7 @@ docker run ^
 -e TINC_GAME_SERVER_HTTPS=%TINC_GAME_SERVER_HTTPS% ^
 -p %LISTEN_PORT%:%LISTEN_PORT% -p %LISTEN_PORT%:%LISTEN_PORT%/udp ^
 -p 8080:8080 ^
+-p 8443:8443 ^
 -p 8000:8000 ^
 --cap-add=NET_ADMIN --device /dev/net/tun:/dev/net/tun ^
 -d ^
