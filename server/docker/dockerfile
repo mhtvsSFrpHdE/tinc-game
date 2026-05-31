@@ -93,7 +93,7 @@ RUN echo "tinc -n $NETWORK_NAME start" >> $startScript
 # Start cert receiver
 RUN echo "python -m uploadserver 8000 --allow-replace &" >> $startScript
 # Start tinc management tool
-RUN echo "until java -jar spring-boot-project-0.0.1-SNAPSHOT.jar; do sleep 1 ; done" >> $startScript
+RUN echo "bash -c \"until java -jar spring-boot-project-0.0.1-SNAPSHOT.jar; do sleep 1 ; done\" &" >> $startScript
 RUN echo "" >> $startScript
 RUN echo "wait \$!" >> $startScript
 RUN echo "" >> $startScript
