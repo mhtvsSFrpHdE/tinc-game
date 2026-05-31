@@ -180,7 +180,7 @@ void MainFrame::OnConnectButtonClick(wxCommandEvent& evt)
     OnConnectButtonClick_Internal();
 }
 
-void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)
+void MainFrame::OnDisconnectButtonClick_Internal()
 {
     // Beware, part of disconnect GUI logic are threaded
     // API_UI_EndConnectToNetwork
@@ -197,6 +197,11 @@ void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)
         allowCloseFrame = true;
         return;
     }
+}
+
+void MainFrame::OnDisconnectButtonClick(wxCommandEvent& evt)
+{
+    OnDisconnectButtonClick_Internal();
 }
 
 void MainFrame::OnIpCopyAndRefreshButtonClick(wxCommandEvent& evt)
@@ -252,8 +257,7 @@ void MainFrame::OnNetworkDisconnected(PerNetworkData* perNetworkData)
 void MainFrame::OnClose(wxCloseEvent& event)
 {
     if (allowCloseFrame == false) {
-        wxMessageDialog(this, _("Stop ALL running tasks before close program")).ShowModal();
-        return;
+        OnDisconnectButtonClick_Internal();
     }
 
     event.Skip();

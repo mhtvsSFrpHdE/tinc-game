@@ -89,6 +89,7 @@ private:
     std::shared_ptr<wxButton> recentActiveDisconnectButton;
     std::shared_ptr<wxButton> GetInitPhaseDummyDisconnectButton();
     void OnDisconnectButtonClick(wxCommandEvent& evt);
+    void OnDisconnectButtonClick_Internal();
     void OnNetworkDisconnected(PerNetworkData* perNetworkData);
 
     wxBoxSizer* networkControlIpSizer;
