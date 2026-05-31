@@ -17,8 +17,8 @@ docker build ^
 docker build ^
 --build-arg HTTP_PROXY=%HTTP_PROXY% ^
 --build-arg HTTPS_PROXY=%HTTPS_PROXY% ^
--t tinc-install-cert-receiver:latest ^
--f dockerfile3-tinc-install-cert-receiver.base ^
+-t tinc-install-python:latest ^
+-f dockerfile3-tinc-install-python.base ^
 .
 
 docker build ^

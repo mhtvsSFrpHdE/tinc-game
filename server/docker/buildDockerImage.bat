@@ -6,4 +6,5 @@ docker build ^
 --build-arg HTTP_PROXY=%HTTP_PROXY% ^
 --build-arg HTTPS_PROXY=%HTTPS_PROXY% ^
 --build-arg BUILD_CPU_CORE=%BUILD_CPU_CORE% ^
+--build-arg TINC_GAME_SERVER_HTTPS=%TINC_GAME_SERVER_HTTPS% ^
 -t tinc-game-server:latest .

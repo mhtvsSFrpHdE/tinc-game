@@ -1,10 +1,8 @@
 # Basic system
 FROM tinc-install-other:latest
 
-# Copy things to
-WORKDIR /home/root
-
 # Copy tinc source code
+WORKDIR /home/root
 COPY Downloads/tinc-1.1pre18.tar.gz /home/root/
 RUN tar xvf tinc-1.1pre18.tar.gz
 # cd source code dir and build
@@ -26,6 +24,8 @@ ENV IPV4_SUBNET_PREFIX="16"
 ENV IPV4_SUBNET_MASK="255.255.0.0"
 ENV DHCP_EXPIRE="12h"
 ENV NETWORK_NAME="tinc_docker"
+ENV TINC_GAME_SERVER_HTTPS="true"
+ENV TINC_GAME_SERVER_CERT_DIR="/home/root"
 
 # Init tinc server
 RUN mkdir -p /usr/local/var/run
@@ -49,6 +49,10 @@ RUN cat $tincUpScript
 
 # Copy tinc management tool
 COPY Downloads/spring-boot-project-0.0.1-SNAPSHOT.jar /home/root/
+# Disabled, you can't truly erase things from docker image after build
+# Upload cert with cert receiver at runtime
+# COPY Downloads/fullchain.pem /home/root/
+# COPY Downloads/privkey.pem /home/root/
 
 # Make start script
 ENV startScript="/home/root/start.sh"
@@ -86,8 +90,10 @@ RUN echo "trap 'cleanup' SIGTERM" >> $startScript
 RUN echo "" >> $startScript
 # Start tinc require at run time instead of build time
 RUN echo "tinc -n $NETWORK_NAME start" >> $startScript
+# Start cert receiver
+RUN echo "python -m uploadserver 8000 --allow-replace &" >> $startScript
 # Start tinc management tool
-RUN echo "java -jar spring-boot-project-0.0.1-SNAPSHOT.jar &" >> $startScript
+RUN echo "until java -jar spring-boot-project-0.0.1-SNAPSHOT.jar; do sleep 1 ; done" >> $startScript
 RUN echo "" >> $startScript
 RUN echo "wait \$!" >> $startScript
 RUN echo "" >> $startScript

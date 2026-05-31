@@ -1,5 +1,0 @@
-FROM tinc-install-jre:latest
-
-# Install cert receiver
-RUN apt-get install -y -o Acquire::Retries=300 \
-    python3 python3-pip python3-venv

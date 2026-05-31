@@ -1,4 +1,4 @@
-FROM tinc-install-cert-receiver:latest
+FROM tinc-install-python:latest
 
 # These package are small put together
 
