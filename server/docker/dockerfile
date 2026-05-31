@@ -33,19 +33,6 @@ RUN tinc -n $NETWORK_NAME init server
 RUN tinc -n $NETWORK_NAME set Mode switch
 # tinc interface script
 ENV tincUpScript="/usr/local/etc/tinc/$NETWORK_NAME/tinc-up"
-RUN touch $tincUpScript
-RUN echo "#!/bin/sh" > $tincUpScript
-RUN echo "" >> $tincUpScript
-RUN echo "ip addr add $IPV4_SERVER_ADDRESS/$IPV4_SUBNET_PREFIX dev \$INTERFACE" >> $tincUpScript
-RUN echo "# Necessary to do interface up here otherwise cause Can't write to Linux tun/tap device (tun mode) /dev/net/tun: Input/output error" >> $tincUpScript
-RUN echo "ip link set \$INTERFACE up" >> $tincUpScript
-RUN echo "service dnsmasq restart" >> $tincUpScript
-RUN echo "" >> $tincUpScript
-RUN echo "#echo 'Unconfigured tinc-up script, please edit '$0'!'" >> $tincUpScript
-RUN echo "" >> $tincUpScript
-RUN echo "#ifconfig $INTERFACE <your vpn IP address> netmask <netmask of whole VPN>" >> $tincUpScript
-RUN echo "" >> $tincUpScript
-RUN cat $tincUpScript
 
 # Copy tinc management tool
 COPY Downloads/spring-boot-project-0.0.1-SNAPSHOT.jar /home/root/
@@ -54,74 +41,16 @@ COPY Downloads/spring-boot-project-0.0.1-SNAPSHOT.jar /home/root/
 # COPY Downloads/fullchain.pem /home/root/
 # COPY Downloads/privkey.pem /home/root/
 
-# Make start script
-ENV startScript="/home/root/start.sh"
-RUN echo "#!/bin/bash" > $startScript
-RUN echo "" >> $startScript
 # DHCP config, dnsmasq is started by using tinc-up interface up script
 ENV dnsmasqConfig="/etc/dnsmasq.conf"
-RUN echo "echo \"DHCP settings:\"" >> $startScript
-RUN echo "echo \"port=0\" > \$dnsmasqConfig" >> $startScript
-RUN echo "echo \"interface=$NETWORK_NAME\" >> \$dnsmasqConfig" >> $startScript
-RUN echo "echo \"dhcp-range=\$IPV4_SUBNET_RANGE_BEGIN,\$IPV4_SUBNET_RANGE_END,\$IPV4_SUBNET_MASK,\$DHCP_EXPIRE\" >> \$dnsmasqConfig" >> $startScript
-RUN echo "echo \"dhcp-option=option:router\" >> \$dnsmasqConfig" >> $startScript
-RUN echo "echo \"dhcp-option=option:dns-server\" >> \$dnsmasqConfig" >> $startScript
-RUN echo "cat \"\$dnsmasqConfig\"" >> $startScript
-RUN echo "echo \"\"" >> $startScript
-RUN echo "" >> $startScript
-# Update tinc settings from environment variable on start
-RUN echo "tinc -n \$NETWORK_NAME set ListenAddress 0.0.0.0 \$LISTEN_PORT" >> $startScript
-RUN echo "tinc -n \$NETWORK_NAME add ListenAddress :: \$LISTEN_PORT" >> $startScript
-RUN echo "tinc -n \$NETWORK_NAME set Address \$EXTERNAL_ADDRESS \$LISTEN_PORT" >> $startScript
-RUN echo "tinc -n \$NETWORK_NAME set PMTUDiscovery \$PMTU_DISCOVERY" >> $startScript
-RUN echo "" >> $startScript
-# Send stop signal to process listen on known port
-RUN echo "cleanup() {" >> $startScript
-RUN echo "    tincPid=\$(lsof -t -i:\$LISTEN_PORT)" >> $startScript
-RUN echo "    springBootPid=\$(lsof -t -i:8080)" >> $startScript
-RUN echo "    kill -15 \$springBootPid" >> $startScript
-RUN echo "    tail --pid=\$springBootPid -f /dev/null" >> $startScript
-RUN echo "    tinc -n $NETWORK_NAME stop" >> $startScript
-RUN echo "    tail --pid=\$tincPid -f /dev/null" >> $startScript
-RUN echo '    echo "Safe shutdown success"' >> $startScript
-RUN echo "}" >> $startScript
-RUN echo "" >> $startScript
-RUN echo "trap 'cleanup' SIGTERM" >> $startScript
-RUN echo "" >> $startScript
-# Start tinc require at run time instead of build time
-RUN echo "tinc -n $NETWORK_NAME start" >> $startScript
-# Start cert receiver
-RUN echo "python -m uploadserver 8000 --allow-replace &" >> $startScript
-# Watch cert and reboot on cert change
-# First time upload cert do nothing
-# Second time upload cert reboot container
-# 1. Wait file exist `/home/root/privkey.pem`
-# 2. Wait file close_write happen
-# 3. Run `kill 1` trigger container shutdown
-# 4. Actually will reboot, docker run --restart unless-stopped
-RUN echo "bash -c \"if [ \$TINC_GAME_SERVER_HTTPS = \"false\" ]; then exit; fi; until [ -f \"/home/root/privkey.pem\" ]; do sleep 1; done; until inotifywait \"/home/root/privkey.pem\" -e close_write; do kill -15 \\\$(lsof -t -i:8080); done\" &" >> $startScript
-# Start tinc management tool
-RUN echo "bash -c \"until java -jar spring-boot-project-0.0.1-SNAPSHOT.jar; do sleep 1; done\" &" >> $startScript
-RUN echo "" >> $startScript
-RUN echo "wait \$!" >> $startScript
-RUN echo "" >> $startScript
-RUN chmod +x "$startScript"
-RUN cat $startScript
+
+# Make start script
+ENV startScript="/home/root/start.sh"
+COPY Script/start.sh /home/root/
 
 # Make diagnostic script
 ENV diagScript="/home/root/diagnostic.sh"
-RUN echo "#!/bin/bash" > $diagScript
-RUN echo "echo \"\"" >> $diagScript
-RUN echo 'echo "tincUpScript:"' >> $diagScript
-RUN echo "cat \"$tincUpScript\"" >> $diagScript
-RUN echo "echo \"\"" >> $diagScript
-RUN echo 'echo "dnsmasqConfig:"' >> $diagScript
-RUN echo "cat \"$dnsmasqConfig\"" >> $diagScript
-RUN echo "echo \"\"" >> $diagScript
-RUN echo 'echo "startScript:"' >> $diagScript
-RUN echo "cat \"$startScript\"" >> $diagScript
-RUN echo "" >> $diagScript
-RUN chmod +x "$diagScript"
+COPY Script/diagnostic.sh /home/root/
 
 # Start whole system
 CMD ["/home/root/start.sh"]
