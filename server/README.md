@@ -34,7 +34,8 @@ Build steps
 
 Optional step if you want HTTPS
 - You can't enable HTTPS on a exist container, must delete (will lose data) and recreate  
-  Backup data folder `/usr/local/etc/tinc` and put back to HTTPS container
+  Backup data folder `/usr/local/etc/tinc` and put back to HTTPS container  
+  Docker doesn't support change environment variable once container is created
 - Edit `pythonEnvironment.bat`, change python install dir
 - There is `installCertReceiver.bat` and command `start "cert receiver" startCertReceiver.bat`,  
   this start a HTTP server in `localhost:8001` port allow you use `curl` from where certbot is running  
