@@ -68,6 +68,7 @@ void MainFrame::API_SRV_Update()
 
     std::ofstream outFile(rs::Program::updaterLog, std::ios::app);
     auto logTarget = std::unique_ptr<wxLogStream>(new wxLogStream(&outFile));
+    wxLog::SetTimestamp("%Y-%m-%d %H:%M:%S");
     if (outFile.is_open())
     {
         wxLog::SetActiveTarget(logTarget.get());
