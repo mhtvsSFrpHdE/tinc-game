@@ -139,7 +139,8 @@ libcurl-d.lib(schannel.obj) : error LNK2019: unresolved external symbol __imp__C
 Missing `crypt32.lib` to Additional Dependencies  
 We know this is a missing dependency of `libcurl-d.lib` or `libcurl.lib` in Release  
 But we know nothing about external symbol `__imp__CertOpenStore`  
-Start a web search and see how other people say, they mentioned `crypt32.lib`
+Start a web search and see how other people say, they mentioned `crypt32.lib`  
+this one bundled with Visual Studio 2019, add lib file name directly to Additional Dependencies
 
 ```
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library

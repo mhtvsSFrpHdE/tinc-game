@@ -35,3 +35,18 @@ and `wxLog::SetActiveTarget` is called on background thread
 
 Workaround is run `wxLog::SetActiveTarget` by using `CallAfter` and `Lock_SRV` for thread sync  
 Bug report at https://github.com/wxWidgets/wxWidgets/issues/25644
+
+## wxWidgets `3.1.5`, `Windows 11`
+[Document](https://docs.wxwidgets.org/3.2/overview_i18n.html) says on Windows translate load from this dir:
+```
+C:\Program Files\MyApp\myapp.exe
+C:\Program Files\MyApp\de\myapp.mo
+C:\Program Files\MyApp\fr\myapp.mo
+```
+But actually default is
+```
+C:\Program Files\MyApp\myapp.exe
+C:\Program Files\de\myapp.mo
+C:\Program Files\fr\myapp.mo
+```
+To fix it add program exe dir to `wxLocale` `AddCatalogLookupPathPrefix`
