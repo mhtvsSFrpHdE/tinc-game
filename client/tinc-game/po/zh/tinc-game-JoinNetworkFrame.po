@@ -1,0 +1,115 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-31 05:20+0800\n"
+"PO-Revision-Date: 2026-06-06 07:25+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.9\n"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:296
+msgid "Cancel"
+msgstr "取消"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:286
+msgid "Error log:"
+msgstr "错误日志："
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:36
+msgid "Failed to connect your server"
+msgstr "连接到服务器失败"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:30
+msgid "Failed to run tinc program"
+msgstr "运行tinc程序失败"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:169
+msgid "First discovered invalid character: "
+msgstr "第一处被发现的无效字符： "
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:33
+msgid "Invalid invite code, check invite code format"
+msgstr "无效的邀请码，检查邀请码语法格式"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:258
+msgid "Invite code"
+msgstr "邀请码"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:291
+msgid "Join"
+msgstr "加入"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:255
+msgid "Join by"
+msgstr "加入方式"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:9
+msgid "Join network"
+msgstr "加入网络"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:178
+msgid "Network name already exist, use another one"
+msgstr "网络名已存在，使用另一个名称"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:162
+msgid "Network name is required"
+msgstr "网络名是必填项"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:168
+msgid "Network name must be a valid folder name"
+msgstr "网络名必须是有效的文件夹名"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:42
+msgid "Register failed"
+msgstr "注册失败"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:257
+msgid "Register on server"
+msgstr "在服务器上注册"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:293
+msgid "Retry"
+msgstr "重试"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:261
+msgid "Save as (network name)"
+msgstr "保存为（网络名）"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:274
+msgid "Server address and port:"
+msgstr "服务器地址和端口号："
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:126
+msgid "Server information should start with \"api\""
+msgstr "服务器信息应该以“api”作为开头"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:39
+msgid "Server refused your invite code"
+msgstr "服务器拒绝了你的邀请码"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:25
+msgid "Successfully joined network"
+msgstr "成功加入网络"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:267
+msgid "Type invite code:"
+msgstr "输入邀请码："
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:139
+msgid "Unknown api version: "
+msgstr "未知的api版本： "
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:46
+msgid "Unknown error"
+msgstr "未知错误"

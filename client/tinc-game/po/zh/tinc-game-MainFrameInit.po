@@ -1,0 +1,99 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-05 08:06+0800\n"
+"PO-Revision-Date: 2026-06-05 08:35+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.6\n"
+
+#: src/Frame/Main/MainFrameInit.cpp:180 src/Frame/Main/MainFrameInit.cpp:199
+msgid "&Advanced"
+msgstr "&高级"
+
+#: src/Frame/Main/MainFrameInit.cpp:178
+msgid "&Delete"
+msgstr "&删除"
+
+#: src/Frame/Main/MainFrameInit.cpp:164
+msgid "&Edit"
+msgstr "&修改"
+
+#: src/Frame/Main/MainFrameInit.cpp:170
+msgid "&Import and Export"
+msgstr "&导入和导出"
+
+#: src/Frame/Main/MainFrameInit.cpp:168
+msgid "&Join network"
+msgstr "&加入网络"
+
+#: src/Frame/Main/MainFrameInit.cpp:187
+msgid "&Manage virtual network adapter"
+msgstr "&管理虚拟网卡"
+
+#: src/Frame/Main/MainFrameInit.cpp:182
+msgid "&Networks"
+msgstr "&网络"
+
+#: src/Frame/Main/MainFrameInit.cpp:195
+msgid "&Optimize MTU"
+msgstr "&优化MTU"
+
+#: src/Frame/Main/MainFrameInit.cpp:172
+msgid "&Reload"
+msgstr "&重新加载"
+
+#: src/Frame/Main/MainFrameInit.cpp:166
+msgid "&Rename"
+msgstr "&重命名"
+
+#: src/Frame/Main/MainFrameInit.cpp:189
+msgid "&Settings"
+msgstr "&设置"
+
+#: src/Frame/Main/MainFrameInit.cpp:201
+msgid "&Tools"
+msgstr "&工具"
+
+#: src/Frame/Main/MainFrameInit.cpp:197
+msgid "&Troubleshoot"
+msgstr "&排查故障"
+
+#: src/Frame/Main/MainFrameInit.cpp:209
+msgid "Assigned IP"
+msgstr "分配的IP"
+
+#: src/Frame/Main/MainFrameInit.cpp:18 src/Frame/Main/MainFrameInit.cpp:82
+msgid "Connect"
+msgstr "连接"
+
+#: src/Frame/Main/MainFrameInit.cpp:214
+msgid "Connect with"
+msgstr "虚拟网卡"
+
+#: src/Frame/Main/MainFrameInit.cpp:51 src/Frame/Main/MainFrameInit.cpp:97
+msgid "Copy Refresh"
+msgstr "复制 刷新"
+
+#: src/Frame/Main/MainFrameInit.cpp:25 src/Frame/Main/MainFrameInit.cpp:85
+msgid "Disconnect"
+msgstr "断开"
+
+#: src/Frame/Main/MainFrameInit.cpp:218
+msgid "Network name"
+msgstr "网络名"
+
+#: src/Frame/Main/MainFrameInit.cpp:6
+msgid "Tinc Game"
+msgstr "Tinc网络"

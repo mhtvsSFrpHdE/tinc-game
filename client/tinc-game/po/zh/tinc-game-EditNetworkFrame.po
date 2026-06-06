@@ -1,0 +1,190 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-27 09:16+0800\n"
+"PO-Revision-Date: 2026-06-06 07:14+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.9\n"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:150
+msgid "About network settings"
+msgstr "关于网络设置"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:129
+msgid ""
+"Allow you to utilize potential high quality internet lane for reducing "
+"latency and packet lose rate, carefully read hints when click on it, and try "
+"your best to NOT to use this feature, unless your game is really latency "
+"sensitive or your ISP is totally crap"
+msgstr ""
+"允许你运用潜在的高质量互联网线路来降低延迟和丢包率，当点击时仔细阅读提示并且"
+"尽可能的“不用”这个功能，除非这个游戏真的对延迟敏感，或是你的运营商服务质量非"
+"常差"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:137
+msgid ""
+"Append \"--debug=3\" to tincd start argument, print more network activity "
+"information like users you are connecting to, and their public IP address"
+msgstr ""
+"将“--debug=3”附加到tincd启动参数，显示更多网络活动信息，像是你正在连接到的用"
+"户，以及他们的外部IP地址"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:176
+msgid ""
+"As long as you are truly run games, data usage won't go wild, no one will be "
+"hurted"
+msgstr "只要你真的在玩游戏，数据使用量不会无节制增长，不会有人因此遭到灾难"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:32
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:131
+msgid "Auto connect on start"
+msgstr "启动时自动连接"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:172
+msgid "But high quality internet lane costs more and budget is limited"
+msgstr "但高质量互联网线路价格更贵而且预算有限"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:65
+msgid "Cancel"
+msgstr "取消"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:177
+msgid ""
+"Certain game like Garry's Mod are exception, they can cost hundureds GB "
+"instead"
+msgstr "特殊的游戏像Garry's Mod是例外，他们能从服务器下载数千个GB"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:63
+msgid "Confirm"
+msgstr "确定"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:8
+msgid "Edit:"
+msgstr "修改："
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:171
+msgid "Enable game mode may brings lower network lantency and less packet lose"
+msgstr "激活游戏模式也许能带来更低的网络延迟和更低的丢包率"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:173
+msgid ""
+"Especally when you run too much traffic on free service may get your account "
+"banned"
+msgstr "尤其是当你在免费服务上消耗太多流量时可能导致你的帐号被封禁"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:207
+msgid "Game Mode has enabled, port must set to 0"
+msgstr "游戏模式已激活，端口号必须设为0"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:25
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:127
+msgid "Game mode"
+msgstr "游戏模式"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:175
+msgid "Games regularly cost less than 100 MB per hour"
+msgstr "游戏通常每小时消耗少于100MB流量"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:23
+msgid "Help"
+msgstr "帮助"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:145
+msgid ""
+"If you don't have open port and just a regular player, set to 0 to use "
+"random port to increase UDP hole punching success rate. If you have "
+"dedicated public IPv4 address and open port, you can set your port "
+"forwarding information here, let other people connect to you in direct path "
+"to minimize lantancy, this WILL ALSO allow other people do UDP hole punching "
+"between each other by using your network to swap information, or even "
+"forward traffic through your network when UDP hole punching failed. tinc "
+"didn't provide an option to turn off \"help other people\", so you can't "
+"have open port but refuse to serve others at same time, consider to limit "
+"your upload speed to prevent your upload traffic goes wild by using tools "
+"like NetLimiter on Windows, nftables on Linux"
+msgstr ""
+"如果你没有开放端口而且是一般玩家，设为0使用随机端口号增加UDP穿透成功率。如果"
+"你有独立IP地址或开放端口，你可以在这里设置端口转发信息，让其他人能通过直接路"
+"径连接到你，进一步降低延迟，这也会“允许”其他人通过你的网络交换信息互相进行UDP"
+"穿透，甚至是在UDP穿透失败时使用你的网络进行中转。tinc没有提供选项来单独关闭"
+"“帮助其他人”，所以你不能在开放端口的同时拒绝为其他人提供服务，考虑使用像"
+"Windows系统的NetLimiter、Linux系统的nftables这样的工具来限制你的上传速度避免"
+"上传流量过大（被识别为PCDN）"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:178
+msgid "In this case, please disable Game Mode"
+msgstr "在这种情况下，禁用游戏模式"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:197
+msgid "Invalid port number"
+msgstr "无效的端口号"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:133
+msgid ""
+"Manually connect your network once before enable auto connect to let tinc-"
+"game know relationship between network and virtual network adapter, "
+"otherwise each network will try to use first available virtual network "
+"adapter"
+msgstr ""
+"激活自动连接前进行一次手动连接到网络让软件知道网络和虚拟网卡之间的关系，否则"
+"每个网络将会尝试使用第一个可用的虚拟网卡"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:143
+msgid "Port"
+msgstr "端口号"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:50
+msgid "Port (0-65535):"
+msgstr "端口号（0-65535）："
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:44
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:139
+msgid "Set metric before connect"
+msgstr "连接前设置跃点数（metric）"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:38
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:135
+msgid "Show detailed live log"
+msgstr "显示详细实时日志"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:141
+msgid ""
+"Some router push private network route table like 10.x.x.x to device "
+"connected to it for unknown reason, cause tinc virtual network inaccessible. "
+"Set metric=1 before connect can workaround this. If you don't like set each "
+"time on connect, go to \"Manage virtual network adapter\" and there is a "
+"button let you persistent set metric, so you can turn off option here and "
+"connect to network even faster"
+msgstr ""
+"有些路由器不知为何向连接到自身的设备推送像是10.x.x.x的私有路由表，导致tinc虚"
+"拟网络不可被访问。在连接前设置跃点数=1（metric）可以避开这种情况。如果你不喜"
+"欢每次连接时设置，到“管理虚拟网卡”，那里有一个按钮让你可以永久设置跃点数，那"
+"么你可以在这里关闭然后以更快的速度连接到网络"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:179
+msgid "WARNING"
+msgstr "警告"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:147
+msgid ""
+"When Game Mode is enabled, port must set to 0 to make it actually work, "
+"prevent other people from connect you via direct path"
+msgstr ""
+"当游戏模式激活时，端口号必须设为0来让它实际上生效，防止其他玩家通过直接路径连"
+"接到你"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:169
+msgid "You swear to use Game Mode only for playing games"
+msgstr "你发誓只使用游戏模式来玩游戏"

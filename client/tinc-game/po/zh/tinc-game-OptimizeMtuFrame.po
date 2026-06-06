@@ -1,0 +1,106 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-27 09:16+0800\n"
+"PO-Revision-Date: 2026-06-05 06:22+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.6\n"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:180
+msgid "About MTU"
+msgstr "关于MTU"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:175
+msgid ""
+"All modern network program will determe TCP and UDP MTU size for themselfs "
+"even if there is \"Path MTU Blackhole\", so it's ok to have default MTU "
+"value 1500 on Ethernet adapter"
+msgstr ""
+"即使网络中存在“路径MTU黑洞（Path MTU Blackhole）”所有现代网络程序也能自动为"
+"TCP和UDP协议探测MTU尺寸，在网卡上使用默认MTU值1500不会有什么问题"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:86
+msgid "Apply"
+msgstr "应用"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:94
+msgid "Close"
+msgstr "关闭"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:72
+msgid "Help"
+msgstr "帮助"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:177
+msgid ""
+"In theory, path mtu discovey is not an optional feature of IPv6 protocol "
+"compare to IPv4 DF flag, either applications and internet service provider "
+"must support Path MTU Discovery in IPv6 (RFC 8201). However, poor web server "
+"maintainer may decide to block all ICMP protocols to improve their server's "
+"security, so called \"Path MTU Blackhole\". It's a pretty questionable "
+"choice because this may cause some IPv6 applications to use 1280 (RFC 2460) "
+"as their MTU when path MTU discovery can't be performed, which reduces "
+"network performance"
+msgstr ""
+"理论上，与IPv4的可选DF标记（DF flag）相比，路径MTU发现（path mtu discovery）"
+"不是IPv6的可选功能，应用程序或互联网服务提供方必须在IPv6中支持路径MTU发现"
+"（RFC 8201）。然而固执的Web服务器维护人员可能决定为了提升他们服务器的安全性而"
+"禁止所有ICMP协议，这个现象称为“路径MTU黑洞（Path MTU Blackhole）”。这个决定的"
+"问题在于当路径MTU发现无法执行，可能导致部分IPv6应用直接使用1280作为MTU值"
+"（RFC 2460），导致网络性能下降"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:213
+msgid "Invalid IP address or domain"
+msgstr "无效的IP地址或域名"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:51
+msgid "MTU measure fail"
+msgstr "MTU测量失败"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:173
+msgid ""
+"On Windows, your IPv4 MTU value is measured by using IPv4 DF flag, IPv6 MTU "
+"is minus 20 from this value. There is no easy way to measure IPv6 MTU "
+"directly on Windows platform"
+msgstr ""
+"在Windows系统上，IPv4的MTU值通过IPv4 DF标记（DF flag）检测，IPv6的MTU值在此基"
+"础上减去20。在Windows系统上没有简单的方法来直接检测IPv6的MTU值"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:15
+msgid "Optimize MTU"
+msgstr "优化MTU"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:171
+msgid ""
+"Optimize MTU function only meaningful if there is \"Path MTU Blackhole\" or "
+"tinc can't perform IPv4 Path MTU Discovery automatically on your system"
+msgstr ""
+"优化MTU功能仅在存在“路径MTU黑洞（Path MTU Blackhole）”时，或是tinc无法在你的"
+"系统上自动执行IPv4 路径MTU发现（Path MTU Discovery）时有意义"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:84
+msgid "Start"
+msgstr "开始"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:71
+msgid "Type in target address"
+msgstr "目标地址"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.h:43
+msgid "Waiting for value..."
+msgstr "等待中…"
+
+#~ msgid "MTU measure success"
+#~ msgstr "MTU测量成功"

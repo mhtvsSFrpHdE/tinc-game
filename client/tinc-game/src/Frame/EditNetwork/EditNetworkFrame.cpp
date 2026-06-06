@@ -122,7 +122,7 @@ void EditNetworkFrame::OnHelpButtonClick(wxCommandEvent& event)
 {
     namespace ss = String_SRV;
 
-    std::ostringstream helpTextStream;
+    std::wostringstream helpTextStream;
     helpTextStream
         << _("Game mode")
         << ss::newLine

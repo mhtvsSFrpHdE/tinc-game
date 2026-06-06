@@ -144,7 +144,7 @@ void OnHelpButtonClick_InitHelpFrame(HelpFrame* helpFrame, ManageTapFrame* paren
 void ManageTapFrame::OnHelpButtonClick_Internal() {
     namespace ss = String_SRV;
 
-    std::ostringstream helpTextStream;
+    std::wostringstream helpTextStream;
     helpTextStream
         << _("If you don't want to install driver, don't click on \"Install new\" button")
         << ss::newLine

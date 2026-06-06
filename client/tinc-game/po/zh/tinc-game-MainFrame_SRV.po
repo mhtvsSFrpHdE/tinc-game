@@ -1,0 +1,73 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-05 07:54+0800\n"
+"PO-Revision-Date: 2026-06-05 08:32+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.6\n"
+
+#: src/Frame/Main/MainFrame_SRV.cpp:245
+msgid " Unavailable"
+msgstr " 不可用"
+
+#: src/Frame/Main/MainFrame_SRV.cpp:197
+msgid " was set to auto connect on start"
+msgstr " 已设置为启动时自动连接"
+
+#: src/Frame/Main/MainFrame_SRV.cpp:248
+msgid "Connect request refused by tinc:"
+msgstr "连接请求被tinc拒绝："
+
+#: src/Frame/Main/MainFrame_SRV.cpp:242
+msgid "Failed to connect to network "
+msgstr "断开连接失败 "
+
+#: src/Frame/Main/MainFrame_SRV.cpp:252
+msgid "Installation corroupted, tinc.exe or tincd.exe may not exist"
+msgstr "软件文件损坏，tinc.exe或tincd.exe可能不存在"
+
+#: src/Frame/Main/MainFrame_SRV.cpp:197
+msgid "Network "
+msgstr "网络 "
+
+#: src/Frame/Main/MainFrame_SRV.cpp:218
+msgid "Not all auto connect network submitted"
+msgstr "不是所有设为自动连接的网络都连接成功"
+
+#: src/Frame/Main/MainFrame_SRV.cpp:259
+msgid ""
+"Selected virtual network adapter not exist, may be rename or uninstalled\n"
+"Run Networks - Reload to update virtual network adapter list"
+msgstr ""
+"连接到网络前需要安装虚拟网卡\n"
+"到工具 - 管理虚拟网卡处安装虚拟网卡"
+
+#: src/Frame/Main/MainFrame_SRV.cpp:218
+msgid ""
+"The following network successfully submitted to auto connect, you may want "
+"to disconnect them before edit settings"
+msgstr "以下网络已经提交到自动连接，你也许想在修改之前断开这些网络的连接"
+
+#: src/Frame/Main/MainFrame_SRV.cpp:255
+msgid "Unknown error:"
+msgstr "未知错误："
+
+#: src/Frame/Main/MainFrame_SRV.cpp:245
+msgid "Virtual network adapter "
+msgstr "虚拟网卡 "
+
+#: src/Frame/Main/MainFrame_SRV.cpp:198
+msgid "but there is no available virtual network adapter"
+msgstr "但没有可用的虚拟网卡"

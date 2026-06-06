@@ -215,7 +215,7 @@ void MainFrame::API_SRV_PostLayout()
             }
             auto submittedNetworks = submittedNetworkSstream.str();
             submittedNetworks = submittedNetworks.substr(0, submittedNetworks.length() - 1);
-            auto hint = _("Not all auto connect network submitted") + ss::newLine + _("The following network successfully submitted to auto connected, you may want to disconnect them before edit settings") + ss::newLine + submittedNetworks;
+            auto hint = _("Not all auto connect network submitted") + ss::newLine + _("The following network successfully submitted to auto connect, you may want to disconnect them before edit settings") + ss::newLine + submittedNetworks;
             CallAfter([this, hint]() {
                 wxMessageDialog(this, hint).ShowModal();
                 });
@@ -256,7 +256,7 @@ void MainFrame::API_UI_EndConnectToNetwork(ReturnValue<ConnectToNetworkResult> r
                 << result.returnBody.messageString;
         }
         if (result.returnBody.messageEnum == ConnectToNetworkResult::Enum::TapNotFound) {
-            errorMessage << _("Selected virtual network adapter not exist, may be rename or uninstalled\rRun Networks - Reload to update virtual network adapter list") << std::endl;
+            errorMessage << _("Selected virtual network adapter not exist, may be rename or uninstalled\nRun Networks - Reload to update virtual network adapter list") << std::endl;
         }
 
         wxMessageDialog(this, errorMessage.str()).ShowModal();

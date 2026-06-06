@@ -166,7 +166,7 @@ void OptimizeMtuFrame::OnHelpButtonClick(wxCommandEvent& event)
 {
     namespace ss = String_SRV;
 
-    std::ostringstream helpTextStream;
+    std::wostringstream helpTextStream;
     helpTextStream
         << _("Optimize MTU function only meaningful if there is \"Path MTU Blackhole\" or tinc can't perform IPv4 Path MTU Discovery automatically on your system")
         << ss::newLine << ss::newLine

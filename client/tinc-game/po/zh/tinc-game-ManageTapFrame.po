@@ -1,0 +1,235 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-27 09:16+0800\n"
+"PO-Revision-Date: 2026-06-06 08:59+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.9\n"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:168
+msgid ""
+"- Check \"Attempt to remove the driver for this device\", and hit uninstall"
+msgstr "- 选中“尝试删除此设备的驱动程序”然后点击卸载"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:166
+msgid ""
+"- If want to uninstall driver, uninstall virtual network adapter until there "
+"is only one remains, go to Device manager - Network adapters, right click on "
+"\"TAP - Win32 Adapter V9\" and choose \"Uninstall device\""
+msgstr ""
+"- 如果想要卸载驱动，先卸载虚拟网卡直到只剩下1个，到设备管理器 - 网络适配器，"
+"在“TAP - Win32 Adapter V9”上右键并选择“卸载设备”"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:170
+msgid ""
+"- If you accidentally uninstalled all virtual network adapter, click on "
+"\"Install new\" to add one, in order to uninstall driver in device manager"
+msgstr ""
+"- 如果不小心卸载了所有虚拟网卡，点击“新安装”来添加一个，就可以在设备管理器中"
+"卸载驱动"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:156
+msgid ""
+"- If you denied driver installation and don't want to install driver, go to "
+"Device Manager - Network adapters, right click on \"Unknown device\" and "
+"choose \"Uninstall device\""
+msgstr ""
+"- 如果你拒绝驱动安装并且不想安装驱动，到设备管理器 - 网络适配器，右键“未知设"
+"备”并选择“卸载设备”"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:154
+msgid ""
+"- If you still want to install driver, click on \"Install new\" again and "
+"agree, then you will have two virtual network adapter, one might be "
+"redundant and need to be uninstalled manually"
+msgstr ""
+"- 如果还是想安装驱动，点击“新安装”并同意，这种情况下会有两个虚拟网卡，其中一"
+"个可能是多余的并且需要手动卸载"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:161
+msgid ""
+"- Try click on \"Refresh\" button until textbox shows virtual network "
+"adapter name with green background"
+msgstr "- 尝试点击“刷新”按钮直到文本框中显示虚拟网卡名称以及绿色背景"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:176
+msgid "About virtual network adapter"
+msgstr "关于虚拟网卡"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:152
+msgid ""
+"Although you can deny it, but device will still add to system, and show as "
+"\"Unknown device\""
+msgstr "即使你可以拒绝，设备仍然会添加到系统，并且显示为“未知设备”"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:293
+#: src/Frame/ManageTap/ManageTapFrame.cpp:345
+msgid "Can't confirm what happened, the raw error message is"
+msgstr "不能确认发生了什么，原始错误信息是"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:49
+msgid "Close"
+msgstr "关闭"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:313
+msgid "Confirm?"
+msgstr "确定？"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:249
+msgid "Detected exist virtual network adapter"
+msgstr "检测到已安装的虚拟网卡"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:28
+msgid "Detected virtual network adapter"
+msgstr "检测到的虚拟网卡"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:288
+msgid "Device has configured, but you cancelled driver installation dialog"
+msgstr "设备已添加，但你拒绝了驱动安装确认对话框"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:331
+msgid "Didn't find any adapter on your system"
+msgstr "未在系统上找到任何虚拟网卡"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:275
+#: src/Frame/ManageTap/ManageTapFrame.cpp:340
+msgid "Driver files incomplete, "
+msgstr "驱动文件不完整， "
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:26
+msgid "Help"
+msgstr "帮助"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:149
+msgid ""
+"If you don't want to install driver, don't click on \"Install new\" button"
+msgstr "如果不想安装驱动，不要点击“新安装”按钮"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:289
+msgid ""
+"In this case, you need to uninstall redundant virtual network adapter once "
+"any other install successfully"
+msgstr "在这种情况下，你需要在任何其他安装请求成功后卸载多余的虚拟网卡"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:272
+msgid "Install adapter failed:"
+msgstr "虚拟网卡安装失败："
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:249
+msgid "Install another one?"
+msgstr "再安装另一个？"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:32
+msgid "Install new"
+msgstr "新安装"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:159
+msgid "Installed virtual adapter may not be detected immediately"
+msgstr "已安装的虚拟网卡可能不会立刻被检测到"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:12
+#: src/Frame/ManageTap/ManageTapFrame.cpp:31
+msgid "Manage virtual network adapter"
+msgstr "管理虚拟网卡"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:239
+msgid "Metric has set"
+msgstr "跃点数（metric）已设置"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:43
+#: src/Frame/ManageTap/ManageTapFrame.cpp:123
+msgid "Open device manager"
+msgstr "打开设备管理器"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:290
+msgid ""
+"Or go to device manager and uninstall \"Unknown device\" if you don't want "
+"to have a virtual network adapter"
+msgstr "或是如果你不想要虚拟网卡，到设备管理器卸载“未知设备”"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:47
+msgid "Refresh"
+msgstr "刷新"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:45
+msgid "Rename"
+msgstr "重命名"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:204
+msgid ""
+"Select network adapter in opened window, press F2 to rename\n"
+"Click on Refresh button after you are done"
+msgstr ""
+"在新打开的窗口中选择网卡，按F2进行重命名\n"
+"完成后点击刷新按钮"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:34
+msgid "Set metric"
+msgstr "设置跃点数（metric）"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:268
+msgid "Successfully installed new adapter"
+msgstr "成功安装新网卡"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:324
+msgid "Successfully uninstalled adapter"
+msgstr "成功卸载网卡"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:258
+msgid "Suggest read help before install first virtual network adapter"
+msgstr "首次安装虚拟网卡前建议阅读帮助"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:337
+msgid "Target adapter doesn't exist on your system"
+msgstr "目标网卡在你的系统上不存在"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:173
+msgid ""
+"Tinc game can not identify which virtual network adapter is installed by "
+"Tinc game, or installed by other program, thus you must take control of the "
+"uninstall process"
+msgstr ""
+"Tinc网络不能验证哪个虚拟网卡是被Tinc网络安装的，或是被其他软件安装的，因此必"
+"须由你控制卸载过程"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:37
+msgid "Uninstall"
+msgstr "卸载"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:328
+msgid "Uninstall adapter failed:"
+msgstr "卸载网卡失败："
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:164
+msgid "Uninstall button is not uninstall driver button"
+msgstr "卸载按钮不是卸载驱动按钮"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:313
+msgid "Uninstalling last virtual network adapter"
+msgstr "正在卸载最后一个虚拟网卡"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:284
+msgid "You may need to run tinc game as admin"
+msgstr "你应该以管理员权限运行tinc网络"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:334
+msgid "You need to run tinc game as admin"
+msgstr "你需要以管理员权限运行tinc网络"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:277
+#: src/Frame/ManageTap/ManageTapFrame.cpp:281
+#: src/Frame/ManageTap/ManageTapFrame.cpp:342
+msgid "file not found"
+msgstr "文件未找到"

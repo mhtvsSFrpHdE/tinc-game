@@ -40,7 +40,7 @@ void ApplyMtuFrame::Init_CreateControls()
     chooseAdapter_HelpMeDecideButton->Bind(wxEVT_BUTTON, &ApplyMtuFrame::OnHelpMeDecideButton, this);
     displayMtu_IPv4 = new wxStaticText(rootPanel, wxID_ANY, wxT("IPv4: ") + std::to_wstring(_mtuValue_IPv4));
     displayMtu_IPv6 = new wxStaticText(rootPanel, wxID_ANY, wxT("IPv6: ") + std::to_wstring(_mtuValue_IPv6));
-    yourCommand_StaticText = new wxStaticText(rootPanel, wxID_ANY, wxT("Your command"));
+    yourCommand_StaticText = new wxStaticText(rootPanel, wxID_ANY, _("Your command"));
     yourCommand_TextCtrl = new wxTextCtrl(rootPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
     yourCommand_CopyButton = new wxButton(rootPanel, wxID_ANY, _("Copy"));
     yourCommand_CopyButton->Enable(false);

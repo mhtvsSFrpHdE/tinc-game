@@ -1,0 +1,63 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-05 08:24+0800\n"
+"PO-Revision-Date: 2026-06-05 08:36+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.6\n"
+
+#: src/Frame/Main/MainFrameMenu.cpp:237
+msgid "Close all windows before enter setting interface"
+msgstr "进入设置界面前请关闭所有窗口"
+
+#: src/Frame/Main/MainFrameMenu.cpp:182 src/Frame/Main/MainFrameMenu.cpp:189
+msgid "Confirm delete network?"
+msgstr "确认删除网络？"
+
+#: src/Frame/Main/MainFrameMenu.cpp:26
+msgid "Disconnect ALL network before making changes"
+msgstr "进行修改前必须断开所有网络"
+
+#: src/Frame/Main/MainFrameMenu.cpp:43
+msgid "Disconnect network before edit: "
+msgstr "修改前需要断开网络： "
+
+#: src/Frame/Main/MainFrameMenu.cpp:179
+msgid "No way to help you recover any of your data"
+msgstr "没有办法帮助你恢复任何数据"
+
+#: src/Frame/Main/MainFrameMenu.cpp:36 src/Frame/Main/MainFrameMenu.cpp:84
+msgid "Not select network"
+msgstr "未选择网络"
+
+#: src/Frame/Main/MainFrameMenu.cpp:106
+msgid "Run Networks - Reload after you are done"
+msgstr "完成之后，运行 网络 - 重新加载"
+
+#: src/Frame/Main/MainFrameMenu.cpp:180
+msgid "To join the network again, you may need another invite code"
+msgstr "要再次加入这个网络，你也许需要另一个邀请码"
+
+#: src/Frame/Main/MainFrameMenu.cpp:270
+msgid "Troubleshoot"
+msgstr "排查故障"
+
+#: src/Frame/Main/MainFrameMenu.cpp:183 src/Frame/Main/MainFrameMenu.cpp:190
+msgid "WARNING"
+msgstr "警告"
+
+#: src/Frame/Main/MainFrameMenu.cpp:177
+msgid "Your network password (identity) only stored on your local computer"
+msgstr "你的网络密码（凭据）仅保存在你自己的电脑上"

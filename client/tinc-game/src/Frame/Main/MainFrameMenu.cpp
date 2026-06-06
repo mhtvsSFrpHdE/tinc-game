@@ -176,7 +176,7 @@ void MainFrame::OnMenuNetworksAdvancedDelete(wxCommandEvent& event)
 
     auto firstHint = _("Your network password (identity) only stored on your local computer")
         + ss::newLine
-        + ss::newLine + _("I can not help you recover any of your data")
+        + ss::newLine + _("No way to help you recover any of your data")
         + ss::newLine + _("To join the network again, you may need another invite code")
         + ss::newLine
         + ss::newLine + _("Confirm delete network?");

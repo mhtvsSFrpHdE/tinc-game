@@ -79,7 +79,7 @@ bool Settings_SRV::LoadConfigFile()
             programConfig->Write(sk::settings_gameMode, wxT("GameApp.exe"));
             programConfig->Write(sk::lists_mtuTestIp, wxT("1.1.1.1,8.8.8.8"));
             programConfig->Write(sk::lists_gameModeGames, wxT("GameApp.exe,javaw.exe"));
-            programConfig->Write(sk::lists_registerServer, wxT("api1//localhost:8080/api/account/invite,api1//127.0.0.1:8080/api/account/invite"));
+            programConfig->Write(sk::lists_registerServer, wxT("api1://localhost:8080/api/account/invite,api1s://127.0.0.1:8443/api/account/invite"));
             programConfig->Flush();
         }
 

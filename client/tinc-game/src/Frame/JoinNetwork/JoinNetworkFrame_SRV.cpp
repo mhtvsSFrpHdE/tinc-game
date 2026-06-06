@@ -263,7 +263,7 @@ void JoinNetworkFrame::API_SRV_JoinNetworkByRegister(std::wstring networkName, R
     catch (...) {
         auto result = ReturnValue<JoinNetworkResult>();
         result.returnBody.messageEnum = JoinNetworkResult::Enum::RegisterFailed;
-        result.returnBody.messageString = _("Failed to parse response json" + ss::newLine + ss::utf8ToUtf16(utfStringConverter, response.text));
+        result.returnBody.messageString = _("Failed to parse response json") + ss::newLine + ss::utf8ToUtf16(utfStringConverter, response.text);
         CallAfter(&JoinNetworkFrame::API_UI_ReportErrorMessage, result);
         CallAfter(&JoinNetworkFrame::API_UI_EndJoinNetworkByRegisterOnError);
         return;

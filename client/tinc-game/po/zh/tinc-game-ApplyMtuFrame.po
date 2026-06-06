@@ -1,0 +1,76 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-27 09:16+0800\n"
+"PO-Revision-Date: 2026-06-06 06:47+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.9\n"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:48
+msgid "Apply"
+msgstr "应用"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:6
+msgid "Apply MTU"
+msgstr "应用MTU"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:149
+msgid "Apply MTU success"
+msgstr "应用MTU成功"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:50
+msgid "Cancel"
+msgstr "取消"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:45
+msgid "Copy"
+msgstr "复制"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:150
+msgid "Failed to apply MTU values"
+msgstr "应用MTU值失败"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:39
+msgid "Help me decide"
+msgstr "帮助我决定"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:160
+msgid ""
+"If your adapter name contains non English characters, try copy command and "
+"run manually in command prompt. You can right click in command prompt window "
+"to paste your command"
+msgstr ""
+"如果你的网卡名称包含非英文字符，尝试复制命令和在命令提示符（cmd）中手动运行。"
+"你可以在命令提示符窗口中单击右键粘贴命令"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:159
+msgid "Invalid adapter name: "
+msgstr "无效的网卡名称： "
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:141
+msgid "Select network interface before apply MTU values."
+msgstr "应用MTU值前先选择网卡。"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:19
+msgid "Set MTU to network interface"
+msgstr "将MTU设置到网卡"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:169
+msgid "Unknown error: "
+msgstr "未知错误： "
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:43
+msgid "Your command"
+msgstr "生成的命令"

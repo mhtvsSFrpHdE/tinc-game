@@ -79,7 +79,9 @@ Section
     File "..\tinc-game\src\ShellScript\Windows\ping437_start.bat"
     File "..\tinc-game\src\ShellScript\Windows\tincShell.bat"
     File "..\tinc-game\src\ShellScript\Windows\uninstallTap.bat"
-    # install tinc bin
+    # install translate file, exclude po and pot files
+    File /r /x *.po /x *.pot "..\tinc-game\po\zh"
+    # install tinc bin, exclude "Uninstall.exe"
     SetOutPath "$InstDir\bin\tinc"
     File /r /x "Uninstall.exe" "C:\Program Files\tinc\"
     SetOutPath $InstDir
