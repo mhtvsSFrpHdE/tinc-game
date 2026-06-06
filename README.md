@@ -66,15 +66,16 @@ NAT somehow protected these device from being seen, but in tinc game public netw
   -e TINC_GAME_SERVER_HTTPS=$TINC_GAME_SERVER_HTTPS \
   -e IPV4_SUBNET_RANGE_BEGIN="10.77.1.65" \
   -p $LISTEN_PORT:$LISTEN_PORT -p $LISTEN_PORT:$LISTEN_PORT/udp \
-  -p 18080:8080 \
-  -p 18443:8443 \
-  -p 18000:8000 \
+  -p 8080:8080 \
+  -p 8443:8443 \
+  -p 8000:8000 \
   --cap-add=NET_ADMIN --device /dev/net/tun:/dev/net/tun \
   --restart unless-stopped \
   --stop-timeout=45 \
   -d \
   --name $CONTAINER_NAME jtfeejflcdxj/$CONTAINER_NAME
   ```
+- Forward port 655, 8080 for HTTP, 8443 for HTTPS, don't forward 8000
 
 ## Lean more on wiki
 https://github.com/mhtvsSFrpHdE/tinc-game/tree/main/wiki

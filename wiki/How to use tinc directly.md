@@ -19,7 +19,7 @@ Build from source
 - `make`
 - `sudo make install`
 
-## Congigure first node (server)
+## Configure first node (server)
 - Create pid folder for tincd, without this seems failed to start daemon  
   `sudo mkdir -p /usr/local/var/run`
 - `sudo tinc -n NETWORK_NAME init server`

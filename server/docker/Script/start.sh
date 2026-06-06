@@ -44,6 +44,9 @@ trap 'cleanup' SIGTERM
 
 tinc -n tinc_docker start
 python -m uploadserver 8000 --allow-replace &
+# If https false exit
+# On https true, wait for privkey.pem to be exist
+# Watch this file once it updated, reboot spring boot
 bash -c "if [ $TINC_GAME_SERVER_HTTPS = "false" ]; then exit; fi; until [ -f "/home/root/privkey.pem" ]; do sleep 1; done; until inotifywait "/home/root/privkey.pem" -e close_write; do kill -15 \$(lsof -t -i:8080); done" &
 bash -c "until java -jar spring-boot-project-0.0.1-SNAPSHOT.jar; do sleep 1; done" &
 
