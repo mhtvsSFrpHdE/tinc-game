@@ -1,6 +1,6 @@
 # define const variables
 !define PRODUCT_NAME "tinc game"
-!define PRODUCT_VERSION "2.0"
+!define PRODUCT_VERSION "2.0.1"
 
 !define TINCGAME_INSTALL_DIR "tinc-game"
 !define TINCGAME_UNINSTALL_ID "tinc-game-T0MBcLcnSX8S"
@@ -80,7 +80,7 @@ Section
     File "..\tinc-game\src\ShellScript\Windows\tincShell.bat"
     File "..\tinc-game\src\ShellScript\Windows\uninstallTap.bat"
     # install translate file, exclude po and pot files
-    File /r /x *.po /x *.pot "..\tinc-game\po\zh"
+    File /r /x *.po /x *.pot "..\tinc-game\po"
     # install tinc bin, exclude "Uninstall.exe"
     SetOutPath "$InstDir\bin\tinc"
     File /r /x "Uninstall.exe" "C:\Program Files\tinc\"

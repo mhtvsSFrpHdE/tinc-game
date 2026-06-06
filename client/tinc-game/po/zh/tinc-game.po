@@ -1,0 +1,875 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-27 09:16+0800\n"
+"PO-Revision-Date: 2026-06-06 06:47+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.9\n"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:48
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:86
+msgid "Apply"
+msgstr "应用"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:6
+msgid "Apply MTU"
+msgstr "应用MTU"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:149
+msgid "Apply MTU success"
+msgstr "应用MTU成功"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:50
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:65
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:296
+#: src/Frame/Settings/SettingsFrame.cpp:60
+msgid "Cancel"
+msgstr "取消"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:45
+msgid "Copy"
+msgstr "复制"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:150
+msgid "Failed to apply MTU values"
+msgstr "应用MTU值失败"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:39
+msgid "Help me decide"
+msgstr "帮助我决定"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:160
+msgid ""
+"If your adapter name contains non English characters, try copy command and "
+"run manually in command prompt. You can right click in command prompt window "
+"to paste your command"
+msgstr ""
+"如果你的网卡名称包含非英文字符，尝试复制命令和在命令提示符（cmd）中手动运行。"
+"你可以在命令提示符窗口中单击右键粘贴命令"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:159
+msgid "Invalid adapter name: "
+msgstr "无效的网卡名称： "
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:141
+msgid "Select network interface before apply MTU values."
+msgstr "应用MTU值前先选择网卡。"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:19
+msgid "Set MTU to network interface"
+msgstr "将MTU设置到网卡"
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:169
+msgid "Unknown error: "
+msgstr "未知错误： "
+
+#: src/Frame/ApplyMtu/ApplyMtuFrame.cpp:43
+msgid "Your command"
+msgstr "生成的命令"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:150
+msgid "About network settings"
+msgstr "关于网络设置"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:129
+msgid ""
+"Allow you to utilize potential high quality internet lane for reducing "
+"latency and packet lose rate, carefully read hints when click on it, and try "
+"your best to NOT to use this feature, unless your game is really latency "
+"sensitive or your ISP is totally crap"
+msgstr ""
+"允许你运用潜在的高质量互联网线路来降低延迟和丢包率，当点击时仔细阅读提示并且"
+"尽可能的“不用”这个功能，除非这个游戏真的对延迟敏感，或是你的运营商服务质量非"
+"常差"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:137
+msgid ""
+"Append \"--debug=3\" to tincd start argument, print more network activity "
+"information like users you are connecting to, and their public IP address"
+msgstr ""
+"将“--debug=3”附加到tincd启动参数，显示更多网络活动信息，像是你正在连接到的用"
+"户，以及他们的外部IP地址"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:176
+msgid ""
+"As long as you are truly run games, data usage won't go wild, no one will be "
+"hurted"
+msgstr "只要你真的在玩游戏，数据使用量不会无节制增长，不会有人因此遭到灾难"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:32
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:131
+msgid "Auto connect on start"
+msgstr "启动时自动连接"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:172
+msgid "But high quality internet lane costs more and budget is limited"
+msgstr "但高质量互联网线路价格更贵而且预算有限"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:177
+msgid ""
+"Certain game like Garry's Mod are exception, they can cost hundureds GB "
+"instead"
+msgstr "特殊的游戏像Garry's Mod是例外，他们能从服务器下载数千个GB"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:63
+#: src/Frame/RenameNetwork/RenameNetworkFrame.cpp:26
+#: src/Frame/Settings/SettingsFrame.cpp:58
+msgid "Confirm"
+msgstr "确定"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:8
+msgid "Edit:"
+msgstr "修改："
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:171
+msgid "Enable game mode may brings lower network lantency and less packet lose"
+msgstr "激活游戏模式也许能带来更低的网络延迟和更低的丢包率"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:173
+msgid ""
+"Especally when you run too much traffic on free service may get your account "
+"banned"
+msgstr "尤其是当你在免费服务上消耗太多流量时可能导致你的帐号被封禁"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:207
+msgid "Game Mode has enabled, port must set to 0"
+msgstr "游戏模式已激活，端口号必须设为0"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:25
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:127
+#: src/Frame/Settings/SettingsFrame.cpp:46
+msgid "Game mode"
+msgstr "游戏模式"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:175
+msgid "Games regularly cost less than 100 MB per hour"
+msgstr "游戏通常每小时消耗少于100MB流量"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:23
+#: src/Frame/ManageTap/ManageTapFrame.cpp:26
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:72
+msgid "Help"
+msgstr "帮助"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:145
+msgid ""
+"If you don't have open port and just a regular player, set to 0 to use "
+"random port to increase UDP hole punching success rate. If you have "
+"dedicated public IPv4 address and open port, you can set your port "
+"forwarding information here, let other people connect to you in direct path "
+"to minimize lantancy, this WILL ALSO allow other people do UDP hole punching "
+"between each other by using your network to swap information, or even "
+"forward traffic through your network when UDP hole punching failed. tinc "
+"didn't provide an option to turn off \"help other people\", so you can't "
+"have open port but refuse to serve others at same time, consider to limit "
+"your upload speed to prevent your upload traffic goes wild by using tools "
+"like NetLimiter on Windows, nftables on Linux"
+msgstr ""
+"如果你没有开放端口而且是一般玩家，设为0使用随机端口号增加UDP穿透成功率。如果"
+"你有独立IP地址或开放端口，你可以在这里设置端口转发信息，让其他人能通过直接路"
+"径连接到你，进一步降低延迟，这也会“允许”其他人通过你的网络交换信息互相进行UDP"
+"穿透，甚至是在UDP穿透失败时使用你的网络进行中转。tinc没有提供选项来单独关闭"
+"“帮助其他人”，所以你不能在开放端口的同时拒绝为其他人提供服务，考虑使用像"
+"Windows系统的NetLimiter、Linux系统的nftables这样的工具来限制你的上传速度避免"
+"上传流量过大（被识别为PCDN）"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:178
+msgid "In this case, please disable Game Mode"
+msgstr "在这种情况下，禁用游戏模式"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:197
+msgid "Invalid port number"
+msgstr "无效的端口号"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:133
+msgid ""
+"Manually connect your network once before enable auto connect to let tinc-"
+"game know relationship between network and virtual network adapter, "
+"otherwise each network will try to use first available virtual network "
+"adapter"
+msgstr ""
+"激活自动连接前进行一次手动连接到网络让软件知道网络和虚拟网卡之间的关系，否则"
+"每个网络将会尝试使用第一个可用的虚拟网卡"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:143
+msgid "Port"
+msgstr "端口号"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:50
+msgid "Port (0-65535):"
+msgstr "端口号（0-65535）："
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:44
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:139
+msgid "Set metric before connect"
+msgstr "连接前设置跃点数（metric）"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:38
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:135
+msgid "Show detailed live log"
+msgstr "显示详细实时日志"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:141
+msgid ""
+"Some router push private network route table like 10.x.x.x to device "
+"connected to it for unknown reason, cause tinc virtual network inaccessible. "
+"Set metric=1 before connect can workaround this. If you don't like set each "
+"time on connect, go to \"Manage virtual network adapter\" and there is a "
+"button let you persistent set metric, so you can turn off option here and "
+"connect to network even faster"
+msgstr ""
+"有些路由器不知为何向连接到自身的设备推送像是10.x.x.x的私有路由表，导致tinc虚"
+"拟网络不可被访问。在连接前设置跃点数=1（metric）可以避开这种情况。如果你不喜"
+"欢每次连接时设置，到“管理虚拟网卡”，那里有一个按钮让你可以永久设置跃点数，那"
+"么你可以在这里关闭然后以更快的速度连接到网络"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:179
+#: src/Frame/Main/MainFrameMenu.cpp:183 src/Frame/Main/MainFrameMenu.cpp:190
+msgid "WARNING"
+msgstr "警告"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:147
+msgid ""
+"When Game Mode is enabled, port must set to 0 to make it actually work, "
+"prevent other people from connect you via direct path"
+msgstr ""
+"当游戏模式激活时，端口号必须设为0来让它实际上生效，防止其他玩家通过直接路径连"
+"接到你"
+
+#: src/Frame/EditNetwork/EditNetworkFrame.cpp:169
+msgid "You swear to use Game Mode only for playing games"
+msgstr "你发誓只使用游戏模式来玩游戏"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:286
+msgid "Error log:"
+msgstr "错误日志："
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:36
+msgid "Failed to connect your server"
+msgstr "连接到服务器失败"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:30
+msgid "Failed to run tinc program"
+msgstr "运行tinc程序失败"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:169
+#: src/Frame/RenameNetwork/RenameNetworkFrame.cpp:86
+msgid "First discovered invalid character: "
+msgstr "第一处被发现的无效字符： "
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:33
+msgid "Invalid invite code, check invite code format"
+msgstr "无效的邀请码，检查邀请码语法格式"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:258
+msgid "Invite code"
+msgstr "邀请码"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:291
+msgid "Join"
+msgstr "加入"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:255
+msgid "Join by"
+msgstr "加入方式"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:9
+msgid "Join network"
+msgstr "加入网络"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:178
+#: src/Frame/RenameNetwork/RenameNetworkFrame.cpp:97
+msgid "Network name already exist, use another one"
+msgstr "网络名已存在，使用另一个名称"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:162
+msgid "Network name is required"
+msgstr "网络名是必填项"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:168
+#: src/Frame/RenameNetwork/RenameNetworkFrame.cpp:85
+msgid "Network name must be a valid folder name"
+msgstr "网络名必须是有效的文件夹名"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:42
+msgid "Register failed"
+msgstr "注册失败"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:257
+msgid "Register on server"
+msgstr "在服务器上注册"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:293
+msgid "Retry"
+msgstr "重试"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:261
+msgid "Save as (network name)"
+msgstr "保存为（网络名）"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:274
+msgid "Server address and port:"
+msgstr "服务器地址和端口号："
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:126
+msgid "Server information should start with \"api\""
+msgstr "服务器信息应该以“api”作为开头"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:39
+msgid "Server refused your invite code"
+msgstr "服务器拒绝了你的邀请码"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:25
+msgid "Successfully joined network"
+msgstr "成功加入网络"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:267
+msgid "Type invite code:"
+msgstr "输入邀请码："
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:139
+msgid "Unknown api version: "
+msgstr "未知的api版本： "
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame.cpp:46
+msgid "Unknown error"
+msgstr "未知错误"
+
+#: src/Frame/JoinNetwork/JoinNetworkFrame_SRV.cpp:266
+msgid "Failed to parse response json"
+msgstr "解析json响应结果失败"
+
+#: src/Frame/Main/MainFrame.cpp:102
+msgid "Available"
+msgstr "可用"
+
+#: src/Frame/Main/MainFrame.cpp:102
+msgid "Connected"
+msgstr "已连接"
+
+#: src/Frame/Main/MainFrame.cpp:195
+msgid "Failed to disconnect, tinc.exe may not exist"
+msgstr "断开连接失败，tinc.exe可能不存在"
+
+#: src/Frame/Main/MainFrame.cpp:173
+msgid "Selected virtual network adapter already connected to another network"
+msgstr "选择的虚拟网卡已被其他网络使用"
+
+#: src/Frame/Main/MainFrame.cpp:120
+msgid ""
+"You need a virtual network adapter to connect network\n"
+"Open Tools - Manage virtual network adapter to install one"
+msgstr ""
+"连接到网络前需要安装虚拟网卡\n"
+"到工具 - 管理虚拟网卡处安装虚拟网卡"
+
+#: src/Frame/Main/MainFrame_SRV.cpp:245
+msgid " Unavailable"
+msgstr " 不可用"
+
+#: src/Frame/Main/MainFrame_SRV.cpp:197
+msgid " was set to auto connect on start"
+msgstr " 已设置为启动时自动连接"
+
+#: src/Frame/Main/MainFrameInit.cpp:180 src/Frame/Main/MainFrameInit.cpp:199
+msgid "&Advanced"
+msgstr "&高级"
+
+#: src/Frame/Main/MainFrameInit.cpp:178
+msgid "&Delete"
+msgstr "&删除"
+
+#: src/Frame/Main/MainFrameInit.cpp:164
+msgid "&Edit"
+msgstr "&修改"
+
+#: src/Frame/Main/MainFrameInit.cpp:170
+msgid "&Import and Export"
+msgstr "&导入和导出"
+
+#: src/Frame/Main/MainFrameInit.cpp:168
+msgid "&Join network"
+msgstr "&加入网络"
+
+#: src/Frame/Main/MainFrameInit.cpp:187
+msgid "&Manage virtual network adapter"
+msgstr "&管理虚拟网卡"
+
+#: src/Frame/Main/MainFrameInit.cpp:182
+msgid "&Networks"
+msgstr "&网络"
+
+#: src/Frame/Main/MainFrameInit.cpp:195
+msgid "&Optimize MTU"
+msgstr "&优化MTU"
+
+#: src/Frame/Main/MainFrameInit.cpp:172
+msgid "&Reload"
+msgstr "&重新加载"
+
+#: src/Frame/Main/MainFrameInit.cpp:166
+msgid "&Rename"
+msgstr "&重命名"
+
+#: src/Frame/Main/MainFrameInit.cpp:189
+msgid "&Settings"
+msgstr "&设置"
+
+#: src/Frame/Main/MainFrameInit.cpp:201
+msgid "&Tools"
+msgstr "&工具"
+
+#: src/Frame/Main/MainFrameInit.cpp:197
+msgid "&Troubleshoot"
+msgstr "&排查故障"
+
+#: src/Frame/Main/MainFrameInit.cpp:209
+msgid "Assigned IP"
+msgstr "分配的IP"
+
+#: src/Frame/Main/MainFrameMenu.cpp:237
+msgid "Close all windows before enter setting interface"
+msgstr "进入设置界面前请关闭所有窗口"
+
+#: src/Frame/Main/MainFrameMenu.cpp:182 src/Frame/Main/MainFrameMenu.cpp:189
+msgid "Confirm delete network?"
+msgstr "确认删除网络？"
+
+#: src/Frame/Main/MainFrameInit.cpp:18 src/Frame/Main/MainFrameInit.cpp:82
+msgid "Connect"
+msgstr "连接"
+
+#: src/Frame/Main/MainFrame_SRV.cpp:248
+msgid "Connect request refused by tinc:"
+msgstr "连接请求被tinc拒绝："
+
+#: src/Frame/Main/MainFrameInit.cpp:214
+msgid "Connect with"
+msgstr "虚拟网卡"
+
+#: src/Frame/Main/MainFrameInit.cpp:51 src/Frame/Main/MainFrameInit.cpp:97
+msgid "Copy Refresh"
+msgstr "复制 刷新"
+
+#: src/Frame/Main/MainFrameInit.cpp:25 src/Frame/Main/MainFrameInit.cpp:85
+msgid "Disconnect"
+msgstr "断开"
+
+#: src/Frame/Main/MainFrameMenu.cpp:26
+msgid "Disconnect ALL network before making changes"
+msgstr "进行修改前必须断开所有网络"
+
+#: src/Frame/Main/MainFrameMenu.cpp:43
+msgid "Disconnect network before edit: "
+msgstr "修改前需要断开网络： "
+
+#: src/Frame/Main/MainFrame_SRV.cpp:242
+msgid "Failed to connect to network "
+msgstr "断开连接失败 "
+
+#: src/Frame/Main/MainFrame_SRV.cpp:252
+msgid "Installation corroupted, tinc.exe or tincd.exe may not exist"
+msgstr "软件文件损坏，tinc.exe或tincd.exe可能不存在"
+
+#: src/Frame/Main/MainFrame_SRV.cpp:197
+msgid "Network "
+msgstr "网络 "
+
+#: src/Frame/Main/MainFrameInit.cpp:218
+msgid "Network name"
+msgstr "网络名"
+
+#: src/Frame/Main/MainFrameMenu.cpp:179
+msgid "No way to help you recover any of your data"
+msgstr "没有办法帮助你恢复任何数据"
+
+#: src/Frame/Main/MainFrame_SRV.cpp:218
+msgid "Not all auto connect network submitted"
+msgstr "不是所有设为自动连接的网络都连接成功"
+
+#: src/Frame/Main/MainFrameMenu.cpp:36 src/Frame/Main/MainFrameMenu.cpp:84
+msgid "Not select network"
+msgstr "未选择网络"
+
+#: src/Frame/Main/MainFrameMenu.cpp:106
+msgid "Run Networks - Reload after you are done"
+msgstr "完成之后，运行 网络 - 重新加载"
+
+#: src/Frame/Main/MainFrame_SRV.cpp:259
+msgid ""
+"Selected virtual network adapter not exist, may be rename or uninstalled\n"
+"Run Networks - Reload to update virtual network adapter list"
+msgstr ""
+"连接到网络前需要安装虚拟网卡\n"
+"到工具 - 管理虚拟网卡处安装虚拟网卡"
+
+#: src/Frame/Main/MainFrame_SRV.cpp:218
+msgid ""
+"The following network successfully submitted to auto connect, you may want "
+"to disconnect them before edit settings"
+msgstr "以下网络已经提交到自动连接，你也许想在修改之前断开这些网络的连接"
+
+#: src/Frame/Main/MainFrameInit.cpp:6
+msgid "Tinc Game"
+msgstr "Tinc网络"
+
+#: src/Frame/Main/MainFrameMenu.cpp:180
+msgid "To join the network again, you may need another invite code"
+msgstr "要再次加入这个网络，你也许需要另一个邀请码"
+
+#: src/Frame/Main/MainFrameMenu.cpp:270
+msgid "Troubleshoot"
+msgstr "排查故障"
+
+#: src/Frame/Main/MainFrame_SRV.cpp:255
+msgid "Unknown error:"
+msgstr "未知错误："
+
+#: src/Frame/Main/MainFrame_SRV.cpp:245
+msgid "Virtual network adapter "
+msgstr "虚拟网卡 "
+
+#: src/Frame/Main/MainFrameMenu.cpp:177
+msgid "Your network password (identity) only stored on your local computer"
+msgstr "你的网络密码（凭据）仅保存在你自己的电脑上"
+
+#: src/Frame/Main/MainFrame_SRV.cpp:198
+msgid "but there is no available virtual network adapter"
+msgstr "但没有可用的虚拟网卡"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:168
+msgid ""
+"- Check \"Attempt to remove the driver for this device\", and hit uninstall"
+msgstr "- 选中“尝试删除此设备的驱动程序”然后点击卸载"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:166
+msgid ""
+"- If want to uninstall driver, uninstall virtual network adapter until there "
+"is only one remains, go to Device manager - Network adapters, right click on "
+"\"TAP - Win32 Adapter V9\" and choose \"Uninstall device\""
+msgstr ""
+"- 如果想要卸载驱动，先卸载虚拟网卡直到只剩下1个，到设备管理器 - 网络适配器，"
+"在“TAP - Win32 Adapter V9”上右键并选择“卸载设备”"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:170
+msgid ""
+"- If you accidentally uninstalled all virtual network adapter, click on "
+"\"Install new\" to add one, in order to uninstall driver in device manager"
+msgstr ""
+"- 如果不小心卸载了所有虚拟网卡，点击“新安装”来添加一个，就可以在设备管理器中"
+"卸载驱动"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:156
+msgid ""
+"- If you denied driver installation and don't want to install driver, go to "
+"Device Manager - Network adapters, right click on \"Unknown device\" and "
+"choose \"Uninstall device\""
+msgstr ""
+"- 如果你拒绝驱动安装并且不想安装驱动，到设备管理器 - 网络适配器，右键“未知设"
+"备”并选择“卸载设备”"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:154
+msgid ""
+"- If you still want to install driver, click on \"Install new\" again and "
+"agree, then you will have two virtual network adapter, one might be "
+"redundant and need to be uninstalled manually"
+msgstr ""
+"- 如果还是想安装驱动，点击“新安装”并同意，这种情况下会有两个虚拟网卡，其中一"
+"个可能是多余的并且需要手动卸载"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:161
+msgid ""
+"- Try click on \"Refresh\" button until textbox shows virtual network "
+"adapter name with green background"
+msgstr "- 尝试点击“刷新”按钮直到文本框中显示虚拟网卡名称以及绿色背景"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:176
+msgid "About virtual network adapter"
+msgstr "关于虚拟网卡"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:152
+msgid ""
+"Although you can deny it, but device will still add to system, and show as "
+"\"Unknown device\""
+msgstr "即使你可以拒绝，设备仍然会添加到系统，并且显示为“未知设备”"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:293
+#: src/Frame/ManageTap/ManageTapFrame.cpp:345
+msgid "Can't confirm what happened, the raw error message is"
+msgstr "不能确认发生了什么，原始错误信息是"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:49
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:94
+msgid "Close"
+msgstr "关闭"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:313
+msgid "Confirm?"
+msgstr "确定？"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:249
+msgid "Detected exist virtual network adapter"
+msgstr "检测到已安装的虚拟网卡"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:28
+msgid "Detected virtual network adapter"
+msgstr "检测到的虚拟网卡"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:288
+msgid "Device has configured, but you cancelled driver installation dialog"
+msgstr "设备已添加，但你拒绝了驱动安装确认对话框"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:331
+msgid "Didn't find any adapter on your system"
+msgstr "未在系统上找到任何虚拟网卡"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:275
+#: src/Frame/ManageTap/ManageTapFrame.cpp:340
+msgid "Driver files incomplete, "
+msgstr "驱动文件不完整， "
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:149
+msgid ""
+"If you don't want to install driver, don't click on \"Install new\" button"
+msgstr "如果不想安装驱动，不要点击“新安装”按钮"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:289
+msgid ""
+"In this case, you need to uninstall redundant virtual network adapter once "
+"any other install successfully"
+msgstr "在这种情况下，你需要在任何其他安装请求成功后卸载多余的虚拟网卡"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:272
+msgid "Install adapter failed:"
+msgstr "虚拟网卡安装失败："
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:249
+msgid "Install another one?"
+msgstr "再安装另一个？"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:32
+msgid "Install new"
+msgstr "新安装"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:159
+msgid "Installed virtual adapter may not be detected immediately"
+msgstr "已安装的虚拟网卡可能不会立刻被检测到"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:12
+#: src/Frame/ManageTap/ManageTapFrame.cpp:31
+msgid "Manage virtual network adapter"
+msgstr "管理虚拟网卡"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:239
+msgid "Metric has set"
+msgstr "跃点数（metric）已设置"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:43
+#: src/Frame/ManageTap/ManageTapFrame.cpp:123
+msgid "Open device manager"
+msgstr "打开设备管理器"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:290
+msgid ""
+"Or go to device manager and uninstall \"Unknown device\" if you don't want "
+"to have a virtual network adapter"
+msgstr "或是如果你不想要虚拟网卡，到设备管理器卸载“未知设备”"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:47
+msgid "Refresh"
+msgstr "刷新"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:45
+msgid "Rename"
+msgstr "重命名"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:204
+msgid ""
+"Select network adapter in opened window, press F2 to rename\n"
+"Click on Refresh button after you are done"
+msgstr ""
+"在新打开的窗口中选择网卡，按F2进行重命名\n"
+"完成后点击刷新按钮"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:34
+msgid "Set metric"
+msgstr "设置跃点数（metric）"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:268
+msgid "Successfully installed new adapter"
+msgstr "成功安装新网卡"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:324
+msgid "Successfully uninstalled adapter"
+msgstr "成功卸载网卡"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:258
+msgid "Suggest read help before install first virtual network adapter"
+msgstr "首次安装虚拟网卡前建议阅读帮助"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:337
+msgid "Target adapter doesn't exist on your system"
+msgstr "目标网卡在你的系统上不存在"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:173
+msgid ""
+"Tinc game can not identify which virtual network adapter is installed by "
+"Tinc game, or installed by other program, thus you must take control of the "
+"uninstall process"
+msgstr ""
+"Tinc网络不能验证哪个虚拟网卡是被Tinc网络安装的，或是被其他软件安装的，因此必"
+"须由你控制卸载过程"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:37
+msgid "Uninstall"
+msgstr "卸载"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:328
+msgid "Uninstall adapter failed:"
+msgstr "卸载网卡失败："
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:164
+msgid "Uninstall button is not uninstall driver button"
+msgstr "卸载按钮不是卸载驱动按钮"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:313
+msgid "Uninstalling last virtual network adapter"
+msgstr "正在卸载最后一个虚拟网卡"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:284
+msgid "You may need to run tinc game as admin"
+msgstr "你应该以管理员权限运行tinc网络"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:334
+msgid "You need to run tinc game as admin"
+msgstr "你需要以管理员权限运行tinc网络"
+
+#: src/Frame/ManageTap/ManageTapFrame.cpp:277
+#: src/Frame/ManageTap/ManageTapFrame.cpp:281
+#: src/Frame/ManageTap/ManageTapFrame.cpp:342
+msgid "file not found"
+msgstr "文件未找到"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:180
+msgid "About MTU"
+msgstr "关于MTU"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:175
+msgid ""
+"All modern network program will determe TCP and UDP MTU size for themselfs "
+"even if there is \"Path MTU Blackhole\", so it's ok to have default MTU "
+"value 1500 on Ethernet adapter"
+msgstr ""
+"即使网络中存在“路径MTU黑洞（Path MTU Blackhole）”所有现代网络程序也能自动为"
+"TCP和UDP协议探测MTU尺寸，在网卡上使用默认MTU值1500不会有什么问题"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:177
+msgid ""
+"In theory, path mtu discovey is not an optional feature of IPv6 protocol "
+"compare to IPv4 DF flag, either applications and internet service provider "
+"must support Path MTU Discovery in IPv6 (RFC 8201). However, poor web server "
+"maintainer may decide to block all ICMP protocols to improve their server's "
+"security, so called \"Path MTU Blackhole\". It's a pretty questionable "
+"choice because this may cause some IPv6 applications to use 1280 (RFC 2460) "
+"as their MTU when path MTU discovery can't be performed, which reduces "
+"network performance"
+msgstr ""
+"理论上，与IPv4的可选DF标记（DF flag）相比，路径MTU发现（path mtu discovery）"
+"不是IPv6的可选功能，应用程序或互联网服务提供方必须在IPv6中支持路径MTU发现"
+"（RFC 8201）。然而固执的Web服务器维护人员可能决定为了提升他们服务器的安全性而"
+"禁止所有ICMP协议，这个现象称为“路径MTU黑洞（Path MTU Blackhole）”。这个决定的"
+"问题在于当路径MTU发现无法执行，可能导致部分IPv6应用直接使用1280作为MTU值"
+"（RFC 2460），导致网络性能下降"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:213
+msgid "Invalid IP address or domain"
+msgstr "无效的IP地址或域名"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:51
+msgid "MTU measure fail"
+msgstr "MTU测量失败"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:173
+msgid ""
+"On Windows, your IPv4 MTU value is measured by using IPv4 DF flag, IPv6 MTU "
+"is minus 20 from this value. There is no easy way to measure IPv6 MTU "
+"directly on Windows platform"
+msgstr ""
+"在Windows系统上，IPv4的MTU值通过IPv4 DF标记（DF flag）检测，IPv6的MTU值在此基"
+"础上减去20。在Windows系统上没有简单的方法来直接检测IPv6的MTU值"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:15
+msgid "Optimize MTU"
+msgstr "优化MTU"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:171
+msgid ""
+"Optimize MTU function only meaningful if there is \"Path MTU Blackhole\" or "
+"tinc can't perform IPv4 Path MTU Discovery automatically on your system"
+msgstr ""
+"优化MTU功能仅在存在“路径MTU黑洞（Path MTU Blackhole）”时，或是tinc无法在你的"
+"系统上自动执行IPv4 路径MTU发现（Path MTU Discovery）时有意义"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:84
+msgid "Start"
+msgstr "开始"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.cpp:71
+msgid "Type in target address"
+msgstr "目标地址"
+
+#: src/Frame/OptimizeMtu/OptimizeMtuFrame.h:43
+msgid "Waiting for value..."
+msgstr "等待中…"
+
+#: src/Frame/RenameNetwork/RenameNetworkFrame.cpp:77
+msgid "New network name is required"
+msgstr "网络名是必填项"
+
+#: src/Frame/RenameNetwork/RenameNetworkFrame.cpp:21
+msgid "Rename to:"
+msgstr "重命名为："
+
+#: src/Frame/RenameNetwork/RenameNetworkFrame.cpp:7
+msgid "Rename:"
+msgstr "重命名："
+
+#: src/Frame/Settings/SettingsFrame.cpp:108
+msgid "Game mode must be a valid .exe file"
+msgstr "游戏模式值必须是有效的“.exe”文件名"
+
+#: src/Frame/Settings/SettingsFrame.cpp:24
+msgid "Language"
+msgstr "语言"
+
+#: src/Frame/Settings/SettingsFrame.cpp:11
+msgid "Settings"
+msgstr "设置"
+
+#: src/Frame/Settings/SettingsFrame.cpp:109
+msgid "You may select one from the list"
+msgstr "你也许可以从列表中选择一个"
+
+#~ msgid "hint"
+#~ msgstr "提示"
+
+#~ msgid "Please do not click repeatedly!"
+#~ msgstr "请勿重复点击！"
+
+#~ msgid "MTU measure success"
+#~ msgstr "MTU测量成功"
+
+#~ msgid "Auto (System Default)"
+#~ msgstr "自动（系统默认）"

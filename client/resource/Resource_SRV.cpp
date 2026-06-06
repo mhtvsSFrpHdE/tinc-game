@@ -142,6 +142,20 @@ wxFileName Resource_SRV::Program::GetBinDir()
     return file;
 }
 
+boost::optional<wxFileName> nullableTranslateDir;
+wxFileName Resource_SRV::Program::GetTranslateDir()
+{
+    if (nullableTranslateDir) {
+        return nullableTranslateDir.get();
+    }
+
+    wxFileName file;
+    file.AppendDir(translateDir);
+
+    nullableTranslateDir = file;
+    return file;
+}
+
 boost::optional<wxFileName> nullableTapInstallerDir;
 wxFileName Resource_SRV::TincBin::GetTapInstallerDir()
 {

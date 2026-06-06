@@ -80,6 +80,15 @@ bool MainFrame::API_SRV_PrepareUpdate()
         }
     }
 
+    {
+        auto translateDir = rs::Program::GetTranslateDir();
+        bool removeResult = fs::tRemoveDir(translateDir);
+        if (removeResult == false) {
+            API_SRV_PrepareUpdate_OnRemoveFail(result, translateDir);
+            return false;
+        }
+    }
+
     auto programDir = rs::Program::GetProgramDir();
     {
         auto batGetTapHwid = programDir;

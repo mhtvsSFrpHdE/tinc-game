@@ -8,6 +8,8 @@ namespace Resource_SRV
         wxFileName GetIniDir();
         const wxString binDir = wxT("bin");
         wxFileName GetBinDir();
+        const wxString translateDir = wxT("po");
+        wxFileName GetTranslateDir();
         const wxString programExe = wxT("tinc-game.exe");
         const wxString programIni = wxT("tinc-game.ini");
         const wxString networksIni = wxT("tinc-game-networks.ini");
