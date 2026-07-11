@@ -76,6 +76,7 @@ NAT somehow protected these device from being seen, but in tinc game public netw
   --name $CONTAINER_NAME jtfeejflcdxj/$CONTAINER_NAME
   ```
 - Forward port 655, 8080 for HTTP, 8443 for HTTPS, don't forward 8000
+- To enable HTTPS, see wiki "How to build", "Server", "HTTPS"
 
 ## Lean more on wiki
 https://github.com/mhtvsSFrpHdE/tinc-game/tree/main/wiki
