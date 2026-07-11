@@ -51,7 +51,7 @@ Optional step if you want HTTPS
   - `openssl pkey -outform der -in /path/to/privkey.pem -out /path/to/privkey_tinc.pem`
   - `curl -X POST http://<docker container LAN IP address>:8000/upload -F "files=@/path/to/fullchain_tinc.pem"`
   - `curl -X POST http://<docker container LAN IP address>:8000/upload -F "files=@/path/to/privkey_tinc.pem"`
-- Upload `fullchain.pem` by first, then `privkey.pem`.  
+- Upload `fullchain_tinc.pem` by first, then `privkey_tinc.pem`.  
   There is a file watcher to reboot spring boot after `privkey.pem` uploaded
 - Once cert exist in container, spring boot service will start listen on `8443` for HTTPS, `8080` for HTTP  
   **don't expose port `8000` outside LAN, this is very dangerous**  
