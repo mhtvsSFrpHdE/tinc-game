@@ -39,24 +39,24 @@ Create System variables instead of User variables. Sometimes program need to run
   - Load Visual Studio 2019 compiler environment variable
     - `"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64` (1)
   - `cd /d "C:\cpp-devel\wxWidgets-3.1.5"`
-  - Delete exist `build` folder
   - configure
-    - `start "configure Win32" cmd /c cmake -B build -A Win32 ^& cmd && start "configure x64" cmd /c cmake -B build_x64 -A x64 ^& cmd`
-      - This start the following command together at once
-        - `cmake -B build -A Win32`
-        - `cmake -B build_x64 -A x64`
+    - Dynamic link
+      - `start "configure Win32" cmd /c cmake -B build_win32 -A Win32 ^& cmd && start "configure x64" cmd /c cmake -B build_x64 -A x64 ^& cmd`
+        - This start the following command together at once
+          - `cmake -B build_win32 -A Win32`
+          - `cmake -B build_x64 -A x64`
     - Static link
       - `set CPP_DEVEL_STATIC_FLAGS=-DBUILD_SHARED_LIBS=OFF -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded$<$<CONFIG:Debug>:Debug>"`
-      - `start "configure Win32" cmd /c cmake -B build -A Win32 %CPP_DEVEL_STATIC_FLAGS% ^& cmd && start "configure x64" cmd /c cmake -B build_x64 -A x64 %CPP_DEVEL_STATIC_FLAGS% ^& cmd`
+      - `start "configure Win32" cmd /c cmake -B build_win32 -A Win32 %CPP_DEVEL_STATIC_FLAGS% ^& cmd && start "configure x64" cmd /c cmake -B build_x64 -A x64 %CPP_DEVEL_STATIC_FLAGS% ^& cmd`
   - build
-    - `start "build Win32 Debug" cmd /c cmake --build build --config Debug --parallel ^& cmd && start "build Win32 Release" cmd /c cmake --build build --config Release --parallel ^& cmd && start "build x64 Debug" cmd /c cmake --build build_x64 --config Debug --parallel ^& cmd && start "build x64 Release" cmd /c cmake --build build_x64 --config Release --parallel ^& cmd`
+    - `start "build Win32 Debug" cmd /c cmake --build build_win32 --config Debug --parallel ^& cmd && start "build Win32 Release" cmd /c cmake --build build_win32 --config Release --parallel ^& cmd && start "build x64 Debug" cmd /c cmake --build build_x64 --config Debug --parallel ^& cmd && start "build x64 Release" cmd /c cmake --build build_x64 --config Release --parallel ^& cmd`
       - This start the following command together at once
-        - `cmake --build build --config Debug --parallel`
-        - `cmake --build build --config Release --parallel`
+        - `cmake --build build_win32 --config Debug --parallel`
+        - `cmake --build build_win32 --config Release --parallel`
         - `cmake --build build_x64 --config Debug --parallel`
         - `cmake --build build_x64 --config Release --parallel`
   - **Copy include to build**
-    - `robocopy "include" "build\include" /E && robocopy "include" "build_x64\include" /E`
+    - `robocopy "include" "build_win32\include" /E && robocopy "include" "build_x64\include" /E`
   - Environment variable `CPP_DEVEL_WXWIN` as `C:\cpp-devel\wxWidgets-3.1.5`
 - boost `1.75.0`
   - Unpack to folder like `C:\cpp-devel\boost\boost_1_75_0`, there should be `C:\cpp-devel\boost\boost_1_75_0\bootstrap.bat`
@@ -67,8 +67,10 @@ Create System variables instead of User variables. Sometimes program need to run
       - `"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64`
   - build
     - `bootstrap.bat`, this generate `b2.exe` for next step
-    - `b2.exe address-model=32,64 variant=debug,release` (dynamic link, untested, may be different)
-    - Static link: `b2.exe link=static runtime-link=static address-model=32,64 variant=debug,release`
+    - Dynamic link
+      - `b2.exe address-model=32,64 variant=debug,release` (dynamic link, untested, may be different)
+    - Static link
+      - `b2.exe link=static runtime-link=static address-model=32,64 variant=debug,release`
   - Environment variable `CPP_DEVEL_BOOST` as `C:\cpp-devel\boost\boost_1_75_0`
 - cpr `1.9.9`
   - Download [this git repository at commit 4844b9d](https://github.com/libcpr/example-cmake-fetch-content/tree/4844b9da480d81dd4cbf1783906eea574e51168b) instead of cpr release source pack
@@ -84,10 +86,11 @@ Create System variables instead of User variables. Sometimes program need to run
   - Need network to download source code.
     - If behind proxy, `set HTTP_PROXY=http://<proxy address>:<port>`, after commit, `set HTTPS_PROXY=%HTTP_PROXY%`
   - configure
-    - `start "configure Win32" cmd /c cmake -B build -A Win32 -DCPR_USE_SYSTEM_CURL=OFF ^& cmd && start "configure x64" cmd /c cmake -B build_x64 -A x64 -DCPR_USE_SYSTEM_CURL=OFF ^& cmd`
-      - This start the following command together at once
-        - `cmake -B build -A Win32 -DCPR_USE_SYSTEM_CURL=OFF` (2)
-        - `cmake -B build_x64 -A x64 -DCPR_USE_SYSTEM_CURL=OFF`
+    - Dynamic link
+      - `start "configure Win32" cmd /c cmake -B build -A Win32 -DCPR_USE_SYSTEM_CURL=OFF ^& cmd && start "configure x64" cmd /c cmake -B build_x64 -A x64 -DCPR_USE_SYSTEM_CURL=OFF ^& cmd`
+        - This start the following command together at once
+          - `cmake -B build -A Win32 -DCPR_USE_SYSTEM_CURL=OFF` (2)
+          - `cmake -B build_x64 -A x64 -DCPR_USE_SYSTEM_CURL=OFF`
     - Static link
       - `set CPP_DEVEL_STATIC_FLAGS=-DBUILD_SHARED_LIBS=OFF -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded$<$<CONFIG:Debug>:Debug>"`
       - `start "configure Win32" cmd /c cmake -B build -A Win32 -DCPR_USE_SYSTEM_CURL=OFF %CPP_DEVEL_STATIC_FLAGS% ^& cmd && start "configure x64" cmd /c cmake -B build_x64 -A x64 -DCPR_USE_SYSTEM_CURL=OFF %CPP_DEVEL_STATIC_FLAGS% ^& cmd`
