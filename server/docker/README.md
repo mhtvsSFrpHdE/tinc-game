@@ -7,7 +7,7 @@ and you need another 3 tiny dependencies, great, you have to redownload all of t
 If you split them to multiple RUN command,  
 then after first one all other will endless download and don't get cache
 
-Here once I installed certain amount of some packages,  
+Here once I installed certain amount of packages,  
 build them as dedicated image, and chain them together  
 Start test and develop use last image as base  
 so I can do things and download no more

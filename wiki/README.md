@@ -4,5 +4,6 @@
 
 ## Other page
 [How to use tinc directly](https://github.com/mhtvsSFrpHdE/tinc-game/blob/main/wiki/How%20to%20use%20tinc%20directly.md)  
-[Term](https://github.com/mhtvsSFrpHdE/tinc-game/blob/main/wiki/Term.md)
-[Translate](https://github.com/mhtvsSFrpHdE/tinc-game/blob/main/wiki/Translate.md)
+[Term](https://github.com/mhtvsSFrpHdE/tinc-game/blob/main/wiki/Term.md)  
+[Translate](https://github.com/mhtvsSFrpHdE/tinc-game/blob/main/wiki/Translate.md)  
+[Tinc is not final solution](https://github.com/mhtvsSFrpHdE/tinc-game/blob/main/wiki/Tinc%20is%20not%20final%20solution.md)  

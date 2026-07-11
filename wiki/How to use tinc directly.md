@@ -50,7 +50,7 @@ Build from source
   `sudo tinc -n NETWORK_NAME set Mode switch`
 - Start tinc node  
   `sudo tinc -n NETWORK_NAME start`  
-  Start and show debug output: `sudo tinc -n NETWORK_NAME start -D -d5`  
+  Start and show debug output: `sudo tinc -n NETWORK_NAME start -D -d3`  
   Confirm firewall and port forward for TCP and UDP 655
 - Start dnsmasq
 - Invite other node to network  
@@ -65,6 +65,6 @@ Build from source
   - `tinc --config=<Config dir> join <invite code>`  
   `tinc --config=<Config dir> start`
   - Start and show debug output  
-    `tinc -n NETWORK_NAME start -D -d5`
+    `tinc -n NETWORK_NAME start -D -d3`
 - Wait for DHCP address or set address manually in control panel
 - Try access server or other nodes also in network
