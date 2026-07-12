@@ -16,6 +16,14 @@ simply delete build folders doesn't fix things.
 Make sure each config steps is executed in fresh environment,  
 because here is no one understand how cmake work
 
+Update 1:  
+In some cmake project like wxwidgets,  
+`build` folder is part of source code instead of something generated during compile step  
+In these project run `cmake -B build_win32 -A Win32` instead of `cmake -B build -A Win32`  
+to avoid putting files into build folder  
+If using `build` folder for `cmake -B`, once configure is failed, can't easily clean build result  
+and for sure require delete and unpack again on `build` folder gets deleted
+
 ### About CMake parallel and Visual Studio 2019
 Visual Studio compiler ignores `--parallel` and build with single thread,  
 hope spam build task can be faster, by start configure and build for all profile together at once  
