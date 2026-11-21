@@ -69,3 +69,28 @@ target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE
     "$ENV{CPP_DEVEL_CPR}/build_x64/_deps/curl-build/lib/Debug/libcurl-d.lib"
     crypt32
 )
+
+project(updater)
+
+# Boost
+find_package(Boost REQUIRED COMPONENTS filesystem container)
+
+# wxWidgets
+find_package(wxWidgets REQUIRED COMPONENTS net core base)
+include(${wxWidgets_USE_FILE})
+
+add_executable("${CMAKE_PROJECT_NAME}" WIN32)
+file(GLOB_RECURSE UPDATER_SOURCE_FILE CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/updater/*.cpp")
+target_sources("${CMAKE_PROJECT_NAME}"
+    PRIVATE
+        "${UPDATER_SOURCE_FILE}"
+)
+target_include_directories("${CMAKE_PROJECT_NAME}" PUBLIC
+    "${CMAKE_CURRENT_SOURCE_DIR}"
+)
+target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE
+    resource
+    Boost::headers
+    Boost::filesystem
+    ${wxWidgets_LIBRARIES}
+)
