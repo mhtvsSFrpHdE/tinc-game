@@ -46,6 +46,10 @@
 /client/Release
 /client/x64
 
+# Visual Studio CMake
+/.vs
+/client/out
+
 # wxWidgets translate middle file
 *.mo
 *.pot
