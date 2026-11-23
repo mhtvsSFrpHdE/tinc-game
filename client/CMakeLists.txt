@@ -15,6 +15,13 @@ set(wxBUILD_SHARED OFF)
 set(wxWidgets_ROOT_DIR "$ENV{CPP_DEVEL_WXWIN}")
 set(wxWidgets_LIB_DIR "$ENV{CPP_DEVEL_WXWIN}/build_x64/lib/vc_x64_lib")
 
+# cpr
+set(BUILD_SHARED_LIBS OFF)
+include(FetchContent)
+FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git
+                         GIT_TAG 1.9.9) # The commit hash for 1.11.x. Replace with the latest from: https://github.com/libcpr/cpr/releases
+FetchContent_MakeAvailable(cpr)
+
 project(resource)
 
 # Boost
@@ -53,10 +60,6 @@ target_sources("${CMAKE_PROJECT_NAME}"
 )
 target_include_directories("${CMAKE_PROJECT_NAME}" PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}"
-# cpr
-    "$ENV{CPP_DEVEL_CPR}/build_x64/_deps/cpr-src/include"
-    "$ENV{CPP_DEVEL_CPR}/build_x64/_deps/curl-src/include"
-    "$ENV{CPP_DEVEL_CPR}/build_x64/_deps/cpr-build/cpr_generated_includes"
 )
 target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE
     resource
@@ -64,10 +67,7 @@ target_link_libraries("${CMAKE_PROJECT_NAME}" PRIVATE
     Boost::filesystem
     Boost::container
     ${wxWidgets_LIBRARIES}
-# cpr
-    "$ENV{CPP_DEVEL_CPR}/build_x64/_deps/cpr-build/cpr/Debug/cpr.lib"
-    "$ENV{CPP_DEVEL_CPR}/build_x64/_deps/curl-build/lib/Debug/libcurl-d.lib"
-    crypt32
+    cpr::cpr
 )
 
 project(updater)
