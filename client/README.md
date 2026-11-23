@@ -80,38 +80,18 @@ Create System variables instead of User variables. Sometimes program need to run
     - Static link
       - `b2.exe link=static runtime-link=static address-model=32,64 variant=debug,release`
   - Environment variable `CPP_DEVEL_BOOST` as `C:\cpp-devel\boost\boost_1_75_0`
-- cpr `1.9.9`
-  - Download [this git repository at commit 4844b9d](https://github.com/libcpr/example-cmake-fetch-content/tree/4844b9da480d81dd4cbf1783906eea574e51168b) instead of cpr release source pack
-  - Unzip to folder like `C:\cpp-devel\example-cmake-fetch-content-main`, there should be `C:\cpp-devel\example-cmake-fetch-content-main\CMakeLists.txt`
-  - Rename `example-cmake-fetch-content-main` to `cpr-1.9.9`
-  - Edit `CMakeLists.txt`
-    - `set(CMAKE_CXX_STANDARD`: change C++ standard version to `11`
-    - `GIT_TAG`: change version to `1.9.9`
+- cpr (and libcurl) `1.9.9`
+  - Start from tinc-game version `3.0`, cpr is downloaded automatically on build, with `FetchContent` in client `CMakeLists.txt`
   - Reuse cmd that build wxwidgets
     - If you build in new cmd window, load Visual Studio 2019 compiler environment variable
       - `"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64`
   - `cd /d C:\cpp-devel\cpr-1.9.9`
   - Need network to download source code.
-    - If behind proxy, `set HTTP_PROXY=http://<proxy address>:<port>`, after commit, `set HTTPS_PROXY=%HTTP_PROXY%`
-  - configure
-    - Dynamic link
-      - `start "configure Win32" cmd /c cmake -B build -A Win32 -DCPR_USE_SYSTEM_CURL=OFF ^& cmd && start "configure x64" cmd /c cmake -B build_x64 -A x64 -DCPR_USE_SYSTEM_CURL=OFF ^& cmd`
-        - This start the following command together at once
-          - `cmake -B build -A Win32 -DCPR_USE_SYSTEM_CURL=OFF` (2)
-          - `cmake -B build_x64 -A x64 -DCPR_USE_SYSTEM_CURL=OFF`
-    - Static link
-      - `set CPP_DEVEL_STATIC_FLAGS=-DBUILD_SHARED_LIBS=OFF -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded$<$<CONFIG:Debug>:Debug>"`
-      - `start "configure Win32" cmd /c cmake -B build -A Win32 -DCPR_USE_SYSTEM_CURL=OFF %CPP_DEVEL_STATIC_FLAGS% ^& cmd && start "configure x64" cmd /c cmake -B build_x64 -A x64 -DCPR_USE_SYSTEM_CURL=OFF %CPP_DEVEL_STATIC_FLAGS% ^& cmd`
-  - build
-    - `start "build Win32 Debug" cmd /c cmake --build build --config Debug --parallel ^& cmd && start "build Win32 Release" cmd /c cmake --build build --config Release --parallel ^& cmd && start "build x64 Debug" cmd /c cmake --build build_x64 --config Debug --parallel ^& cmd && start "build x64 Release" cmd /c cmake --build build_x64 --config Release --parallel ^& cmd`
-      - This start the following command together at once
-      - `cmake --build build --config Debug --parallel`
-      - `cmake --build build --config Release --parallel`
-      - `cmake --build build_x64 --config Debug --parallel`
-      - `cmake --build build_x64 --config Release --parallel`
-  - Environment variable `CPP_DEVEL_CPR` as `C:\cpp-devel\cpr-1.9.9`
+    - If behind proxy, before run cmake build command, `set HTTP_PROXY=http://<proxy address>:<port>`, after commit, `set HTTPS_PROXY=%HTTP_PROXY%`
+    - If build with Visual Studio, maybe set environment variable system wide by "View advanced system settings, Environment variables..." or system proxy settings, I don't know.
+  - Backup `out\build\_deps` folder to prevent redownload if you need to delete build dir
 
-Open `tinc-game.sln` with Visual Studio and hit build.
+Open folder contains `CMakeLists.txt` with Visual Studio and hit build.
 
 (1): Known issue, [clang_rt.asan_dbg_dynamic-x86_64.dll was not found](https://github.com/libcpr/cpr/issues/582#issuecomment-4562229005)  
 (2): `CPR_USE_SYSTEM_CURL=OFF`: Build on Windows instead of Linux, there is no such thing `libcurl-devel`, [reference link](https://github.com/libcpr/cpr/issues/1043).
