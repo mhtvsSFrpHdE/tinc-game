@@ -63,6 +63,11 @@ target_link_libraries("tinc-game" PRIVATE
     ${wxWidgets_LIBRARIES}
     cpr::cpr
 )
+if(WIN32 AND CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo|MinSizeRel")
+    target_link_options("tinc-game" PRIVATE
+        "/MANIFESTUAC:level='requireAdministrator' uiAccess='false'"
+    )
+endif()
 
 # Project updater
 add_executable("updater" WIN32)
@@ -80,3 +85,8 @@ target_link_libraries("updater" PRIVATE
     Boost::filesystem
     ${wxWidgets_LIBRARIES}
 )
+if(WIN32 AND CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo|MinSizeRel")
+    target_link_options("updater" PRIVATE
+        "/MANIFESTUAC:level='requireAdministrator' uiAccess='false'"
+    )
+endif()

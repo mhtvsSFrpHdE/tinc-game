@@ -56,6 +56,10 @@ C:\Program Files\fr\myapp.mo
 To fix it add program exe dir to `wxLocale` `AddCatalogLookupPathPrefix`
 
 ## Visual Studio `2019`, `Windows 11`
+## CMake project switch profile cause configure run again
+Add build dir (`out`) to Windows Defender exclusions / Reboot computer.
+
+## Visual Studio `2019`, `Windows 11`
 ## CMake project show non existent error in Visual Studio
 When using `CMakeLists.txt` as project (solution / build system)  
 After delete `out` folder, Press Ctrl + S in `CMakeLists.txt`,  
@@ -64,3 +68,12 @@ and at same time CMake error appears.
 
 This doesn't mean there is error need to be fix in `CMakeLists.txt`  
 Press Ctrl + S again or click on `Generate`, error will disappear
+
+Add build dir (`out`) to Windows Defender exclusions / Reboot computer.
+
+## Visual Studio `2019`, `Windows 11`
+## CMake project build failed after change manifest
+```
+mt.exe : general error c101008d: Failed to write the updated manifest to the resource of file "main.exe". The process cannot access the file because it is being used by another process.
+```
+Add build dir (`out`) to Windows Defender exclusions / Reboot computer.
