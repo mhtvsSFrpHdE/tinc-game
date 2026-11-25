@@ -1,4 +1,4 @@
-@REM CPP_DEVEL_MINGW: path to g++.exe located
-@REM CPP_DEVEL_CMAKE: pato to cmake.exe located
-set path=%CPP_DEVEL_CMAKE%\bin;%CPP_DEVEL_MINGW%\bin;%path%
+cd /d %~dp0
+call "build_tinc-game_env.bat"
+cd ..
 cmd

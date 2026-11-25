@@ -9,6 +9,10 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 project(tinc-game)
 
 # Boost
+if(MINGW)
+    # Fix 1.75.0 boost/process not compile
+    add_definitions(-D__kernel_entry=)
+endif()
 set(BOOST_ROOT "$ENV{CPP_DEVEL_BOOST}")
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_STATIC_RUNTIME ON)
@@ -27,10 +31,17 @@ include(${wxWidgets_USE_FILE})
 
 # cpr
 set(BUILD_SHARED_LIBS OFF)
+set(CPR_VERSION "1.4.0")
 include(FetchContent)
 FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git
-                         GIT_TAG 1.9.9) # The commit hash for 1.11.x. Replace with the latest from: https://github.com/libcpr/cpr/releases
+                         GIT_TAG ${CPR_VERSION}) # The commit hash for 1.11.x. Replace with the latest from: https://github.com/libcpr/cpr/releases
 FetchContent_MakeAvailable(cpr)
+if(NOT TARGET cpr::cpr)
+    add_library(cpr::cpr ALIAS cpr)
+endif()
+
+# MinGW Windows exe admin permission manifest
+set(APP_MANIFEST_RC "${CMAKE_CURRENT_SOURCE_DIR}/resource/app.rc")
 
 # Project resource
 add_library("resource")
@@ -61,11 +72,15 @@ target_link_libraries("tinc-game" PRIVATE
     Boost::container
     ${wxWidgets_LIBRARIES}
     cpr::cpr
+    iphlpapi
 )
-if(WIN32 AND CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo|MinSizeRel")
+# manifest admin permission
+if(MSVC AND WIN32 AND CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo|MinSizeRel")
     target_link_options("tinc-game" PRIVATE
         "/MANIFESTUAC:level='requireAdministrator' uiAccess='false'"
     )
+elseif(MINGW AND WIN32 AND CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo|MinSizeRel")
+    target_sources("tinc-game" PRIVATE ${APP_MANIFEST_RC})
 endif()
 
 # Project updater
@@ -74,6 +89,7 @@ file(GLOB_RECURSE UPDATER_SOURCE_FILE CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_
 target_sources("updater"
     PRIVATE
         "${UPDATER_SOURCE_FILE}"
+        ${APP_MANIFEST_RC}
 )
 target_include_directories("updater" PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}"
@@ -84,8 +100,11 @@ target_link_libraries("updater" PRIVATE
     Boost::filesystem
     ${wxWidgets_LIBRARIES}
 )
-if(WIN32 AND CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo|MinSizeRel")
+# manifest admin permission
+if(MSVC AND WIN32 AND CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo|MinSizeRel")
     target_link_options("updater" PRIVATE
         "/MANIFESTUAC:level='requireAdministrator' uiAccess='false'"
     )
+elseif(MINGW AND WIN32 AND CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo|MinSizeRel")
+    target_sources("updater" PRIVATE ${APP_MANIFEST_RC})
 endif()
