@@ -41,31 +41,20 @@ Create System variables instead of User variables. Sometimes program need to run
 
 ### Dependencies and build steps
 - Visual Studio 2019
-- wxwidgets `3.1.5`
-  - Unpack to folder like `C:\cpp-devel\wxWidgets-3.1.5`, there should be `C:\cpp-devel\wxWidgets-3.1.5\CMakeLists.txt`
+- wxwidgets `3.0.5`
+  - Unpack to folder like `C:\cpp-devel\wxWidgets-3.0.5`, there should be `C:\cpp-devel\wxWidgets-3.0.5\CMakeLists.txt`
   - Open cmd
   - Load Visual Studio 2019 compiler environment variable
     - `"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64` (1)
-  - `cd /d "C:\cpp-devel\wxWidgets-3.1.5"`
-  - configure
-    - Dynamic link
-      - `start "configure Win32" cmd /c cmake -B build_win32 -A Win32 ^& cmd && start "configure x64" cmd /c cmake -B build_x64 -A x64 ^& cmd`
-        - This start the following command together at once
-          - `cmake -B build_win32 -A Win32`
-          - `cmake -B build_x64 -A x64`
-    - Static link
-      - `set CPP_DEVEL_STATIC_FLAGS=-DBUILD_SHARED_LIBS=OFF -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_MSVC_RUNTIME_LIBRARY="MultiThreaded$<$<CONFIG:Debug>:Debug>"`
-      - `start "configure Win32" cmd /c cmake -B build_win32 -A Win32 %CPP_DEVEL_STATIC_FLAGS% ^& cmd && start "configure x64" cmd /c cmake -B build_x64 -A x64 %CPP_DEVEL_STATIC_FLAGS% ^& cmd`
-  - build
-    - `start "build Win32 Debug" cmd /c cmake --build build_win32 --config Debug --parallel ^& cmd && start "build Win32 Release" cmd /c cmake --build build_win32 --config Release --parallel ^& cmd && start "build x64 Debug" cmd /c cmake --build build_x64 --config Debug --parallel ^& cmd && start "build x64 Release" cmd /c cmake --build build_x64 --config Release --parallel ^& cmd`
+  - `cd /d "C:\cpp-devel\wxWidgets-3.0.5\build\msw"`
+  - build (static)
+    - `start "build x86 Debug" cmd /c nmake /F makefile.vc TARGET_CPU=X86 SHARED=0 UNICODE=1 BUILD=debug RUNTIME_LIBS=static ^& cmd && start "build x64 Release" cmd /c nmake /F makefile.vc TARGET_CPU=X64 SHARED=0 UNICODE=1 BUILD=release RUNTIME_LIBS=static ^& cmd && start "build x64 Debug" cmd /c nmake /F makefile.vc TARGET_CPU=X64 SHARED=0 UNICODE=1 BUILD=debug RUNTIME_LIBS=static ^& cmd`
       - This start the following command together at once
-        - `cmake --build build_win32 --config Debug --parallel`
-        - `cmake --build build_win32 --config Release --parallel`
-        - `cmake --build build_x64 --config Debug --parallel`
-        - `cmake --build build_x64 --config Release --parallel`
-  - **Copy include to build**
-    - `robocopy "include" "build_win32\include" /E && robocopy "include" "build_x64\include" /E`
-  - Environment variable `CPP_DEVEL_WXWIN` as `C:\cpp-devel\wxWidgets-3.1.5`
+        - `nmake /F makefile.vc TARGET_CPU=X86 SHARED=0 UNICODE=1 BUILD=debug RUNTIME_LIBS=static`
+        - `nmake /F makefile.vc TARGET_CPU=X64 SHARED=0 UNICODE=1 BUILD=debug RUNTIME_LIBS=static`
+        - `nmake /F makefile.vc TARGET_CPU=X64 SHARED=0 UNICODE=1 BUILD=release RUNTIME_LIBS=static`
+      - As for x86 release, see publish section
+  - Environment variable `CPP_DEVEL_WXWIN` as `C:\cpp-devel\wxWidgets-3.0.5`
 - boost `1.75.0`
   - Unpack to folder like `C:\cpp-devel\boost\boost_1_75_0`, there should be `C:\cpp-devel\boost\boost_1_75_0\bootstrap.bat`
   - `cd /d "C:\cpp-devel\boost\boost_1_75_0"`
