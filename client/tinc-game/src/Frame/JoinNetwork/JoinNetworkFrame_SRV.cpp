@@ -235,13 +235,12 @@ void JoinNetworkFrame::API_SRV_JoinNetworkByRegister(std::wstring networkName, R
         urlBegin = L"https://";
     }
 
-    ss::GetConverter_Utf8AndUtf16 utfStringConverter;
-    auto cprRequestUrl = ss::utf16ToUtf8(utfStringConverter, urlBegin + wRegisterRequestUrl);
+    auto cprRequestUrl = ss::wstringToUtf8(urlBegin + wRegisterRequestUrl);
     cpr::Response response = cpr::Get(cpr::Url{ cprRequestUrl });
     if (response.error) {
         auto result = ReturnValue<JoinNetworkResult>();
         result.returnBody.messageEnum = JoinNetworkResult::Enum::RegisterFailed;
-        result.returnBody.messageString = ss::utf8ToUtf16(utfStringConverter, response.error.message) + ss::newLine + ss::utf8ToUtf16(utfStringConverter, response.text);
+        result.returnBody.messageString = ss::wstringFromUtf8(response.error.message) + ss::newLine + ss::wstringFromUtf8(response.text);
         CallAfter(&JoinNetworkFrame::API_UI_ReportErrorMessage, result);
         CallAfter(&JoinNetworkFrame::API_UI_EndJoinNetworkByRegisterOnError);
         return;
@@ -254,7 +253,7 @@ void JoinNetworkFrame::API_SRV_JoinNetworkByRegister(std::wstring networkName, R
         if (responseSuccess) {
             auto inviteCodeInJson = parsedJson.at("data").at("inviteCode");
             auto inviteCodeInString = boost::json::value_to<std::string>(inviteCodeInJson);
-            auto inviteCodeInWstring = ss::utf8ToUtf16(utfStringConverter, inviteCodeInString);
+            auto inviteCodeInWstring = ss::wstringFromUtf8(inviteCodeInString);
             inviteCode = inviteCodeInWstring;
         }
         else {
@@ -265,7 +264,7 @@ void JoinNetworkFrame::API_SRV_JoinNetworkByRegister(std::wstring networkName, R
     catch (...) {
         auto result = ReturnValue<JoinNetworkResult>();
         result.returnBody.messageEnum = JoinNetworkResult::Enum::RegisterFailed;
-        result.returnBody.messageString = _("Failed to parse response json") + ss::newLine + ss::utf8ToUtf16(utfStringConverter, response.text);
+        result.returnBody.messageString = _("Failed to parse response json") + ss::newLine + ss::wstringFromUtf8(response.text);
         CallAfter(&JoinNetworkFrame::API_UI_ReportErrorMessage, result);
         CallAfter(&JoinNetworkFrame::API_UI_EndJoinNetworkByRegisterOnError);
         return;

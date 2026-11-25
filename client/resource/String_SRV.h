@@ -23,27 +23,24 @@ namespace String_SRV
     std::string ForceToStdString(std::wstring input);
 
     /// <summary>
-    /// !!! This thing is not safe in multi thread
-    /// Don't share instance between thread
-    /// 
+    /// Convert between UTF-8 std::string and UTF-16 std::wstring
     /// Mainly for CPR HTTP requests and boost JSON
-    /// 
+    ///
     /// Says Boost.JSON does not natively support std::wstring or wchar_t
     /// because the standard JSON specification (RFC 8259)
     /// is strictly defined as a sequence of bytes, typically encoded in UTF-8
-    /// 
+    ///
     /// Also says CPR and libcurl internally use UTF-8 encoded std::string
-    /// 
+    ///
     /// As for Windows, std::wstring refer to UTF-16
-    /// 
-    /// Usage
-    /// 1. `GetConverter_Utf8ToUtf16 urfStringConverter;`, create on stack, don't new
-    /// 2. std::wstring to std::string, call `utf8ToUtf16(urfStringConverter, std::wstring)`
-    /// 2. std::string to std::wstring, call `utf16ToUtf8(urfStringConverter, std::string)`
     /// </summary>
-    typedef std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> GetConverter_Utf8AndUtf16;
-    std::wstring utf8ToUtf16(GetConverter_Utf8AndUtf16& utfStringConverter, std::string input);
-    std::string utf16ToUtf8(GetConverter_Utf8AndUtf16& utfStringConverter, std::wstring input);
+    std::wstring wstringFromUtf8(const std::string& utf8String);
+    /// <summary>
+    /// Read comment of wstringFromUtf8
+    /// </summary>
+    /// <param name="utf16String"></param>
+    /// <returns></returns>
+    std::string wstringToUtf8(const std::wstring& utf16String);
 
     const std::wstring doubleQuotes = L"\"";
     const std::wstring newLine = L"\n";

@@ -3,7 +3,6 @@
 #include "ApplyMtuFrame.h"
 #include "resource/String_SRV.h"
 #include "resource/Resource_SRV_Bat.h"
-#include <codecvt>
 #include <sstream>
 #include <thread>
 #include <vector>

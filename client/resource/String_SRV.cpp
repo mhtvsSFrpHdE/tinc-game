@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "String_SRV.h"
+#include <boost/locale/encoding.hpp>
+#include <boost/locale/encoding_errors.hpp>
 
 std::wstring String_SRV::ForceToStdWstring(std::string input)
 {
@@ -11,14 +13,16 @@ std::string String_SRV::ForceToStdString(std::wstring input)
     return std::string(input.begin(), input.end());
 }
 
-std::wstring String_SRV::utf8ToUtf16(GetConverter_Utf8AndUtf16& utfStringConverter, std::string input)
+std::wstring String_SRV::wstringFromUtf8(const std::string& utf8String)
 {
-    auto result = utfStringConverter.from_bytes(input);
+    namespace cv = boost::locale::conv;
+    auto result = cv::utf_to_utf<wchar_t, char>(utf8String);
     return result;
 }
 
-std::string String_SRV::utf16ToUtf8(GetConverter_Utf8AndUtf16& utfStringConverter, std::wstring input)
+std::string String_SRV::wstringToUtf8(const std::wstring& utf16String)
 {
-    auto result = utfStringConverter.to_bytes(input);
+    namespace cv = boost::locale::conv;
+    auto result = cv::utf_to_utf<char, wchar_t>(utf16String);
     return result;
 }

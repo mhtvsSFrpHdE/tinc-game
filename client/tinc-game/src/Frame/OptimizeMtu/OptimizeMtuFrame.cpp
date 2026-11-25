@@ -5,7 +5,6 @@
 #include <wx/wx.h>
 #include <wx/combobox.h>
 #include <thread>
-#include <codecvt>
 #include "../ApplyMtu/ApplyMtuFrame.h"
 #include "resource/Layout_SRV.h"
 #include "resource/String_SRV.h"
