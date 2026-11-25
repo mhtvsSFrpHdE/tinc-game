@@ -16,7 +16,7 @@ endif()
 set(BOOST_ROOT "$ENV{CPP_DEVEL_BOOST}")
 set(Boost_USE_STATIC_LIBS ON)
 set(Boost_USE_STATIC_RUNTIME ON)
-find_package(Boost REQUIRED container filesystem)
+find_package(Boost REQUIRED container filesystem locale)
 
 # wxWidgets
 set(wxWidgets_ROOT_DIR "$ENV{CPP_DEVEL_WXWIN}")
@@ -57,6 +57,10 @@ target_link_libraries("resource" PRIVATE
     Boost::headers
     ${wxWidgets_LIBRARIES}
 )
+if(MSVC)
+    # Target Windows 7 (SP1 may required)
+    target_compile_definitions("resource" PRIVATE _WIN32_WINNT=0x0601)
+endif()
 
 # Project tinc-game
 add_executable("tinc-game" WIN32)
@@ -73,10 +77,15 @@ target_link_libraries("tinc-game" PRIVATE
     Boost::headers
     Boost::filesystem
     Boost::container
+    Boost::locale
     ${wxWidgets_LIBRARIES}
     cpr::cpr
     iphlpapi
 )
+if(MSVC)
+    # Target Windows 7 (SP1 may required)
+    target_compile_definitions("tinc-game" PRIVATE _WIN32_WINNT=0x0601)
+endif()
 # manifest admin permission
 if(MSVC AND WIN32 AND CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo|MinSizeRel")
     target_link_options("tinc-game" PRIVATE
@@ -103,6 +112,12 @@ target_link_libraries("updater" PRIVATE
     Boost::filesystem
     ${wxWidgets_LIBRARIES}
 )
+if(MSVC)
+    # Target Windows 7 (SP1 may required)
+    target_compile_definitions("updater" PRIVATE _WIN32_WINNT=0x0601)
+    # Fix CVT1100 duplicate resource
+    target_link_options("updater" PRIVATE "/MANIFEST:NO")
+endif()
 # manifest admin permission
 if(MSVC AND WIN32 AND CMAKE_BUILD_TYPE MATCHES "Release|RelWithDebInfo|MinSizeRel")
     target_link_options("updater" PRIVATE
