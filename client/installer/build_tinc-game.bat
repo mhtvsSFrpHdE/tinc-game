@@ -8,6 +8,6 @@ cd ..
 
 @REM Skip googletest and only build tinc-game exe
 @REM cmake --build out_publish
-cmake --build out_publish --target tinc-game updater --parallel
+cmake --build out_publish --parallel
 
 pause

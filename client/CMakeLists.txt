@@ -30,11 +30,14 @@ find_package(wxWidgets REQUIRED COMPONENTS net core base)
 include(${wxWidgets_USE_FILE})
 
 # cpr
+# Version 1.5.2, WINSSL, TEST OFF is last one compile on MinGW
 set(BUILD_SHARED_LIBS OFF)
-set(CPR_VERSION "1.4.0")
+set(BUILD_CPR_TESTS OFF)
+set(USE_OPENSSL OFF)
+set(USE_WINSSL ON)
 include(FetchContent)
 FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git
-                         GIT_TAG ${CPR_VERSION}) # The commit hash for 1.11.x. Replace with the latest from: https://github.com/libcpr/cpr/releases
+                         GIT_TAG 1.5.2) # The commit hash for 1.11.x. Replace with the latest from: https://github.com/libcpr/cpr/releases
 FetchContent_MakeAvailable(cpr)
 if(NOT TARGET cpr::cpr)
     add_library(cpr::cpr ALIAS cpr)

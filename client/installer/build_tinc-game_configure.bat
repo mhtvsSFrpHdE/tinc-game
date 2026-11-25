@@ -15,7 +15,6 @@ move "out_publish_deps_bak" "out_publish\_deps"
 @REM Boost_ARCHITECTURE is required to locate correct lib files when using legacy compiler
 cmake -B out_publish -G "MinGW Makefiles" ^
 -DCMAKE_BUILD_TYPE=Release ^
--DBoost_ARCHITECTURE=-x32 ^
--DCMAKE_USE_OPENSSL=OFF
+-DBoost_ARCHITECTURE=-x32
 
 pause
