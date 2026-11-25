@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 struct ReturnNone {};
 
@@ -34,7 +35,6 @@ ReturnValue<int> ReturnIntDemo() {
 */
 
 /* Return multipe type example
-#include <string>
 struct ReturnComplex {
 	int errorCode = 0;
 	std::wstring errorMessage = L"";

@@ -1,4 +1,9 @@
 #pragma once
+#include <mutex>
+#include <memory>
+#include <string>
+#include <sstream>
+#include <condition_variable>
 #include <wx/wx.h>
 #include "../resource/Lock_SRV.h"
 #include "../resource/ReturnValue.h"

@@ -2,8 +2,8 @@
 #include "wx/wx.h"
 #include <vector>
 #include "WindowsAPI_SRV.h"
-#include <string>
 #include "resource/ReturnValue.h"
+#include <string>
 
 namespace TapDevice_SRV
 {

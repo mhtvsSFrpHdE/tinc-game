@@ -1,3 +1,4 @@
+#include <memory>
 #include <boost/process.hpp>
 #include <boost/process/windows.hpp>
 #include "MainFrame.h"

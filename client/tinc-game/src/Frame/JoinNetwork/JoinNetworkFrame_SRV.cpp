@@ -1,3 +1,5 @@
+#include <chrono>
+#include <thread>
 #include <boost/process.hpp>
 #include <boost/process/windows.hpp>
 #include "../JoinNetwork/JoinNetworkFrame.h"

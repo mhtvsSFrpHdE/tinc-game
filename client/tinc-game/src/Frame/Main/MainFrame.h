@@ -1,4 +1,9 @@
 #pragma once
+#include <memory>
+#include <vector>
+#include <thread>
+#include <mutex>
+#include <condition_variable>
 #include <boost/process.hpp>
 #include <wx/wx.h>
 #include <unordered_map>

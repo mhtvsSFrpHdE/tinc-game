@@ -1,3 +1,4 @@
+#include <vector>
 #include "Networks_SRV.h"
 #include "Settings_SRV.h"
 #include "resource/Resource_SRV_Networks.h"

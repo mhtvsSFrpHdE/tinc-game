@@ -1,3 +1,4 @@
+#include <memory>
 #include "Frame/Main/MainFrame.h"
 #include "App.h"
 #include <wx/stdpaths.h>

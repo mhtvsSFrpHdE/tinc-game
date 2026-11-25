@@ -1,4 +1,5 @@
 #pragma once
+#include <unordered_map>
 #include <wx/wx.h>
 #include "../../Service/Language_SRV.h"
 

@@ -1,3 +1,4 @@
+#include <memory>
 #include "tincTextCtrl.h"
 
 tincTextCtrl::tincTextCtrl(

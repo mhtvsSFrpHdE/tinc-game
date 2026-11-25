@@ -1,3 +1,4 @@
+#include <vector>
 #include "Language_SRV.h"
 
 std::vector<Language_SRV::KnownLanguage> Language_SRV::languageList = {

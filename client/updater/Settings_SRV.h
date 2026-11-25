@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <wx/wx.h>
 #include <wx/fileconf.h>
 #include "../resource/ReturnValue.h"

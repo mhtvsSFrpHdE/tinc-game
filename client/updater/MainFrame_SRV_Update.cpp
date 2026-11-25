@@ -1,3 +1,6 @@
+#include <memory>
+#include <thread>
+#include <vector>
 #include "MainFrame.h"
 #include "Settings_SRV.h"
 #include "../resource/Resource_SRV_Program.h"

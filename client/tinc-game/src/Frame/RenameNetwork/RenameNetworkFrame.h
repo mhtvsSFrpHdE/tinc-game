@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include <wx/wx.h>
 #include "../../Service/Networks_SRV.h"
 

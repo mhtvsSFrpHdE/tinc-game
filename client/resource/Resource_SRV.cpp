@@ -1,3 +1,4 @@
+#include <memory>
 #include "pch.h"
 #include "Resource_SRV.h"
 #include "Resource_SRV_Bat.h"

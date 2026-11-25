@@ -1,3 +1,4 @@
+#include <functional>
 #include "JoinNetworkFrame.h"
 #include "resource/Layout_SRV.h"
 #include "resource/String_SRV.h"

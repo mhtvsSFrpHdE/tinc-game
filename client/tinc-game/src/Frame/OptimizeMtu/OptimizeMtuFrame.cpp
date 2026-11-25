@@ -1,4 +1,5 @@
-﻿#include "OptimizeMtuFrame.h"
+#include <functional>
+#include "OptimizeMtuFrame.h"
 #include <wx/spinctrl.h>
 #include <wx/stattext.h>
 #include <wx/wx.h>

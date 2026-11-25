@@ -1,4 +1,8 @@
 ﻿#include "MainFrame.h"
+#include <chrono>
+#include <memory>
+#include <thread>
+#include <vector>
 #include <wx/spinctrl.h>
 #include <wx/dialog.h>
 #include <sstream>

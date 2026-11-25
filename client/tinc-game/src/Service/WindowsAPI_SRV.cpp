@@ -1,3 +1,4 @@
+#include <vector>
 #include "WindowsAPI_SRV.h"
 
 #include <winsock2.h>

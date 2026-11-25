@@ -2,6 +2,7 @@
 #include <wx/wx.h>
 #include "resource/ReturnValue.h"
 #include <unordered_map>
+#include <functional>
 
 struct JoinNetworkResult {
     enum class Enum {

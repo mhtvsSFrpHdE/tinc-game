@@ -1,3 +1,5 @@
+#include <memory>
+#include <thread>
 #include "MainFrame.h"
 #include "../../Service/Settings_SRV.h"
 #include "resource/Layout_SRV.h"

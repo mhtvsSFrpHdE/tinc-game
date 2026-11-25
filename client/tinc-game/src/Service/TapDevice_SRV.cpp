@@ -1,3 +1,4 @@
+#include <vector>
 #include <boost/process.hpp>
 #include <boost/process/windows.hpp>
 #include "TapDevice_SRV.h"

@@ -1,3 +1,4 @@
+#include <sstream>
 #include "FileSystem_SRV.h"
 
 std::string FileSystem_SRV::tActionResult(bool result) {

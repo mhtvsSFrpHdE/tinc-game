@@ -1,8 +1,8 @@
 #pragma once
-#include <string>
 #include "resource/ReturnValue.h"
 #include <vector>
 #include "WindowsAPI_SRV.h"
+#include <string>
 
 namespace Networks_SRV
 {

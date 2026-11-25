@@ -1,4 +1,5 @@
 ﻿#include "Settings_SRV.h"
+#include <memory>
 #include "resource/Resource_SRV_Program.h"
 #include "resource/Resource_SRV_Networks.h"
 

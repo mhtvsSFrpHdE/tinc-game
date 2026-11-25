@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <wx/wx.h>
 
 class App : public wxApp

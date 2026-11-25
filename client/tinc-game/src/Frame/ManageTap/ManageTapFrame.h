@@ -4,6 +4,7 @@
 #include "resource/ReturnValue.h"
 #include "../../Service/WindowsAPI_SRV.h"
 #include <string>
+#include <functional>
 
 struct InstallTapResult {
     enum class Enum {

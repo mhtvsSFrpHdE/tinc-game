@@ -1,3 +1,4 @@
+#include <functional>
 #include <boost/process.hpp>
 #include <boost/process/windows.hpp>
 #include "ManageTapFrame.h"

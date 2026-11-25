@@ -1,3 +1,4 @@
+#include <functional>
 #include "RenameNetworkFrame.h"
 #include "resource/String_SRV.h"
 #include "resource/Layout_SRV.h"
