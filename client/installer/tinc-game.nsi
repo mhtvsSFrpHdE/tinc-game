@@ -1,9 +1,9 @@
 # define const variables
 !define PRODUCT_NAME "tinc game"
-!define PRODUCT_VERSION "2.0.1"
+!define PRODUCT_VERSION $%ENV_VERSION%
 
 !define TINCGAME_INSTALL_DIR "tinc-game"
-!define TINCGAME_UNINSTALL_ID "tinc-game-T0MBcLcnSX8S"
+!define TINCGAME_UNINSTALL_ID $%ENV_UNINSTALL_ID%
 
 # detect exist install
 Var uninstallString
@@ -23,7 +23,7 @@ Var updaterResult
 
 # define name of installer
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "tinc-game-setup.exe"
+OutFile $%ENV_OUT_FILE%
 
 # define installer pages
 Page Directory
@@ -69,8 +69,8 @@ Section
     # install root installation directory
     SetOutPath $InstDir
     # specify program files
-    File "..\Release\tinc-game.exe"
-    File "..\Release\updater.exe"
+    File "..\out_publish\tinc-game.exe"
+    File "..\out_publish\updater.exe"
     File "..\tinc-game\src\ShellScript\Windows\getTapHwid.bat"
     File "..\tinc-game\src\ShellScript\Windows\installTap.bat"
     File "..\tinc-game\src\ShellScript\Windows\netsh437.bat"
@@ -83,7 +83,7 @@ Section
     File /r /x *.po /x *.pot "..\tinc-game\po"
     # install tinc bin, exclude "Uninstall.exe"
     SetOutPath "$InstDir\bin\tinc"
-    File /r /x "Uninstall.exe" "C:\Program Files\tinc\"
+    File /r /x "Uninstall.exe" $%ENV_TINC_INSTALL_DIR%
     SetOutPath $InstDir
 
     # update config files with updater after unpack files
