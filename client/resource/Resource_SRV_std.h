@@ -10,6 +10,10 @@
 ///
 /// Include this where unordered_map / unordered_set is keyed by wxString.
 /// Equality keeps wxString operator==, which is what the MSVC build did.
+/// 
+/// MSVC has a weird behavior, when use "if defined(__GNUC__)"
+/// to hide these code, it won't compile and error message like
+/// MSVC\14.44.35207\include\xhash(118): error C2064
 /// </summary>
 namespace std
 {

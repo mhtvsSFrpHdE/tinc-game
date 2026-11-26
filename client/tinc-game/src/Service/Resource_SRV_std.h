@@ -1,5 +1,6 @@
 #pragma once
 
+#if defined(__GNUC__)
 namespace std
 {
     /// <summary>
@@ -14,3 +15,5 @@ namespace std
         }
     };
 }
+#endif
+
