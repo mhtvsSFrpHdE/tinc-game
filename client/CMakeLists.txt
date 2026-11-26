@@ -2,11 +2,16 @@ cmake_minimum_required(VERSION "3.15")
 
 # C++ 11
 set(CMAKE_CXX_STANDARD 11)
-# Static link Visual Studio /MT, MTd
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 # Solution tinc-game
 project(tinc-game)
+
+# Static link
+if(MSVC)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+elseif(MINGW)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+endif()
 
 # Boost
 if(MINGW)
