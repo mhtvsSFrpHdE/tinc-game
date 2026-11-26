@@ -1,5 +1,5 @@
 # define const variables
-!define PRODUCT_NAME "tinc game"
+!define PRODUCT_NAME $%ENV_UNINSTALL_NAME%
 !define PRODUCT_VERSION $%ENV_VERSION%
 
 !define TINCGAME_INSTALL_DIR "tinc-game"
