@@ -1,6 +1,7 @@
 #pragma once
 #include <wx/wx.h>
 #include "resource/ReturnValue.h"
+#include "resource/Resource_SRV_std.h"
 #include <unordered_map>
 #include <functional>
 

@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <vector>
 #include <wx/wx.h>
+#include "Resource_SRV_std.h"
 
 namespace Language_SRV
 {
