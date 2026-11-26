@@ -6,8 +6,6 @@ cd /d %~dp0
 call "build_tinc-game_env.bat"
 cd ..
 
-@REM Skip googletest and only build tinc-game exe
-@REM cmake --build out_publish
-cmake --build out_publish --parallel
+cmake --build out_publish %1
 
 pause
