@@ -52,7 +52,7 @@ std::wstring Resource_SRV::IntegrityCheck()
 
         file.AppendDir("bin");
         file.AppendDir("tinc");
-        file.AppendDir("tap-win64");
+        file.AppendDir(TincBin::tapInstallerDir);
 
         file.SetName(L"tapinstall.exe");
         IntegrityCheck_FileExist(helpText, file, failedCount);

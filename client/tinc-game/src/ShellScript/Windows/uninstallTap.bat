@@ -1,2 +1,2 @@
-@cd bin\tinc\tap-win64
-@tapinstall.exe remove %1 2>&1
+@cd bin\tinc\%1
+@tapinstall.exe remove %2 2>&1
