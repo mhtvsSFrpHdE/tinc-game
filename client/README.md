@@ -24,8 +24,8 @@ to avoid putting files into build folder
 If using `build` folder for `cmake -B`, once configure is failed, can't easily clean build result  
 and for sure require delete and unpack again on `build` folder gets deleted
 
-### About CMake parallel and Visual Studio 2019
-Visual Studio compiler ignores `--parallel` and build with single thread,  
+### About CMake parallel and Visual Studio
+Visual Studio compiler may (version 2019) ignores `--parallel` and build with single thread,  
 hope spam build task can be faster, by start configure and build for all profile together at once  
 If you are weak in CPU, run command one by one manually
 
@@ -40,28 +40,19 @@ Static link flags stand for tell cmake to generate project with Code Generation,
 Create System variables instead of User variables. Sometimes program need to run as admin
 
 ### Dependencies and build steps
-- Visual Studio 2019
+- Visual Studio 2022
 - wxwidgets `3.0.5`
   - Unpack to folder like `C:\cpp-devel\wxWidgets-3.0.5`, there should be `C:\cpp-devel\wxWidgets-3.0.5\CMakeLists.txt`
-  - Open cmd
-  - Load Visual Studio 2019 compiler environment variable
-    - `"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64` (1)
-  - `cd /d "C:\cpp-devel\wxWidgets-3.0.5\build\msw"`
-  - build (static)
-    - `start "build x86 Debug" cmd /c nmake /F makefile.vc TARGET_CPU=X86 SHARED=0 UNICODE=1 BUILD=debug RUNTIME_LIBS=static ^& cmd && start "build x64 Release" cmd /c nmake /F makefile.vc TARGET_CPU=X64 SHARED=0 UNICODE=1 BUILD=release RUNTIME_LIBS=static ^& cmd && start "build x64 Debug" cmd /c nmake /F makefile.vc TARGET_CPU=X64 SHARED=0 UNICODE=1 BUILD=debug RUNTIME_LIBS=static ^& cmd`
-      - This start the following command together at once
-        - `nmake /F makefile.vc TARGET_CPU=X86 SHARED=0 UNICODE=1 BUILD=debug RUNTIME_LIBS=static`
-        - `nmake /F makefile.vc TARGET_CPU=X64 SHARED=0 UNICODE=1 BUILD=debug RUNTIME_LIBS=static`
-        - `nmake /F makefile.vc TARGET_CPU=X64 SHARED=0 UNICODE=1 BUILD=release RUNTIME_LIBS=static`
-      - As for x86 release, see publish section
+    - Edit on need, build script "tinc-game\client\build_dependencies_wxWidgets.bat"
+    - It build "x64 Debug", "x64 Release", "x86 Debug". For "x86 release", see Publish section
   - Environment variable `CPP_DEVEL_WXWIN` as `C:\cpp-devel\wxWidgets-3.0.5`
 - boost `1.75.0`
   - Unpack to folder like `C:\cpp-devel\boost\boost_1_75_0`, there should be `C:\cpp-devel\boost\boost_1_75_0\bootstrap.bat`
   - `cd /d "C:\cpp-devel\boost\boost_1_75_0"`
   - Reuse cmd that build wxwidgets
     - Actually, `bootstrap.bat` seems automatically detect Visual Studio compiler location even without `vcvarsall.bat`,  
-    if not and you build in new cmd window, load Visual Studio 2019 compiler environment variable
-      - `"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64`
+    if not and you build in new cmd window, load Visual Studio 2022 compiler environment variable
+      - `"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64`
   - build
     - `bootstrap.bat`, this generate `b2.exe` for next step
     - Dynamic link
@@ -72,8 +63,8 @@ Create System variables instead of User variables. Sometimes program need to run
 - cpr (and libcurl) `1.9.9`
   - Start from tinc-game version `3.0`, cpr is downloaded automatically on build, with `FetchContent` in client `CMakeLists.txt`
   - Reuse cmd that build wxwidgets
-    - If you build in new cmd window, load Visual Studio 2019 compiler environment variable
-      - `"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" x64`
+    - If you build in new cmd window, load Visual Studio 2022 compiler environment variable
+      - `"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64`
   - `cd /d C:\cpp-devel\cpr-1.9.9`
   - Need network to download source code.
     - If behind proxy, before run cmake build command, `set HTTP_PROXY=http://<proxy address>:<port>`, after commit, `set HTTPS_PROXY=%HTTP_PROXY%`
@@ -82,7 +73,6 @@ Create System variables instead of User variables. Sometimes program need to run
 
 Open folder contains `CMakeLists.txt` with Visual Studio and hit build.
 
-(1): Known issue, [clang_rt.asan_dbg_dynamic-x86_64.dll was not found](https://github.com/libcpr/cpr/issues/582#issuecomment-4562229005)  
 (2): `CPR_USE_SYSTEM_CURL=OFF`: Build on Windows instead of Linux, there is no such thing `libcurl-devel`, [reference link](https://github.com/libcpr/cpr/issues/1043).
 
 ## Code
@@ -95,7 +85,7 @@ There is library need to add `.lib` files manually in this format
 Some of them not just located in different path, but also in different file name.
 - `cpr.lib`: `%CPP_DEVEL_CPR%\<build/build_x64>\_deps\cpr-build\cpr\<Debug/Release>\cpr.lib`
 - `<libcurl-d.lib/libcurl.lib>`: `%CPP_DEVEL_CPR%\<build/build_x64>\_deps\curl-build\lib\<Debug/Release>\<libcurl-d.lib/libcurl.lib>`
-- `crypt32.lib`: Additional Dependencies only, this one bundled with Visual Studio 2019
+- `crypt32.lib`: Additional Dependencies only, this one bundled with Visual Studio 2022
 
 ```
 error LNK2019: unresolved external symbol "public: bool __thiscall cpr::CaseInsensitiveCompare::operator..."
@@ -128,14 +118,3 @@ LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; us
 Added `libcurl.lib` to wrong profile, like use Release version instead of Debug version in Debug profile  
 This error message is completely tells nothing about real issue is. Love from C++.  
 Before you do something add (like add `/NODEFAULTLIB:library`), best do web search and see how other people say
-
-## Old compiler
-Untested yet. Currently project need to be developed as fast as possible,  
-so Visual Studio 2019 build in compiler is used.  
-In future will swap compiler from MSVC to MinGW.
-```
-REM Build boost Win32 Release
-set path=C:\cpp-devel\mingw\i686-4.8.2-release-posix-dwarf-rt_v3-rev3\mingw32\bin;%path%
-cd /d "C:\cpp-devel\boost\boost_1_75_0"
-b2.exe link=static runtime-link=static address-model=32 variant=release toolset=gcc
-```
