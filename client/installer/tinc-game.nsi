@@ -39,7 +39,8 @@ Page InstFiles
 !endif
 
 InstallDir "${VAR_PROGRAMFILES}\${TINCGAME_INSTALL_DIR}"
-InstallDirRegKey HKLM "${REGKEY}" "InstallDir"
+# reuse user choice install dir on update
+InstallDirRegKey HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${TINCGAME_UNINSTALL_ID}" "InstallDir"
 
 # install section
 Section
@@ -115,7 +116,7 @@ Section
     WriteUninstaller "$InstDir\uninstall.exe"
 
     # save user choice install dir
-    WriteRegStr HKLM "${REGKEY}" "InstallDir" "$INSTDIR"
+    WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${TINCGAME_UNINSTALL_ID}" "InstallDir" "$InstDir"
 
     # create a shortcut in the start menu programs directory
     CreateDirectory "$SMPROGRAMS\${PRODUCT_NAME}"
