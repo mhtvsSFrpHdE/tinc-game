@@ -10,7 +10,7 @@ Var uninstallString
 !include LogicLib.nsh
 
 Function .onInit
-ReadRegStr $uninstallString HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${TINCGAME_UNINSTALL_ID}" "UninstallString"
+    ReadRegStr $uninstallString HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${TINCGAME_UNINSTALL_ID}" "UninstallString"
 FunctionEnd
 
 # run updater result
@@ -30,7 +30,16 @@ Page Directory
 Page InstFiles
 
 # define installation directory
-InstallDir "$PROGRAMFILES\${TINCGAME_INSTALL_DIR}"
+!define VAR_PROGRAMFILES "$PROGRAMFILES32"
+!if "$%ENV_X64%" != "${U+24}%ENV_X64%"
+    !if "$%ENV_X64%" != "0"
+        !undef VAR_PROGRAMFILES
+        !define VAR_PROGRAMFILES "$PROGRAMFILES64"
+    !endif
+!endif
+
+InstallDir "${VAR_PROGRAMFILES}\${TINCGAME_INSTALL_DIR}"
+InstallDirRegKey HKLM "${REGKEY}" "InstallDir"
 
 # install section
 Section
@@ -105,6 +114,9 @@ Section
     # create the uninstaller
     WriteUninstaller "$InstDir\uninstall.exe"
 
+    # save user choice install dir
+    WriteRegStr HKLM "${REGKEY}" "InstallDir" "$INSTDIR"
+
     # create a shortcut in the start menu programs directory
     CreateDirectory "$SMPROGRAMS\${PRODUCT_NAME}"
     CreateShortcut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk" "$InstDir\tinc-game.exe"
@@ -118,34 +130,34 @@ SectionEnd
 
 # uninstall section
 Section "uninstall"
-        # save the current $OUTDIR
-        Push $OUTDIR
-        # set the new working directory
-        SetOutPath "$InstDir"
+    # save the current $OUTDIR
+    Push $OUTDIR
+    # set the new working directory
+    SetOutPath "$InstDir"
 
-        # check updater exist
-        #     if exist, continue to run updater
-        #     if not exist, skip run and make dummy result
-        IfFileExists $InstDir\updater.exe 0 updater_not_exist
-        # run prepare update command and store exit code
-        ExecWait '"$InstDir\updater.exe" -p -u' $updaterResult
-        Goto has_result
-        # dummy result if updater not exist
-        updater_not_exist:
-        StrCpy $updaterResult -1
+    # check updater exist
+    #     if exist, continue to run updater
+    #     if not exist, skip run and make dummy result
+    IfFileExists $InstDir\updater.exe 0 updater_not_exist
+    # run prepare update command and store exit code
+    ExecWait '"$InstDir\updater.exe" -p -u' $updaterResult
+    Goto has_result
+    # dummy result if updater not exist
+    updater_not_exist:
+    StrCpy $updaterResult -1
 
-        has_result:
-        # restore the original $OUTDIR
-        Pop $OUTDIR
+    has_result:
+    # restore the original $OUTDIR
+    Pop $OUTDIR
 
-        # if updater failed, terminate installer
-        ${If} $updaterResult < 0
-            MessageBox MB_OK "Uninstall failed: $updaterResult"
-            Abort
-        ${EndIf}
-        ${If} $updaterResult > 0
-            Abort
-        ${EndIf}
+    # if updater failed, terminate installer
+    ${If} $updaterResult < 0
+        MessageBox MB_OK "Uninstall failed: $updaterResult"
+        Abort
+    ${EndIf}
+    ${If} $updaterResult > 0
+        Abort
+    ${EndIf}
 
     # remove the link from the start menu
 	# try to remove the Start Menu folder - this will only happen if it is empty
