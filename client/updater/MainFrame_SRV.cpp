@@ -1,11 +1,11 @@
 #include <memory>
 #include <boost/process.hpp>
 #include <boost/process/windows.hpp>
+#include <boost/filesystem/fstream.hpp>
 #include "MainFrame.h"
 #include "FileSystem_SRV.h"
 #include "resource/Resource_SRV_Program.h"
 #include "resource/Resource_SRV_Bat.h"
-#include <fstream>
 
 void MainFrame::API_SRV_PrepareUpdate_EndLogToFile()
 {
@@ -53,9 +53,11 @@ bool MainFrame::API_SRV_PrepareUpdate()
 
     namespace rs = Resource_SRV;
     namespace fs = FileSystem_SRV;
+    namespace bf = boost::filesystem;
+    namespace rw = rs::wxWidgets;
 
-    std::ofstream outFile(rs::Program::updaterLog, std::ios::app);
-    auto logTarget = std::unique_ptr<wxLogStream>(new wxLogStream(&outFile));
+    bf::ofstream outFile(rs::Program::updaterLog, std::ios::app);
+    auto logTarget = std::unique_ptr<rw::wxLogStream_UTF8>(new rw::wxLogStream_UTF8(&outFile));
     wxLog::SetTimestamp("%Y-%m-%d %H:%M:%S");
     if (outFile.is_open())
     {
@@ -199,7 +201,7 @@ void MainFrame::API_SRV_ProcessAdditionalArgument()
         namespace bp = boost::process;
         namespace rs = Resource_SRV;
 
-        wxMessageDialog(this, L"Click OK to open user data directory\n\You can delete tinc-game directory after you're done with your data").ShowModal();
+        wxMessageDialog(this, L"Click OK to open user data directory\nYou can delete tinc-game directory after you're done with your data").ShowModal();
 
         auto programDir = rs::Program::GetProgramDir();
         bp::system(bp::shell(), bp::args({ rs::Bat::cmdRumCommand, L"explorer.exe", programDir.GetFullPath().ToStdWstring() }), bp::windows::hide);

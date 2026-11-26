@@ -5,8 +5,9 @@
 #include <sstream>
 #include <condition_variable>
 #include <wx/wx.h>
-#include "../resource/Lock_SRV.h"
-#include "../resource/ReturnValue.h"
+#include "resource/Lock_SRV.h"
+#include "resource/ReturnValue.h"
+#include "resource/Resource_SRV_wxWidgets.h"
 #include <wx/filename.h>
 
 struct UpdateResult {

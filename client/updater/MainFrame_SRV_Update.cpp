@@ -4,8 +4,8 @@
 #include "MainFrame.h"
 #include "Settings_SRV.h"
 #include "../resource/Resource_SRV_Program.h"
-#include <fstream>
 #include "FileSystem_SRV.h"
+#include <boost/filesystem/fstream.hpp>
 
 long GetInstalledVersion() {
     namespace ss = Settings_SRV;
@@ -68,9 +68,11 @@ void MainFrame::API_SRV_Update()
     namespace sdn = SettingDefaultValue_Updater;
     namespace rs = Resource_SRV;
     namespace fs = FileSystem_SRV;
+    namespace bf = boost::filesystem;
+    namespace rw = rs::wxWidgets;
 
-    std::ofstream outFile(rs::Program::updaterLog, std::ios::app);
-    auto logTarget = std::unique_ptr<wxLogStream>(new wxLogStream(&outFile));
+    bf::ofstream outFile(rs::Program::updaterLog, std::ios::app);
+    auto logTarget = std::unique_ptr<rw::wxLogStream_UTF8>(new rw::wxLogStream_UTF8(&outFile));
     wxLog::SetTimestamp("%Y-%m-%d %H:%M:%S");
     if (outFile.is_open())
     {
