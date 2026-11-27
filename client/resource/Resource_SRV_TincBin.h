@@ -14,7 +14,11 @@ namespace Resource_SRV
         wxFileName GetTincdGameModeBin(wxString gameModeValue);
         const wxString tincdPid = wxT("pid");
         wxFileName GetTincdPid(std::wstring networkFullPath);
-        extern const wxString tapInstallerDir;
+#if defined(_WIN64)
+        const std::wstring tapInstallerDir = L"tap-win64";
+#else
+        const std::wstring tapInstallerDir = L"tap-win32";
+#endif
         wxFileName GetTapInstallerDir();
         const wxString tapInstallerBin = wxT("tapinstall.exe");
         const wxString tapInstallerInf = wxT("OemWin2k.inf");

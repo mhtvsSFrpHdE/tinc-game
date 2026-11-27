@@ -6,9 +6,12 @@ namespace Resource_SRV
 {
     namespace Bat {
         const std::wstring cmdRumCommand = L"/c";
-        const std::wstring installTap = L"installTap.bat " + TincBin::tapInstallerDir.ToStdWstring();
-        const std::wstring getTapHwid = L"getTapHwid.bat " + TincBin::tapInstallerDir.ToStdWstring();
-        const std::wstring uninstallTap = L"uninstallTap.bat " + TincBin::tapInstallerDir.ToStdWstring();
+        const std::wstring installTap = L"installTap.bat";
+        const std::wstring getTapHwid = L"getTapHwid.bat";
+        const std::wstring uninstallTap = L"uninstallTap.bat";
+        const std::wstring installTapWithInstallerDir = installTap + L" " + TincBin::tapInstallerDir;
+        const std::wstring getTapHwidWithInstallerDir = getTapHwid + L" " + TincBin::tapInstallerDir;
+        const std::wstring uninstallTapWithInstallerDir = uninstallTap + L" " + TincBin::tapInstallerDir;
         const std::wstring netsh = L"netsh.exe";
         const std::wstring netsh437 = L"netsh437.bat";
         const std::wstring netsh437Start = L"netsh437_start.bat";

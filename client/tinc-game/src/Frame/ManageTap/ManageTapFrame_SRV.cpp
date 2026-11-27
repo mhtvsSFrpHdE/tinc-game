@@ -57,7 +57,7 @@ ReturnValue<InstallTapResult> ManageTapFrame::API_SRV_InstallTap()
     try
     {
         bp::ipstream is;
-        bp::child c(rsb::installTap, bp::std_out > is, bp::windows::hide);
+        bp::child c(rsb::installTapWithInstallerDir, bp::std_out > is, bp::windows::hide);
         std::string line;
 
         bool deviceNodeCreated = false;
@@ -117,7 +117,7 @@ ReturnValue<GetTapHwidResult> GetTapHwid() {
     try
     {
         bp::ipstream is;
-        bp::child c(rsb::getTapHwid, bp::std_out > is, bp::windows::hide);
+        bp::child c(rsb::getTapHwidWithInstallerDir, bp::std_out > is, bp::windows::hide);
         std::string line;
 
         while (std::getline(is, line)) {
@@ -189,7 +189,7 @@ ReturnValue<UninstallTapResult> ManageTapFrame::API_SRV_UninstallTap(WindowsAPI_
     {
         bp::ipstream is;
         std::wostringstream command;
-        command << rsb::uninstallTap << ss::space
+        command << rsb::uninstallTapWithInstallerDir << ss::space
             << ss::doubleQuotes << L"@" << hwid << ss::doubleQuotes;
         bp::child c(command.str(), bp::std_out > is, bp::windows::hide);
         std::string line;
