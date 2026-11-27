@@ -6,15 +6,20 @@ set(CMAKE_CXX_STANDARD 11)
 # Solution tinc-game
 project(tinc-game)
 
-# Static link
 if(MSVC)
+    # Static link
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 elseif(MINGW)
+    # Static link
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+    # Target Windows XP 2001 (No Service Packs required)
+    set(_WIN32_WINNT 0x0501)
 endif()
 
 # Boost
 if(MINGW)
+    # Set Boost_ARCHITECTURE is required to locate correct lib files when using legacy compiler
+    set(Boost_ARCHITECTURE -x32)
     # Fix 1.75.0 boost/process not compile
     add_definitions(-D__kernel_entry=)
 endif()
@@ -40,6 +45,10 @@ set(BUILD_SHARED_LIBS OFF)
 set(BUILD_CPR_TESTS OFF)
 set(USE_OPENSSL OFF)
 set(USE_WINSSL ON)
+if(MINGW)
+    # Fix cpr source code (curl) _WIN32_WINNT not follow override
+    set(ENABLE_INET_PTON OFF)
+endif()
 include(FetchContent)
 FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git
                          GIT_TAG 1.5.2) # The commit hash for 1.11.x. Replace with the latest from: https://github.com/libcpr/cpr/releases

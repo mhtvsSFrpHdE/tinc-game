@@ -13,9 +13,9 @@ md "out_publish"
 move "out_publish_deps_bak" "out_publish\_deps"
 
 @REM Boost_ARCHITECTURE is required to locate correct lib files when using legacy compiler
+@REM _WIN32_WINNT=0x0501 is required to override cpr default values
 cmake -B out_publish -G "MinGW Makefiles" ^
--DCMAKE_BUILD_TYPE=Release ^
--DBoost_ARCHITECTURE=-x32
+-DCMAKE_BUILD_TYPE=Release
 
 @REM Skip googletest and only build tinc-game exe
 @REM cmake --build out_publish
