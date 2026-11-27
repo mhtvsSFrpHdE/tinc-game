@@ -95,6 +95,7 @@ target_link_libraries("tinc-game" PRIVATE
     ${wxWidgets_LIBRARIES}
     cpr::cpr
     iphlpapi
+    setupapi
 )
 if(MSVC)
     # Target Windows 7 (SP1 may required)

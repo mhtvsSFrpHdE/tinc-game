@@ -174,7 +174,8 @@ ReturnValue<UninstallTapResult> ManageTapFrame::API_SRV_UninstallTap(WindowsAPI_
         return result;
     }
 
-    auto hwid = getTapHwid.returnBody[adapter.modelName];
+    auto instancePath = WindowsAPI_SRV::GetDeviceInstancePathByNetCfgInstanceId(adapter.windows_LUID);
+    auto hwid = instancePath.success ? instancePath.returnBody : L"";
     if (hwid.empty()) {
         result.returnBody.messageEnum = UninstallTapResult::Enum::NotFound;
         return result;
