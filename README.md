@@ -1,3 +1,9 @@
+<img width="800" alt="image" src="https://github.com/user-attachments/assets/2cfda298-c6e0-4a42-ab74-aabc68184fdf" />
+
+Proud of it, version 3.0 alpha made it to run on XP 2001  
+You can found 3.0 alpha installer on 2.0 release page and report bugs  
+On Windows XP, HTTPS API won't work and will not fix.
+
 ## What is this?
 https://www.tinc-vpn.org/  
 tinc is the sole surviving project being maintained that support from Linux to Windows XP to Windows 10 (11).  
