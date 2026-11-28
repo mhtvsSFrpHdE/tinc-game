@@ -2,7 +2,7 @@
 @REM CPP_DEVEL_CMAKE: pato to cmake.exe located
 set path=%CPP_DEVEL_CMAKE%\bin;%CPP_DEVEL_MINGW%\bin;%path%
 
-@REM wxWidgets (%CPP_DEVEL_WXWIN%\build\msw\gcc_mswu)
+@REM wxWidgets
 cd /d "%CPP_DEVEL_WXWIN%\build\msw"
 @REM https://wiki.wxwidgets.org/Compiling_wxWidgets_with_MinGW
 @REM Under some circumstances, while compiling on multiple cores, you may receive compilation error at the very beginning about missing setup.h file. To overcome this issue, generate this file first with setup_h tag at the end of build parameters

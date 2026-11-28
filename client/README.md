@@ -1,6 +1,14 @@
 # tinc-game
 
 ## How to build
+- MinGW `i686-4.8.2-release-posix-dwarf-rt_v3-rev3`
+- wxWidgets `3.0.5`
+- boost `1.75.0`
+- cpr `1.5.2`
+- tinc `1.1pre18`
+These are combination proved to compile and run on Windows XP 2001  
+and each of them is newest version as possible.  
+Do not upgrade any of them without testing on XP 2001.
 
 ### Disk space warning
 These giant library takes about 12.7 GB or more after build `Win32`, `x64`, `Debug`, `Release`.  
@@ -10,74 +18,62 @@ After compile, defrag / optimize your disk to improve access speed.
 
 Build only `CMake Win32 Debug Release`, `b2 address-model=32 variant=debug,release` also takes less.
 
-### If you changed your mind after cmake configure command
-Delete and unpack entire cmake source folder again,  
-simply delete build folders doesn't fix things.  
+### If you changed your mind after CMake configure command
+Delete and unpack entire CMake source folder again,  
+simply delete build folders doesn't fix things (1).  
 Make sure each config steps is executed in fresh environment,  
-because here is no one understand how cmake work
+because here is no one understand how CMake work
 
-Update 1:  
-In some cmake project like wxwidgets,  
+(1): In some CMake project like wxwidgets,  
 `build` folder is part of source code instead of something generated during compile step  
 In these project run `cmake -B build_win32 -A Win32` instead of `cmake -B build -A Win32`  
 to avoid putting files into build folder  
 If using `build` folder for `cmake -B`, once configure is failed, can't easily clean build result  
 and for sure require delete and unpack again on `build` folder gets deleted
 
-### About CMake parallel and Visual Studio
-Visual Studio compiler may (version 2019) ignores `--parallel` and build with single thread,  
-hope spam build task can be faster, by start configure and build for all profile together at once  
-If you are weak in CPU, run command one by one manually
-
-Also, add root build dir to Windows Security Virus & threat protection Exclusions
-
 ### Static link and single exe
-Build step command may have static link (single exe) version and dynamic link (exe with dll) version,  
-pick one of your prefer instead of run both  
-Static link flags stand for tell cmake to generate project with Code Generation, Runtime Library `/MT`, `MTd`
+Build step command have only static link (single exe) version and doesn't maintain dynamic link (exe with dll) version
+
+Static link flags stand for tell CMake to generate project with Code Generation, Runtime Library `/MT`, `MTd`
 
 ### Environment variable
-Create System variables instead of User variables. Sometimes program need to run as admin
+Create System variables instead of User variables. Sometimes Visual Studio need to run as admin to test certain feature
 
 ### Dependencies and build steps
-- Visual Studio 2022
+- CMake `3.15` or above, suggest `3.31.7` is known to be success
+  - Environment variable `CPP_DEVEL_CMAKE` to CMake install location that contain `bin` directory
+    - Example: `%CPP_DEVEL_CMAKE%\bin\cmake.exe`
+- MSVC / boost `Visual Studio 2022`
+- MinGW `i686-4.8.2-release-posix-dwarf-rt_v3-rev3`
+  - Environment variable `CPP_DEVEL_MINGW` to MinGW install location that contain `bin` directory
+    - Example: `%CPP_DEVEL_MINGW%\bin\g++.exe`
 - wxwidgets `3.0.5`
-  - Unpack to folder like `C:\cpp-devel\wxWidgets-3.0.5`, there should be `C:\cpp-devel\wxWidgets-3.0.5\CMakeLists.txt`
-    - Edit on need, build script "tinc-game\client\build_dependencies_wxWidgets.bat"
-    - It build "x64 Debug", "x64 Release", "x86 Debug". For "x86 release", see Publish section
+  - Unpack to folder like `C:\cpp-devel\wxWidgets-3.0.5`, there should be `C:\cpp-devel\wxWidgets-3.0.5\build\msw`
   - Environment variable `CPP_DEVEL_WXWIN` as `C:\cpp-devel\wxWidgets-3.0.5`
+  - MSVC (x86 and x64) build script `tinc-game\client\build_dependencies_wxWidgets.bat`
+    - Open and edit `vcvarsall` to your Visual Studio install location
+  - MinGW (x86) build script, read `tinc-game\client\installer\README.md`
 - boost `1.75.0`
   - Unpack to folder like `C:\cpp-devel\boost\boost_1_75_0`, there should be `C:\cpp-devel\boost\boost_1_75_0\bootstrap.bat`
-  - `cd /d "C:\cpp-devel\boost\boost_1_75_0"`
-  - Reuse cmd that build wxwidgets
-    - Actually, `bootstrap.bat` seems automatically detect Visual Studio compiler location even without `vcvarsall.bat`,  
-    if not and you build in new cmd window, load Visual Studio 2022 compiler environment variable
-      - `"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64`
-  - build
-    - `bootstrap.bat`, this generate `b2.exe` for next step
-    - Dynamic link
-      - `b2.exe address-model=32,64 variant=debug,release` (dynamic link, untested, may be different)
-    - Static link
-      - `b2.exe link=static runtime-link=static address-model=32,64 variant=debug,release`
   - Environment variable `CPP_DEVEL_BOOST` as `C:\cpp-devel\boost\boost_1_75_0`
-- cpr (and libcurl) `1.9.9`
-  - Start from tinc-game version `3.0`, cpr is downloaded automatically on build, with `FetchContent` in client `CMakeLists.txt`
-  - Reuse cmd that build wxwidgets
-    - If you build in new cmd window, load Visual Studio 2022 compiler environment variable
-      - `"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64`
-  - `cd /d C:\cpp-devel\cpr-1.9.9`
-  - Need network to download source code.
-    - If behind proxy, before run cmake build command, `set HTTP_PROXY=http://<proxy address>:<port>`, after commit, `set HTTPS_PROXY=%HTTP_PROXY%`
-    - If build with Visual Studio, maybe set environment variable system wide by "View advanced system settings, Environment variables..." or system proxy settings, I don't know.
-  - Backup `out\build\_deps` folder to prevent redownload if you need to delete build dir
-
-Open folder contains `CMakeLists.txt` with Visual Studio and hit build.
-
-(2): `CPR_USE_SYSTEM_CURL=OFF`: Build on Windows instead of Linux, there is no such thing `libcurl-devel`, [reference link](https://github.com/libcpr/cpr/issues/1043).
-
-## Code
-In Solution Explorer, find "Show All Files" icon toggle to folder view on editing code  
-the default filter view doesn't actually reflects how source file is located on disk
+  - MSVC (x86 and x64) build
+    - `cd /d "C:\cpp-devel\boost\boost_1_75_0"`
+    - Actually, `bootstrap.bat` seems automatically detect Visual Studio compiler location even without `vcvarsall.bat`,  
+      if not or you build in new cmd window, load Visual Studio 2022 compiler environment variable
+        - `"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat" x64`
+    - build
+      - `bootstrap.bat`, this generate `b2.exe` for next step
+      - Static link
+        - `b2.exe link=static runtime-link=static address-model=32,64 variant=debug,release`
+  - MinGW (x86) build script, read `tinc-game\client\installer\README.md`
+    - Before compile, edit `build_dependencies_boost_b2.bat` Visual Studio 2022 `vcvarsall` path
+- cpr (and libcurl) `1.5.2`
+  - `1.5.2` is the newest cpr that MinGW in this project can build, `1.6.0` and later do not pass MinGW
+  - `CMakeLists.txt` download it automatically by `FetchContent`, no manual operation
+  - Need network on configure.
+    - If behind proxy, before run CMake configure, `set HTTP_PROXY=http://<proxy address>:<port>`, `set HTTPS_PROXY=%HTTP_PROXY%`
+    - If build with Visual Studio, set environment variable system wide by "View advanced system settings, Environment variables...", or use `tinc-game\client\StartVisualStudio.bat` to load environment variables
+  - If you need to delete build dir, use `tinc-game\client\VisualStudioReconfigure.bat` to backup `out\build\...\_deps` folder to prevent download again
 
 ## Common link error
 There is library need to add `.lib` files manually in this format  

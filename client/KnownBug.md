@@ -1,4 +1,4 @@
-﻿# Known bug
+# Known bug
 
 ## wxWidgets `3.1.5`, `Windows 11`
 ## Parent frame not show after close frame
@@ -77,3 +77,15 @@ Add build dir (`out`) to Windows Defender exclusions / Reboot computer.
 mt.exe : general error c101008d: Failed to write the updated manifest to the resource of file "main.exe". The process cannot access the file because it is being used by another process.
 ```
 Add build dir (`out`) to Windows Defender exclusions / Reboot computer.
+
+## wxWidgets `3.0.5`, Windows XP
+## Platform difference
+### wxLog timestamp lost the year (wontfix)
+`wxLogTimestamp` on Windows XP lose year, log file look like
+```
+    -11-27 06:55:08: ==== Start Update
+    -11-27 06:55:08: End Update
+```
+### HTTPS doesn't work (wontfix)
+HTTPS and TLS related things rely on OS certificates  
+and Windows XP is not supported by Microsoft long time ago.

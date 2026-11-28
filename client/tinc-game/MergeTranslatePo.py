@@ -44,7 +44,7 @@ for moFile in Path('po/'+languageCode).glob('*.po'):
                     continue
                 if headerSkipped:
                     allLines.append(line)
-# Save      
+# Save
 with open(tempOutputFilePath, "w", encoding="utf-8") as file:
     firstFileHeaderLines.extend(allLines)
     file.writelines(firstFileHeaderLines)
