@@ -79,8 +79,8 @@ Section
     # install root installation directory
     SetOutPath $InstDir
     # specify program files
-    File "..\out_publish\tinc-game.exe"
-    File "..\out_publish\updater.exe"
+    File "$%ENV_BUILD_DIR%\tinc-game.exe"
+    File "$%ENV_BUILD_DIR%\updater.exe"
     File "..\tinc-game\src\ShellScript\Windows\getTapHwid.bat"
     File "..\tinc-game\src\ShellScript\Windows\installTap.bat"
     File "..\tinc-game\src\ShellScript\Windows\netsh437.bat"

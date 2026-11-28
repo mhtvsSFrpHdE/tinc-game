@@ -6,7 +6,7 @@ cd /d %~dp0
 call "build_tinc-game_env.bat"
 cd ..
 
-cmake --build out_publish %1
+cmake --build out_x86 %1
 
 cd /d %~dp0
 publish_x86.bat

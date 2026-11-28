@@ -8,6 +8,7 @@ set ENV_UNINSTALL_ID="tinc-game-eq7xngrdne4C"
 set ENV_TINC_INSTALL_DIR="C:\Program Files\tinc\"
 set ENV_OUT_FILE="tinc-game-3.0-x64-setup.exe"
 set ENV_X64=1
+set ENV_BUILD_DIR=..\out\build\x64-Release
 makensis tinc-game.nsi
 
 pause

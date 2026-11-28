@@ -49,7 +49,7 @@
 # Visual Studio CMake
 /.vs
 /client/out
-/client/out_publish
+/client/out_x86
 
 # wxWidgets translate middle file
 *.mo
