@@ -175,4 +175,11 @@ Section "uninstall"
 
     # remove windows control panel uninstall entry
     DeleteRegKey HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\${TINCGAME_UNINSTALL_ID}"
+
+    # also remove 2.x install id on uninstall
+    # 2.x only support x64 but still install to "Program Files (x86)" on x64 system
+    # when accidentally install x86 on an x64 system
+    # 2.x uninstaller will be overwrite and no longer be able to
+    # remove uninstaller from control panel
+    DeleteRegKey HKCU "Software\Microsoft\Windows\CurrentVersion\Uninstall\tinc-game-T0MBcLcnSX8S"
 SectionEnd
